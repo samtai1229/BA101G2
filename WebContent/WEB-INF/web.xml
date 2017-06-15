@@ -16,15 +16,21 @@
     <res-auth>Container</res-auth>
   </resource-ref>
   
-  	<servlet>
-		<servlet-name>MotorServlet</servlet-name>
-		<servlet-class>com.motor.controller.MotorServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>MotorServlet</servlet-name>
-		<url-pattern>/backend/motor.do</url-pattern>
-	</servlet-mapping>
-
-	
-	
+  <servlet>
+    <servlet-name>MotorServlet</servlet-name>
+    <servlet-class>com.motor.controller.MotorServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MotorServlet</servlet-name>
+    <url-pattern>/backend/motor.do</url-pattern>
+  </servlet-mapping>
+  
+    <servlet>
+    <servlet-name>MotorModelServlet</servlet-name>
+    <servlet-class>com.motor_model.controller.MotorModelServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MotorModelServlet</servlet-name>
+    <url-pattern>/backend/motorModel.do</url-pattern>
+  </servlet-mapping>
 </web-app>
