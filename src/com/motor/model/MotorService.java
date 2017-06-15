@@ -14,6 +14,7 @@ public class MotorService {
 
 	public MotorVO addMotor(String modtype, String plateno, String engno, java.sql.Timestamp manudate, Integer mile,
 			String locno, String status, String note) {
+		System.out.println("MotorService, addMotor in");
 
 		MotorVO motorVO = new MotorVO();
 		motorVO.setModtype(modtype);

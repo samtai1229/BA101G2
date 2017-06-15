@@ -347,11 +347,11 @@ public class MotorModelJDBCDAO implements MotorModelDAO_interface {
 //
 //		System.out.println("insert ok");
 
-		// MotorModelVO mmVO2 = new MotorModelVO();
-		// mmVO2.setBrand("setBrand");
-		// mmVO2.setDisplacement(250);
-		// mmVO2.setName("name2");
-		// mmVO2.setRenprice(10001);
+//		 MotorModelVO mmVO2 = new MotorModelVO();
+//		 mmVO2.setBrand("setBrand");
+//		 mmVO2.setDisplacement(250);
+//		 mmVO2.setName("name2");
+//		 mmVO2.setRenprice(10001);
 		// mmVO2.setSaleprice(20001);
 		// byte[] pic2;
 		//

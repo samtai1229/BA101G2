@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -29,7 +30,7 @@ public class MotorDAO implements MotorDAO_interface {
 
 	private static final String INSERT_STMT = "INSERT INTO MOTOR (motno, modtype, plateno,"
 			+ " engno, manudate, mile, locno, status, note"
-			+ ") VALUES ('M'||LPAD(TO_CHAR(MOTOR_SEQ.NEXTVAL), 6,'0'), ?, ?, ?, ?, ?, ?, ?, ?)";
+			+ ") VALUES ('M'||LPAD(TO_CHAR(MOTNO_SEQ.NEXTVAL), 6,'0'), ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	private static final String UPDATE = "UPDATE MOTOR set modtype=?, plateno=?,"
 			+ " engno=?, manudate=?, mile=?, locno=?," + "status=?, note=? where motno = ?";
@@ -56,7 +57,7 @@ public class MotorDAO implements MotorDAO_interface {
 
 	@Override
 	public void insert(MotorVO motorVO) {
-
+		System.out.println("MotorDAO insert in");
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
@@ -450,8 +451,10 @@ public class MotorDAO implements MotorDAO_interface {
 			motorVO.setMotno(rs.getString("motno"));
 			motorVO.setModtype(rs.getString("modtype"));
 			motorVO.setPlateno(rs.getString("plateno"));
-			motorVO.setEngno(rs.getString("engno"));
-			motorVO.setManudate(rs.getTimestamp("manudate"));
+			motorVO.setEngno(rs.getString("engno"));			
+//			String str = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(rs.getTimestamp("manudate"));			
+//			motorVO.setManudate(Timestamp.valueOf(str));			
+			motorVO.setManudate(rs.getTimestamp("manudate"));			
 			motorVO.setMile(rs.getInt("mile"));
 			motorVO.setLocno(rs.getString("locno"));
 			motorVO.setStatus(rs.getString("status"));
