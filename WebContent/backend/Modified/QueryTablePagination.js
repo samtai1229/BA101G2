@@ -89,15 +89,15 @@ function sort(pageNumber) {
 	if(remainingTr>0&&pageNumber==pageCount){
 		
 		for (i = 0; i < remainingTr; i++){			
-			rows += '<tr class="QueryTable_TR">';
+/*			rows += '<tr class="QueryTable_TR">';
 			rows += '<td></td><td></td><td></td><td></td>';
 			rows += '<td></td><td></td><td></td><td></td>';
-			rows += '<td></td><td></td><td></td>';
-/*			有衝到，先寫固定TD
- * //取得th數量後再決定補多少空白td
+			rows += '<td></td><td></td><td></td>';*/
+			/*有衝到，先寫固定TD*/
+  //取得th數量後再決定補多少空白td
 			for(j = 0; j<$('th').length;j++){			
 				rows +='<td></td>';
-			}*/			
+			}		
 			rows+='</tr>';
 		}			
 	}
