@@ -37,7 +37,7 @@ public class MotorDAO implements MotorDAO_interface {
 
 	private static final String DELETE = "DELETE FROM motor where motno = ?";
 	private static final String GET_ALL = "SELECT motno, modtype, plateno,"
-			+ " engno, manudate, mile, locno, status, note FROM motor order by motno";
+			+ " engno, manudate, mile, locno, status, note FROM MOTOR order by motno";
 
 	private static final String GET_ONE = "SELECT motno, modtype, plateno,"
 			+ " engno, to_char(manudate,'yyyy-mm-dd hh:mm:ss') manudate,"
