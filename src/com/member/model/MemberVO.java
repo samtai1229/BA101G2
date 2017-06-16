@@ -8,12 +8,10 @@ public class MemberVO implements java.io.Serializable {
 	private String memname;
 	private String sex;
 	private Timestamp birth;
-	
 //use birthshow get birth's value;
 	private String showbirth;
-	
 	private String mail;
-	private Integer phone;
+	private String phone;
 	private String addr;
 	private String acc;
 	private String pwd;
@@ -21,10 +19,8 @@ public class MemberVO implements java.io.Serializable {
 	private byte[] idcard2;
 	private byte[] license;
 	private Timestamp credate;
-	
 //use credateshow get credate's value;
 	private String showcredate;
-	
 	private String status;
 
 	public MemberVO() {
@@ -79,11 +75,11 @@ public class MemberVO implements java.io.Serializable {
 		this.mail = mail;
 	}
 
-	public Integer getPhone() {
+	public String getPhone() {
 		return phone;
 	}
 
-	public void setPhone(Integer phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 

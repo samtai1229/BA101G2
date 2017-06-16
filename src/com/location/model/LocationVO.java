@@ -2,7 +2,7 @@ package com.location.model;
 public class LocationVO implements java.io.Serializable{
 	private String locno;
 	private String locname;
-	private Integer tel;
+	private String tel;
 	private String addr;
 	private byte[] pic;
 	private float lon;
@@ -29,11 +29,11 @@ public class LocationVO implements java.io.Serializable{
 		this.locname = locname;
 	}
 
-	public Integer getTel() {
+	public String getTel() {
 		return tel;
 	}
 
-	public void setTel(Integer tel) {
+	public void setTel(String tel) {
 		this.tel = tel;
 	}
 
