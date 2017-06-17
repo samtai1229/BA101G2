@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SecOrdJDBCDAO implements SecOrdDAO_interface {
@@ -46,9 +47,24 @@ public class SecOrdJDBCDAO implements SecOrdDAO_interface {
 		
 		// 查一個
 		
-		SecOrdVO one = dao.findByPrimaryKey("SO000008");
-		System.out.print(one.getMemNo()+",");
+//		SecOrdVO one = dao.findByPrimaryKey("SO000008");
+//		System.out.print(one.getMemNo()+",");
 
+		
+		
+		
+		//查全部
+
+		List<SecOrdVO> orders = dao.getAll();
+		for(SecOrdVO order : orders)
+		{
+			System.out.print(order.getSecondNo()+",");
+			System.out.print(order.getMemNo()+",");
+			System.out.print(order.getMotorNo()+",");
+			System.out.print(order.getSecondOrderDate()+",");
+			System.out.println(order.getSecondStatus());
+		}
+		
 
 
 	}
@@ -245,8 +261,59 @@ public class SecOrdJDBCDAO implements SecOrdDAO_interface {
 
 	@Override
 	public List<SecOrdVO> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<SecOrdVO> list = new ArrayList();
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_ALL_STMT);
+			// sono,memno,motno,sodate,status
+			// pstmt.setString(1, secordVO.getSecondNo());
+			pstmt.executeUpdate();
+			
+			rs = pstmt.getResultSet();
+			while(rs.next())
+			{
+				SecOrdVO  obj  = new SecOrdVO();
+				//sodate,status
+				obj.setSecondNo(rs.getString("sono"));
+				obj.setMemNo(rs.getString("memno"));
+				obj.setMotorNo(rs.getString("motno"));
+			    obj.setSecondOrderDate(rs.getTimestamp("sodate"));
+			    obj.setSecondStatus(rs.getString("status"));
+			    list.add(obj);
+               
+			}
+
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+
+		
+		return list;
 	}
 
 }
