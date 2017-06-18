@@ -16,7 +16,7 @@ public class SecOrdJDBCDAO implements SecOrdDAO_interface {
 	String userid = "servlet";
 	String passwd = "123456";
 
-	private static final String INSERT_STMT = "INSERT INTO SEC_ORD (sono,memno,motno,sodate,status) VALUES ('SO'||lpad(to_char(sono_seq.NEXTVAL),6,'0'), ?, ?, ?, ?)";
+	private static final String INSERT_STMT = "INSERT INTO SEC_ORD (sono,memno,motno,sodate,status) VALUES ('S'||lpad(to_char(sono_seq.NEXTVAL),6,'0'), ?, ?, ?, ?)";
 	private static final String GET_ALL_STMT = "SELECT sono,memno,motno,sodate,status FROM SEC_ORD order by sono";
 	private static final String GET_ONE_STMT = "SELECT sono,memno,motno,sodate,status FROM SEC_ORD where sono = ?";
 	private static final String DELETE = "DELETE FROM SEC_ORD where sono = ?";
@@ -25,14 +25,14 @@ public class SecOrdJDBCDAO implements SecOrdDAO_interface {
 	public static void main(String[] args) {
 		SecOrdJDBCDAO dao = new SecOrdJDBCDAO();
 		// 新增
-		SecOrdVO vo1 = new SecOrdVO();
-		vo1.setMemNo("MEM000001");
-		vo1.setMotorNo("M000005");
-	
-		vo1.setSecondOrderDate(new Timestamp(System.currentTimeMillis()));
-		vo1.setSecondStatus("paid");
-		dao.insert(vo1);
-		
+//		SecOrdVO vo1 = new SecOrdVO();
+//		vo1.setMemNo("MEM000001");
+//		vo1.setMotorNo("M000005");
+//	
+//		vo1.setSecondOrderDate(new Timestamp(System.currentTimeMillis()));
+//		vo1.setSecondStatus("paid");
+//		dao.insert(vo1);
+//		
 		//修改
 //		SecOrdVO vo2 = new SecOrdVO();
 //		vo2.setSecondNo("SO000004");

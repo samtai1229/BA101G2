@@ -33,4 +33,15 @@
     <servlet-name>MotorModelServlet</servlet-name>
     <url-pattern>/backend/motorModel.do</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+		<servlet-name>SpotServlet</servlet-name>
+		<servlet-class>com.spots.controller.SpotServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SpotServlet</servlet-name>
+		<url-pattern>/spots/spot.do</url-pattern>
+	</servlet-mapping>
+  
+  
 </web-app>

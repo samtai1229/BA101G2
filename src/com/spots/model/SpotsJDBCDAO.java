@@ -91,10 +91,10 @@ public class SpotsJDBCDAO implements SpotsDAO_interface{
  		 List<SpotsVO> spots = dao.getAll();
  		 for(SpotsVO spot : spots)
  		 {
- 			 System.out.print(spot.getSpotsNo() +",");
- 	 		 System.out.print(spot.getSpotsName() +",");
- 	 		 System.out.print(spot.getSpotsLat()+",");
- 	 		 System.out.println(spot.getSpotsLong());
+ 			 System.out.print(spot.getSpno() +",");
+ 	 		 System.out.print(spot.getSpname() +",");
+ 	 		 System.out.print(spot.getSplat()+",");
+ 	 		 System.out.println(spot.getSplong());
  		 }
  		 
  		 
@@ -113,10 +113,10 @@ public class SpotsJDBCDAO implements SpotsDAO_interface{
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(INSERT_STMT);
-			pstmt.setString(1, spotVO.getSpotsName());
-			pstmt.setString(2, spotVO.getLocNo());
-			pstmt.setFloat(4, spotVO.getSpotsLat());
-			pstmt.setFloat(3, spotVO.getSpotsLong());
+			pstmt.setString(1, spotVO.getSpname());
+			pstmt.setString(2, spotVO.getLocno());
+			pstmt.setFloat(4, spotVO.getSplat());
+			pstmt.setFloat(3, spotVO.getSplong());
 			pstmt.executeUpdate();
 
 			// Handle any driver errors
@@ -157,11 +157,11 @@ public class SpotsJDBCDAO implements SpotsDAO_interface{
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(UPDATE);
 
-			pstmt.setString(1, spotVO.getSpotsName());
-			pstmt.setString(2, spotVO.getLocNo());
-			pstmt.setFloat(4, spotVO.getSpotsLat());
-			pstmt.setFloat(3, spotVO.getSpotsLong());
-			pstmt.setString(5, spotVO.getSpotsNo());
+			pstmt.setString(1, spotVO.getSpname());
+			pstmt.setString(2, spotVO.getLocno());
+			pstmt.setFloat(4, spotVO.getSplat());
+			pstmt.setFloat(3, spotVO.getSplong());
+			pstmt.setString(5, spotVO.getSpno());
 
 			pstmt.executeUpdate();
 
@@ -268,11 +268,11 @@ public class SpotsJDBCDAO implements SpotsDAO_interface{
 				while (rs.next()) {
 					// 也稱為 Domain objects
 					spVO = new SpotsVO();
-					spVO.setSpotsNo(rs.getString("spno"));
-					spVO.setLocNo(rs.getString("locno"));
-					spVO.setSpotsLat(rs.getFloat("splat"));
-					spVO.setSpotsLong(rs.getFloat("splong"));
-					spVO.setSpotsName(rs.getString("spname"));
+					spVO.setSpno(rs.getString("spno"));
+					spVO.setLocno(rs.getString("locno"));
+					spVO.setSplat(rs.getFloat("splat"));
+					spVO.setSplong(rs.getFloat("splong"));
+					spVO.setSpname(rs.getString("spname"));
 
 				}
 				
@@ -332,11 +332,11 @@ public class SpotsJDBCDAO implements SpotsDAO_interface{
 
 			while (rs.next()) {
 				spVO = new SpotsVO();
-				spVO.setSpotsNo(rs.getString("spno"));
-				spVO.setLocNo(rs.getString("locno"));
-				spVO.setSpotsLat(rs.getFloat("splat"));
-				spVO.setSpotsLong(rs.getFloat("splong"));
-				spVO.setSpotsName(rs.getString("spname"));
+				spVO.setSpno(rs.getString("spno"));
+				spVO.setLocno(rs.getString("locno"));
+				spVO.setSplat(rs.getFloat("splat"));
+				spVO.setSplong(rs.getFloat("splong"));
+				spVO.setSpname(rs.getString("spname"));
 				list.add(spVO); // Store the row in the list
 			}
 

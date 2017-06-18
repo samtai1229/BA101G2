@@ -102,9 +102,9 @@ Insert into MOTOR_MODEL (MODTYPE,BRAND,DISPLACEMENT,NAME,RENPRICE,SALEPRICE) val
 Insert into MOTOR_MODEL (MODTYPE,BRAND,DISPLACEMENT,NAME,RENPRICE,SALEPRICE) values ('MM'||to_char(modtype_seq.NEXTVAL),'AEON',125,'CO-IN 125',1000,69800);
 Insert into MOTOR_MODEL (MODTYPE,BRAND,DISPLACEMENT,NAME,RENPRICE,SALEPRICE) values ('MM'||to_char(modtype_seq.NEXTVAL),'YAMAHA',124,'BWSR 125',1000,84500);
 Insert into MOTOR_MODEL (MODTYPE,BRAND,DISPLACEMENT,NAME,RENPRICE,SALEPRICE) values ('MM'||to_char(modtype_seq.NEXTVAL),'KYMCO',150,'AIR-150',1000,94000);
-Insert into MOTOR_MODEL (MODTYPE,BRAND,DISPLACEMENT,NAME,RENPRICE,SALEPRICE) values ('MM'||to_char(modtype_seq.NEXTVAL),'KYMCO',150,'ª≈¿s 150 µÛ®Æ™©',1000,104500);
+Insert into MOTOR_MODEL (MODTYPE,BRAND,DISPLACEMENT,NAME,RENPRICE,SALEPRICE) values ('MM'||to_char(modtype_seq.NEXTVAL),'KYMCO',150,'ÈÖ∑Èæç 150 Ë°óËªäÁâà',1000,104500);
 Insert into MOTOR_MODEL (MODTYPE,BRAND,DISPLACEMENT,NAME,RENPRICE,SALEPRICE) values ('MM'||to_char(modtype_seq.NEXTVAL),'SYM',125,'GT 125 Super2',1000,58000);
-Insert into MOTOR_MODEL (MODTYPE,BRAND,DISPLACEMENT,NAME,RENPRICE,SALEPRICE) values ('MM'||to_char(modtype_seq.NEXTVAL),'SYM',125,'≥•ØT125 EFi 2017',1000,74500);
+Insert into MOTOR_MODEL (MODTYPE,BRAND,DISPLACEMENT,NAME,RENPRICE,SALEPRICE) values ('MM'||to_char(modtype_seq.NEXTVAL),'SYM',125,'ÈáéÁãº125 EFi 2017',1000,74500);
 Insert into MOTOR_MODEL (MODTYPE,BRAND,DISPLACEMENT,NAME,RENPRICE,SALEPRICE) values ('MM'||to_char(modtype_seq.NEXTVAL),'SYM',150,'GT 150',1000,72000);
 Insert into MOTOR_MODEL (MODTYPE,BRAND,DISPLACEMENT,NAME,RENPRICE,SALEPRICE) values ('MM'||to_char(modtype_seq.NEXTVAL),'SUZUKI',110,'Address 110',1000,72600);
 commit;
@@ -128,10 +128,10 @@ commit;
    NOCYCLE
    ;
    
-Insert into EMT_CATE (ECNO,TYPE,PRICE) values ('EC'||lpad(to_char(ecno_seq.NEXTVAL),6,'0'),'¶w•˛¥U',50);
-Insert into EMT_CATE (ECNO,TYPE,PRICE) values ('EC'||lpad(to_char(ecno_seq.NEXTVAL),6,'0'),'®æ∫L§‚ÆM',20);
-Insert into EMT_CATE (ECNO,TYPE,PRICE) values ('EC'||lpad(to_char(ecno_seq.NEXTVAL),6,'0'),'®æ∫L¶Á',50);
-Insert into EMT_CATE (ECNO,TYPE,PRICE) values ('EC'||lpad(to_char(ecno_seq.NEXTVAL),6,'0'),'¶Ê®Æ¨ˆø˝æπ',100);
+Insert into EMT_CATE (ECNO,TYPE,PRICE) values ('EC'||lpad(to_char(ecno_seq.NEXTVAL),6,'0'),'ÂÆâÂÖ®Â∏Ω',50);
+Insert into EMT_CATE (ECNO,TYPE,PRICE) values ('EC'||lpad(to_char(ecno_seq.NEXTVAL),6,'0'),'Èò≤ÊëîÊâãÂ•ó',20);
+Insert into EMT_CATE (ECNO,TYPE,PRICE) values ('EC'||lpad(to_char(ecno_seq.NEXTVAL),6,'0'),'Èò≤ÊëîË°£',50);
+Insert into EMT_CATE (ECNO,TYPE,PRICE) values ('EC'||lpad(to_char(ecno_seq.NEXTVAL),6,'0'),'Ë°åËªäÁ¥ÄÈåÑÂô®',100);
 commit;
 
   CREATE TABLE "LOCATION" 
@@ -157,54 +157,54 @@ commit;
    
 Insert into LOCATION (LOCNO,LOCNAME,TEL,ADDR,LON,LAT,STATUS) 
 values ('L'||lpad(to_char(locno_seq.NEXTVAL),6,'0'),
-        '¡`≥°',
+        'Á∏ΩÈÉ®',
         '0266666666',
-        'ÆÁ∂È•´§§√c∞œ§§§j∏Ù300∏π',
+        'Ê°ÉÂúíÂ∏Ç‰∏≠Â£¢ÂçÄ‰∏≠Â§ßË∑Ø300Ëôü',
         24.968420,
         121.195666,
 		'open');
 
 Insert into LOCATION (LOCNO,LOCNAME,TEL,ADDR,LON,LAT,STATUS) 
 values ('L'||lpad(to_char(locno_seq.NEXTVAL),6,'0'),
-        '•x•_®ÆØ∏',
+        'Âè∞ÂåóËªäÁ´ô',
         '0223713558',
-        '•x•_•´§§•ø∞œ•_•≠¶Ë∏Ù3∏π∏π',
+        'Âè∞ÂåóÂ∏Ç‰∏≠Ê≠£ÂçÄÂåóÂπ≥Ë•øË∑Ø3ËôüËôü',
         25.047739,
         121.517040,
 		'preparing');
 		
 Insert into LOCATION (LOCNO,LOCNAME,TEL,ADDR,LON,LAT,STATUS) 
 values ('L'||lpad(to_char(locno_seq.NEXTVAL),6,'0'),
-        '™OæÙ®ÆØ∏',
+        'ÊùøÊ©ãËªäÁ´ô',
         '0223815226',
-        '∑s•_•´™OæÙ∞œø§•¡§jπD§T¨q7∏π™OæÙ®ÆØ∏',
+        'Êñ∞ÂåóÂ∏ÇÊùøÊ©ãÂçÄÁ∏£Ê∞ëÂ§ßÈÅì‰∏âÊÆµ7ËôüÊùøÊ©ãËªäÁ´ô',
         25.013836,
         25.013836,
 		'open');
 		
 Insert into LOCATION (LOCNO,LOCNAME,TEL,ADDR,LON,LAT,STATUS) 
 values ('L'||lpad(to_char(locno_seq.NEXTVAL),6,'0'),
-        'ªO§§®ÆØ∏',
+        'Ëá∫‰∏≠ËªäÁ´ô',
         '0223815226',
-        '•x§§•´§§∞œ•x∆W§jπD§@¨q1∏π',
+        'Âè∞‰∏≠Â∏Ç‰∏≠ÂçÄÂè∞ÁÅ£Â§ßÈÅì‰∏ÄÊÆµ1Ëôü',
         24.137576,
         120.686606,
 		'closed');
 		
 Insert into LOCATION (LOCNO,LOCNAME,TEL,ADDR,LON,LAT,STATUS) 
 values ('L'||lpad(to_char(locno_seq.NEXTVAL),6,'0'),
-        '•x´n®ÆØ∏',
+        'Âè∞ÂçóËªäÁ´ô',
         '0223869826',
-        '•x´n•´•_∞œ•_™˘∏Ù§G¨q4∏π',
+        'Âè∞ÂçóÂ∏ÇÂåóÂçÄÂåóÈñÄË∑Ø‰∫åÊÆµ4Ëôü',
         22.997183,
         120.212577,
 		'open');	
 
 Insert into LOCATION (LOCNO,LOCNAME,TEL,ADDR,LON,LAT,STATUS) 
 values ('L'||lpad(to_char(locno_seq.NEXTVAL),6,'0'),
-        '∞™∂Ø®ÆØ∏',
+        'È´òÈõÑËªäÁ´ô',
         '0223866326',
-        '∞™∂Ø•´§T•¡∞œ´ÿ∞Í§G∏Ù320∏π',
+        'È´òÈõÑÂ∏Ç‰∏âÊ∞ëÂçÄÂª∫Âúã‰∫åË∑Ø320Ëôü',
         22.639761,
         120.302107,
 		'preparing');		
@@ -241,8 +241,8 @@ commit;
    
 Insert into MEMBER (MEMNO,MEMNAME,SEX,BIRTH,MAIL,PHONE,ADDR,ACC,PWD,CREDATE,STATUS) 
 values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
-        '§˝∞∂ø@','Boy',SYSDATE - 1,'bheegrl1031@yahoo.com.tw','0921864653',
-        'ÆÁ∂È•´§§√c∞œ§§•°∏Ù216´—9∏π',
+        'ÁéãÂÅâÊøÉ','Boy',SYSDATE - 1,'bheegrl1031@yahoo.com.tw','0921864653',
+        'Ê°ÉÂúíÂ∏Ç‰∏≠Â£¢ÂçÄ‰∏≠Â§ÆË∑Ø216Â∑∑9Ëôü',
         'bheegrl1031',
         'bheegrl1031',
 		SYSDATE - 1,
@@ -250,8 +250,8 @@ values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
 		
 Insert into MEMBER (MEMNO,MEMNAME,SEX,BIRTH,MAIL,PHONE,ADDR,ACC,PWD,CREDATE,STATUS) 
 values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
-        'ßd™løŸ','Boy',SYSDATE - 2,'l1031@yahoo.com.tw','0921864653',
-        'ÆÁ∂È•´§§√c∞œ§§•°∏Ù216´—9∏π',
+        'Âê≥Ê≥ìË´≠','Boy',SYSDATE - 2,'l1031@yahoo.com.tw','0921864653',
+        'Ê°ÉÂúíÂ∏Ç‰∏≠Â£¢ÂçÄ‰∏≠Â§ÆË∑Ø216Â∑∑9Ëôü',
         'l1031',
         'l1031',
 		SYSDATE - 2,
@@ -259,8 +259,8 @@ values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
 
 Insert into MEMBER (MEMNO,MEMNAME,SEX,BIRTH,MAIL,PHONE,ADDR,ACC,PWD,CREDATE,STATUS) 
 values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
-        '™L¥ºµq','Boy',SYSDATE - 3,'stanly7768@gmail.com','0921864323',
-        '§§•°∏Ù232´—6∏π(3-8)',
+        'ÊûóÊô∫Áöì','Boy',SYSDATE - 3,'stanly7768@gmail.com','0921864323',
+        '‰∏≠Â§ÆË∑Ø232Â∑∑6Ëôü(3-8)',
         'stanly7768',
         'stanly7768',
 		SYSDATE - 3,
@@ -268,8 +268,8 @@ values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
 
 Insert into MEMBER (MEMNO,MEMNAME,SEX,BIRTH,MAIL,PHONE,ADDR,ACC,PWD,CREDATE,STATUS) 
 values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
-        'ßd•√ß”','Boy',SYSDATE - 4,'wu@yahoo.com.tw','0921864788',
-        'ÆÁ∂È•´§§√c∞œ§§•°∏Ù216´—9∏π',
+        'Âê≥Ê∞∏Âøó','Boy',SYSDATE - 4,'wu@yahoo.com.tw','0921864788',
+        'Ê°ÉÂúíÂ∏Ç‰∏≠Â£¢ÂçÄ‰∏≠Â§ÆË∑Ø216Â∑∑9Ëôü',
         'godwu',
         'godwu',
 		SYSDATE - 4,
@@ -277,8 +277,8 @@ values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
 
 Insert into MEMBER (MEMNO,MEMNAME,SEX,BIRTH,MAIL,PHONE,ADDR,ACC,PWD,CREDATE,STATUS) 
 values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
-        '∂¿±lµÿ','Boy',SYSDATE - 5,'banhua@yahoo.com.tw','0921632653',
-        'ÆÁ∂È•´§§√c∞œ§§•°∏Ù216´—9∏π',
+        'ÈªÉÂΩ¨ËèØ','Boy',SYSDATE - 5,'banhua@yahoo.com.tw','0921632653',
+        'Ê°ÉÂúíÂ∏Ç‰∏≠Â£¢ÂçÄ‰∏≠Â§ÆË∑Ø216Â∑∑9Ëôü',
         'banhua',
         'banhua',
 		SYSDATE - 5,
@@ -286,8 +286,8 @@ values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
 
 Insert into MEMBER (MEMNO,MEMNAME,SEX,BIRTH,MAIL,PHONE,ADDR,ACC,PWD,CREDATE,STATUS) 
 values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
-        '∏≥∏≥','Girl',SYSDATE - 6,'dudu@yahoo.com.tw','0922584653',
-        'ÆÁ∂È•´§§√c∞œ§§•°∏Ù116´—9∏π',
+        'Ëë£Ëë£','Girl',SYSDATE - 6,'dudu@yahoo.com.tw','0922584653',
+        'Ê°ÉÂúíÂ∏Ç‰∏≠Â£¢ÂçÄ‰∏≠Â§ÆË∑Ø116Â∑∑9Ëôü',
         'dudu',
         'dudu',
 		SYSDATE - 6,
@@ -295,8 +295,8 @@ values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
 
 Insert into MEMBER (MEMNO,MEMNAME,SEX,BIRTH,MAIL,PHONE,ADDR,ACC,PWD,CREDATE,STATUS) 
 values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
-        'π π ','Girl',SYSDATE - 7,'Dudu@yahoo.com.tw','0921864653',
-        '§§•°∏Ù115∏π415',
+        'ÂòüÂòü','Girl',SYSDATE - 7,'Dudu@yahoo.com.tw','0921864653',
+        '‰∏≠Â§ÆË∑Ø115Ëôü415',
         'Dudu',
         'Dudu',
 		SYSDATE - 7,
@@ -304,8 +304,8 @@ values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
 
 Insert into MEMBER (MEMNO,MEMNAME,SEX,BIRTH,MAIL,PHONE,ADDR,ACC,PWD,CREDATE,STATUS) 
 values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
-        'æG∂T§∏','Boy',SYSDATE - 8,'ad000894@gmail.com','09218674153',
-        '§§•°∏Ù232´—36∏π',
+        'ÈÑ≠Ë≤øÂÖÉ','Boy',SYSDATE - 8,'ad000894@gmail.com','09218674153',
+        '‰∏≠Â§ÆË∑Ø232Â∑∑36Ëôü',
         'ad000894',
         'ad000894',
 		SYSDATE - 8,
@@ -313,8 +313,8 @@ values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
 
 Insert into MEMBER (MEMNO,MEMNAME,SEX,BIRTH,MAIL,PHONE,ADDR,ACC,PWD,CREDATE,STATUS) 
 values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
-        '¿πÆa∞∂','Boy',SYSDATE - 9,'samtai1229@gmail.com','0911164653',
-        '§§•°∏Ù115∏π415',
+        'Êà¥ÂÆ∂ÂÅâ','Boy',SYSDATE - 9,'samtai1229@gmail.com','0911164653',
+        '‰∏≠Â§ÆË∑Ø115Ëôü415',
         'samtai1229',
         'samtai1229',
 		SYSDATE - 9,
@@ -322,8 +322,8 @@ values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
 
 Insert into MEMBER (MEMNO,MEMNAME,SEX,BIRTH,MAIL,PHONE,ADDR,ACC,PWD,CREDATE,STATUS) 
 values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
-        '§ª§ª§ª','Boy',SYSDATE - 10,'6666@yahoo.com.tw','0921666666',
-        'ÆÁ∂È•´§§√c∞œ§§•°∏Ù666´—6∏π',
+        'ÂÖ≠ÂÖ≠ÂÖ≠','Boy',SYSDATE - 10,'6666@yahoo.com.tw','0921666666',
+        'Ê°ÉÂúíÂ∏Ç‰∏≠Â£¢ÂçÄ‰∏≠Â§ÆË∑Ø666Â∑∑6Ëôü',
         'lulu666',
         'lulu666',
 		SYSDATE - 10,
@@ -382,56 +382,56 @@ commit;
    NOCYCLE
    ;
    
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100001','LAD-4342','KANIN000003',to_timestamp('01-2§Î -16 12.30.10.000000000 §U§»','DD-MON-RR HH.MI.SSXFF AM'),2231,'L000002','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100001','LAD-5422','KANIN000004',to_timestamp('01-2§Î -16 12.30.10.000000000 §U§»','DD-MON-RR HH.MI.SSXFF AM'),3300,'L000003','leasable',null);
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100002','LAB-5399','KAZ000001',to_timestamp('14-2§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),312,'L000005','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100002','LAB-3211','KAZ000002',to_timestamp('14-2§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),500,'L000002','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100002','LAB-3433','KAZ000003',to_timestamp('14-2§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),555,'L000003','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100002','LAB-5688','KAZ000004',to_timestamp('14-2§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),345,'L000004','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100003','LAC-6433','YAMT000001',to_timestamp('08-6§Î -16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),900,'L000001','seconsale',null);
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100003','LAC-4322','YAMT000002',to_timestamp('08-6§Î -16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),1200,'L000003','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100003','LAC-5111','YAMT000003',to_timestamp('08-6§Î -16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),1408,'L000002','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100003','LAC-6799','YAMT000004',to_timestamp('08-6§Î -16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),1408,'L000005','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100004','LAD-9211','YAYZ000001',to_timestamp('08-6§Î -16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),1211,'L000005','leasable',null);
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100004','LAD-9212','YAYZ000002',to_timestamp('08-6§Î -16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),1099,'L000002','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100004','LAD-3322','YAYZ000003',to_timestamp('08-6§Î -16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),988,'L000005','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100004','LAD-4322','YAYZ000004',to_timestamp('08-6§Î -16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),700,'L000001','seconsale','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100005','LAE-5555','YASR000001',to_timestamp('01-1§Î -15 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),6544,'L000006','leasable',null);
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100005','LAE-6666','YASR000002',to_timestamp('01-1§Î -15 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),6700,'L000003','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100005','LAE-7777','YASR000003',to_timestamp('01-1§Î -15 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),3200,'L000001','seconsale','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100005','LAE-8888','YASR000004',to_timestamp('01-1§Î -15 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),6900,'L000001','seconsale','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100010','MAY-1111','KYKA000001',to_timestamp('01-1§Î -15 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),5500,'L000001','seconsale','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100010','MAY-2211','KYKA000002',to_timestamp('01-1§Î -15 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),8900,'L000002','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100010','MAY-3311','KYKA000003',to_timestamp('01-1§Î -15 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),2800,'L000003','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100010','MAY-4411','KYKA000004',to_timestamp('01-1§Î -15 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),2200,'L000002','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100010','MAY-5511','KYKA000005',to_timestamp('01-1§Î -15 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),5400,'L000005','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100011','MAZ-1122','AECO000001',to_timestamp('01-1§Î -15 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),5433,'L000006','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100011','MAZ-1133','AECO000002',to_timestamp('01-1§Î -15 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),6544,'L000006','occupied','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100001','LAD-9211','KANIN000001',to_timestamp('01-2§Î -16 12.30.10.000000000 §U§»','DD-MON-RR HH.MI.SSXFF AM'),3021,'L000006','leasable',null);
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100001','LAD-8211','KANIN000002',to_timestamp('01-2§Î -16 12.30.10.000000000 §U§»','DD-MON-RR HH.MI.SSXFF AM'),3211,'L000003','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100011','MAZ-1144','AECO000003',to_timestamp('01-1§Î -15 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),5488,'L000002','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100011','MAZ-1155','AECO000004',to_timestamp('01-1§Î -15 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),5534,'L000002','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100011','MAZ-1166','AECO000005',to_timestamp('01-1§Î -15 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),5544,'L000003','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100012','MBZ-2233','YABW000001',to_timestamp('11-10§Î-16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),800,'L000001','seconsale','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100012','MBZ-2244','YABW000002',to_timestamp('11-10§Î-16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),893,'L000003','leasable',null);
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100012','MBZ-2255','YABW000003',to_timestamp('11-10§Î-16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),876,'L000003','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100012','MBZ-2266','YABW000004',to_timestamp('11-10§Î-16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),790,'L000005','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100012','MBZ-2277','YABW000005',to_timestamp('11-10§Î-16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),800,'L000003','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100013','MEZ-3344','KYAI000001',to_timestamp('11-10§Î-16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),760,'L000003','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100013','MEZ-3345','KYAI000002',to_timestamp('11-10§Î-16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),1209,'L000003','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100013','MEZ-3346','KYAI000003',to_timestamp('11-10§Î-16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),790,'L000001','seconsale','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100013','MEZ-3347','KYAI000004',to_timestamp('11-10§Î-16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),765,'L000001','seconsale',null);
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100013','MEZ-3348','KYAI000005',to_timestamp('11-10§Î-16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),772,'L000001','seconsale','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100014','WFA-1001','KYKU000001',to_timestamp('01-1§Î -15 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),6009,'L000003','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100014','WFA-1002','KYKU000002',to_timestamp('01-1§Î -15 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),5466,'L000003','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100014','WFA-1003','KYKU000003',to_timestamp('01-1§Î -15 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),6555,'L000004','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100014','WFA-1004','KYKU000004',to_timestamp('01-1§Î -15 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),5009,'L000003','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100014','WFA-1005','KYKU000005',to_timestamp('01-1§Î -15 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),4670,'L000005','leasable','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100015','QNZ-2001','SYGT000001',to_timestamp('01-1§Î -15 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),3455,'L000003','occupied','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100015','QNZ-2002','SYGT000002',to_timestamp('01-1§Î -15 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),6544,'L000002','occupied','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100015','QNZ-2003','SYGT000003',to_timestamp('01-1§Î -15 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),7765,'L000003','occupied','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100015','QNZ-2004','SYGT000004',to_timestamp('01-1§Î -15 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),5433,'L000002','occupied','note');
-Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100015','QNZ-2005','SYGT000005',to_timestamp('01-1§Î -15 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),5200,'L000003','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100001','LAD-4342','KANIN000003',to_timestamp('01-2Êúà -16 12.30.10.000000000 ‰∏ãÂçà','DD-MON-RR HH.MI.SSXFF AM'),2231,'L000002','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100001','LAD-5422','KANIN000004',to_timestamp('01-2Êúà -16 12.30.10.000000000 ‰∏ãÂçà','DD-MON-RR HH.MI.SSXFF AM'),3300,'L000003','leasable',null);
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100002','LAB-5399','KAZ000001',to_timestamp('14-2Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),312,'L000005','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100002','LAB-3211','KAZ000002',to_timestamp('14-2Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),500,'L000002','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100002','LAB-3433','KAZ000003',to_timestamp('14-2Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),555,'L000003','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100002','LAB-5688','KAZ000004',to_timestamp('14-2Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),345,'L000004','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100003','LAC-6433','YAMT000001',to_timestamp('08-6Êúà -16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),900,'L000001','seconsale',null);
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100003','LAC-4322','YAMT000002',to_timestamp('08-6Êúà -16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),1200,'L000003','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100003','LAC-5111','YAMT000003',to_timestamp('08-6Êúà -16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),1408,'L000002','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100003','LAC-6799','YAMT000004',to_timestamp('08-6Êúà -16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),1408,'L000005','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100004','LAD-9211','YAYZ000001',to_timestamp('08-6Êúà -16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),1211,'L000005','leasable',null);
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100004','LAD-9212','YAYZ000002',to_timestamp('08-6Êúà -16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),1099,'L000002','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100004','LAD-3322','YAYZ000003',to_timestamp('08-6Êúà -16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),988,'L000005','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100004','LAD-4322','YAYZ000004',to_timestamp('08-6Êúà -16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),700,'L000001','seconsale','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100005','LAE-5555','YASR000001',to_timestamp('01-1Êúà -15 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),6544,'L000006','leasable',null);
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100005','LAE-6666','YASR000002',to_timestamp('01-1Êúà -15 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),6700,'L000003','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100005','LAE-7777','YASR000003',to_timestamp('01-1Êúà -15 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),3200,'L000001','seconsale','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100005','LAE-8888','YASR000004',to_timestamp('01-1Êúà -15 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),6900,'L000001','seconsale','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100010','MAY-1111','KYKA000001',to_timestamp('01-1Êúà -15 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),5500,'L000001','seconsale','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100010','MAY-2211','KYKA000002',to_timestamp('01-1Êúà -15 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),8900,'L000002','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100010','MAY-3311','KYKA000003',to_timestamp('01-1Êúà -15 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),2800,'L000003','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100010','MAY-4411','KYKA000004',to_timestamp('01-1Êúà -15 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),2200,'L000002','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100010','MAY-5511','KYKA000005',to_timestamp('01-1Êúà -15 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),5400,'L000005','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100011','MAZ-1122','AECO000001',to_timestamp('01-1Êúà -15 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),5433,'L000006','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100011','MAZ-1133','AECO000002',to_timestamp('01-1Êúà -15 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),6544,'L000006','occupied','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100001','LAD-9211','KANIN000001',to_timestamp('01-2Êúà -16 12.30.10.000000000 ‰∏ãÂçà','DD-MON-RR HH.MI.SSXFF AM'),3021,'L000006','leasable',null);
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100001','LAD-8211','KANIN000002',to_timestamp('01-2Êúà -16 12.30.10.000000000 ‰∏ãÂçà','DD-MON-RR HH.MI.SSXFF AM'),3211,'L000003','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100011','MAZ-1144','AECO000003',to_timestamp('01-1Êúà -15 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),5488,'L000002','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100011','MAZ-1155','AECO000004',to_timestamp('01-1Êúà -15 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),5534,'L000002','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100011','MAZ-1166','AECO000005',to_timestamp('01-1Êúà -15 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),5544,'L000003','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100012','MBZ-2233','YABW000001',to_timestamp('11-10Êúà-16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),800,'L000001','seconsale','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100012','MBZ-2244','YABW000002',to_timestamp('11-10Êúà-16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),893,'L000003','leasable',null);
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100012','MBZ-2255','YABW000003',to_timestamp('11-10Êúà-16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),876,'L000003','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100012','MBZ-2266','YABW000004',to_timestamp('11-10Êúà-16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),790,'L000005','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100012','MBZ-2277','YABW000005',to_timestamp('11-10Êúà-16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),800,'L000003','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100013','MEZ-3344','KYAI000001',to_timestamp('11-10Êúà-16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),760,'L000003','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100013','MEZ-3345','KYAI000002',to_timestamp('11-10Êúà-16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),1209,'L000003','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100013','MEZ-3346','KYAI000003',to_timestamp('11-10Êúà-16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),790,'L000001','seconsale','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100013','MEZ-3347','KYAI000004',to_timestamp('11-10Êúà-16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),765,'L000001','seconsale',null);
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100013','MEZ-3348','KYAI000005',to_timestamp('11-10Êúà-16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),772,'L000001','seconsale','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100014','WFA-1001','KYKU000001',to_timestamp('01-1Êúà -15 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),6009,'L000003','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100014','WFA-1002','KYKU000002',to_timestamp('01-1Êúà -15 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),5466,'L000003','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100014','WFA-1003','KYKU000003',to_timestamp('01-1Êúà -15 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),6555,'L000004','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100014','WFA-1004','KYKU000004',to_timestamp('01-1Êúà -15 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),5009,'L000003','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100014','WFA-1005','KYKU000005',to_timestamp('01-1Êúà -15 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),4670,'L000005','leasable','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100015','QNZ-2001','SYGT000001',to_timestamp('01-1Êúà -15 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),3455,'L000003','occupied','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100015','QNZ-2002','SYGT000002',to_timestamp('01-1Êúà -15 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),6544,'L000002','occupied','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100015','QNZ-2003','SYGT000003',to_timestamp('01-1Êúà -15 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),7765,'L000003','occupied','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100015','QNZ-2004','SYGT000004',to_timestamp('01-1Êúà -15 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),5433,'L000002','occupied','note');
+Insert into MOTOR (MOTNO,MODTYPE,PLATENO,ENGNO,MANUDATE,MILE,LOCNO,STATUS,NOTE) values ('M'||lpad(to_char(motno_seq.NEXTVAL),6,'0'),'MM100015','QNZ-2005','SYGT000005',to_timestamp('01-1Êúà -15 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),5200,'L000003','leasable','note');
 commit;
    
    
@@ -454,16 +454,16 @@ CREATE TABLE "MAINT_REC"
    NOCYCLE
    ;
    
-Insert into MAINT_REC (MAINTNO,MOTNO,STARTDATE,ENDDATE,CONT) values ('MR'||lpad(to_char(maintno_seq.NEXTVAL),6,'0'),'M000001',to_timestamp('01-1§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('04-1§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'CHECK OK');
-Insert into MAINT_REC (MAINTNO,MOTNO,STARTDATE,ENDDATE,CONT) values ('MR'||lpad(to_char(maintno_seq.NEXTVAL),6,'0'),'M000002',to_timestamp('01-2§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('03-2§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'CHECK OK');
-Insert into MAINT_REC (MAINTNO,MOTNO,STARTDATE,ENDDATE,CONT) values ('MR'||lpad(to_char(maintno_seq.NEXTVAL),6,'0'),'M000003',to_timestamp('01-2§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('02-2§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'CHECK OK');
-Insert into MAINT_REC (MAINTNO,MOTNO,STARTDATE,ENDDATE,CONT) values ('MR'||lpad(to_char(maintno_seq.NEXTVAL),6,'0'),'M000004',to_timestamp('03-3§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('03-3§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'CHECK OK');
-Insert into MAINT_REC (MAINTNO,MOTNO,STARTDATE,ENDDATE,CONT) values ('MR'||lpad(to_char(maintno_seq.NEXTVAL),6,'0'),'M000005',to_timestamp('01-4§Î -16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('01-4§Î -16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'CHECK OK');
-Insert into MAINT_REC (MAINTNO,MOTNO,STARTDATE,ENDDATE,CONT) values ('MR'||lpad(to_char(maintno_seq.NEXTVAL),6,'0'),'M000006',to_timestamp('01-5§Î -16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('03-5§Î -16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'CHECK OK');
-Insert into MAINT_REC (MAINTNO,MOTNO,STARTDATE,ENDDATE,CONT) values ('MR'||lpad(to_char(maintno_seq.NEXTVAL),6,'0'),'M000007',to_timestamp('06-6§Î -16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('08-6§Î -16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'CHECK OK');
-Insert into MAINT_REC (MAINTNO,MOTNO,STARTDATE,ENDDATE,CONT) values ('MR'||lpad(to_char(maintno_seq.NEXTVAL),6,'0'),'M000008',to_timestamp('01-1§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('03-1§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'CHECK OK');
-Insert into MAINT_REC (MAINTNO,MOTNO,STARTDATE,ENDDATE,CONT) values ('MR'||lpad(to_char(maintno_seq.NEXTVAL),6,'0'),'M000009',to_timestamp('06-6§Î -16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('08-6§Î -16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'CHECK OK');
-Insert into MAINT_REC (MAINTNO,MOTNO,STARTDATE,ENDDATE,CONT) values ('MR'||lpad(to_char(maintno_seq.NEXTVAL),6,'0'),'M000010',to_timestamp('11-6§Î -17 12.05.03.497000000 §U§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('13-6§Î -17 12.05.08.961000000 §U§»','DD-MON-RR HH.MI.SSXFF AM'),'CHECK OK');
+Insert into MAINT_REC (MAINTNO,MOTNO,STARTDATE,ENDDATE,CONT) values ('MR'||lpad(to_char(maintno_seq.NEXTVAL),6,'0'),'M000001',to_timestamp('01-1Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('04-1Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'CHECK OK');
+Insert into MAINT_REC (MAINTNO,MOTNO,STARTDATE,ENDDATE,CONT) values ('MR'||lpad(to_char(maintno_seq.NEXTVAL),6,'0'),'M000002',to_timestamp('01-2Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('03-2Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'CHECK OK');
+Insert into MAINT_REC (MAINTNO,MOTNO,STARTDATE,ENDDATE,CONT) values ('MR'||lpad(to_char(maintno_seq.NEXTVAL),6,'0'),'M000003',to_timestamp('01-2Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('02-2Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'CHECK OK');
+Insert into MAINT_REC (MAINTNO,MOTNO,STARTDATE,ENDDATE,CONT) values ('MR'||lpad(to_char(maintno_seq.NEXTVAL),6,'0'),'M000004',to_timestamp('03-3Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('03-3Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'CHECK OK');
+Insert into MAINT_REC (MAINTNO,MOTNO,STARTDATE,ENDDATE,CONT) values ('MR'||lpad(to_char(maintno_seq.NEXTVAL),6,'0'),'M000005',to_timestamp('01-4Êúà -16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('01-4Êúà -16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'CHECK OK');
+Insert into MAINT_REC (MAINTNO,MOTNO,STARTDATE,ENDDATE,CONT) values ('MR'||lpad(to_char(maintno_seq.NEXTVAL),6,'0'),'M000006',to_timestamp('01-5Êúà -16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('03-5Êúà -16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'CHECK OK');
+Insert into MAINT_REC (MAINTNO,MOTNO,STARTDATE,ENDDATE,CONT) values ('MR'||lpad(to_char(maintno_seq.NEXTVAL),6,'0'),'M000007',to_timestamp('06-6Êúà -16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('08-6Êúà -16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'CHECK OK');
+Insert into MAINT_REC (MAINTNO,MOTNO,STARTDATE,ENDDATE,CONT) values ('MR'||lpad(to_char(maintno_seq.NEXTVAL),6,'0'),'M000008',to_timestamp('01-1Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('03-1Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'CHECK OK');
+Insert into MAINT_REC (MAINTNO,MOTNO,STARTDATE,ENDDATE,CONT) values ('MR'||lpad(to_char(maintno_seq.NEXTVAL),6,'0'),'M000009',to_timestamp('06-6Êúà -16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('08-6Êúà -16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'CHECK OK');
+Insert into MAINT_REC (MAINTNO,MOTNO,STARTDATE,ENDDATE,CONT) values ('MR'||lpad(to_char(maintno_seq.NEXTVAL),6,'0'),'M000010',to_timestamp('11-6Êúà -17 12.05.03.497000000 ‰∏ãÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('13-6Êúà -17 12.05.08.961000000 ‰∏ãÂçà','DD-MON-RR HH.MI.SSXFF AM'),'CHECK OK');
 
    
     
@@ -490,16 +490,16 @@ Insert into MAINT_REC (MAINTNO,MOTNO,STARTDATE,ENDDATE,CONT) values ('MR'||lpad(
    ; 
    
    
-INSERT into "MES_BOARD" (MESNO,MEMNO,CONT,PIC)values(('MB'||lpad(to_char(mesno_seq.NEXTVAL),6,'0')),'MEM000003','πC√MßL∂§§ÈƒyßÎ§‚πF§Ò≠◊¶≥§µ§—¶b°uºw¶{§∫æ‘°v•Xæ‘§”™≈§H∂§°A•L•DßÎ7ßΩ∂»•¢1§¿°A≥Q•¥1¶w•¥°A3´O∞e°B4§TÆ∂°A¶@•Œ103≤yßπ¶®•Ù∞»°A•ª©u≤ƒ6≥”≤◊©Û®Ï§‚','');
-INSERT into "MES_BOARD" (MESNO,MEMNO,CONT,PIC)values(('MB'||lpad(to_char(mesno_seq.NEXTVAL),6,'0')),'MEM000002','πC√MßL∂§§ÈƒyßÎ§‚πF§Ò≠◊¶≥§µ§—¶b°uºw¶{§∫æ‘°v•Xæ‘§”™≈§H∂§°A•L•DßÎ7ßΩ∂»•¢1§¿°A≥Q•¥1¶w•¥°A3´O∞e°B4§TÆ∂°A¶@•Œ103≤yßπ¶®•Ù∞»°A•ª©u≤ƒ6≥”≤◊©Û®Ï§‚','');
-INSERT into "MES_BOARD" (MESNO,MEMNO,CONT,PIC)values(('MB'||lpad(to_char(mesno_seq.NEXTVAL),6,'0')),'MEM000005','πC√MßL∂§§ÈƒyßÎ§‚πF§Ò≠◊¶≥§µ§—¶b°uºw¶{§∫æ‘°v•Xæ‘§”™≈§H∂§°A•L•DßÎ7ßΩ∂»•¢1§¿°A≥Q•¥1¶w•¥°A3´O∞e°B4§TÆ∂°A¶@•Œ103≤yßπ¶®•Ù∞»°A•ª©u≤ƒ6≥”≤◊©Û®Ï§‚','');
-INSERT into "MES_BOARD" (MESNO,MEMNO,CONT,PIC)values(('MB'||lpad(to_char(mesno_seq.NEXTVAL),6,'0')),'MEM000007','πC√MßL∂§§ÈƒyßÎ§‚πF§Ò≠◊¶≥§µ§—¶b°uºw¶{§∫æ‘°v•Xæ‘§”™≈§H∂§°A•L•DßÎ7ßΩ∂»•¢1§¿°A≥Q•¥1¶w•¥°A3´O∞e°B4§TÆ∂°A¶@•Œ103≤yßπ¶®•Ù∞»°A•ª©u≤ƒ6≥”≤◊©Û®Ï§‚','');
-INSERT into "MES_BOARD" (MESNO,MEMNO,CONT,PIC)values(('MB'||lpad(to_char(mesno_seq.NEXTVAL),6,'0')),'MEM000004','πC√MßL∂§§ÈƒyßÎ§‚πF§Ò≠◊¶≥§µ§—¶b°uºw¶{§∫æ‘°v•Xæ‘§”™≈§H∂§°A•L•DßÎ7ßΩ∂»•¢1§¿°A≥Q•¥1¶w•¥°A3´O∞e°B4§TÆ∂°A¶@•Œ103≤yßπ¶®•Ù∞»°A•ª©u≤ƒ6≥”≤◊©Û®Ï§‚','');
-INSERT into "MES_BOARD" (MESNO,MEMNO,CONT,PIC)values(('MB'||lpad(to_char(mesno_seq.NEXTVAL),6,'0')),'MEM000002','πC√MßL∂§§ÈƒyßÎ§‚πF§Ò≠◊¶≥§µ§—¶b°uºw¶{§∫æ‘°v•Xæ‘§”™≈§H∂§°A•L•DßÎ7ßΩ∂»•¢1§¿°A≥Q•¥1¶w•¥°A3´O∞e°B4§TÆ∂°A¶@•Œ103≤yßπ¶®•Ù∞»°A•ª©u≤ƒ6≥”≤◊©Û®Ï§‚','');
-INSERT into "MES_BOARD" (MESNO,MEMNO,CONT,PIC)values(('MB'||lpad(to_char(mesno_seq.NEXTVAL),6,'0')),'MEM000008','πC√MßL∂§§ÈƒyßÎ§‚πF§Ò≠◊¶≥§µ§—¶b°uºw¶{§∫æ‘°v•Xæ‘§”™≈§H∂§°A•L•DßÎ7ßΩ∂»•¢1§¿°A≥Q•¥1¶w•¥°A3´O∞e°B4§TÆ∂°A¶@•Œ103≤yßπ¶®•Ù∞»°A•ª©u≤ƒ6≥”≤◊©Û®Ï§‚','');
-INSERT into "MES_BOARD" (MESNO,MEMNO,CONT,PIC)values(('MB'||lpad(to_char(mesno_seq.NEXTVAL),6,'0')),'MEM000009','πC√MßL∂§§ÈƒyßÎ§‚πF§Ò≠◊¶≥§µ§—¶b°uºw¶{§∫æ‘°v•Xæ‘§”™≈§H∂§°A•L•DßÎ7ßΩ∂»•¢1§¿°A≥Q•¥1¶w•¥°A3´O∞e°B4§TÆ∂°A¶@•Œ103≤yßπ¶®•Ù∞»°A•ª©u≤ƒ6≥”≤◊©Û®Ï§‚','');
-INSERT into "MES_BOARD" (MESNO,MEMNO,CONT,PIC)values(('MB'||lpad(to_char(mesno_seq.NEXTVAL),6,'0')),'MEM000002','πC√MßL∂§§ÈƒyßÎ§‚πF§Ò≠◊¶≥§µ§—¶b°uºw¶{§∫æ‘°v•Xæ‘§”™≈§H∂§°A•L•DßÎ7ßΩ∂»•¢1§¿°A≥Q•¥1¶w•¥°A3´O∞e°B4§TÆ∂°A¶@•Œ103≤yßπ¶®•Ù∞»°A•ª©u≤ƒ6≥”≤◊©Û®Ï§‚','');
-INSERT into "MES_BOARD" (MESNO,MEMNO,CONT,PIC)values(('MB'||lpad(to_char(mesno_seq.NEXTVAL),6,'0')),'MEM000001','πC√MßL∂§§ÈƒyßÎ§‚πF§Ò≠◊¶≥§µ§—¶b°uºw¶{§∫æ‘°v•Xæ‘§”™≈§H∂§°A•L•DßÎ7ßΩ∂»•¢1§¿°A≥Q•¥1¶w•¥°A3´O∞e°B4§TÆ∂°A¶@•Œ103≤yßπ¶®•Ù∞»°A•ª©u≤ƒ6≥”≤◊©Û®Ï§‚','');
+INSERT into "MES_BOARD" (MESNO,MEMNO,CONT,PIC)values(('MB'||lpad(to_char(mesno_seq.NEXTVAL),6,'0')),'MEM000003','ÈÅäÈ®éÂÖµÈöäÊó•Á±çÊäïÊâãÈÅîÊØî‰øÆÊúâ‰ªäÂ§©Âú®„ÄåÂæ∑Â∑ûÂÖßÊà∞„ÄçÂá∫Êà∞Â§™Á©∫‰∫∫ÈöäÔºå‰ªñ‰∏ªÊäï7Â±ÄÂÉÖÂ§±1ÂàÜÔºåË¢´Êâì1ÂÆâÊâìÔºå3‰øùÈÄÅ„ÄÅ4‰∏âÊåØÔºåÂÖ±Áî®103ÁêÉÂÆåÊàê‰ªªÂãôÔºåÊú¨Â≠£Á¨¨6ÂãùÁµÇÊñºÂà∞Êâã','');
+INSERT into "MES_BOARD" (MESNO,MEMNO,CONT,PIC)values(('MB'||lpad(to_char(mesno_seq.NEXTVAL),6,'0')),'MEM000002','ÈÅäÈ®éÂÖµÈöäÊó•Á±çÊäïÊâãÈÅîÊØî‰øÆÊúâ‰ªäÂ§©Âú®„ÄåÂæ∑Â∑ûÂÖßÊà∞„ÄçÂá∫Êà∞Â§™Á©∫‰∫∫ÈöäÔºå‰ªñ‰∏ªÊäï7Â±ÄÂÉÖÂ§±1ÂàÜÔºåË¢´Êâì1ÂÆâÊâìÔºå3‰øùÈÄÅ„ÄÅ4‰∏âÊåØÔºåÂÖ±Áî®103ÁêÉÂÆåÊàê‰ªªÂãôÔºåÊú¨Â≠£Á¨¨6ÂãùÁµÇÊñºÂà∞Êâã','');
+INSERT into "MES_BOARD" (MESNO,MEMNO,CONT,PIC)values(('MB'||lpad(to_char(mesno_seq.NEXTVAL),6,'0')),'MEM000005','ÈÅäÈ®éÂÖµÈöäÊó•Á±çÊäïÊâãÈÅîÊØî‰øÆÊúâ‰ªäÂ§©Âú®„ÄåÂæ∑Â∑ûÂÖßÊà∞„ÄçÂá∫Êà∞Â§™Á©∫‰∫∫ÈöäÔºå‰ªñ‰∏ªÊäï7Â±ÄÂÉÖÂ§±1ÂàÜÔºåË¢´Êâì1ÂÆâÊâìÔºå3‰øùÈÄÅ„ÄÅ4‰∏âÊåØÔºåÂÖ±Áî®103ÁêÉÂÆåÊàê‰ªªÂãôÔºåÊú¨Â≠£Á¨¨6ÂãùÁµÇÊñºÂà∞Êâã','');
+INSERT into "MES_BOARD" (MESNO,MEMNO,CONT,PIC)values(('MB'||lpad(to_char(mesno_seq.NEXTVAL),6,'0')),'MEM000007','ÈÅäÈ®éÂÖµÈöäÊó•Á±çÊäïÊâãÈÅîÊØî‰øÆÊúâ‰ªäÂ§©Âú®„ÄåÂæ∑Â∑ûÂÖßÊà∞„ÄçÂá∫Êà∞Â§™Á©∫‰∫∫ÈöäÔºå‰ªñ‰∏ªÊäï7Â±ÄÂÉÖÂ§±1ÂàÜÔºåË¢´Êâì1ÂÆâÊâìÔºå3‰øùÈÄÅ„ÄÅ4‰∏âÊåØÔºåÂÖ±Áî®103ÁêÉÂÆåÊàê‰ªªÂãôÔºåÊú¨Â≠£Á¨¨6ÂãùÁµÇÊñºÂà∞Êâã','');
+INSERT into "MES_BOARD" (MESNO,MEMNO,CONT,PIC)values(('MB'||lpad(to_char(mesno_seq.NEXTVAL),6,'0')),'MEM000004','ÈÅäÈ®éÂÖµÈöäÊó•Á±çÊäïÊâãÈÅîÊØî‰øÆÊúâ‰ªäÂ§©Âú®„ÄåÂæ∑Â∑ûÂÖßÊà∞„ÄçÂá∫Êà∞Â§™Á©∫‰∫∫ÈöäÔºå‰ªñ‰∏ªÊäï7Â±ÄÂÉÖÂ§±1ÂàÜÔºåË¢´Êâì1ÂÆâÊâìÔºå3‰øùÈÄÅ„ÄÅ4‰∏âÊåØÔºåÂÖ±Áî®103ÁêÉÂÆåÊàê‰ªªÂãôÔºåÊú¨Â≠£Á¨¨6ÂãùÁµÇÊñºÂà∞Êâã','');
+INSERT into "MES_BOARD" (MESNO,MEMNO,CONT,PIC)values(('MB'||lpad(to_char(mesno_seq.NEXTVAL),6,'0')),'MEM000002','ÈÅäÈ®éÂÖµÈöäÊó•Á±çÊäïÊâãÈÅîÊØî‰øÆÊúâ‰ªäÂ§©Âú®„ÄåÂæ∑Â∑ûÂÖßÊà∞„ÄçÂá∫Êà∞Â§™Á©∫‰∫∫ÈöäÔºå‰ªñ‰∏ªÊäï7Â±ÄÂÉÖÂ§±1ÂàÜÔºåË¢´Êâì1ÂÆâÊâìÔºå3‰øùÈÄÅ„ÄÅ4‰∏âÊåØÔºåÂÖ±Áî®103ÁêÉÂÆåÊàê‰ªªÂãôÔºåÊú¨Â≠£Á¨¨6ÂãùÁµÇÊñºÂà∞Êâã','');
+INSERT into "MES_BOARD" (MESNO,MEMNO,CONT,PIC)values(('MB'||lpad(to_char(mesno_seq.NEXTVAL),6,'0')),'MEM000008','ÈÅäÈ®éÂÖµÈöäÊó•Á±çÊäïÊâãÈÅîÊØî‰øÆÊúâ‰ªäÂ§©Âú®„ÄåÂæ∑Â∑ûÂÖßÊà∞„ÄçÂá∫Êà∞Â§™Á©∫‰∫∫ÈöäÔºå‰ªñ‰∏ªÊäï7Â±ÄÂÉÖÂ§±1ÂàÜÔºåË¢´Êâì1ÂÆâÊâìÔºå3‰øùÈÄÅ„ÄÅ4‰∏âÊåØÔºåÂÖ±Áî®103ÁêÉÂÆåÊàê‰ªªÂãôÔºåÊú¨Â≠£Á¨¨6ÂãùÁµÇÊñºÂà∞Êâã','');
+INSERT into "MES_BOARD" (MESNO,MEMNO,CONT,PIC)values(('MB'||lpad(to_char(mesno_seq.NEXTVAL),6,'0')),'MEM000009','ÈÅäÈ®éÂÖµÈöäÊó•Á±çÊäïÊâãÈÅîÊØî‰øÆÊúâ‰ªäÂ§©Âú®„ÄåÂæ∑Â∑ûÂÖßÊà∞„ÄçÂá∫Êà∞Â§™Á©∫‰∫∫ÈöäÔºå‰ªñ‰∏ªÊäï7Â±ÄÂÉÖÂ§±1ÂàÜÔºåË¢´Êâì1ÂÆâÊâìÔºå3‰øùÈÄÅ„ÄÅ4‰∏âÊåØÔºåÂÖ±Áî®103ÁêÉÂÆåÊàê‰ªªÂãôÔºåÊú¨Â≠£Á¨¨6ÂãùÁµÇÊñºÂà∞Êâã','');
+INSERT into "MES_BOARD" (MESNO,MEMNO,CONT,PIC)values(('MB'||lpad(to_char(mesno_seq.NEXTVAL),6,'0')),'MEM000002','ÈÅäÈ®éÂÖµÈöäÊó•Á±çÊäïÊâãÈÅîÊØî‰øÆÊúâ‰ªäÂ§©Âú®„ÄåÂæ∑Â∑ûÂÖßÊà∞„ÄçÂá∫Êà∞Â§™Á©∫‰∫∫ÈöäÔºå‰ªñ‰∏ªÊäï7Â±ÄÂÉÖÂ§±1ÂàÜÔºåË¢´Êâì1ÂÆâÊâìÔºå3‰øùÈÄÅ„ÄÅ4‰∏âÊåØÔºåÂÖ±Áî®103ÁêÉÂÆåÊàê‰ªªÂãôÔºåÊú¨Â≠£Á¨¨6ÂãùÁµÇÊñºÂà∞Êâã','');
+INSERT into "MES_BOARD" (MESNO,MEMNO,CONT,PIC)values(('MB'||lpad(to_char(mesno_seq.NEXTVAL),6,'0')),'MEM000001','ÈÅäÈ®éÂÖµÈöäÊó•Á±çÊäïÊâãÈÅîÊØî‰øÆÊúâ‰ªäÂ§©Âú®„ÄåÂæ∑Â∑ûÂÖßÊà∞„ÄçÂá∫Êà∞Â§™Á©∫‰∫∫ÈöäÔºå‰ªñ‰∏ªÊäï7Â±ÄÂÉÖÂ§±1ÂàÜÔºåË¢´Êâì1ÂÆâÊâìÔºå3‰øùÈÄÅ„ÄÅ4‰∏âÊåØÔºåÂÖ±Áî®103ÁêÉÂÆåÊàê‰ªªÂãôÔºåÊú¨Â≠£Á¨¨6ÂãùÁµÇÊñºÂà∞Êâã','');
    
    
     CREATE TABLE "SEC_ORD" 
@@ -524,16 +524,16 @@ INSERT into "MES_BOARD" (MESNO,MEMNO,CONT,PIC)values(('MB'||lpad(to_char(mesno_s
    NOCYCLE
    ;
    
-INSERT INTO SEC_ORD (sono,memno,motno,sodate,status) VALUES ('SO'||lpad(to_char(sono_seq.NEXTVAL),6,'0'), 'MEM000001','M000001', sysdate,'unpaid');
-INSERT INTO SEC_ORD (sono,memno,motno,sodate,status) VALUES ('SO'||lpad(to_char(sono_seq.NEXTVAL),6,'0'), 'MEM000002','M000003', sysdate,'paid');
-INSERT INTO SEC_ORD (sono,memno,motno,sodate,status) VALUES ('SO'||lpad(to_char(sono_seq.NEXTVAL),6,'0'), 'MEM000003','M000008', sysdate,'paid');
-INSERT INTO SEC_ORD (sono,memno,motno,sodate,status) VALUES ('SO'||lpad(to_char(sono_seq.NEXTVAL),6,'0'), 'MEM000004','M000007', sysdate,'other');
-INSERT INTO SEC_ORD (sono,memno,motno,sodate,status) VALUES ('SO'||lpad(to_char(sono_seq.NEXTVAL),6,'0'), 'MEM000005','M000009', sysdate,'closed');
-INSERT INTO SEC_ORD (sono,memno,motno,sodate,status) VALUES ('SO'||lpad(to_char(sono_seq.NEXTVAL),6,'0'), 'MEM000006','M000007', sysdate,'closed');
-INSERT INTO SEC_ORD (sono,memno,motno,sodate,status) VALUES ('SO'||lpad(to_char(sono_seq.NEXTVAL),6,'0'), 'MEM000007','M000002', sysdate,'other');
-INSERT INTO SEC_ORD (sono,memno,motno,sodate,status) VALUES ('SO'||lpad(to_char(sono_seq.NEXTVAL),6,'0'), 'MEM000008','M000003', sysdate,'other');
-INSERT INTO SEC_ORD (sono,memno,motno,sodate,status) VALUES ('SO'||lpad(to_char(sono_seq.NEXTVAL),6,'0'), 'MEM000009','M000006', sysdate,'closed');
-INSERT INTO SEC_ORD (sono,memno,motno,sodate,status) VALUES ('SO'||lpad(to_char(sono_seq.NEXTVAL),6,'0'), 'MEM000010','M000004', sysdate,'closed');
+INSERT INTO SEC_ORD (sono,memno,motno,sodate,status) VALUES ('S'||lpad(to_char(sono_seq.NEXTVAL),6,'0'), 'MEM000001','M000001', sysdate,'unpaid');
+INSERT INTO SEC_ORD (sono,memno,motno,sodate,status) VALUES ('S'||lpad(to_char(sono_seq.NEXTVAL),6,'0'), 'MEM000002','M000003', sysdate,'paid');
+INSERT INTO SEC_ORD (sono,memno,motno,sodate,status) VALUES ('S'||lpad(to_char(sono_seq.NEXTVAL),6,'0'), 'MEM000003','M000008', sysdate,'paid');
+INSERT INTO SEC_ORD (sono,memno,motno,sodate,status) VALUES ('S'||lpad(to_char(sono_seq.NEXTVAL),6,'0'), 'MEM000004','M000007', sysdate,'other');
+INSERT INTO SEC_ORD (sono,memno,motno,sodate,status) VALUES ('S'||lpad(to_char(sono_seq.NEXTVAL),6,'0'), 'MEM000005','M000009', sysdate,'closed');
+INSERT INTO SEC_ORD (sono,memno,motno,sodate,status) VALUES ('S'||lpad(to_char(sono_seq.NEXTVAL),6,'0'), 'MEM000006','M000007', sysdate,'closed');
+INSERT INTO SEC_ORD (sono,memno,motno,sodate,status) VALUES ('S'||lpad(to_char(sono_seq.NEXTVAL),6,'0'), 'MEM000007','M000002', sysdate,'other');
+INSERT INTO SEC_ORD (sono,memno,motno,sodate,status) VALUES ('S'||lpad(to_char(sono_seq.NEXTVAL),6,'0'), 'MEM000008','M000003', sysdate,'other');
+INSERT INTO SEC_ORD (sono,memno,motno,sodate,status) VALUES ('S'||lpad(to_char(sono_seq.NEXTVAL),6,'0'), 'MEM000009','M000006', sysdate,'closed');
+INSERT INTO SEC_ORD (sono,memno,motno,sodate,status) VALUES ('S'||lpad(to_char(sono_seq.NEXTVAL),6,'0'), 'MEM000010','M000004', sysdate,'closed');
 commit;  
 
    
@@ -559,16 +559,16 @@ CREATE TABLE "MOTOR_DISPATCH"
    ;
    
    
-Insert into MOTOR_DISPATCH (MDNO,LOCNO,FILLDATE,CLOSEDDATE,PROG) values ('MD'||lpad(to_char(mdno_seq.NEXTVAL),6,'0'),'L000001',to_timestamp('01-1§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('08-2§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'closed');
-Insert into MOTOR_DISPATCH (MDNO,LOCNO,FILLDATE,CLOSEDDATE,PROG) values ('MD'||lpad(to_char(mdno_seq.NEXTVAL),6,'0'),'L000001',to_timestamp('10-1§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('01-2§Î -16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'closed');
-Insert into MOTOR_DISPATCH (MDNO,LOCNO,FILLDATE,CLOSEDDATE,PROG) values ('MD'||lpad(to_char(mdno_seq.NEXTVAL),6,'0'),'L000003',to_timestamp('14-2§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('01-2§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'closed');
-Insert into MOTOR_DISPATCH (MDNO,LOCNO,FILLDATE,CLOSEDDATE,PROG) values ('MD'||lpad(to_char(mdno_seq.NEXTVAL),6,'0'),'L000003',to_timestamp('16-2§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),null,'canceled');
-Insert into MOTOR_DISPATCH (MDNO,LOCNO,FILLDATE,CLOSEDDATE,PROG) values ('MD'||lpad(to_char(mdno_seq.NEXTVAL),6,'0'),'L000002',to_timestamp('29-3§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),null,'rejected');
-Insert into MOTOR_DISPATCH (MDNO,LOCNO,FILLDATE,CLOSEDDATE,PROG) values ('MD'||lpad(to_char(mdno_seq.NEXTVAL),6,'0'),'L000002',to_timestamp('04-4§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('19-4§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'closed');
-Insert into MOTOR_DISPATCH (MDNO,LOCNO,FILLDATE,CLOSEDDATE,PROG) values ('MD'||lpad(to_char(mdno_seq.NEXTVAL),6,'0'),'L000002',to_timestamp('01-5§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('17-5§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'closed');
-Insert into MOTOR_DISPATCH (MDNO,LOCNO,FILLDATE,CLOSEDDATE,PROG) values ('MD'||lpad(to_char(mdno_seq.NEXTVAL),6,'0'),'L000001',to_timestamp('13-1§Î -16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('01-2§Î -16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'closed');
-Insert into MOTOR_DISPATCH (MDNO,LOCNO,FILLDATE,CLOSEDDATE,PROG) values ('MD'||lpad(to_char(mdno_seq.NEXTVAL),6,'0'),'L000001',to_timestamp('24-2§Î -16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('28-2§Î -16 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'closed');
-Insert into MOTOR_DISPATCH (MDNO,LOCNO,FILLDATE,CLOSEDDATE,PROG) values ('MD'||lpad(to_char(mdno_seq.NEXTVAL),6,'0'),'L000002',to_timestamp('11-6§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),null,'request');
+Insert into MOTOR_DISPATCH (MDNO,LOCNO,FILLDATE,CLOSEDDATE,PROG) values ('MD'||lpad(to_char(mdno_seq.NEXTVAL),6,'0'),'L000001',to_timestamp('01-1Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('08-2Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'closed');
+Insert into MOTOR_DISPATCH (MDNO,LOCNO,FILLDATE,CLOSEDDATE,PROG) values ('MD'||lpad(to_char(mdno_seq.NEXTVAL),6,'0'),'L000001',to_timestamp('10-1Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('01-2Êúà -16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'closed');
+Insert into MOTOR_DISPATCH (MDNO,LOCNO,FILLDATE,CLOSEDDATE,PROG) values ('MD'||lpad(to_char(mdno_seq.NEXTVAL),6,'0'),'L000003',to_timestamp('14-2Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('01-2Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'closed');
+Insert into MOTOR_DISPATCH (MDNO,LOCNO,FILLDATE,CLOSEDDATE,PROG) values ('MD'||lpad(to_char(mdno_seq.NEXTVAL),6,'0'),'L000003',to_timestamp('16-2Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),null,'canceled');
+Insert into MOTOR_DISPATCH (MDNO,LOCNO,FILLDATE,CLOSEDDATE,PROG) values ('MD'||lpad(to_char(mdno_seq.NEXTVAL),6,'0'),'L000002',to_timestamp('29-3Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),null,'rejected');
+Insert into MOTOR_DISPATCH (MDNO,LOCNO,FILLDATE,CLOSEDDATE,PROG) values ('MD'||lpad(to_char(mdno_seq.NEXTVAL),6,'0'),'L000002',to_timestamp('04-4Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('19-4Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'closed');
+Insert into MOTOR_DISPATCH (MDNO,LOCNO,FILLDATE,CLOSEDDATE,PROG) values ('MD'||lpad(to_char(mdno_seq.NEXTVAL),6,'0'),'L000002',to_timestamp('01-5Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('17-5Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'closed');
+Insert into MOTOR_DISPATCH (MDNO,LOCNO,FILLDATE,CLOSEDDATE,PROG) values ('MD'||lpad(to_char(mdno_seq.NEXTVAL),6,'0'),'L000001',to_timestamp('13-1Êúà -16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('01-2Êúà -16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'closed');
+Insert into MOTOR_DISPATCH (MDNO,LOCNO,FILLDATE,CLOSEDDATE,PROG) values ('MD'||lpad(to_char(mdno_seq.NEXTVAL),6,'0'),'L000001',to_timestamp('24-2Êúà -16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('28-2Êúà -16 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'closed');
+Insert into MOTOR_DISPATCH (MDNO,LOCNO,FILLDATE,CLOSEDDATE,PROG) values ('MD'||lpad(to_char(mdno_seq.NEXTVAL),6,'0'),'L000002',to_timestamp('11-6Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),null,'request');
 
      
    
@@ -618,16 +618,16 @@ Insert into MOTOR_DISP_LIST (MDNO,MOTNO) values ('MD000010','M000010');
    NOCYCLE
    ;
    
-Insert into EMT_DISPATCH (EDNO,LOCNO,DEMANDDATE,CLOSEDDATE,PROG) values ('ED'||lpad(to_char(edno_seq.NEXTVAL),6,'0'),'L000004',to_timestamp('13-6§Î -17 09.42.21.118000000 §U§»','DD-MON-RR HH.MI.SSXFF AM'),null,'dispatching');
-Insert into EMT_DISPATCH (EDNO,LOCNO,DEMANDDATE,CLOSEDDATE,PROG) values ('ED'||lpad(to_char(edno_seq.NEXTVAL),6,'0'),'L000005',to_timestamp('13-6§Î -17 09.42.37.204000000 §U§»','DD-MON-RR HH.MI.SSXFF AM'),null,'request');
-Insert into EMT_DISPATCH (EDNO,LOCNO,DEMANDDATE,CLOSEDDATE,PROG) values ('ED'||lpad(to_char(edno_seq.NEXTVAL),6,'0'),'L000001',to_timestamp('13-6§Î -17 09.43.35.777000000 §U§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('13-6§Î -17 12.00.00.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'canceled');
-Insert into EMT_DISPATCH (EDNO,LOCNO,DEMANDDATE,CLOSEDDATE,PROG) values ('ED'||lpad(to_char(edno_seq.NEXTVAL),6,'0'),'L000002',to_timestamp('13-6§Î -17 09.43.49.858000000 §U§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('13-6§Î -17 12.00.00.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'dispatched');
-Insert into EMT_DISPATCH (EDNO,LOCNO,DEMANDDATE,CLOSEDDATE,PROG) values ('ED'||lpad(to_char(edno_seq.NEXTVAL),6,'0'),'L000002',to_timestamp('13-6§Î -17 09.41.17.317000000 §U§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('13-6§Î -17 12.00.00.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'closed');
-Insert into EMT_DISPATCH (EDNO,LOCNO,DEMANDDATE,CLOSEDDATE,PROG) values ('ED'||lpad(to_char(edno_seq.NEXTVAL),6,'0'),'L000003',to_timestamp('13-6§Î -17 09.42.03.367000000 §U§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('13-6§Î -17 12.00.00.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'rejected');
-Insert into EMT_DISPATCH (EDNO,LOCNO,DEMANDDATE,CLOSEDDATE,PROG) values ('ED'||lpad(to_char(edno_seq.NEXTVAL),6,'0'),'L000002',to_timestamp('13-6§Î -17 09.44.22.860000000 §U§»','DD-MON-RR HH.MI.SSXFF AM'),null,'request');
-Insert into EMT_DISPATCH (EDNO,LOCNO,DEMANDDATE,CLOSEDDATE,PROG) values ('ED'||lpad(to_char(edno_seq.NEXTVAL),6,'0'),'L000003',to_timestamp('13-6§Î -17 09.44.33.428000000 §U§»','DD-MON-RR HH.MI.SSXFF AM'),null,'request');
-Insert into EMT_DISPATCH (EDNO,LOCNO,DEMANDDATE,CLOSEDDATE,PROG) values ('ED'||lpad(to_char(edno_seq.NEXTVAL),6,'0'),'L000004',to_timestamp('13-6§Î -17 09.44.43.693000000 §U§»','DD-MON-RR HH.MI.SSXFF AM'),null,'request');
-Insert into EMT_DISPATCH (EDNO,LOCNO,DEMANDDATE,CLOSEDDATE,PROG) values ('ED'||lpad(to_char(edno_seq.NEXTVAL),6,'0'),'L000005',to_timestamp('13-6§Î -17 09.44.56.271000000 §U§»','DD-MON-RR HH.MI.SSXFF AM'),null,'request');
+Insert into EMT_DISPATCH (EDNO,LOCNO,DEMANDDATE,CLOSEDDATE,PROG) values ('ED'||lpad(to_char(edno_seq.NEXTVAL),6,'0'),'L000004',to_timestamp('13-6Êúà -17 09.42.21.118000000 ‰∏ãÂçà','DD-MON-RR HH.MI.SSXFF AM'),null,'dispatching');
+Insert into EMT_DISPATCH (EDNO,LOCNO,DEMANDDATE,CLOSEDDATE,PROG) values ('ED'||lpad(to_char(edno_seq.NEXTVAL),6,'0'),'L000005',to_timestamp('13-6Êúà -17 09.42.37.204000000 ‰∏ãÂçà','DD-MON-RR HH.MI.SSXFF AM'),null,'request');
+Insert into EMT_DISPATCH (EDNO,LOCNO,DEMANDDATE,CLOSEDDATE,PROG) values ('ED'||lpad(to_char(edno_seq.NEXTVAL),6,'0'),'L000001',to_timestamp('13-6Êúà -17 09.43.35.777000000 ‰∏ãÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('13-6Êúà -17 12.00.00.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'canceled');
+Insert into EMT_DISPATCH (EDNO,LOCNO,DEMANDDATE,CLOSEDDATE,PROG) values ('ED'||lpad(to_char(edno_seq.NEXTVAL),6,'0'),'L000002',to_timestamp('13-6Êúà -17 09.43.49.858000000 ‰∏ãÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('13-6Êúà -17 12.00.00.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'dispatched');
+Insert into EMT_DISPATCH (EDNO,LOCNO,DEMANDDATE,CLOSEDDATE,PROG) values ('ED'||lpad(to_char(edno_seq.NEXTVAL),6,'0'),'L000002',to_timestamp('13-6Êúà -17 09.41.17.317000000 ‰∏ãÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('13-6Êúà -17 12.00.00.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'closed');
+Insert into EMT_DISPATCH (EDNO,LOCNO,DEMANDDATE,CLOSEDDATE,PROG) values ('ED'||lpad(to_char(edno_seq.NEXTVAL),6,'0'),'L000003',to_timestamp('13-6Êúà -17 09.42.03.367000000 ‰∏ãÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('13-6Êúà -17 12.00.00.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'rejected');
+Insert into EMT_DISPATCH (EDNO,LOCNO,DEMANDDATE,CLOSEDDATE,PROG) values ('ED'||lpad(to_char(edno_seq.NEXTVAL),6,'0'),'L000002',to_timestamp('13-6Êúà -17 09.44.22.860000000 ‰∏ãÂçà','DD-MON-RR HH.MI.SSXFF AM'),null,'request');
+Insert into EMT_DISPATCH (EDNO,LOCNO,DEMANDDATE,CLOSEDDATE,PROG) values ('ED'||lpad(to_char(edno_seq.NEXTVAL),6,'0'),'L000003',to_timestamp('13-6Êúà -17 09.44.33.428000000 ‰∏ãÂçà','DD-MON-RR HH.MI.SSXFF AM'),null,'request');
+Insert into EMT_DISPATCH (EDNO,LOCNO,DEMANDDATE,CLOSEDDATE,PROG) values ('ED'||lpad(to_char(edno_seq.NEXTVAL),6,'0'),'L000004',to_timestamp('13-6Êúà -17 09.44.43.693000000 ‰∏ãÂçà','DD-MON-RR HH.MI.SSXFF AM'),null,'request');
+Insert into EMT_DISPATCH (EDNO,LOCNO,DEMANDDATE,CLOSEDDATE,PROG) values ('ED'||lpad(to_char(edno_seq.NEXTVAL),6,'0'),'L000005',to_timestamp('13-6Êúà -17 09.44.56.271000000 ‰∏ãÂçà','DD-MON-RR HH.MI.SSXFF AM'),null,'request');
 commit;    
    
    
@@ -670,16 +670,16 @@ commit;
    ;
    
 
-Insert into RENT_ORD (RENTNO,MEMNO,MOTNO,SLOCNO,RLOCNO,MILSTART,MILEND,FILLDATE,STARTDATE,ENDDATE,RETURNDATE,FINE,TOTAL,RANK,STATUS,NOTE) values ('R'||lpad(to_char(rentno_seq.NEXTVAL),6,'0'),'MEM000005','M000045','L000004','L000003',4640,4670,to_timestamp('09-4§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('16-4§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('17-4§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('17-4§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),null,2000,'5','closed',null);
-Insert into RENT_ORD (RENTNO,MEMNO,MOTNO,SLOCNO,RLOCNO,MILSTART,MILEND,FILLDATE,STARTDATE,ENDDATE,RETURNDATE,FINE,TOTAL,RANK,STATUS,NOTE) values ('R'||lpad(to_char(rentno_seq.NEXTVAL),6,'0'),'MEM000008','M000005','L000002','L000003',250,312,to_timestamp('22-5§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('29-5§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('30-5§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('30-5§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),null,5000,'4','closed',null);
-Insert into RENT_ORD (RENTNO,MEMNO,MOTNO,SLOCNO,RLOCNO,MILSTART,MILEND,FILLDATE,STARTDATE,ENDDATE,RETURNDATE,FINE,TOTAL,RANK,STATUS,NOTE) values ('R'||lpad(to_char(rentno_seq.NEXTVAL),6,'0'),'MEM000010','M000004','L000005','L000003',3260,3300,to_timestamp('24-5§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('31-5§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('01-6§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('01-6§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),null,5000,'4','closed','NOTE');
-Insert into RENT_ORD (RENTNO,MEMNO,MOTNO,SLOCNO,RLOCNO,MILSTART,MILEND,FILLDATE,STARTDATE,ENDDATE,RETURNDATE,FINE,TOTAL,RANK,STATUS,NOTE) values ('R'||lpad(to_char(rentno_seq.NEXTVAL),6,'0'),'MEM000002','M000030','L000005','L000002',5400,5544,to_timestamp('20-3§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('27-3§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('28-3§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('28-3§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),null,1200,'5','closed',null);
-Insert into RENT_ORD (RENTNO,MEMNO,MOTNO,SLOCNO,RLOCNO,MILSTART,MILEND,FILLDATE,STARTDATE,ENDDATE,RETURNDATE,FINE,TOTAL,RANK,STATUS,NOTE) values ('R'||lpad(to_char(rentno_seq.NEXTVAL),6,'0'),'MEM000003','M000034','L000002','L000006',700,790,to_timestamp('08-4§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('15-4§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('16-4§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('16-4§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),null,1600,'5','closed',null);
-Insert into RENT_ORD (RENTNO,MEMNO,MOTNO,SLOCNO,RLOCNO,MILSTART,MILEND,FILLDATE,STARTDATE,ENDDATE,RETURNDATE,FINE,TOTAL,RANK,STATUS,NOTE) values ('R'||lpad(to_char(rentno_seq.NEXTVAL),6,'0'),'MEM000006','M000028','L000003','L000002',5470,5488,to_timestamp('10-4§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('17-4§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('17-4§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('17-4§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),null,1600,'5','closed',null);
-Insert into RENT_ORD (RENTNO,MEMNO,MOTNO,SLOCNO,RLOCNO,MILSTART,MILEND,FILLDATE,STARTDATE,ENDDATE,RETURNDATE,FINE,TOTAL,RANK,STATUS,NOTE) values ('R'||lpad(to_char(rentno_seq.NEXTVAL),6,'0'),'MEM000007','M000017','L000004','L000002',6510,6544,to_timestamp('20-4§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('27-4§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('28-4§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('28-4§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),null,5000,'5','closed',null);
-Insert into RENT_ORD (RENTNO,MEMNO,MOTNO,SLOCNO,RLOCNO,MILSTART,MILEND,FILLDATE,STARTDATE,ENDDATE,RETURNDATE,FINE,TOTAL,RANK,STATUS,NOTE) values ('R'||lpad(to_char(rentno_seq.NEXTVAL),6,'0'),'MEM000009','M000003','L000005','L000002',2170,2231,to_timestamp('23-5§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('30-5§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('31-5§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('31-5§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),null,5000,'4','closed',null);
-Insert into RENT_ORD (RENTNO,MEMNO,MOTNO,SLOCNO,RLOCNO,MILSTART,MILEND,FILLDATE,STARTDATE,ENDDATE,RETURNDATE,FINE,TOTAL,RANK,STATUS,NOTE) values ('R'||lpad(to_char(rentno_seq.NEXTVAL),6,'0'),'MEM000001','M000027','L000003','L000004',6500,6544,to_timestamp('20-3§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('27-3§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('28-3§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('28-3§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),null,1200,'5','closed',null);
-Insert into RENT_ORD (RENTNO,MEMNO,MOTNO,SLOCNO,RLOCNO,MILSTART,MILEND,FILLDATE,STARTDATE,ENDDATE,RETURNDATE,FINE,TOTAL,RANK,STATUS,NOTE) values ('R'||lpad(to_char(rentno_seq.NEXTVAL),6,'0'),'MEM000004','M000041','L000002','L000005',5950,6009,to_timestamp('09-4§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('16-4§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('17-4§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('17-4§Î -17 10.10.10.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),null,1800,'5','closed',null);
+Insert into RENT_ORD (RENTNO,MEMNO,MOTNO,SLOCNO,RLOCNO,MILSTART,MILEND,FILLDATE,STARTDATE,ENDDATE,RETURNDATE,FINE,TOTAL,RANK,STATUS,NOTE) values ('R'||lpad(to_char(rentno_seq.NEXTVAL),6,'0'),'MEM000005','M000045','L000004','L000003',4640,4670,to_timestamp('09-4Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('16-4Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('17-4Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('17-4Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),null,2000,'5','closed',null);
+Insert into RENT_ORD (RENTNO,MEMNO,MOTNO,SLOCNO,RLOCNO,MILSTART,MILEND,FILLDATE,STARTDATE,ENDDATE,RETURNDATE,FINE,TOTAL,RANK,STATUS,NOTE) values ('R'||lpad(to_char(rentno_seq.NEXTVAL),6,'0'),'MEM000008','M000005','L000002','L000003',250,312,to_timestamp('22-5Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('29-5Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('30-5Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('30-5Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),null,5000,'4','closed',null);
+Insert into RENT_ORD (RENTNO,MEMNO,MOTNO,SLOCNO,RLOCNO,MILSTART,MILEND,FILLDATE,STARTDATE,ENDDATE,RETURNDATE,FINE,TOTAL,RANK,STATUS,NOTE) values ('R'||lpad(to_char(rentno_seq.NEXTVAL),6,'0'),'MEM000010','M000004','L000005','L000003',3260,3300,to_timestamp('24-5Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('31-5Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('01-6Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('01-6Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),null,5000,'4','closed','NOTE');
+Insert into RENT_ORD (RENTNO,MEMNO,MOTNO,SLOCNO,RLOCNO,MILSTART,MILEND,FILLDATE,STARTDATE,ENDDATE,RETURNDATE,FINE,TOTAL,RANK,STATUS,NOTE) values ('R'||lpad(to_char(rentno_seq.NEXTVAL),6,'0'),'MEM000002','M000030','L000005','L000002',5400,5544,to_timestamp('20-3Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('27-3Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('28-3Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('28-3Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),null,1200,'5','closed',null);
+Insert into RENT_ORD (RENTNO,MEMNO,MOTNO,SLOCNO,RLOCNO,MILSTART,MILEND,FILLDATE,STARTDATE,ENDDATE,RETURNDATE,FINE,TOTAL,RANK,STATUS,NOTE) values ('R'||lpad(to_char(rentno_seq.NEXTVAL),6,'0'),'MEM000003','M000034','L000002','L000006',700,790,to_timestamp('08-4Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('15-4Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('16-4Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('16-4Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),null,1600,'5','closed',null);
+Insert into RENT_ORD (RENTNO,MEMNO,MOTNO,SLOCNO,RLOCNO,MILSTART,MILEND,FILLDATE,STARTDATE,ENDDATE,RETURNDATE,FINE,TOTAL,RANK,STATUS,NOTE) values ('R'||lpad(to_char(rentno_seq.NEXTVAL),6,'0'),'MEM000006','M000028','L000003','L000002',5470,5488,to_timestamp('10-4Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('17-4Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('17-4Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('17-4Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),null,1600,'5','closed',null);
+Insert into RENT_ORD (RENTNO,MEMNO,MOTNO,SLOCNO,RLOCNO,MILSTART,MILEND,FILLDATE,STARTDATE,ENDDATE,RETURNDATE,FINE,TOTAL,RANK,STATUS,NOTE) values ('R'||lpad(to_char(rentno_seq.NEXTVAL),6,'0'),'MEM000007','M000017','L000004','L000002',6510,6544,to_timestamp('20-4Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('27-4Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('28-4Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('28-4Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),null,5000,'5','closed',null);
+Insert into RENT_ORD (RENTNO,MEMNO,MOTNO,SLOCNO,RLOCNO,MILSTART,MILEND,FILLDATE,STARTDATE,ENDDATE,RETURNDATE,FINE,TOTAL,RANK,STATUS,NOTE) values ('R'||lpad(to_char(rentno_seq.NEXTVAL),6,'0'),'MEM000009','M000003','L000005','L000002',2170,2231,to_timestamp('23-5Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('30-5Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('31-5Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('31-5Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),null,5000,'4','closed',null);
+Insert into RENT_ORD (RENTNO,MEMNO,MOTNO,SLOCNO,RLOCNO,MILSTART,MILEND,FILLDATE,STARTDATE,ENDDATE,RETURNDATE,FINE,TOTAL,RANK,STATUS,NOTE) values ('R'||lpad(to_char(rentno_seq.NEXTVAL),6,'0'),'MEM000001','M000027','L000003','L000004',6500,6544,to_timestamp('20-3Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('27-3Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('28-3Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('28-3Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),null,1200,'5','closed',null);
+Insert into RENT_ORD (RENTNO,MEMNO,MOTNO,SLOCNO,RLOCNO,MILSTART,MILEND,FILLDATE,STARTDATE,ENDDATE,RETURNDATE,FINE,TOTAL,RANK,STATUS,NOTE) values ('R'||lpad(to_char(rentno_seq.NEXTVAL),6,'0'),'MEM000004','M000041','L000002','L000005',5950,6009,to_timestamp('09-4Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('16-4Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('17-4Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),to_timestamp('17-4Êúà -17 10.10.10.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),null,1800,'5','closed',null);
 
    
    
@@ -708,17 +708,17 @@ Insert into RENT_ORD (RENTNO,MEMNO,MOTNO,SLOCNO,RLOCNO,MILSTART,MILEND,FILLDATE,
    ;
    
 
-INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),6,'0'),'L000001','AC000001','¥ºµq','stanly7768','a12345');
-INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),6,'0'),'L000002','AC000004','¶t≥«','blitz9211','b12345');
-INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),6,'0'),'L000005','AC000002','∞∂ø@','bheegrl1031','c12345');
-INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),6,'0'),'L000003','AC000006','∂T§∏','ad000894','d12345');
-INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),6,'0'),'L000004','AC000005','Æa∞∂','samtai1229','e12345');
-INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),6,'0'),'L000001','AC000002','™løŸ','hongwu100','f12345');
-INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),6,'0'),'L000003','AC000006','§˝´T≥«','wang','g12345');
-INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),6,'0'),'L000002','AC000003','™Ù™v≥«','jay','h12345');
-INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),6,'0'),'L000002','AC000004','≤¬≤¬≤¬','stupid','i12345');
-INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),6,'0'),'L000001','AC000001','™L≠D§l','fat','j12345');
-INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),6,'0'),'L000004','AC000005','≠t≠±Ω˜','blue','k12345');
+INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),6,'0'),'L000001','AC000001','Êô∫Áöì','stanly7768','a12345');
+INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),6,'0'),'L000002','AC000004','ÂÆáÂÇë','blitz9211','b12345');
+INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),6,'0'),'L000005','AC000002','ÂÅâÊøÉ','bheegrl1031','c12345');
+INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),6,'0'),'L000003','AC000006','Ë≤øÂÖÉ','ad000894','d12345');
+INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),6,'0'),'L000004','AC000005','ÂÆ∂ÂÅâ','samtai1229','e12345');
+INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),6,'0'),'L000001','AC000002','Ê≥ìË´≠','hongwu100','f12345');
+INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),6,'0'),'L000003','AC000006','Áéã‰øäÂÇë','wang','g12345');
+INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),6,'0'),'L000002','AC000003','ÈÇ±Ê≤ªÂÇë','jay','h12345');
+INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),6,'0'),'L000002','AC000004','Á¨®Á¨®Á¨®','stupid','i12345');
+INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),6,'0'),'L000001','AC000001','ÊûóËÉñÂ≠ê','fat','j12345');
+INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),6,'0'),'L000004','AC000005','Ë≤†Èù¢Ëºù','blue','k12345');
 commit;
 
    
@@ -740,16 +740,16 @@ commit;
    NOMAXVALUE
    NOCYCLE
    ;
-Insert into SPOTS (SPNO,SPNAME,LOCNO,SPLONG,SPLAT) values ('S'||lpad(to_char(spno_seq.NEXTVAL),6,'0'),'§K•P§Ù§Wº÷∂È','L000001',121.6,23.56);
-Insert into SPOTS (SPNO,SPNAME,LOCNO,SPLONG,SPLAT) values ('S'||lpad(to_char(spno_seq.NEXTVAL),6,'0'),'©yƒı¡G∑À','L000002',121.6,23.56);
-Insert into SPOTS (SPNO,SPNAME,LOCNO,SPLONG,SPLAT) values ('S'||lpad(to_char(spno_seq.NEXTVAL),6,'0'),'•_ßÎ∑≈¨u','L000003',121.6,23.56);
-Insert into SPOTS (SPNO,SPNAME,LOCNO,SPLONG,SPLAT) values ('S'||lpad(to_char(spno_seq.NEXTVAL),6,'0'),'•€™˘§ÙÆw','L000004',121.6,23.56);
-Insert into SPOTS (SPNO,SPNAME,LOCNO,SPLONG,SPLAT) values ('S'||lpad(to_char(spno_seq.NEXTVAL),6,'0'),'§ª¶X©]•´','L000005',121.6,23.56);
-Insert into SPOTS (SPNO,SPNAME,LOCNO,SPLONG,SPLAT) values ('S'||lpad(to_char(spno_seq.NEXTVAL),6,'0'),'¨ı§Ú¥‰','L000006',121.6,23.56);
-Insert into SPOTS (SPNO,SPNAME,LOCNO,SPLONG,SPLAT) values ('S'||lpad(to_char(spno_seq.NEXTVAL),6,'0'),'¨ıæ™L','L000006',121.6,23.56);
-Insert into SPOTS (SPNO,SPNAME,LOCNO,SPLONG,SPLAT) values ('S'||lpad(to_char(spno_seq.NEXTVAL),6,'0'),'≥•¨h','L000001',121.6,23.56);
-Insert into SPOTS (SPNO,SPNAME,LOCNO,SPLONG,SPLAT) values ('S'||lpad(to_char(spno_seq.NEXTVAL),6,'0'),'≤`ß|','L000003',121.6,23.56);
-Insert into SPOTS (SPNO,SPNAME,LOCNO,SPLONG,SPLAT) values ('S'||lpad(to_char(spno_seq.NEXTVAL),6,'0'),'ΩπΩ∫®¶','L000002',121.6,23.56);
+Insert into SPOTS (SPNO,SPNAME,LOCNO,SPLONG,SPLAT) values ('SP'||lpad(to_char(spno_seq.NEXTVAL),6,'0'),'ÂÖ´‰ªôÊ∞¥‰∏äÊ®ÇÂúí','L000001',121.6,23.56);
+Insert into SPOTS (SPNO,SPNAME,LOCNO,SPLONG,SPLAT) values ('SP'||lpad(to_char(spno_seq.NEXTVAL),6,'0'),'ÂÆúËò≠Á§ÅÊ∫™','L000002',121.6,23.56);
+Insert into SPOTS (SPNO,SPNAME,LOCNO,SPLONG,SPLAT) values ('SP'||lpad(to_char(spno_seq.NEXTVAL),6,'0'),'ÂåóÊäïÊ∫´Ê≥â','L000003',121.6,23.56);
+Insert into SPOTS (SPNO,SPNAME,LOCNO,SPLONG,SPLAT) values ('SP'||lpad(to_char(spno_seq.NEXTVAL),6,'0'),'Áü≥ÈñÄÊ∞¥Â∫´','L000004',121.6,23.56);
+Insert into SPOTS (SPNO,SPNAME,LOCNO,SPLONG,SPLAT) values ('SP'||lpad(to_char(spno_seq.NEXTVAL),6,'0'),'ÂÖ≠ÂêàÂ§úÂ∏Ç','L000005',121.6,23.56);
+Insert into SPOTS (SPNO,SPNAME,LOCNO,SPLONG,SPLAT) values ('SP'||lpad(to_char(spno_seq.NEXTVAL),6,'0'),'Á¥ÖÊØõÊ∏Ø','L000006',121.6,23.56);
+Insert into SPOTS (SPNO,SPNAME,LOCNO,SPLONG,SPLAT) values ('SP'||lpad(to_char(spno_seq.NEXTVAL),6,'0'),'Á¥ÖÊ®πÊûó','L000006',121.6,23.56);
+Insert into SPOTS (SPNO,SPNAME,LOCNO,SPLONG,SPLAT) values ('SP'||lpad(to_char(spno_seq.NEXTVAL),6,'0'),'ÈáéÊü≥','L000001',121.6,23.56);
+Insert into SPOTS (SPNO,SPNAME,LOCNO,SPLONG,SPLAT) values ('SP'||lpad(to_char(spno_seq.NEXTVAL),6,'0'),'Ê∑±Âùë','L000003',121.6,23.56);
+Insert into SPOTS (SPNO,SPNAME,LOCNO,SPLONG,SPLAT) values ('SP'||lpad(to_char(spno_seq.NEXTVAL),6,'0'),'Ëù¥Ëù∂Ë∞∑','L000002',121.6,23.56);
 commit;
   
    
@@ -774,16 +774,16 @@ commit;
    ;
    
 
-INSERT into "IMMEDIATE_PUSH" VALUES('IP'||lpad(to_char(ipno_seq.NEXTVAL),6,'0'),'A000004','RSZ ºˆØ≤±∆¶ÊTOP8','±∆¶Ê');
-INSERT into "IMMEDIATE_PUSH" VALUES('IP'||lpad(to_char(ipno_seq.NEXTVAL),6,'0'),'A000004','•ª§ÎØ≤®Æ§@´ﬂ§KßÈ','ßÈ¶©');
-INSERT into "IMMEDIATE_PUSH" VALUES('IP'||lpad(to_char(ipno_seq.NEXTVAL),6,'0'),'A000004','∑s¥⁄§G§‚®Æ§W¨[§F','ºsßi');
-INSERT into "IMMEDIATE_PUSH" VALUES('IP'||lpad(to_char(ipno_seq.NEXTVAL),6,'0'),'A000004','ª®¡⁄125 ºˆØ≤±∆¶ÊTOP5','±∆¶Ê');
-INSERT into "IMMEDIATE_PUSH" VALUES('IP'||lpad(to_char(ipno_seq.NEXTVAL),6,'0'),'A000004','G5 ºˆØ≤±∆¶ÊTOP7','±∆¶Ê');
-INSERT into "IMMEDIATE_PUSH" VALUES('IP'||lpad(to_char(ipno_seq.NEXTVAL),6,'0'),'A000004','JBUBU ºˆØ≤±∆¶ÊTOP2','±∆¶Ê');
-INSERT into "IMMEDIATE_PUSH" VALUES('IP'||lpad(to_char(ipno_seq.NEXTVAL),6,'0'),'A000004','∑s¥⁄•iØ≤®Æ§W¨[§F','ºsßi');
-INSERT into "IMMEDIATE_PUSH" VALUES('IP'||lpad(to_char(ipno_seq.NEXTVAL),6,'0'),'A000004','•ª§Îπÿ¨PØ≤®Æ§@´ﬂ88ßÈ','ßÈ¶©');
-INSERT into "IMMEDIATE_PUSH" VALUES('IP'||lpad(to_char(ipno_seq.NEXTVAL),6,'0'),'A000004','Ø≤®Æ∫°20•x10ßK∂O','ßÈ¶©');
-INSERT into "IMMEDIATE_PUSH" VALUES('IP'||lpad(to_char(ipno_seq.NEXTVAL),6,'0'),'A000004','ß‚©fØ´®Æ§jB ºˆØ≤±∆¶ÊTOP1','±∆¶Ê');
+INSERT into "IMMEDIATE_PUSH" VALUES('IP'||lpad(to_char(ipno_seq.NEXTVAL),6,'0'),'A000004','RSZ ÁÜ±ÁßüÊéíË°åTOP8','ÊéíË°å');
+INSERT into "IMMEDIATE_PUSH" VALUES('IP'||lpad(to_char(ipno_seq.NEXTVAL),6,'0'),'A000004','Êú¨ÊúàÁßüËªä‰∏ÄÂæãÂÖ´Êäò','ÊäòÊâ£');
+INSERT into "IMMEDIATE_PUSH" VALUES('IP'||lpad(to_char(ipno_seq.NEXTVAL),6,'0'),'A000004','Êñ∞Ê¨æ‰∫åÊâãËªä‰∏äÊû∂‰∫Ü','Âª£Âëä');
+INSERT into "IMMEDIATE_PUSH" VALUES('IP'||lpad(to_char(ipno_seq.NEXTVAL),6,'0'),'A000004','Ë±™ÈÇÅ125 ÁÜ±ÁßüÊéíË°åTOP5','ÊéíË°å');
+INSERT into "IMMEDIATE_PUSH" VALUES('IP'||lpad(to_char(ipno_seq.NEXTVAL),6,'0'),'A000004','G5 ÁÜ±ÁßüÊéíË°åTOP7','ÊéíË°å');
+INSERT into "IMMEDIATE_PUSH" VALUES('IP'||lpad(to_char(ipno_seq.NEXTVAL),6,'0'),'A000004','JBUBU ÁÜ±ÁßüÊéíË°åTOP2','ÊéíË°å');
+INSERT into "IMMEDIATE_PUSH" VALUES('IP'||lpad(to_char(ipno_seq.NEXTVAL),6,'0'),'A000004','Êñ∞Ê¨æÂèØÁßüËªä‰∏äÊû∂‰∫Ü','Âª£Âëä');
+INSERT into "IMMEDIATE_PUSH" VALUES('IP'||lpad(to_char(ipno_seq.NEXTVAL),6,'0'),'A000004','Êú¨ÊúàÂ£ΩÊòüÁßüËªä‰∏ÄÂæã88Êäò','ÊäòÊâ£');
+INSERT into "IMMEDIATE_PUSH" VALUES('IP'||lpad(to_char(ipno_seq.NEXTVAL),6,'0'),'A000004','ÁßüËªäÊªø20Âè∞10ÂÖçË≤ª','ÊäòÊâ£');
+INSERT into "IMMEDIATE_PUSH" VALUES('IP'||lpad(to_char(ipno_seq.NEXTVAL),6,'0'),'A000004','ÊääÂ¶πÁ•ûËªäÂ§ßB ÁÜ±ÁßüÊéíË°åTOP1','ÊéíË°å');
 commit;
 
    
@@ -811,16 +811,16 @@ commit;
    ;
 
 
-INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),6,'0'),'A000004','∂ß©ßø˚Æƒ§O©Û§È•ª¬æ¥Œ™F® ≈™ΩÊ•®§H∂§°A§µ§—¶b™F® •®≥J•D≥ı±N™Ôæ‘≥nª»∆N∂§°A•L¶b¡…´eΩm≤ﬂ´·±µ®¸®”¶€•x∆W™∫¥C≈È¡p≥XÆ…°Aß@•H§W™Ì•‹','','1','normal');
-INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),6,'0'),'A000004','§§µÿ¬æ¥Œ°˛6§Î¡Ÿ®SƒππL ¥I®π©MØ´¨ﬁ≥£ª›≠n§Ó±—','','1','hid');
-INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),6,'0'),'A000004','§§µÿπq §OÆº•@§jπB','','1','hid');
-INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),6,'0'),'A000004','¥Â¿ª§‚Lewis¶®øÔ®q™¨§∏ ¶h¶Ï§G§M¨y®¸∆f•ÿ','','1','normal');
-INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),6,'0'),'A000004','MLB°˛§”™≈§H∂§≥¡•d∞«¥µ§]∂i§J∂ÀßL¶W≥Ê','','1','normal');
-INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),6,'0'),'A000004','§”™≈§H∂§•˝µoßÎ§‚Lance McCullers°]≥¡•d∞«¥µ°^¶]≠I≥°§£æA∂i§J§F10§—™∫∂ÀßL¶W≥Ê','','1','normal');
-INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),6,'0'),'A000004','MLB°˛•s´i§h™∫®S¶≥¶◊∏} ©Ú¿Y¿∞≈F´±∞Í•¡','','1','normal');
-INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),6,'0'),'A000004','C√π≥Q±± ∞kµ|1650∏U¨¸§∏','','1','hid');
-INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),6,'0'),'A000004','•@®¨•DøÏ∞Í≥¥¶Mæ˜ FIFA•DÆu§¥™Ì•‹´H§ﬂ','','1','normal');
-INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),6,'0'),'A000004','¨F™v§zπw≈È®|°H •@®¨∏ÍÆÊ¡…•dπFµÙßPæD∫M¥´','','1','hid');
+INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),6,'0'),'A000004','ÈôΩÂ≤±ÈãºÊïàÂäõÊñºÊó•Êú¨ËÅ∑Ê£íÊù±‰∫¨ËÆÄË≥£Â∑®‰∫∫ÈöäÔºå‰ªäÂ§©Âú®Êù±‰∫¨Â∑®Ëõã‰∏ªÂ†¥Â∞áËøéÊà∞ËªüÈäÄÈ∑πÈöäÔºå‰ªñÂú®Ë≥ΩÂâçÁ∑¥ÁøíÂæåÊé•Âèó‰æÜËá™Âè∞ÁÅ£ÁöÑÂ™íÈ´îËÅØË®™ÊôÇÔºå‰Ωú‰ª•‰∏äË°®Á§∫','','1','normal');
+INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),6,'0'),'A000004','‰∏≠ËèØËÅ∑Ê£í‚àï6ÊúàÈÇÑÊ≤íË¥èÈÅé ÂØåÈÇ¶ÂíåÁ•ûÁõæÈÉΩÈúÄË¶ÅÊ≠¢Êïó','','1','hid');
+INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),6,'0'),'A000004','‰∏≠ËèØÈõª ÂäõÊå∫‰∏ñÂ§ßÈÅã','','1','hid');
+INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),6,'0'),'A000004','Ê∏∏ÊìäÊâãLewisÊàêÈÅ∏ÁßÄÁãÄÂÖÉ Â§ö‰Ωç‰∫åÂàÄÊµÅÂèóÁüöÁõÆ','','1','normal');
+INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),6,'0'),'A000004','MLB‚àïÂ§™Á©∫‰∫∫ÈöäÈ∫•Âç°ÂãíÊñØ‰πüÈÄ≤ÂÖ•ÂÇ∑ÂÖµÂêçÂñÆ','','1','normal');
+INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),6,'0'),'A000004','Â§™Á©∫‰∫∫ÈöäÂÖàÁôºÊäïÊâãLance McCullersÔºàÈ∫•Âç°ÂãíÊñØÔºâÂõ†ËÉåÈÉ®‰∏çÈÅ©ÈÄ≤ÂÖ•‰∫Ü10Â§©ÁöÑÂÇ∑ÂÖµÂêçÂñÆ','','1','normal');
+INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),6,'0'),'A000004','MLB‚àïÂè´ÂãáÂ£´ÁöÑÊ≤íÊúâËÇâËÖ≥ ÊñßÈ†≠Âπ´ËΩüÂûÆÂúãÊ∞ë','','1','normal');
+INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),6,'0'),'A000004','CÁæÖË¢´Êéß ÈÄÉÁ®Ö1650Ëê¨ÁæéÂÖÉ','','1','hid');
+INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),6,'0'),'A000004','‰∏ñË∂≥‰∏ªËæ¶ÂúãÈô∑Âç±Ê©ü FIFA‰∏ªÂ∏≠‰ªçË°®Á§∫‰ø°ÂøÉ','','1','normal');
+INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),6,'0'),'A000004','ÊîøÊ≤ªÂπ≤È†êÈ´îËÇ≤Ôºü ‰∏ñË∂≥Ë≥áÊ†ºË≥ΩÂç°ÈÅîË£ÅÂà§ÈÅ≠Êí§Êèõ','','1','hid');
 COMMIT;
    
    
@@ -849,16 +849,16 @@ COMMIT;
    NOCYCLE
    ;
    
-Insert into EQUIPMENT (EMTNO,ECNO,LOCNO,PURCHDATE,STATUS,NOTE) values ('E'||lpad(to_char(emtno_seq.NEXTVAL),6,'0'),'EC000001','L000001',to_timestamp('14-6§Î -17 12.00.00.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'unleasable',null);
-Insert into EQUIPMENT (EMTNO,ECNO,LOCNO,PURCHDATE,STATUS,NOTE) values ('E'||lpad(to_char(emtno_seq.NEXTVAL),6,'0'),'EC000001','L000002',to_timestamp('14-6§Î -17 12.00.00.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'leasable',null);
-Insert into EQUIPMENT (EMTNO,ECNO,LOCNO,PURCHDATE,STATUS,NOTE) values ('E'||lpad(to_char(emtno_seq.NEXTVAL),6,'0'),'EC000002','L000003',to_timestamp('14-6§Î -17 12.00.00.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'reserved',null);
-Insert into EQUIPMENT (EMTNO,ECNO,LOCNO,PURCHDATE,STATUS,NOTE) values ('E'||lpad(to_char(emtno_seq.NEXTVAL),6,'0'),'EC000003','L000004',to_timestamp('14-6§Î -17 12.00.00.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'occupied',null);
-Insert into EQUIPMENT (EMTNO,ECNO,LOCNO,PURCHDATE,STATUS,NOTE) values ('E'||lpad(to_char(emtno_seq.NEXTVAL),6,'0'),'EC000004','L000005',to_timestamp('14-6§Î -17 12.00.00.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'dispatching',null);
-Insert into EQUIPMENT (EMTNO,ECNO,LOCNO,PURCHDATE,STATUS,NOTE) values ('E'||lpad(to_char(emtno_seq.NEXTVAL),6,'0'),'EC000003','L000001',to_timestamp('14-6§Î -17 12.00.00.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'other',null);
-Insert into EQUIPMENT (EMTNO,ECNO,LOCNO,PURCHDATE,STATUS,NOTE) values ('E'||lpad(to_char(emtno_seq.NEXTVAL),6,'0'),'EC000002','L000002',to_timestamp('14-6§Î -17 12.00.00.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'unleasable',null);
-Insert into EQUIPMENT (EMTNO,ECNO,LOCNO,PURCHDATE,STATUS,NOTE) values ('E'||lpad(to_char(emtno_seq.NEXTVAL),6,'0'),'EC000001','L000003',to_timestamp('14-6§Î -17 12.00.00.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'unleasable',null);
-Insert into EQUIPMENT (EMTNO,ECNO,LOCNO,PURCHDATE,STATUS,NOTE) values ('E'||lpad(to_char(emtno_seq.NEXTVAL),6,'0'),'EC000002','L000004',to_timestamp('14-6§Î -17 12.00.00.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'unleasable',null);
-Insert into EQUIPMENT (EMTNO,ECNO,LOCNO,PURCHDATE,STATUS,NOTE) values ('E'||lpad(to_char(emtno_seq.NEXTVAL),6,'0'),'EC000003','L000005',to_timestamp('14-6§Î -17 12.00.00.000000000 §W§»','DD-MON-RR HH.MI.SSXFF AM'),'unleasable',null);
+Insert into EQUIPMENT (EMTNO,ECNO,LOCNO,PURCHDATE,STATUS,NOTE) values ('E'||lpad(to_char(emtno_seq.NEXTVAL),6,'0'),'EC000001','L000001',to_timestamp('14-6Êúà -17 12.00.00.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'unleasable',null);
+Insert into EQUIPMENT (EMTNO,ECNO,LOCNO,PURCHDATE,STATUS,NOTE) values ('E'||lpad(to_char(emtno_seq.NEXTVAL),6,'0'),'EC000001','L000002',to_timestamp('14-6Êúà -17 12.00.00.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'leasable',null);
+Insert into EQUIPMENT (EMTNO,ECNO,LOCNO,PURCHDATE,STATUS,NOTE) values ('E'||lpad(to_char(emtno_seq.NEXTVAL),6,'0'),'EC000002','L000003',to_timestamp('14-6Êúà -17 12.00.00.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'reserved',null);
+Insert into EQUIPMENT (EMTNO,ECNO,LOCNO,PURCHDATE,STATUS,NOTE) values ('E'||lpad(to_char(emtno_seq.NEXTVAL),6,'0'),'EC000003','L000004',to_timestamp('14-6Êúà -17 12.00.00.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'occupied',null);
+Insert into EQUIPMENT (EMTNO,ECNO,LOCNO,PURCHDATE,STATUS,NOTE) values ('E'||lpad(to_char(emtno_seq.NEXTVAL),6,'0'),'EC000004','L000005',to_timestamp('14-6Êúà -17 12.00.00.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'dispatching',null);
+Insert into EQUIPMENT (EMTNO,ECNO,LOCNO,PURCHDATE,STATUS,NOTE) values ('E'||lpad(to_char(emtno_seq.NEXTVAL),6,'0'),'EC000003','L000001',to_timestamp('14-6Êúà -17 12.00.00.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'other',null);
+Insert into EQUIPMENT (EMTNO,ECNO,LOCNO,PURCHDATE,STATUS,NOTE) values ('E'||lpad(to_char(emtno_seq.NEXTVAL),6,'0'),'EC000002','L000002',to_timestamp('14-6Êúà -17 12.00.00.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'unleasable',null);
+Insert into EQUIPMENT (EMTNO,ECNO,LOCNO,PURCHDATE,STATUS,NOTE) values ('E'||lpad(to_char(emtno_seq.NEXTVAL),6,'0'),'EC000001','L000003',to_timestamp('14-6Êúà -17 12.00.00.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'unleasable',null);
+Insert into EQUIPMENT (EMTNO,ECNO,LOCNO,PURCHDATE,STATUS,NOTE) values ('E'||lpad(to_char(emtno_seq.NEXTVAL),6,'0'),'EC000002','L000004',to_timestamp('14-6Êúà -17 12.00.00.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'unleasable',null);
+Insert into EQUIPMENT (EMTNO,ECNO,LOCNO,PURCHDATE,STATUS,NOTE) values ('E'||lpad(to_char(emtno_seq.NEXTVAL),6,'0'),'EC000003','L000005',to_timestamp('14-6Êúà -17 12.00.00.000000000 ‰∏äÂçà','DD-MON-RR HH.MI.SSXFF AM'),'unleasable',null);
 commit;
 
 

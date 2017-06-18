@@ -4,60 +4,60 @@ import java.io.Serializable;
 
 public class SpotsVO implements Serializable {
 
-	private String spotsno;
+	private String spno;
 	private String locno;
-	private Float spotslong;
-	private Float spotslat;
-	private String spotsname;
+	private Float splong;
+	private Float splat;
+	private String spname;
 
 	public SpotsVO(){}
 
 	public SpotsVO(String spots_no, String loc_no, Float spots_long, Float spots_lat, String spots_name){
-		this.spotsno = spots_no;
+		this.spno = spots_no;
 		this.locno = loc_no;
-		this.spotslong = spots_long;
-		this.spotslat = spots_lat;
-		this.spotsname = spots_name;
+		this.splong = spots_long;
+		this.splat = spots_lat;
+		this.spname = spots_name;
 	}
 
-	public String getSpotsNo() {
-		return spotsno;
+	public String getSpno() {
+		return spno;
 	}
 
-	public void setSpotsNo(String spots_no) {
-		this.spotsno = spots_no;
+	public void setSpno(String spots_no) {
+		this.spno = spots_no;
 	}
 
-	public String getLocNo() {
+	public String getLocno() {
 		return locno;
 	}
 
-	public void setLocNo(String loc_no) {
+	public void setLocno(String loc_no) {
 		this.locno = loc_no;
 	}
 
-	public Float getSpotsLong() {
-		return spotslong;
+	public Float getSplong() {
+		return splong;
 	}
 
-	public void setSpotsLong(Float spots_long) {
-		this.spotslong = spots_long;
+	public void setSplong(Float spots_long) {
+		this.splong = spots_long;
 	}
 
-	public Float getSpotsLat() {
-		return spotslat;
+	public Float getSplat() {
+		return splat;
 	}
 
-	public void setSpotsLat(Float spots_lat) {
-		this.spotslat = spots_lat;
+	public void setSplat(Float spots_lat) {
+		this.splat = spots_lat;
 	}
 
-	public String getSpotsName() {
-		return spotsname;
+	public String getSpname() {
+		return spname;
 	}
 
-	public void setSpotsName(String spots_name) {
-		this.spotsname = spots_name;
+	public void setSpname(String spots_name) {
+		this.spname = spots_name;
 	}
 
 }
