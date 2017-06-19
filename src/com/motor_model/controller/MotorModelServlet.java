@@ -75,8 +75,6 @@ public class MotorModelServlet extends HttpServlet {
 				mmVO.setRenprice(renprice);
 				mmVO.setSaleprice(saleprice);
 
-				
-				
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("mmVO", mmVO); // 含有輸入格式錯誤的VO物件,也存入req
