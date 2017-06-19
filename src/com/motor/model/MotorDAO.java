@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -37,7 +36,7 @@ public class MotorDAO implements MotorDAO_interface {
 
 	private static final String DELETE = "DELETE FROM motor where motno = ?";
 	private static final String GET_ALL = "SELECT motno, modtype, plateno,"
-			+ " engno, manudate, mile, locno, status, note FROM MOTOR order by motno";
+			+ " engno, manudate, mile, locno, status, note FROM motor order by motno";
 
 	private static final String GET_ONE = "SELECT motno, modtype, plateno,"
 			+ " engno, to_char(manudate,'yyyy-mm-dd hh:mm:ss') manudate,"
@@ -51,7 +50,7 @@ public class MotorDAO implements MotorDAO_interface {
 			+ " engno, to_char(manudate,'yyyy-mm-dd hh:mm:ss') manudate,"
 			+ " mile, locno, status, note FROM motor where locno = ?";
 
-	private static final String GET_BY_MANU_DATE = "SELECT motno, modtype, plateno,"
+	private static final String GET_BY_MANUDATE = "SELECT motno, modtype, plateno,"
 			+ " engno, to_char(manudate,'yyyy-mm-dd hh:mm:ss') manudate,"
 			+ " mile, locno, status, note FROM motor  where manudate" + " between ? and ? order by manudate";
 
@@ -406,7 +405,7 @@ public class MotorDAO implements MotorDAO_interface {
 		try {
 
 			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_BY_MANU_DATE);
+			pstmt = con.prepareStatement(GET_BY_MANUDATE);
 			pstmt.setTimestamp(1, start_time);
 			pstmt.setTimestamp(2, end_time);
 			rs = pstmt.executeQuery();
