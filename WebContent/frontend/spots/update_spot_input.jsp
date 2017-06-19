@@ -37,21 +37,21 @@
 <table border="0">
 	<tr>
 		<td>景點編號:<font color=red><b>*</b></font></td>
-		<td><%=spotVO.getSpotsNo()%></td>
+		<td><%=spotVO.getSpno()%></td>
 	</tr>
 	<tr>
 		<td>景點名稱:</td>
-		<td><input type="TEXT" name="spname" size="45" value="<%=spotVO.getSpotsName()%>" /></td>
+		<td><input type="TEXT" name="spname" size="45" value="<%=spotVO.getSpname()%>" /></td>
 	</tr>
 	<tr>
 		<td>經度:</td>
-		<td><input type="TEXT" name="splong" size="45"	value="<%=spotVO.getSpotsLong()%>" /></td>
+		<td><input type="TEXT" name="splong" size="45"	value="<%=spotVO.getSplong()%>" /></td>
 	</tr>
 	<tr>
 		<td>緯度:</td>
 		<td bgcolor="#CCCCFF">
 		    <input class="cal-TextBox"
-			onFocus="this.blur()" size="9" readonly type="text" name="splat" value="<%=spotVO.getSpotsLat()%>">
+			onFocus="this.blur()" size="9" readonly type="text" name="splat" value="<%=spotVO.getSplat()%>">
 			<a class="so-BtnLink"
 			href="javascript:calClick();return false;"
 			onmouseover="calSwapImg('BTN_date', 'img_Date_OVER',true);"
@@ -62,7 +62,7 @@
 	</tr>
 	<tr>
 		<td>所屬據點:</td>
-		<td><input type="TEXT" name="loc" size="45"	value="<%=spotVO.getLocNo()%>" /></td>
+		<td><input type="TEXT" name="loc" size="45"	value="<%=spotVO.getLocno()%>" /></td>
 	</tr>
 	
 
@@ -71,7 +71,7 @@
 </table>
 <br>
 <input type="hidden" name="action" value="update">
-<input type="hidden" name="spno" value="<%=spotVO.getSpotsNo()%>">
+<input type="hidden" name="spno" value="<%=spotVO.getSpno()%>">
 <input type="submit" value="送出修改"></FORM>
 
 </body>

@@ -40,7 +40,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>SpotServlet</servlet-name>
-		<url-pattern>/spots/spot.do</url-pattern>
+		<url-pattern>/frontend/spots/spot.do</url-pattern>
 	</servlet-mapping>
   
   

@@ -48,6 +48,10 @@ public class SpotService {
 	{
 		return dao.findByPrimaryKey(spno);
 	}
+	public SpotsVO findByPK(String spno,String spname)
+	{
 	
+		return dao.findByPrimaryKey(spno);
+	}
 
 }

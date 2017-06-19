@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
-<head><title>IBM Emp: Home</title></head>
+<head><title>BA101G2 Spots: Home</title></head>
 <body bgcolor='white'>
 
 <table border='1' cellpadding='5' cellspacing='0' width='400'>
@@ -10,7 +10,7 @@
   </tr>
 </table>
 
-<p>This is the Home page for IBM Emp: Home</p>
+<p>This is the Home page for BA101G2 Spots: Home</p>
 
 <h3>資料查詢:</h3>
 <%-- 錯誤表列 --%>
@@ -25,11 +25,11 @@
 </c:if>
 
 <ul>
-  <li><a href='<%=request.getContextPath()%>/frontend/spots/listAllSpot.jsp'>List</a> all Emps. </li> <br><br>
+  <li><a href='<%=request.getContextPath()%>/frontend/spots/listAllSpot.jsp'>List</a> all Spots. </li> <br><br>
   
   <li>
-    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/spots/spot.do" >
-        <b>輸入景點編號 (如7001):</b>
+    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/spots/spot.do" >
+        <b>輸入景點編號 (如SP000001):</b>
         <input type="text" name="spno">
         <input type="submit" value="送出">
         <input type="hidden" name="action" value="getOne_For_Display">
@@ -39,7 +39,7 @@
   <jsp:useBean id="spSvc" scope="page" class="com.spots.model.SpotService" />
    
   <li>
-     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/spots/spot.do" >
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/spots/spot.do" >
        <b>選擇景點編號:</b>
        <select size="1" name="spno">
          <c:forEach var="spotVO" items="${spSvc.all}" > 
@@ -52,11 +52,11 @@
   </li>
   
   <li>
-     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/spots/spot.do" >
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/spots/spot.do" >
        <b>選擇景點名稱:</b>
        <select size="1" name="spno">
          <c:forEach var="spotVO" items="${spSvc.all}" > 
-          <option value="${spotVO.spname}">${spotVO.spname}
+          <option value="${spotVO.spno}">${spotVO.spname}
          </c:forEach>   
        </select>
        <input type="submit" value="送出">
@@ -71,7 +71,7 @@
 <h3>景點管理</h3>
 
 <ul>
-  <li><a href='<%=request.getContextPath()%>/spots/addSpot.jsp'>Add</a> a new Spot.</li>
+  <li><a href='<%=request.getContextPath()%>/frontend/spots/addSpot.jsp'>Add</a> a new Spot.</li>
 </ul>
 
 
