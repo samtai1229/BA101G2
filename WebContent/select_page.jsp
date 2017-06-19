@@ -6,7 +6,7 @@
 
 <table border='1' cellpadding='5' cellspacing='0' width='400'>
   <tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
-    <td><h3>IBM Emp: Home</h3><font color=red>( MVC )</font></td>
+    <td><h3>IBM Spot: Home</h3><font color=red>( MVC )</font></td>
   </tr>
 </table>
 

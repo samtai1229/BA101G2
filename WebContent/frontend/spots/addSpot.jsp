@@ -7,7 +7,7 @@ SpotsVO spotVO = (SpotsVO) request.getAttribute("spotVO");
 
 <html>
 <head>
-<title>景點資料新增 - addEmp.jsp</title></head>
+<title>景點資料新增 - addSpot.jsp</title></head>
 <link rel="stylesheet" type="text/css" href="js/calendar.css">
 <script language="JavaScript" src="js/calendarcode.js"></script>
 <div id="popupcalendar" class="text"></div>
@@ -25,7 +25,7 @@ SpotsVO spotVO = (SpotsVO) request.getAttribute("spotVO");
 	</tr>
 </table>
 
-<h3>資料員工:</h3>
+<h3>新增景點:</h3>
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
 	<font color='red'>請修正以下錯誤:
@@ -45,11 +45,7 @@ SpotsVO spotVO = (SpotsVO) request.getAttribute("spotVO");
 		<td><input type="TEXT" name="spname" size="45" 
 			value="<%= (spotVO==null)? "我家" : spotVO.getSpname()%>" /></td>
 	</tr>
-	<tr>
-		<td>景點編號:</td>
-		<td><input type="TEXT" name="spno" size="45"
-			value="<%= (spotVO==null)? "SP000000" : spotVO.getSpno()%>" /></td>
-	</tr>
+
 	
 	<tr>
 		<td>據點編號:</td>

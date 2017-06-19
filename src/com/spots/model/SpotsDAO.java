@@ -27,7 +27,7 @@ public class SpotsDAO implements SpotsDAO_interface{
 		}
 	
 	private static final String INSERT_STMT = "INSERT INTO SPOTS"
-			+ " (SPNO, SPNAME, LOCNO, SPLONG, SPLAT"+")"+" VALUES ('S'||LPAD(TO_CHAR(spno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?"
+			+ " (SPNO, SPNAME, LOCNO, SPLONG, SPLAT"+")"+" VALUES ('SP'||LPAD(TO_CHAR(spno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?"
 			+ ")";
 
 	private static final String UPDATE = "UPDATE SPOTS set SPNAME=?,"
