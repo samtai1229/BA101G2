@@ -1,20 +1,13 @@
 package com.motor_model.controller;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.motor.model.MotorService;
-import com.motor.model.MotorVO;
 import com.motor_model.model.MotorModelService;
 import com.motor_model.model.MotorModelVO;
 
@@ -31,7 +24,9 @@ public class MotorModelServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		System.out.println("MotorModelServlet in");
-	
+
+		
+//insert		
         if ("insert".equals(action)) { // 來自motor backendIndex.jsp的請求  
     		System.out.println("MotorModelServlet in insert-action");			
 			List<String> errorMsgs = new LinkedList<String>();
@@ -86,7 +81,7 @@ public class MotorModelServlet extends HttpServlet {
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("mmVO", mmVO); // 含有輸入格式錯誤的VO物件,也存入req
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/backend/backendMotorModel.jsp");
+							.getRequestDispatcher("/backend/motor_model/backendMotorModel.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -95,7 +90,7 @@ public class MotorModelServlet extends HttpServlet {
 				MotorModelService mmSvc = new MotorModelService();
 				//mmVO = mmSvc.addMotorModel(brand, displacement, name, renprice, saleprice, motpic);
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
-				String url = "/backend/backendMotorModel.jsp";
+				String url = "/backend/motor_model/backendMotorModel.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交?.jsp
 				successView.forward(req, res);				
 				
@@ -104,12 +99,13 @@ public class MotorModelServlet extends HttpServlet {
 				errorMsgs.add(e.getMessage());
 				System.out.println("err main insert catch in");
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/backend/backendMotorModel.jsp");
+						.getRequestDispatcher("/backend/motor_model/backendMotorModel.jsp");
 				failureView.forward(req, res);
 			}
 		}//insert 'if' end
         
-        
+
+//update        
         if ("update".equals(action)) { // 來自motor backendIndex.jsp的請求  
     		System.out.println("MotorServlet in update-action");			
 			List<String> errorMsgs = new LinkedList<String>();
@@ -164,7 +160,7 @@ public class MotorModelServlet extends HttpServlet {
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("mmVO", mmVO); // 含有輸入格式錯誤的VO物件,也存入req
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/backend/backendMotorModel.jsp");
+							.getRequestDispatcher("/backend/motor_model/backendMotorModel.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -174,7 +170,7 @@ public class MotorModelServlet extends HttpServlet {
 				//mmVO = mmSvc.updateMotorModel(modtype, brand, displacement, name, renprice, saleprice, motpic);
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
-				String url = "/backend/backendMotorModel.jsp";
+				String url = "/backend/motor_model/backendMotorModel.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交?.jsp
 				successView.forward(req, res);				
 				
@@ -183,13 +179,13 @@ public class MotorModelServlet extends HttpServlet {
 				errorMsgs.add(e.getMessage());
 				System.out.println("err main update catch in");
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/backend/backendMotorModel.jsp");
+						.getRequestDispatcher("/backend/motor_model/backendMotorModel.jsp");
 				failureView.forward(req, res);
 			}
 		}//update 'if' end
         
         
-        
+//delete            
         if ("delete".equals(action)) { // 來自motor backendIndex.jsp的請求  
     		System.out.println("MotorServlet in delete-action");			
 			List<String> errorMsgs = new LinkedList<String>();
@@ -214,7 +210,7 @@ public class MotorModelServlet extends HttpServlet {
 					System.out.println("delete_!errorMsgs.isEmpty_start");
 					req.setAttribute("mmVO", mmVO); // 含有輸入格式錯誤的empVO物件,也存入req
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/backend/backendMotorModel.jsp");
+							.getRequestDispatcher("/backend/motor_model/backendMotorModel.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -225,7 +221,7 @@ public class MotorModelServlet extends HttpServlet {
 				mmSvc.deleteMotorModel(modtype);
 				
 				/***************************3.更改完成,準備轉交(Send the Success view)***********/
-				String url = "/backend/backendMotorModel.jsp";
+				String url = "/backend/motor_model/backendMotorModel.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交?.jsp
 				successView.forward(req, res);				
 				
@@ -234,13 +230,13 @@ public class MotorModelServlet extends HttpServlet {
 				errorMsgs.add(e.getMessage());
 				System.out.println("err main delete catch in");
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/backend/backendMotorModel.jsp");
+						.getRequestDispatcher("/backend/motor_model/backendMotorModel.jsp");
 				failureView.forward(req, res);
 			}
 		}//delete 'if' end
         
         
-        
+//query         
 		if ("query".equals(action)) { // 來自select_page.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
@@ -258,14 +254,14 @@ public class MotorModelServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/backend/backendMotorModel.jsp");
+							.getRequestDispatcher("/backend/motor_model/get_motor_model_by_pk.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
 				
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/backend/backendMotorModel.jsp");
+							.getRequestDispatcher("/backend/motor_model/get_motor_model_by_pk.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
@@ -280,7 +276,7 @@ public class MotorModelServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/backend/backendMotorModel.jsp");
+							.getRequestDispatcher("/backend/motor_model/get_motor_model_by_pk.jsp");
 					failureView.forward(req, res);
 					return;//程式中斷
 				}
@@ -290,7 +286,7 @@ public class MotorModelServlet extends HttpServlet {
 				req.setAttribute("mmQueryVO", mmQueryVO); // 資料庫取出的VO物件,存入req
 				System.out.println("mmQueryVO.getModtype():"+mmQueryVO.getModtype());
 				
-				String url = "/backend/backendMotorModel.jsp";
+				String url = "/backend/motor_model/get_motor_model_by_pk.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 Emp.jsp
 				successView.forward(req, res);
 
@@ -298,7 +294,7 @@ public class MotorModelServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/backend/backendMotorModel.jsp");
+						.getRequestDispatcher("/backend/motor_model/get_motor_model_by_pk.jsp");
 				failureView.forward(req, res);
 			}
 		}//delete 'if' end

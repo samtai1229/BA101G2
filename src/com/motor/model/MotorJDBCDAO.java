@@ -41,7 +41,7 @@ public class MotorJDBCDAO implements MotorDAO_interface {
 			+ " engno, to_char(manudate,'yyyy-mm-dd hh:mm:ss') manudate,"
 			+ " mile, locno, status, note FROM motor where locno = ?";
 
-	private static final String GET_BY_MANU_DATE = "SELECT motno, modtype, plateno,"
+	private static final String GET_BY_MANUDATE = "SELECT motno, modtype, plateno,"
 			+ " engno, to_char(manudate,'yyyy-mm-dd hh:mm:ss') manudate,"
 			+ " mile, locno, status, note FROM motor  where manudate" + " between ? and ? order by manudate";
 
@@ -433,7 +433,7 @@ public class MotorJDBCDAO implements MotorDAO_interface {
 
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
-			pstmt = con.prepareStatement(GET_BY_MANU_DATE);
+			pstmt = con.prepareStatement(GET_BY_MANUDATE);
 			pstmt.setTimestamp(1, start_time);
 			pstmt.setTimestamp(2, end_time);
 			rs = pstmt.executeQuery();

@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -18,14 +17,27 @@ public class RentOrdJDBCDAO implements RentOrdDAO_interface {
 	String userid = "servlet";
 	String passwd = "123456";
 
-	private static final String INSERT_STMT = "INSERT INTO RENT_ORD"
-			+ " (rentno, memno, motno, slocno, rlocno, milstart, milend, filldate, "
-			+ "startdate, enddate, returndate, fine, total, rank, status, note"
-			+ ") VALUES ('R'||LPAD(TO_CHAR(rentno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?,"
-			+ " ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+//	private static final String INSERT_STMT = "INSERT INTO RENT_ORD" 
+//			+ " (rentno, memno, motno, slocno, rlocno, milstart, milend, filldate, "
+//			+ "startdate, enddate, returndate, fine, total, rank, status, note"
+//			+ ") VALUES ('R'||LPAD(TO_CHAR(rentno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?,"
+//			+ " ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-	private static final String UPDATE = "UPDATE RENT_ORD set memno=?, motno=?,"
-			+ " slocno=?, rlocno=?, milstart=?, milend=?, filldate=?, startdate=?, enddate=?,"
+//	private static final String UPDATE = "UPDATE RENT_ORD set memno=?, motno=?,"
+//	+ " slocno=?, rlocno=?, milstart=?, milend=?, filldate=?, startdate=?, enddate=?,"
+//	+ "returndate=?, fine=?, total=?, rank=?, status=?, note=? where rentno = ?";
+	
+	
+	//合理版本
+    final String INSERT_STMT = "INSERT INTO RENT_ORD"
+	+ " (rentno, memno, motno, slocno, rlocno, milstart,  "
+	+ "startdate, enddate, note"
+	+ ") VALUES ('R'||LPAD(TO_CHAR(rentno_seq.NEXTVAL), 6,'0'),  ?, ?, ?,"
+	+ " ?, ?, ?, ?, ?)";
+
+    //合理版本: 去掉 filldate, memno
+	private static final String UPDATE = "UPDATE RENT_ORD set  motno=?,"
+			+ " slocno=?, rlocno=?, milstart=?, milend=?, startdate=?, enddate=?,"
 			+ "returndate=?, fine=?, total=?, rank=?, status=?, note=? where rentno = ?";
 
 	private static final String DELETE = "DELETE FROM RENT_ORD where rentno = ?";
@@ -34,7 +46,8 @@ public class RentOrdJDBCDAO implements RentOrdDAO_interface {
 			+ " milstart, milend, to_char(filldate,'yyyy-mm-dd hh:mm:ss') filldate, "
 			+ "to_char(startdate,'yyyy-mm-dd hh:mm:ss') startdate, "
 			+ "to_char(enddate,'yyyy-mm-dd hh:mm:ss') enddate, "
-			+ "to_char(returndate,'yyyy-mm-dd hh:mm:ss') returndate, fine, total," + " rank, status, note ";
+			+ "to_char(returndate,'yyyy-mm-dd hh:mm:ss') returndate, fine, total," 
+			+ " rank, status, note ";
 
 	private static final String GET_ALL = 
 			selectFactor + " FROM RENT_ORD";
@@ -59,6 +72,15 @@ public class RentOrdJDBCDAO implements RentOrdDAO_interface {
 			selectFactor + " From RENT_ORD  where enddate"
 			+ " between ? and ? order by enddate";
 
+	private static final String GET_FOR_LEASE_VIEW = 
+			selectFactor + " FROM RENT_ORD where slocno=? "
+			+" and (status = 'unpaid' or status = 'unoccupied' or status = 'noshow')";
+	
+	private static final String GET_FOR_RETURN_VIEW = 
+			selectFactor + " FROM RENT_ORD where rlocno=? "
+			+" and (status = 'noreturn' or status = 'overtime')";
+	
+
 	@Override
 	public void insert(RentOrdVO roVO) {
 
@@ -72,7 +94,7 @@ public class RentOrdJDBCDAO implements RentOrdDAO_interface {
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			/*
-			 * (沒有rentno) 下面計15個attribute memno, motno, slocno, rlocno,
+			 * (沒有rentno) 下面計15個attribute: memno, motno, slocno, rlocno,
 			 * milstart, milend, filldate, "+
 			 * "startdate, enddate, returndate, fine, total, rank, status, note"
 			 * +
@@ -83,16 +105,16 @@ public class RentOrdJDBCDAO implements RentOrdDAO_interface {
 			pstmt.setString(3, roVO.getSlocno());
 			pstmt.setString(4, roVO.getRlocno());
 			pstmt.setInt(5, roVO.getMilstart());
-			pstmt.setInt(6, roVO.getMilend());
-			pstmt.setTimestamp(7, roVO.getFilldate());
-			pstmt.setTimestamp(8, roVO.getStartdate());
-			pstmt.setTimestamp(9, roVO.getEnddate());
-			pstmt.setTimestamp(10, roVO.getReturndate());
-			pstmt.setInt(11, roVO.getFine());
-			pstmt.setInt(12, roVO.getTotal());
-			pstmt.setString(13, roVO.getRank());
-			pstmt.setString(14, roVO.getStatus());
-			pstmt.setString(15, roVO.getNote());
+//			pstmt.setInt(6, roVO.getMilend());
+//			pstmt.setTimestamp(7, roVO.getFilldate());
+			pstmt.setTimestamp(6, roVO.getStartdate());
+			pstmt.setTimestamp(7, roVO.getEnddate());
+//			pstmt.setTimestamp(10, roVO.getReturndate());
+//			pstmt.setInt(11, roVO.getFine());
+//			pstmt.setInt(12, roVO.getTotal());
+//			pstmt.setString(13, roVO.getRank());
+//			pstmt.setString(14, roVO.getStatus());
+			pstmt.setString(8, roVO.getNote());
 
 			pstmt.executeUpdate();
 
@@ -133,23 +155,27 @@ public class RentOrdJDBCDAO implements RentOrdDAO_interface {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(UPDATE);
+			
+//			private static final String UPDATE = "UPDATE RENT_ORD set  motno=?,"
+//					+ " slocno=?, rlocno=?, milstart=?, milend=?, startdate=?, enddate=?,"
+//					+ "returndate=?, fine=?, total=?, rank=?, status=?, note=? where rentno = ?";
 
-			pstmt.setString(1, roVO.getMemno());
-			pstmt.setString(2, roVO.getMotno());
-			pstmt.setString(3, roVO.getSlocno());
-			pstmt.setString(4, roVO.getRlocno());
-			pstmt.setInt(5, roVO.getMilstart());
-			pstmt.setInt(6, roVO.getMilend());
-			pstmt.setTimestamp(7, roVO.getFilldate());
-			pstmt.setTimestamp(8, roVO.getStartdate());
-			pstmt.setTimestamp(9, roVO.getEnddate());
-			pstmt.setTimestamp(10, roVO.getReturndate());
-			pstmt.setInt(11, roVO.getFine());
-			pstmt.setInt(12, roVO.getTotal());
-			pstmt.setString(13, roVO.getRank());
-			pstmt.setString(14, roVO.getStatus());
-			pstmt.setString(15, roVO.getNote());
-			pstmt.setString(16, roVO.getRentno());
+			//pstmt.setString(1, roVO.getMemno());
+			pstmt.setString(1, roVO.getMotno());
+			pstmt.setString(2, roVO.getSlocno());
+			pstmt.setString(3, roVO.getRlocno());
+			pstmt.setInt(4, roVO.getMilstart());
+			pstmt.setInt(5, roVO.getMilend());
+			//pstmt.setTimestamp(7, roVO.getFilldate());
+			pstmt.setTimestamp(6, roVO.getStartdate());
+			pstmt.setTimestamp(7, roVO.getEnddate());
+			pstmt.setTimestamp(8, roVO.getReturndate());
+			pstmt.setInt(9, roVO.getFine());
+			pstmt.setInt(10, roVO.getTotal());
+			pstmt.setString(11, roVO.getRank());
+			pstmt.setString(12, roVO.getStatus());
+			pstmt.setString(13, roVO.getNote());
+			pstmt.setString(14, roVO.getRentno());
 
 			pstmt.executeUpdate();
 
@@ -662,6 +688,118 @@ public class RentOrdJDBCDAO implements RentOrdDAO_interface {
 		return set;
 	}
 
+	@Override
+	public Set<RentOrdVO> getRentalOrdersForLeaseView(String slocno) {
+		Set<RentOrdVO> set = new LinkedHashSet<RentOrdVO>();
+		RentOrdVO roVO = null;
+	
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+	
+		try {
+	
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_FOR_LEASE_VIEW);
+			pstmt.setString(1, slocno);
+			rs = pstmt.executeQuery();
+	
+			while (rs.next()) {
+				roVO = new RentOrdVO();
+				setAttirbute(roVO, rs); // 拉出來寫成一個方法
+	
+				set.add(roVO); // Store the row in the vector
+			}
+	
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return set;
+	}
+
+	@Override
+	public Set<RentOrdVO> getRentalOrdersForReturnView(String rlocno) {
+		Set<RentOrdVO> set = new LinkedHashSet<RentOrdVO>();
+		RentOrdVO roVO = null;
+	
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+	
+		try {
+	
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_FOR_RETURN_VIEW);
+			pstmt.setString(1, rlocno);
+			rs = pstmt.executeQuery();
+	
+			while (rs.next()) {
+				roVO = new RentOrdVO();
+				setAttirbute(roVO, rs); // 拉出來寫成一個方法
+	
+				set.add(roVO); // Store the row in the vector
+			}
+	
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return set;
+	}
+
 	private void setAttirbute(RentOrdVO roVO, ResultSet rs) {
 
 		try {
@@ -702,39 +840,57 @@ public class RentOrdJDBCDAO implements RentOrdDAO_interface {
 		 * (沒有rentno) 下面計15個attribute memno, motno, slocno, rlocno, milstart,
 		 * milend, filldate, "+
 		 * "startdate, enddate, returndate, fine, total, rank, status, note"+
-		 */
-
-		/*
-		 * RentOrdVO roVO1 = new RentOrdVO(); roVO1.setMemno("memno");
-		 * roVO1.setMotno("motno"); roVO1.setSlocno("slocno");
-		 * roVO1.setRlocno("rlocno"); roVO1.setMilstart(111111);
-		 * roVO1.setMilend(222222);
-		 * roVO1.setFilldate(java.sql.Timestamp.valueOf("2017-06-02 10:10:10"));
-		 * roVO1.setStartdate(java.sql.Timestamp.valueOf("2017-06-05 10:10:10"))
-		 * ;
-		 * roVO1.setEnddate(java.sql.Timestamp.valueOf("2017-06-08 10:10:10"));
-		 * roVO1.setReturndate(java.sql.Timestamp.valueOf("2017-06-09 10:10:10")
-		 * ); roVO1.setFine(500); roVO1.setTotal(2000); roVO1.setRank("1");
-		 * roVO1.setStatus("unpaid"); roVO1.setNote("test"); dao.insert(roVO1);
-		 * System.out.println("insert ok");
+		 * 
 		 * 
 		 */
 
-		/*
-		 * RentOrdVO roVO2 = new RentOrdVO(); roVO2.setMemno("memno2");
-		 * roVO2.setMotno("motno2"); roVO2.setSlocno("slocno2");
-		 * roVO2.setRlocno("rlocno2"); roVO2.setMilstart(111111);
-		 * roVO2.setMilend(222222);
-		 * roVO2.setFilldate(java.sql.Timestamp.valueOf("2017-06-03 10:10:10"));
-		 * roVO2.setStartdate(java.sql.Timestamp.valueOf("2017-06-06 10:10:10"))
-		 * ;
-		 * roVO2.setEnddate(java.sql.Timestamp.valueOf("2017-06-09 10:10:10"));
-		 * roVO2.setReturndate(java.sql.Timestamp.valueOf("2017-06-10 10:10:10")
-		 * ); roVO2.setFine(5000); roVO2.setTotal(20000); roVO2.setRank("5");
-		 * roVO2.setStatus("unoccupied"); roVO2.setNote("test2");
-		 * roVO2.setRentno("R000012"); dao.update(roVO2);
-		 * System.out.println("update ok");
-		 */
+		
+//        final String INSERT_STMTd = "INSERT INTO RENT_ORD"
+//		+ " (rentno, memno, motno, slocno, rlocno, milstart, filldate, "
+//		+ "startdate, enddate, note"
+//		+ ") VALUES ('R'||LPAD(TO_CHAR(rentno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?,"
+//		+ " ?, ?, ?, ?, ? )";
+		
+//		  RentOrdVO roVO1 = new RentOrdVO(); 
+//		  roVO1.setMemno("memno");
+//		  roVO1.setMotno("motno"); 
+//		  roVO1.setSlocno("slocno");
+//		  roVO1.setRlocno("rlocno"); 
+//		  roVO1.setMilstart(111111);
+//		  //roVO1.setMilend(222222); //結束才填
+//		  //roVO1.setFilldate(java.sql.Timestamp.valueOf("2017-06-02 10:10:10"));
+//		  roVO1.setStartdate(java.sql.Timestamp.valueOf("2017-06-05 10:10:10"));		  
+//		  roVO1.setEnddate(java.sql.Timestamp.valueOf("2017-06-08 10:10:10"));
+//		  //roVO1.setReturndate(java.sql.Timestamp.valueOf("2017-06-09 10:10:10")); 
+//		  //roVO1.setFine(500); 
+//		  //roVO1.setTotal(2000); 
+//		  //roVO1.setRank("1");
+//		  //roVO1.setStatus(unpaid);
+//		  roVO1.setNote("test"); 
+//		  dao.insert(roVO1);
+//		  System.out.println("insert ok");
+		  
+		
+//		  RentOrdVO roVO2 = new RentOrdVO(); 
+//		  roVO2.setMemno("memno2");
+//		  roVO2.setMotno("motno2"); 
+//		  roVO2.setSlocno("slocno2");
+//		  roVO2.setRlocno("rlocno2"); 
+//		  roVO2.setMilstart(111111);
+//		  roVO2.setMilend(222222);
+//		  //roVO2.setFilldate(java.sql.Timestamp.valueOf("2017-06-03 10:10:10"));
+//		  roVO2.setStartdate(java.sql.Timestamp.valueOf("2017-06-06 10:10:10"));
+//		  roVO2.setEnddate(java.sql.Timestamp.valueOf("2017-06-09 10:10:10"));
+//		  roVO2.setReturndate(java.sql.Timestamp.valueOf("2017-06-10 10:10:10")); 
+//		  roVO2.setFine(5000); 
+//		  roVO2.setTotal(20000); 
+//		  roVO2.setRank("5");
+//		  roVO2.setStatus("unoccupied"); 
+//		  roVO2.setNote("test2");
+//		  roVO2.setRentno("R000030"); 
+//		  dao.update(roVO2);
+//		  System.out.println("update ok");
+		 
 
 		/*
 		 * dao.delete("R000014"); System.out.println("delete ok");
@@ -766,10 +922,10 @@ public class RentOrdJDBCDAO implements RentOrdDAO_interface {
 		 * "startdate, enddate, returndate, fine, total, rank, status, note"+
 		 */
 
-		List<RentOrdVO> list = dao.getAll();
-		for (RentOrdVO aRO : list) {
-			printMethod(aRO);
-		}
+//		List<RentOrdVO> list = dao.getAll();
+//		for (RentOrdVO aRO : list) {
+//			printMethod(aRO);
+//		}
 
 //		Set<RentOrdVO> set1 = dao.getRentalOrdersByRentLoc("TaiChung");
 //		for (RentOrdVO aRO : set1) {
@@ -791,12 +947,25 @@ public class RentOrdJDBCDAO implements RentOrdDAO_interface {
 //			printMethod(aRO);
 //		}
 //
-//		Set<RentOrdVO> set5 = dao.getRentalOrdersByEndDatePrioid(java.sql.Timestamp.valueOf("2017-09-01 00:00:01"),
+//		Set<RentOrdVO> set5 = dao.getRentalOrdersByEndDatePrioid(
+//				java.sql.Timestamp.valueOf("2017-01-01 00:00:01"),
 //				java.sql.Timestamp.valueOf("2017-09-30 23:59:59"));
 //		for (RentOrdVO aRO : set5) {
 //			printMethod(aRO);
 //		}
 
+//		Set<RentOrdVO> set6 = dao.getRentalOrdersForLeaseView("L000002");
+//		for (RentOrdVO aRO : set6) {
+//			System.out.println("===LeaseView===");
+//			printMethod(aRO);
+//		}
+		
+//		Set<RentOrdVO> set7 = dao.getRentalOrdersForReturnView("L000002");
+//		for (RentOrdVO aRO : set7) {
+//			System.out.println("===ReturnView===");
+//			printMethod(aRO);
+//		}		
+		
 	}
 
 	private static void printMethod(RentOrdVO aRO) {
