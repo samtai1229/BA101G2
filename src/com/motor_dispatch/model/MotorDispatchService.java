@@ -14,6 +14,7 @@ public class MotorDispatchService {
 
 	public MotorDispatchVO addMotorDispatch(String locno, Timestamp filldate, Timestamp closeddate, String prog) {
 		MotorDispatchVO mdVO = new MotorDispatchVO();
+
 		mdVO.setLocno(locno);
 		mdVO.setFilldate(filldate);
 		mdVO.setCloseddate(closeddate);
@@ -25,6 +26,7 @@ public class MotorDispatchService {
 
 	public MotorDispatchVO updateMotorDispatch(String mdno, String locno, Timestamp filldate, Timestamp closeddate,
 			String prog) {
+		
 		MotorDispatchVO mdVO = new MotorDispatchVO();
 		mdVO.setMdno(mdno);
 		mdVO.setLocno(locno);

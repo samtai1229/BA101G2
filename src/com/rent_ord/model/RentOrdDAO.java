@@ -27,14 +27,26 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 		}
 	}
 
-	private static final String INSERT_STMT = "INSERT INTO RENT_ORD"
-			+ " (rentno, memno, motno, slocno, rlocno, milstart, milend, filldate, "
-			+ "startdate, enddate, returndate, fine, total, rank, status, note"
-			+ ") VALUES ('R'||LPAD(TO_CHAR(rentno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?,"
-			+ " ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+//	private static final String INSERT_STMT = "INSERT INTO RENT_ORD"
+//			+ " (rentno, memno, motno, slocno, rlocno, milstart, milend, filldate, "
+//			+ "startdate, enddate, returndate, fine, total, rank, status, note"
+//			+ ") VALUES ('R'||LPAD(TO_CHAR(rentno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?,"
+//			+ " ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	
+	//合理版本
+    final String INSERT_STMT = "INSERT INTO RENT_ORD"
+	+ " (rentno, memno, motno, slocno, rlocno, milstart, "
+	+ "startdate, enddate, note"
+	+ ") VALUES ('R'||LPAD(TO_CHAR(rentno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?,"
+	+ "  ?, ?, ?, ?)";
 
-	private static final String UPDATE = "UPDATE RENT_ORD set memno=?, motno=?,"
-			+ " slocno=?, rlocno=?, milstart=?, milend=?, filldate=?, startdate=?, enddate=?,"
+//	private static final String UPDATE = "UPDATE RENT_ORD set memno=?, motno=?,"
+//			+ " slocno=?, rlocno=?, milstart=?, milend=?, filldate=?, startdate=?, enddate=?,"
+//			+ "returndate=?, fine=?, total=?, rank=?, status=?, note=? where rentno = ?";
+	
+    //合理版本: 去掉 filldate, memno
+	private static final String UPDATE = "UPDATE RENT_ORD set  motno=?,"
+			+ " slocno=?, rlocno=?, milstart=?, milend=?, startdate=?, enddate=?,"
 			+ "returndate=?, fine=?, total=?, rank=?, status=?, note=? where rentno = ?";
 
 	private static final String DELETE = "DELETE FROM RENT_ORD where rentno = ?";
@@ -67,6 +79,14 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	private static final String GET_BY_ENDTIME_PEROID = selectFactor 
 			+ " From RENT_ORD  where enddate"
 			+ " between ? and ? order by enddate";
+	
+	private static final String GET_FOR_LEASE_VIEW = 
+			selectFactor + " FROM RENT_ORD where slocno=? "
+			+" and (status = 'unpaid' or status = 'unoccupied' or status = 'noshow')";
+	
+	private static final String GET_FOR_RETURN_VIEW = 
+			selectFactor + " FROM RENT_ORD where rlocno=? "
+			+" and (status = 'noreturn' or status = 'overtime')";
 
 	@Override
 	public void insert(RentOrdVO roVO) {
@@ -90,16 +110,16 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 			pstmt.setString(3, roVO.getSlocno());
 			pstmt.setString(4, roVO.getRlocno());
 			pstmt.setInt(5, roVO.getMilstart());
-			pstmt.setInt(6, roVO.getMilend());
-			pstmt.setTimestamp(7, roVO.getFilldate());
-			pstmt.setTimestamp(8, roVO.getStartdate());
-			pstmt.setTimestamp(9, roVO.getEnddate());
-			pstmt.setTimestamp(10, roVO.getReturndate());
-			pstmt.setInt(11, roVO.getFine());
-			pstmt.setInt(12, roVO.getTotal());
-			pstmt.setString(13, roVO.getRank());
-			pstmt.setString(14, roVO.getStatus());
-			pstmt.setString(15, roVO.getNote());
+//			pstmt.setInt(6, roVO.getMilend());
+//			pstmt.setTimestamp(7, roVO.getFilldate());
+			pstmt.setTimestamp(6, roVO.getStartdate());
+			pstmt.setTimestamp(7, roVO.getEnddate());
+//			pstmt.setTimestamp(10, roVO.getReturndate());
+//			pstmt.setInt(11, roVO.getFine());
+//			pstmt.setInt(12, roVO.getTotal());
+//			pstmt.setString(13, roVO.getRank());
+//			pstmt.setString(14, roVO.getStatus());
+			pstmt.setString(8, roVO.getNote());
 
 			pstmt.executeUpdate();
 
@@ -126,7 +146,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	}
 
 	@Override
-	public void update(RentOrdVO rental_orderVO) {
+	public void update(RentOrdVO roVO) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -135,22 +155,26 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
 
-			pstmt.setString(1, rental_orderVO.getMemno());
-			pstmt.setString(2, rental_orderVO.getMotno());
-			pstmt.setString(3, rental_orderVO.getSlocno());
-			pstmt.setString(4, rental_orderVO.getRlocno());
-			pstmt.setInt(5, rental_orderVO.getMilstart());
-			pstmt.setInt(6, rental_orderVO.getMilend());
-			pstmt.setTimestamp(7, rental_orderVO.getFilldate());
-			pstmt.setTimestamp(8, rental_orderVO.getStartdate());
-			pstmt.setTimestamp(9, rental_orderVO.getEnddate());
-			pstmt.setTimestamp(10, rental_orderVO.getReturndate());
-			pstmt.setInt(11, rental_orderVO.getFine());
-			pstmt.setInt(12, rental_orderVO.getTotal());
-			pstmt.setString(13, rental_orderVO.getRank());
-			pstmt.setString(14, rental_orderVO.getStatus());
-			pstmt.setString(15, rental_orderVO.getNote());
-			pstmt.setString(16, rental_orderVO.getRentno());
+//			private static final String UPDATE = "UPDATE RENT_ORD set  motno=?,"
+//			+ " slocno=?, rlocno=?, milstart=?, milend=?, startdate=?, enddate=?,"
+//			+ "returndate=?, fine=?, total=?, rank=?, status=?, note=? where rentno = ?";
+
+			//pstmt.setString(1, roVO.getMemno());
+			pstmt.setString(1, roVO.getMotno());
+			pstmt.setString(2, roVO.getSlocno());
+			pstmt.setString(3, roVO.getRlocno());
+			pstmt.setInt(4, roVO.getMilstart());
+			pstmt.setInt(5, roVO.getMilend());
+			//pstmt.setTimestamp(7, roVO.getFilldate());
+			pstmt.setTimestamp(6, roVO.getStartdate());
+			pstmt.setTimestamp(7, roVO.getEnddate());
+			pstmt.setTimestamp(8, roVO.getReturndate());
+			pstmt.setInt(9, roVO.getFine());
+			pstmt.setInt(10, roVO.getTotal());
+			pstmt.setString(11, roVO.getRank());
+			pstmt.setString(12, roVO.getStatus());
+			pstmt.setString(13, roVO.getNote());
+			pstmt.setString(14, roVO.getRentno());
 
 			pstmt.executeUpdate();
 
@@ -611,6 +635,107 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 		return set;
 	}
 
+	@Override
+	public Set<RentOrdVO> getRentalOrdersForLeaseView(String slocno) {
+		Set<RentOrdVO> set = new LinkedHashSet<RentOrdVO>();
+		RentOrdVO roVO = null;
+	
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+	
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_FOR_LEASE_VIEW);
+			pstmt.setString(1, slocno);
+			rs = pstmt.executeQuery();
+	
+			while (rs.next()) {
+				roVO = new RentOrdVO();
+				setAttirbute(roVO, rs); // 拉出來寫成一個方法
+	
+				set.add(roVO); // Store the row in the vector
+			}
+	
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return set;
+	}
+
+	@Override
+	public Set<RentOrdVO> getRentalOrdersForReturnView(String rlocno) {
+		Set<RentOrdVO> set = new LinkedHashSet<RentOrdVO>();
+		RentOrdVO roVO = null;
+	
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+	
+		try {
+	
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_FOR_RETURN_VIEW);
+			pstmt.setString(1, rlocno);
+			rs = pstmt.executeQuery();
+	
+			while (rs.next()) {
+				roVO = new RentOrdVO();
+				setAttirbute(roVO, rs); // 拉出來寫成一個方法
+	
+				set.add(roVO); // Store the row in the vector
+			}
+	
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return set;
+	}
+
 	private void setAttirbute(RentOrdVO roVO, ResultSet rs) {
 
 		try {
@@ -636,4 +761,5 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 		}
 
 	}
+
 }
