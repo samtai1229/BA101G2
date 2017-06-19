@@ -55,7 +55,7 @@ public class SecondOrderServlet extends HttpServlet {
 					if (sono.length() != 8 || !sono.contains("S"))
 						throw new Exception();
 				} catch (Exception e) {
-					errorMsgs.add("景點編號格式不正確");
+					errorMsgs.add("訂單編號格式不正確");
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
@@ -83,7 +83,7 @@ public class SecondOrderServlet extends HttpServlet {
 				 *************/
 				
 				req.setAttribute("soVO", soVO); // 資料庫取出的empVO物件,存入req
-				String url = "/frontend/spots/listOneSecOrd.jsp";
+				String url = "/frontend/secord/listOneSecOrd.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
 				successView.forward(req, res);
 
@@ -116,7 +116,7 @@ public class SecondOrderServlet extends HttpServlet {
 				 * 3.查詢完成,準備轉交(Send the Success view)
 				 ************/
 				req.setAttribute("soVO", soVO); // 資料庫取出的empVO物件,存入req
-				String url = "/frontend/spots/update_SecOrd_input.jsp";
+				String url = "/frontend/secord/update_SecOrd_input.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交update_emp_input.jsp
 				successView.forward(req, res);
 
@@ -150,13 +150,13 @@ public class SecondOrderServlet extends HttpServlet {
 				// errorMsgs.add("請輸入日期!");
 				// }
 
-				Float longitude = null;
-				try {
-					longitude = new Float(req.getParameter("splong").trim());
-				} catch (NumberFormatException e) {
-					longitude = 0.f;
-					errorMsgs.add("經度格式錯誤.");
-				}
+//				Float longitude = null;
+//				try {
+//					longitude = new Float(req.getParameter("splong").trim());
+//				} catch (NumberFormatException e) {
+//					longitude = 0.f;
+//					errorMsgs.add("經度格式錯誤.");
+//				}
 //
 //				Float latitude = null;
 //				try {

@@ -58,11 +58,11 @@ public class SecOrdJDBCDAO implements SecOrdDAO_interface {
 		List<SecOrdVO> orders = dao.getAll();
 		for(SecOrdVO order : orders)
 		{
-			System.out.print(order.getSecondNo()+",");
-			System.out.print(order.getMemNo()+",");
-			System.out.print(order.getMotorNo()+",");
-			System.out.print(order.getSecondOrderDate()+",");
-			System.out.println(order.getSecondStatus());
+			System.out.print(order.getSono()+",");
+			System.out.print(order.getMemno()+",");
+			System.out.print(order.getMotorno()+",");
+			System.out.print(order.getBuildtime()+",");
+			System.out.println(order.getStatus());
 		}
 		
 
@@ -81,10 +81,10 @@ public class SecOrdJDBCDAO implements SecOrdDAO_interface {
 			pstmt = con.prepareStatement(INSERT_STMT);
 			// sono,memno,motno,sodate,status
 			// pstmt.setString(1, secordVO.getSecondNo());
-			pstmt.setString(1, secordVO.getMemNo());
-			pstmt.setTimestamp(3, secordVO.getSecondOrderDate());
-			pstmt.setString(2, secordVO.getMotorNo());
-			pstmt.setString(4, secordVO.getSecondStatus());
+			pstmt.setString(1, secordVO.getMemno());
+			pstmt.setTimestamp(3, secordVO.getBuildtime());
+			pstmt.setString(2, secordVO.getMotorno());
+			pstmt.setString(4, secordVO.getStatus());
 
 			pstmt.executeUpdate();
 
@@ -126,11 +126,11 @@ public class SecOrdJDBCDAO implements SecOrdDAO_interface {
 			pstmt = con.prepareStatement(UPDATE);
 			// sono,memno,motno,sodate,status
 			// pstmt.setString(1, secordVO.getSecondNo());
-			pstmt.setString(1, secordVO.getMemNo());
-			pstmt.setTimestamp(3, secordVO.getSecondOrderDate());
-			pstmt.setString(2, secordVO.getMotorNo());
-			pstmt.setString(4, secordVO.getSecondStatus());
-			pstmt.setString(5, secordVO.getSecondNo());
+			pstmt.setString(1, secordVO.getMemno());
+			pstmt.setTimestamp(3, secordVO.getBuildtime());
+			pstmt.setString(2, secordVO.getMotorno());
+			pstmt.setString(4, secordVO.getStatus());
+			pstmt.setString(5, secordVO.getSono());
 			pstmt.executeUpdate();
 
 			// Handle any driver errors
@@ -223,11 +223,11 @@ public class SecOrdJDBCDAO implements SecOrdDAO_interface {
 			{
 				 obj = new SecOrdVO();
 				//sodate,status
-				obj.setSecondNo(rs.getString("sono"));
-				obj.setMemNo(rs.getString("memno"));
-				obj.setMotorNo(rs.getString("motno"));
-			    obj.setSecondOrderDate(rs.getTimestamp("sodate"));
-			   obj.setSecondStatus(rs.getString("status"));
+				obj.setSono(rs.getString("sono"));
+				obj.setMemno(rs.getString("memno"));
+				obj.setMotorno(rs.getString("motno"));
+			    obj.setBuildtime(rs.getTimestamp("sodate"));
+			    obj.setStatus(rs.getString("status"));
 
 			}
 
@@ -279,11 +279,11 @@ public class SecOrdJDBCDAO implements SecOrdDAO_interface {
 			{
 				SecOrdVO  obj  = new SecOrdVO();
 				//sodate,status
-				obj.setSecondNo(rs.getString("sono"));
-				obj.setMemNo(rs.getString("memno"));
-				obj.setMotorNo(rs.getString("motno"));
-			    obj.setSecondOrderDate(rs.getTimestamp("sodate"));
-			    obj.setSecondStatus(rs.getString("status"));
+				obj.setSono(rs.getString("sono"));
+				obj.setMemno(rs.getString("memno"));
+				obj.setMotorno(rs.getString("motno"));
+			    obj.setBuildtime(rs.getTimestamp("sodate"));
+			    obj.setStatus(rs.getString("status"));
 			    list.add(obj);
                
 			}

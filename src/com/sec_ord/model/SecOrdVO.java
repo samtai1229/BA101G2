@@ -6,53 +6,53 @@ import java.sql.Timestamp;
 
 public class SecOrdVO implements Serializable {
 
-	private String secordNO;
-	private String memNO;
-	private String motorNO;
-	private Timestamp secordDate;
-	private String secordStatus;
+	private String sono;
+	private String memno;
+	private String motorno;
+	private Timestamp buildtime;
+	private String status;
 
 	public SecOrdVO(){}
 
 	
-	public String getSecondNo() {
-		return secordNO;
+	public String getSono() {
+		return sono;
 	}
 
-	public void setSecondNo(String second_no) {
-		this.secordNO = second_no;
+	public void setSono(String sono) {
+		this.sono = sono;
 	}
 
-	public String getMemNo() {
-		return memNO;
+	public String getMemno() {
+		return memno;
 	}
 
-	public void setMemNo(String mem_no) {
-		this.memNO = mem_no;
+	public void setMemno(String memno) {
+		this.memno = memno;
 	}
 
-	public String getMotorNo() {
-		return motorNO;
+	public String getMotorno() {
+		return motorno;
 	}
 
-	public void setMotorNo(String motor_no) {
-		this.motorNO= motor_no;
+	public void setMotorno(String motorno) {
+		this.motorno= motorno;
 	}
 
-	public Timestamp getSecondOrderDate() {
-		return secordDate;
+	public Timestamp getBuildtime() {
+		return buildtime;
 	}
 
-	public void setSecondOrderDate(Timestamp second_order_date) {
-		this.secordDate = second_order_date;
+	public void setBuildtime(Timestamp buildtime) {
+		this.buildtime = buildtime;
 	}
 
-	public String getSecondStatus() {
-		return secordStatus;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setSecondStatus(String second_status) {
-		this.secordStatus = second_status;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }

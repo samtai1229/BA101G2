@@ -41,6 +41,15 @@
 		<servlet-name>SpotServlet</servlet-name>
 		<url-pattern>/frontend/spots/spot.do</url-pattern>
 	</servlet-mapping>
+	
+	 <servlet>
+		<servlet-name>SecondOrderServlet</servlet-name>
+		<servlet-class>com.sec_ord.controller.SecondOrderServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SecondOrderServlet</servlet-name>
+		<url-pattern>/frontend/secord/SecOrd.do</url-pattern>
+	</servlet-mapping>
   
   
 

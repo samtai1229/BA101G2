@@ -17,11 +17,11 @@ public class SecOrdService {
 	public SecOrdVO addSecOrd(String sono,String memno, String motno, Timestamp sodate,String status)
 	{
 		SecOrdVO secordVO = new SecOrdVO();
-		secordVO.setMemNo(memno);
-		secordVO.setMotorNo(motno);
-		secordVO.setSecondNo(sono);
-		secordVO.setSecondOrderDate(sodate);
-		secordVO.setSecondStatus(status);
+		secordVO.setMemno(memno);
+		secordVO.setMotorno(motno);
+		secordVO.setSono(sono);
+		secordVO.setBuildtime(sodate);
+		secordVO.setStatus(status);
 		dao.insert(secordVO);
 		return secordVO;
 	}
@@ -35,11 +35,11 @@ public class SecOrdService {
 	{
 
 		SecOrdVO secordVO = new SecOrdVO();
-		secordVO.setMemNo(memno);
-		secordVO.setMotorNo(motno);
-		secordVO.setSecondNo(sono);
-		secordVO.setSecondOrderDate(sodate);
-		secordVO.setSecondStatus(status);
+		secordVO.setMemno(memno);
+		secordVO.setMotorno(motno);
+		secordVO.setSono(sono);
+		secordVO.setBuildtime(sodate);
+		secordVO.setStatus(status);
 		dao.update(secordVO);
 		return secordVO;
 	}
