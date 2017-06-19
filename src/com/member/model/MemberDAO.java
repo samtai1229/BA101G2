@@ -16,13 +16,23 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 
-public class MemberJDBCDAO implements MemberDAO_interface{
-	String driver = "oracle.jdbc.driver.OracleDriver";
-	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "servlet";
-	String passwd = "123456";
+
+public class MemberDAO implements MemberDAO_interface{
+	private static DataSource ds = null;
+	static {
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB");
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
 	private static final String INSERT_STMT = 
 		"INSERT INTO MEMBER (memno,memname,sex,birth,mail,phone,addr,acc,pwd,credate,status) "
 		+ "VALUES ('MEM'||LPAD(TO_CHAR(memno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -52,8 +62,7 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 
 		try {
 			
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setString(1, memberVO.getMemname());
@@ -64,19 +73,15 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 			pstmt.setString(6, memberVO.getAddr());
 			pstmt.setString(7, memberVO.getAcc());
 			pstmt.setString(8, memberVO.getPwd());
-			pstmt.setBytes(9, memberVO.getIdcard1());
-			pstmt.setBytes(10, memberVO.getIdcard2());
-			pstmt.setBytes(11, memberVO.getLicense());
-			pstmt.setTimestamp(12,memberVO.getCredate());
-			pstmt.setString(13, memberVO.getStatus());
+//			pstmt.setBytes(9, memberVO.getIdcard1());
+//			pstmt.setBytes(10, memberVO.getIdcard2());
+//			pstmt.setBytes(11, memberVO.getLicense());
+			pstmt.setTimestamp(9,memberVO.getCredate());
+			pstmt.setString(10, memberVO.getStatus());
 			
 			pstmt.executeUpdate();
 			
-			}catch (ClassNotFoundException e) {
-				throw new RuntimeException("Couldn't load database driver. "
-						+ e.getMessage());
-				// Handle any SQL errors
-			} catch (SQLException se) {
+			}catch (SQLException se) {
 				throw new RuntimeException("A database error occured. "
 						+ se.getMessage());
 				// Clean up JDBC resources
@@ -105,8 +110,7 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 
 		try {
 			
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
 			Blob blob1 = con.createBlob();
 			Blob blob2 = con.createBlob();
@@ -149,10 +153,6 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 	
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
@@ -181,8 +181,7 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE);
 
 			pstmt.setString(1, memno);
@@ -190,10 +189,6 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 			pstmt.executeUpdate();
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
@@ -225,8 +220,7 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ONE_STMT);
 
 			pstmt.setString(1, memno);
@@ -253,10 +247,6 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 			}
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
@@ -297,8 +287,7 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 
 		try {
 
-			Class.forName(driver);
-			con = DriverManager.getConnection(url, userid, passwd);
+			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
 
@@ -323,10 +312,6 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 			}
 
 			// Handle any driver errors
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("Couldn't load database driver. "
-					+ e.getMessage());
-			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
 					+ se.getMessage());
@@ -357,125 +342,6 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 		return list;
 	}
 
-	public static void main(String [] arg){
-		
-		MemberJDBCDAO dao = new MemberJDBCDAO();
-		
-		//新增
-//		MemberVO memberVO1 = new MemberVO();
-//		memberVO1.setMemname("Sarah");
-//		memberVO1.setSex("girl");
-////		memberVO1.setBirth(new Timestamp(System.currentTimeMillis()));
-//		memberVO1.setBirth(Timestamp.valueOf("1991-07-15 13:06:10"));
-//		memberVO1.setMail("sarah80715@yahoo.com.tw");
-//		memberVO1.setPhone("0972086328");
-//		memberVO1.setAddr("台中縣豐原鄉OO路XX街123巷45弄6-7號8樓9室");
-//		memberVO1.setAcc("sarah800715");
-//		memberVO1.setPwd("0972086328");
-//		byte[] pic,pic2,pic3;
-//		try {
-//			pic = getPictureByteArray("C://Users//Java//Pictures//85.jpg");
-//			pic2= getPictureByteArray("C://Users//Java//Pictures//cat.png");
-//			pic3= getPictureByteArray("C://Users//Java//Pictures//panda.png");
-//			memberVO1.setIdcard1(pic);
-//			memberVO1.setIdcard2(pic2);
-//			memberVO1.setLicense(pic3);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		memberVO1.setCredate(new Timestamp(System.currentTimeMillis()));
-//		memberVO1.setStatus("unconfirm");
-//		dao.insert(memberVO1);
-//		System.out.print("已新增一筆資料!");
-		
-	/*  2. setBytes
-	 	pstmt.setInt(1, 2);
-	 	pstmt.setString(2, "巴塞隆納");
-	 	byte[] pic = getPictureByteArray("items/FC_Barcelona.png");
-	 	pstmt.setBytes(3, pic); */
-	// 1. setBlob
-//		pstmt.setInt(1, 1);
-//		pstmt.setString(2, "拜仁慕尼黑");
-//		Blob blob = con.createBlob();
-//		byte[] pic2 = getPictureByteArray("items/FC_Bayern.png");
-//		blob.setBytes(1, pic2);
-//		pstmt.setBlob(3, blob);
-//		pstmt.executeUpdate();	
-		
-
-		//修改
-//		MemberVO memberVO2 = new MemberVO();
-//		memberVO2.setMemname("SSSS");
-//		memberVO2.setSex("boy");
-//		memberVO2.setBirth(Timestamp.valueOf("1999-12-23 13:14:52"));
-//		memberVO2.setMail("Apple123@hotmail.com");
-//		memberVO2.setPhone("0987654321");
-//		memberVO2.setAddr("QOOQLE");
-//		memberVO2.setAcc("apple23321");
-//		memberVO2.setPwd("Banana321321");
-//		
-//		byte[] pic,pic2,pic3;
-//		try {
-//			pic = getPictureByteArray("C://Users//Java//Pictures//cat.png");
-//			pic2= getPictureByteArray("C://Users//Java//Pictures//panda.png");
-//			pic3= getPictureByteArray("C://Users//Java//Pictures//85.jpg");
-//			memberVO2.setIdcard1(pic);
-//			memberVO2.setIdcard2(pic2);
-//			memberVO2.setLicense(pic3);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		memberVO2.setStatus("confirmed");
-//		memberVO2.setMemno("M000003");
-//		dao.update(memberVO2);
-//		System.out.println(memberVO2.getMemno()+"已修改!");
-		
-//		//刪除
-//		dao.delete("M000001");
-//		System.out.println("K.KO!");
-//		
-//		//查詢
-//		MemberVO memberVO3 = dao.findByPrimaryKey("M000003");
-//		System.out.print(memberVO3.getMemno()+",");
-//		System.out.print(memberVO3.getMemname()+",");
-//		System.out.print(memberVO3.getSex()+",");
-//		System.out.print(memberVO3.getBirth()+",");
-//		System.out.print(memberVO3.getMail()+",");
-//		System.out.print(memberVO3.getPhone()+",");
-//		System.out.print(memberVO3.getAddr()+",");
-//		System.out.print(memberVO3.getAcc()+",");
-//		System.out.print(memberVO3.getPwd()+",");
-//		System.out.print(memberVO3.getIdcard1()+",");
-//		System.out.print(memberVO3.getIdcard2()+",");
-//		System.out.print(memberVO3.getLicense()+",");
-//		System.out.print(memberVO3.getCredate()+",");
-//		System.out.println(memberVO3.getStatus());
-//		System.out.println("---------------------");
-		
-		//查詢ALL
-		List<MemberVO> list =dao.getAll();
-		for(MemberVO memvo : list){
-			System.out.print(memvo.getMemno()+",");
-			System.out.print(memvo.getMemname()+",");
-			System.out.print(memvo.getSex()+",");
-			System.out.print(memvo.getBirth()+",");
-			System.out.print(memvo.getMail()+",");
-			System.out.println(memvo.getPhone()+",");
-			System.out.print(memvo.getAddr()+",");
-			System.out.print(memvo.getPwd()+",");
-			System.out.print(memvo.getIdcard1()+",");
-			System.out.print(memvo.getIdcard2()+",");
-			System.out.print(memvo.getLicense()+",");
-			System.out.println(memvo.getCredate()+",");
-			System.out.println(memvo.getStatus());
-			System.out.println("-----------------------------");
-		}
-		System.out.println("查詢完畢");
-	}
-	
-	
-	
 	// 使用InputStream資料流方式
 		public static InputStream getPictureStream(String path) throws IOException {
 			File file = new File(path);
