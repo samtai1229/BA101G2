@@ -11,45 +11,45 @@ public class RentOrdService {
 		dao = new RentOrdDAO();
 	}
 
-	public RentOrdVO addRentOrd(String rentno, String memno, String motno, String slocno, String rlocno,
-			Integer milstart, Integer milend, Timestamp filldate, Timestamp startdate, Timestamp enddate,
-			Timestamp returndate, Integer fine, Integer total, String rank, String status, String note) {
+	public RentOrdVO addRentOrd( String memno, String motno, String slocno, String rlocno,
+		   Integer milstart, Timestamp startdate, Timestamp enddate,
+		   String note) {
 
 		RentOrdVO roVO = new RentOrdVO();
-		roVO.setRentno(rentno);
+//		roVO.setRentno(rentno);
 		roVO.setMemno(memno);
 		roVO.setMotno(motno);
 		roVO.setSlocno(slocno);
 		roVO.setRlocno(rlocno);
 		roVO.setMilstart(milstart);
-		roVO.setMilend(milend);
-		roVO.setFilldate(filldate);
+//		roVO.setMilend(milend);
+//		roVO.setFilldate(filldate);
 		roVO.setStartdate(startdate);
 		roVO.setEnddate(enddate);
-		roVO.setReturndate(returndate);
-		roVO.setFine(fine);
-		roVO.setTotal(total);
-		roVO.setRank(rank);
-		roVO.setStatus(status);
+//		roVO.setReturndate(returndate);
+//		roVO.setFine(fine);
+//		roVO.setTotal(total);
+//		roVO.setRank(rank);
+//		roVO.setStatus(status);
 		roVO.setNote(note);
 		dao.insert(roVO);
 
 		return roVO;
 	}
 
-	public RentOrdVO updateRentOrd(String rentno, String memno, String motno, String slocno, String rlocno,
-			Integer milstart, Integer milend, Timestamp filldate, Timestamp startdate, Timestamp enddate,
+	public RentOrdVO updateRentOrd(String rentno,  String motno, String slocno, String rlocno,
+			Integer milstart, Integer milend, Timestamp enddate, Timestamp startdate ,
 			Timestamp returndate, Integer fine, Integer total, String rank, String status, String note) {
 
 		RentOrdVO roVO = new RentOrdVO();
 		roVO.setRentno(rentno);
-		roVO.setMemno(memno);
+		//roVO.setMemno(memno);
 		roVO.setMotno(motno);
 		roVO.setSlocno(slocno);
 		roVO.setRlocno(rlocno);
 		roVO.setMilstart(milstart);
 		roVO.setMilend(milend);
-		roVO.setFilldate(filldate);
+		//roVO.setFilldate(filldate);
 		roVO.setStartdate(startdate);
 		roVO.setEnddate(enddate);
 		roVO.setReturndate(returndate);
@@ -94,5 +94,12 @@ public class RentOrdService {
 	public Set<RentOrdVO> getByEndDatePrioid(Timestamp start_time, Timestamp end_time) {
 		return dao.getRentalOrdersByEndDatePrioid(start_time, end_time);
 	};
-
+	
+	public Set<RentOrdVO> getForLeaseView(String slocno){
+		return dao.getRentalOrdersForLeaseView(slocno);
+	};
+	
+	public Set<RentOrdVO> getForReturnView(String rlocno){
+		return dao.getRentalOrdersForReturnView(rlocno);
+	};
 }
