@@ -24,11 +24,11 @@ public class NewsDAO implements NewsDAO_interface{
 		}
 	}
 	
-	private static final String INSERT_STMT = "INSERT INTO NEWS VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),6,'0'),?,?, ?, ?, ?,?)";
-	private static final String GET_ALL_STMT ="SELECT newsno,admno,date,cont,pic,title,status FROM news order by newsno";
-	private static final String GET_ONE_STMT ="SELECT newsno,admno,date,cont,pic,title,status FROM news where newsno = ?";
+	private static final String INSERT_STMT = "INSERT INTO NEWS(newsno,admno,cont,pic,title,status) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),3,'0'),?,?, ?, ?, ?)";
+	private static final String GET_ALL_STMT ="SELECT * FROM news order by newsno";
+	private static final String GET_ONE_STMT ="SELECT * FROM news where newsno = ?";
 	private static final String DELETE ="DELETE FROM news where newsno = ?";
-	private static final String UPDATE ="UPDATE news set admno=?, date=?, cont=?, pic=?, title=?, status=? where newsno = ?";
+	private static final String UPDATE ="UPDATE news set admno=?, cont=?, pic=?, title=?, status=? where newsno = ?";
 	
 
 	@Override
@@ -42,11 +42,10 @@ public class NewsDAO implements NewsDAO_interface{
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setString(1, newsvo.getAdmno());
-			pstmt.setTimestamp(2, newsvo.getDate());
-			pstmt.setString(3, newsvo.getCont());
-			pstmt.setBytes(4, newsvo.getPic());
-			pstmt.setString(5, newsvo.getTitle());
-			pstmt.setString(6, newsvo.getStatus());
+			pstmt.setString(2, newsvo.getCont());
+			pstmt.setBytes(3, newsvo.getPic());
+			pstmt.setString(4, newsvo.getTitle());
+			pstmt.setString(5, newsvo.getStatus());
 
 			pstmt.executeUpdate();
 
@@ -85,12 +84,11 @@ public class NewsDAO implements NewsDAO_interface{
 			pstmt = con.prepareStatement(UPDATE);
 
 			pstmt.setString(1, Newsvo.getAdmno());
-			pstmt.setTimestamp(2, Newsvo.getDate());
-			pstmt.setString(3, Newsvo.getCont());
-			pstmt.setBytes(4, Newsvo.getPic());
-			pstmt.setString(5, Newsvo.getTitle());
-			pstmt.setString(6, Newsvo.getStatus());
-			pstmt.setString(7, Newsvo.getNewsno());
+			pstmt.setString(2, Newsvo.getCont());
+			pstmt.setBytes(3, Newsvo.getPic());
+			pstmt.setString(4, Newsvo.getTitle());
+			pstmt.setString(5, Newsvo.getStatus());
+			pstmt.setString(6, Newsvo.getNewsno());
 
 
 			pstmt.executeUpdate();
@@ -231,7 +229,6 @@ public class NewsDAO implements NewsDAO_interface{
 
 			while (rs.next()) {
 				// empVO �]�٬� Domain objects
-				newsVO = new NewsVO();
 				newsVO.setNewsno(rs.getString("newsno"));
 				newsVO.setAdmno(rs.getString("admno"));
 				newsVO.setDate(rs.getTimestamp("date"));
