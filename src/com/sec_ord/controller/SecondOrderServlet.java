@@ -45,7 +45,7 @@ public class SecondOrderServlet extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/frontend/secord/select_page.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -59,7 +59,7 @@ public class SecondOrderServlet extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/frontend/secord/select_page.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -73,7 +73,7 @@ public class SecondOrderServlet extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/frontend/secord/select_page.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -90,7 +90,7 @@ public class SecondOrderServlet extends HttpServlet {
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/select_page.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/secord/select_page.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -174,7 +174,7 @@ public class SecondOrderServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("soVO", soVO); // 含有輸入格式錯誤的empVO物件,也存入req
-					RequestDispatcher failureView = req.getRequestDispatcher("/frontend/spots/update_spot_input.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/frontend/secord/update_SecOrd_input.jsp");
 					failureView.forward(req, res);
 					return; // 程式中斷
 				}
@@ -187,14 +187,14 @@ public class SecondOrderServlet extends HttpServlet {
 				 * 3.修改完成,準備轉交(Send the Success view)
 				 *************/
 				req.setAttribute("soVO", soVO); // 資料庫update成功後,正確的的empVO物件,存入req
-				String url = "/frontend/spots/listOneSpot.jsp";
+				String url = "/frontend/secord/listOneSecOrd.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/spots/update_spot_input.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/secord/update_SecOrd_input.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -210,9 +210,9 @@ public class SecondOrderServlet extends HttpServlet {
 				/***********************
 				 * 1.接收請求參數 - 輸入格式的錯誤處理
 				 *************************/
-//				String spno = req.getParameter("spno").trim();
-//				String spname = req.getParameter("spname").trim();
-//				String locno = req.getParameter("locno").trim();
+				String sono = req.getParameter("sono").trim();
+				String memno = req.getParameter("memno").trim();
+
 				
 				// java.sql.Date hiredate = null;
 				// try {
@@ -240,40 +240,37 @@ public class SecondOrderServlet extends HttpServlet {
 //				}
 //
 //			
-//				SpotsVO spotVO = new SpotsVO();
-//				spotVO.setLocno(locno);
-//				
-//				spotVO.setSplat(latitude);
-//				
-//				spotVO.setSplong(longitude);
-//				
-//				spotVO.setSpname(spname);
-//				spotVO.setSpno(spno);
+				SecOrdVO soVO = new SecOrdVO();
+				soVO.setSono(sono);
+				
+				soVO.setMemno(memno);
+				
+	
 //
 //				// Send the use back to the form, if there were errors
-//				if (!errorMsgs.isEmpty()) {
-//					req.setAttribute("spotVO", spotVO); // 含有輸入格式錯誤的empVO物件,也存入req
-//					RequestDispatcher failureView = req.getRequestDispatcher("/frontend/spots/addSpot.jsp");
-//					failureView.forward(req, res);
-//					return;
-//				}
-//
-//				/*************************** 2.開始新增資料 ***************************************/
-//				SpotService spSvc = new SpotService();
-//				spotVO = spSvc.addOneSpot(spno, spname, locno, longitude, latitude);
-//
-//				/***************************
-//				 * 3.新增完成,準備轉交(Send the Success view)
-//				 ***********/
-//				String url = "/frontend/spots/listAllSpot.jsp";
-//				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
-//				successView.forward(req, res);
+				if (!errorMsgs.isEmpty()) {
+					req.setAttribute("soVO", soVO); // 含有輸入格式錯誤的empVO物件,也存入req
+					RequestDispatcher failureView = req.getRequestDispatcher("/frontend/secord/addSecOrd.jsp");
+					failureView.forward(req, res);
+					return;
+				}
+
+				/*************************** 2.開始新增資料 ***************************************/
+				SecOrdService soSvc = new SecOrdService();
+			//	SecOrdVO = soSvc.addSecOrd(sono, memno, motno, sodate, status);
+
+				/***************************
+				 * 3.新增完成,準備轉交(Send the Success view)
+				 ***********/
+				String url = "/frontend/spots/listAllSpot.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
+				successView.forward(req, res);
 //
 //				/*************************** 其他可能的錯誤處理 **********************************/
 		} catch (Exception e) {
-//				errorMsgs.add(e.getMessage());
-//				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/spots/addSpot.jsp");
-//				failureView.forward(req, res);
+				errorMsgs.add(e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/spots/addSpot.jsp");
+				failureView.forward(req, res);
 		}
 		}
 

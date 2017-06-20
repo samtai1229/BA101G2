@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
 <%@ page import="com.sec_ord.model.*"%>
 <%-- 此頁練習採用 EL 的寫法取值 --%>
@@ -50,7 +51,8 @@
 			<td>${soVO.sono}</td>
 			<td>${soVO.memno}</td>
 			<td>${soVO.motorno}</td>
-			<td>${soVO.buildtime}</td>
+			<td><fmt:formatDate pattern = "yyyy-MM-dd hh:mm" 
+         value = "${soVO.buildtime}" /></td>
 			<td>${soVO.status}</td>		
 			
 			<td>

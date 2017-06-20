@@ -14,14 +14,21 @@ public class SecOrdService {
 		dao = new SecOrdDAO();
 	}
 	
-	public SecOrdVO addSecOrd(String sono,String memno, String motno, Timestamp sodate,String status)
+	public SecOrdVO addSecOrd(String memno, String motno, Timestamp sodate,String status)
 	{
 		SecOrdVO secordVO = new SecOrdVO();
 		secordVO.setMemno(memno);
 		secordVO.setMotorno(motno);
-		secordVO.setSono(sono);
 		secordVO.setBuildtime(sodate);
 		secordVO.setStatus(status);
+		dao.insert(secordVO);
+		return secordVO;
+	}
+	public SecOrdVO addSecOrd(String memno, String motno)
+	{
+		SecOrdVO secordVO = new SecOrdVO();
+		secordVO.setMemno(memno);
+		secordVO.setMotorno(motno);
 		dao.insert(secordVO);
 		return secordVO;
 	}
