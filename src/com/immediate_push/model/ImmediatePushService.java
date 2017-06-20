@@ -11,7 +11,7 @@ public class ImmediatePushService {
 		dao = new ImmediatePushDAO();
 	}
 	
-	public ImmediatePushVO addEmp(String admno, String ipcont, String pushno) {
+	public ImmediatePushVO addImmediatePush(String admno, String ipcont, String pushno) {
 
 		ImmediatePushVO immediatepushVO = new ImmediatePushVO();
 
@@ -23,7 +23,7 @@ public class ImmediatePushService {
 		return immediatepushVO;
 	}
 	
-	public ImmediatePushVO updateEmp(String ipno,String admno, String ipcont, String pushno) {
+	public ImmediatePushVO updateImmediatePush(String ipno,String admno, String ipcont, String pushno) {
 
 		ImmediatePushVO immediatepushVO = new ImmediatePushVO();
 
@@ -36,11 +36,11 @@ public class ImmediatePushService {
 		return immediatepushVO;
 	}
 
-	public void deleteImmediate_push(String ipno) {
+	public void deleteImmediatePush(String ipno) {
 		dao.delete(ipno);
 	}
 
-	public ImmediatePushVO getOneEmp(String ipno) {
+	public ImmediatePushVO getOneImmediatePush(String ipno) {
 		return dao.findByPrimaryKey(ipno);
 	}
 
