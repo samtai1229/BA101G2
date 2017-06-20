@@ -10,14 +10,14 @@ public class AuthCateService {
 	public AuthCateService(){
 		dao = new AuthCateDAO();
 	}
-	public AuthCateVO addAuth_cate(String descr){
+	public AuthCateVO addAuthCate(String descr){
 		AuthCateVO	authcateVO = new AuthCateVO();
 		authcateVO.setDescr(descr);
 		dao.insert(authcateVO);
 		
 		return authcateVO;
 	}
-	public AuthCateVO updateAuth_cate(String authno,String descr){
+	public AuthCateVO updateAuthCate(String authno,String descr){
 		AuthCateVO	authcateVO = new AuthCateVO();
 		authcateVO.setAuthno(authno);
 		authcateVO.setDescr(descr);
@@ -25,7 +25,7 @@ public class AuthCateService {
 		
 		return authcateVO;
 	}
-	public void deleteAuth_cate(String authno) {
+	public void deleteAuthCate(String authno) {
 		dao.delete(authno);
 	}
 	

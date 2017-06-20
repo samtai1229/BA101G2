@@ -148,7 +148,7 @@ public class AuthCateDAO implements AuthCateDAO_interface{
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				// empVo �]�٬� Domain objects
+				
 				authcateVO = new AuthCateVO();
 				authcateVO.setAuthno(rs.getString("authno"));
 				authcateVO.setDescr(rs.getString("descr"));
