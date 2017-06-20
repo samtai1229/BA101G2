@@ -29,8 +29,7 @@ public class RentOrdServlet extends HttpServlet {
 
 		
 // query
-		if ("query".equals(action) || "query_one_in_lease_view".equals(action)
-				|| "get_one_in_return_view".equals(action) || "lease_ord_form".equals(action)) {
+		if ("query".equals(action)||"lease_ord_form".equals(action)) {
 
 			System.out.println("ro query in");
 			List<String> errorMsgs = new LinkedList<String>();
@@ -49,13 +48,13 @@ public class RentOrdServlet extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/backendRentOrd.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/get_rent_ord_by_pk.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
 
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/backendRentOrd.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/get_rent_ord_by_pk.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -69,7 +68,7 @@ public class RentOrdServlet extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/backendRentOrd.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/get_rent_ord_by_pk.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -85,14 +84,6 @@ public class RentOrdServlet extends HttpServlet {
 					RequestDispatcher successView = req.getRequestDispatcher("/backend/rent_ord/get_rent_ord_by_pk.jsp"); 
 																														
 					successView.forward(req, res);
-				} else if ("query_one_in_lease_view".equals(action)) {
-					RequestDispatcher successView = req.getRequestDispatcher("/backend/rent_ord/get_rent_ord_by_pk.jsp"); 
-																												
-					successView.forward(req, res);
-				} else if ("get_one_in_return_view".equals(action)) {
-					RequestDispatcher successView = req.getRequestDispatcher("/backend/rent_ord/return.jsp"); 
-																												
-					successView.forward(req, res);
 				}else if("lease_ord_form".equals(action)){
 					RequestDispatcher successView = req.getRequestDispatcher("/backend/rent_ord/lease_ord_form.jsp");
 					successView.forward(req, res);					
@@ -101,7 +92,7 @@ public class RentOrdServlet extends HttpServlet {
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/backendRentOrd.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/get_rent_ord_by_pk.jsp");
 				failureView.forward(req, res);
 			}
 		} // query end
@@ -437,13 +428,13 @@ public class RentOrdServlet extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/lease.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/get_for_lease_view.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
 
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/lease.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/get_for_lease_view.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -457,7 +448,7 @@ public class RentOrdServlet extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/lease.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/get_for_lease_view.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -468,14 +459,14 @@ public class RentOrdServlet extends HttpServlet {
 				System.out.println("query-finished");
 				req.setAttribute("get_for_lease_view", set); // 資料庫取出的VO物件,存入req
 
-				RequestDispatcher successView = req.getRequestDispatcher("/backend/rent_ord/lease.jsp"); // 成功轉交
-																											// Emp.jsp
+				RequestDispatcher successView = req.getRequestDispatcher("/backend/rent_ord/get_for_lease_view.jsp"); 
+																											
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/lease.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/get_for_lease_view.jsp");
 				failureView.forward(req, res);
 			}
 		} // get_for_lease_view end
@@ -499,13 +490,13 @@ public class RentOrdServlet extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/return.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/get_for_return_view.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
 
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/return.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/get_for_return_view.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -519,7 +510,7 @@ public class RentOrdServlet extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/return.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/get_for_return_view.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -530,14 +521,14 @@ public class RentOrdServlet extends HttpServlet {
 				System.out.println("query-finished");
 				req.setAttribute("get_for_return_view", set); // 資料庫取出的VO物件,存入req
 
-				RequestDispatcher successView = req.getRequestDispatcher("/backend/rent_ord/return.jsp"); // 成功轉交
+				RequestDispatcher successView = req.getRequestDispatcher("/backend/rent_ord/get_for_return_view.jsp"); // 成功轉交
 																											// Emp.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/return.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/get_for_return_view.jsp");
 				failureView.forward(req, res);
 			}
 		} // get_for_return_view end

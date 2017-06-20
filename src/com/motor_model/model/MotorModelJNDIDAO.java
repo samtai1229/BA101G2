@@ -31,7 +31,7 @@ public class MotorModelJNDIDAO implements MotorModelDAO_interface {
 
 	private static final String INSERT_STMT = "INSERT INTO MOTOR_MODEL"
 			+ " (modtype, brand, displacement, name, renprice, saleprice, motpic"
-			+ ") VALUES ('MM'||LPAD(TO_CHAR(modtype_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?, ?,?)";
+			+ ") VALUES ('MM'||LPAD(TO_CHAR(modtype_seq.NEXTVAL), 3,'0'), ?, ?, ?, ?, ?,?)";
 
 	private static final String UPDATE = "UPDATE MOTOR_MODEL set brand=?,"
 			+ " displacement=?, name=?, renprice=?, saleprice=?, motpic=? where modtype = ?";
