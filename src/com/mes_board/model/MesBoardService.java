@@ -11,7 +11,7 @@ public class MesBoardService {
 		dao = new MesBoardDAO();
 	}
 	
-	public MesBoardVO addMes_board(String memno, Timestamp date, String cont,byte[] pic, String status) {
+	public MesBoardVO addMesBoard(String memno, Timestamp date, String cont,byte[] pic, String status) {
 
 		MesBoardVO mesboardVO = new MesBoardVO();
 
@@ -25,7 +25,7 @@ public class MesBoardService {
 		return mesboardVO;
 	}
 	
-	public MesBoardVO updateMes_board(String mesno,String memno, Timestamp date, String cont,byte[] pic, String status) {
+	public MesBoardVO updateMesBoard(String mesno,String memno, Timestamp date, String cont,byte[] pic, String status) {
 
 		MesBoardVO mesboardVO = new MesBoardVO();
 
@@ -39,11 +39,11 @@ public class MesBoardService {
 
 		return mesboardVO;
 	}
-	public void deleteEmp(String mesno) {
+	public void deleteMesBoard(String mesno) {
 		dao.delete(mesno);
 	}
 
-	public MesBoardVO getOneEmp(String mesno) {
+	public MesBoardVO getOneMesBoard(String mesno) {
 		return dao.findByPrimaryKey(mesno);
 	}
 
