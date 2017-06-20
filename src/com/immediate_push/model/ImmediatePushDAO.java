@@ -25,7 +25,7 @@ public class ImmediatePushDAO implements ImmediatePushDAO_interface{
 			e.printStackTrace();
 		}
 	}
-	private static final String INSERT_STMT = "INSERT INTO immediate_push(ipno,admno,ipcont,pishno) VALUES('IP'||lpad(to_char(ipno_seq.NEXTVAL),6,'0'), ?, ?, ?)";
+	private static final String INSERT_STMT = "INSERT INTO immediate_push(ipno,admno,ipcont,pushno) VALUES('IP'||lpad(to_char(ipno_seq.NEXTVAL),3,'0'), ?, ?, ?)";
 	private static final String GET_ALL_STMT ="SELECT ipno,admno,ipcont,pushno FROM immediate_push order by ipno";
 	private static final String GET_ONE_STMT ="SELECT ipno,admno,ipcont,pushno FROM immediate_push where ipno = ?";
 	private static final String DELETE ="DELETE FROM immediate_push where ipno = ?";

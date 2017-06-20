@@ -23,7 +23,7 @@ public class NewsJDBCDAO implements NewsDAO_interface{
 		String userid = "servlet";
 		String passwd = "123456";
 		
-		private static final String INSERT_STMT = "INSERT INTO NEWS(newsno,admno,cont,pic,title,status) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),6,'0'),?,?, ?, ?, ?)";
+		private static final String INSERT_STMT = "INSERT INTO NEWS(newsno,admno,cont,pic,title,status) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),3,'0'),?,?, ?, ?, ?)";
 		private static final String GET_ALL_STMT ="SELECT * FROM news order by newsno";
 		private static final String GET_ONE_STMT ="SELECT * FROM news where newsno = ?";
 		private static final String DELETE ="DELETE FROM news where newsno = ?";

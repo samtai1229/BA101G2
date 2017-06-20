@@ -19,7 +19,7 @@ public class MesBoardJDBCDAO implements MesBoardDAO_interface {
 	String userid = "servlet";
 	String passwd = "123456";
 
-	private static final String INSERT_STMT = "INSERT INTO mes_board(mesno,memno,cont,pic,status) VALUES('MB'||lpad(to_char(mesno_seq.NEXTVAL),6,'0'),?, ?, ?, ?)";
+	private static final String INSERT_STMT = "INSERT INTO mes_board(mesno,memno,cont,pic,status) VALUES('MB'||lpad(to_char(mesno_seq.NEXTVAL),3,'0'),?, ?, ?, ?)";
 	private static final String GET_ALL_STMT = "SELECT * FROM mes_board order by mesno";
 	private static final String GET_ONE_STMT = "SELECT * FROM mes_board where mesno = ?";
 	private static final String DELETE = "DELETE FROM mes_board where mesno = ?";
@@ -70,7 +70,6 @@ public class MesBoardJDBCDAO implements MesBoardDAO_interface {
 			pstmt = con.prepareStatement(UPDATE);
 
 			pstmt.setString(1, mesboardvo.getMemno());
-			// pstmt.setTimestamp(2, mesboardvo.getDate());
 			pstmt.setString(2, mesboardvo.getCont());
 			pstmt.setBytes(3, mesboardvo.getPic());
 			pstmt.setString(4, mesboardvo.getStatus());
@@ -276,6 +275,9 @@ public class MesBoardJDBCDAO implements MesBoardDAO_interface {
 		// mesboardVO1.setStatus("normal");
 		// mes.update(mesboardVO1);
 		// System.out.println("ok");
+
+//		mes.delete("MB000001");
+//		System.out.println("ok");
 
 		MesBoardVO mesboardVO2 = mes.findByPrimaryKey("MB000001");
 		System.out.println(mesboardVO2.getMesno() + ",");

@@ -14,7 +14,7 @@ public class AdminisJDBCDAO implements AdminisDAO_interface {
 	String userid = "servlet";
 	String passwd = "123456";
 
-	private static final String INSERT_STMT = "INSERT INTO adminis(admno,locno,authno,name,acc,pw) VALUES('A'||lpad(to_char(admno_seq.NEXTVAL),6,'0'),?, ?, ?, ?, ?)";
+	private static final String INSERT_STMT = "INSERT INTO adminis(admno,locno,authno,name,acc,pw) VALUES('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0'),?, ?, ?, ?, ?)";
 	private static final String GET_ALL_STMT = "SELECT admno,locno,authno,name,acc,pw FROM adminis order by admno";
 	private static final String GET_ONE_STMT = "SELECT admno,locno,authno,name,acc,pw FROM adminis where admno = ?";
 	private static final String DELETE = "DELETE FROM adminis where admno = ?";

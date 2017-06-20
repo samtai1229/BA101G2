@@ -23,7 +23,7 @@ public class AuthCateDAO implements AuthCateDAO_interface{
 			e.printStackTrace();
 		}
 	}
-	private static final String INSERT_STMT = "INSERT INTO auth_cate(authno,descr) VALUES('AC'||lpad(to_char(authno_seq.NEXTVAL),6,'0'), ?)";
+	private static final String INSERT_STMT = "INSERT INTO auth_cate(authno,descr) VALUES('AC'||lpad(to_char(authno_seq.NEXTVAL),2,'0'), ?)";
 	private static final String GET_ALL_STMT ="SELECT authno,descr FROM auth_cate order by authno";
 	private static final String GET_ONE_STMT ="SELECT authno,descr FROM auth_cate where authno = ?";
 	private static final String DELETE ="DELETE FROM auth_cate where authno = ?";

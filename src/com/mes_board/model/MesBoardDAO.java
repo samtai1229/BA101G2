@@ -26,11 +26,11 @@ public class MesBoardDAO implements MesBoardDAO_interface{
 		}
 	}
 
-	private static final String INSERT_STMT = "INSERT INTO mes_board(mesno,memno,date,cont,pic,status) VALUES('MB'||lpad(to_char(mesno_seq.NEXTVAL),6,'0'),?, ?, ?, ?, ?)";
-	private static final String GET_ALL_STMT ="SELECT mesno,memno,date,cont,pic,status FROM mes_board order by mesno";
-	private static final String GET_ONE_STMT ="SELECT mesno,memno,date,cont,pic,status FROM mes_board where mesno = ?";
-	private static final String DELETE ="DELETE FROM mes_board where mesno = ?";
-	private static final String UPDATE ="UPDATE mes_board set memno=?, date=?, cont=?, pic=?, status=? where mesno = ?";
+	private static final String INSERT_STMT = "INSERT INTO mes_board(mesno,memno,cont,pic,status) VALUES('MB'||lpad(to_char(mesno_seq.NEXTVAL),3,'0'),?, ?, ?, ?)";
+	private static final String GET_ALL_STMT = "SELECT * FROM mes_board order by mesno";
+	private static final String GET_ONE_STMT = "SELECT * FROM mes_board where mesno = ?";
+	private static final String DELETE = "DELETE FROM mes_board where mesno = ?";
+	private static final String UPDATE = "UPDATE mes_board set memno=?, cont=?, pic=?, status=? where mesno = ?";
 	@Override
 	public void insert(MesBoardVO mesboardvo) {
 		Connection con = null;
@@ -42,10 +42,9 @@ public class MesBoardDAO implements MesBoardDAO_interface{
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setString(1, mesboardvo.getMemno());
-			pstmt.setTimestamp(2, mesboardvo.getDate());
-			pstmt.setString(3, mesboardvo.getCont());
-			pstmt.setBytes(4, mesboardvo.getPic());
-			pstmt.setString(5, mesboardvo.getStatus());
+			pstmt.setString(2, mesboardvo.getCont());
+			pstmt.setBytes(3, mesboardvo.getPic());
+			pstmt.setString(4, mesboardvo.getStatus());
 			pstmt.executeUpdate();
 
 			// Handle any SQL errors
@@ -84,14 +83,11 @@ public class MesBoardDAO implements MesBoardDAO_interface{
 			pstmt = con.prepareStatement(UPDATE);
 
 			pstmt.setString(1, mesboardvo.getMemno());
-			pstmt.setTimestamp(2, mesboardvo.getDate());
-			pstmt.setString(3, mesboardvo.getCont());
-			pstmt.setBytes(4, mesboardvo.getPic());
-			pstmt.setString(5, mesboardvo.getStatus());
-			pstmt.setString(6, mesboardvo.getMesno());
-
+			pstmt.setString(2, mesboardvo.getCont());
+			pstmt.setBytes(3, mesboardvo.getPic());
+			pstmt.setString(4, mesboardvo.getStatus());
+			pstmt.setString(5, mesboardvo.getMesno());
 			pstmt.executeUpdate();
-
 			// Handle any driver errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
@@ -172,7 +168,6 @@ public class MesBoardDAO implements MesBoardDAO_interface{
 
 			while (rs.next()) {
 				// empVo �]�٬� Domain objects
-				mesboardVO = new MesBoardVO();
 				mesboardVO.setMesno(rs.getString("mesno"));
 				mesboardVO.setMemno(rs.getString("memno"));
 				mesboardVO.setDate(rs.getTimestamp("date"));

@@ -22,11 +22,11 @@ public class AdminisDAO implements AdminisDAO_interface{
 			e.printStackTrace();
 		}
 	}
-	private static final String INSERT_STMT = "INSERT INTO adminis(admno,locno,authno,name,acc,pw) VALUES(admno_seq.NEXTVAL,?, ?, ?, ?, ?)";
-	private static final String GET_ALL_STMT ="SELECT admno,locno,authno,name,acc,pw FROM adminis order by admno";
-	private static final String GET_ONE_STMT ="SELECT admno,locno,authno,name,acc,pw FROM adminis where admno = ?";
-	private static final String DELETE ="DELETE FROM adminis where admno = ?";
-	private static final String UPDATE ="UPDATE adminis set locno=?, authno=?, name=?, acc=?, pw=? where admno = ?";
+	private static final String INSERT_STMT = "INSERT INTO adminis(admno,locno,authno,name,acc,pw) VALUES('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0')";
+	private static final String GET_ALL_STMT = "SELECT admno,locno,authno,name,acc,pw FROM adminis order by admno";
+	private static final String GET_ONE_STMT = "SELECT admno,locno,authno,name,acc,pw FROM adminis where admno = ?";
+	private static final String DELETE = "DELETE FROM adminis where admno = ?";
+	private static final String UPDATE = "UPDATE adminis set locno=?, authno=?, name=?, acc=?, pw=? where admno = ?";
 	@Override
 	public void insert(AdminisVO adminstratorVO) {
 		Connection con = null;
