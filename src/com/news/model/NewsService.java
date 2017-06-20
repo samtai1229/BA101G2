@@ -11,7 +11,7 @@ public class NewsService {
 		dao = new NewsDAO();
 	}
 	
-	public NewsVO addEmp(String admno, Timestamp date, String cont,byte[] pic, String title, String status) {
+	public NewsVO addNews(String admno, Timestamp date, String cont,byte[] pic, String title, String status) {
 
 		NewsVO newsVO = new NewsVO();
 
@@ -45,7 +45,7 @@ public class NewsService {
 		dao.delete(newsno);
 	}
 
-	public NewsVO getOneEmp(String newsno) {
+	public NewsVO getOneNews(String newsno) {
 		return dao.findByPrimaryKey(newsno);
 	}
 
