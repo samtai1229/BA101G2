@@ -1,6 +1,6 @@
-<%@page import="java.sql.Timestamp"%>
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.text.DateFormat"%>
+<%@	page import="java.sql.Timestamp"%>
+<%@	page import="java.text.SimpleDateFormat"%>
+<%@	page import="java.text.DateFormat"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -88,15 +88,13 @@
         <div class="btn-group-vertical"></div>
     </div>
     <div class="col-xs-12 col-sm-10 rightHTML" id="demo">
-
+		<img src="images/android_logo.png" id="mainPageLogo" style="vertical-align:middle">
     </div><!-- sm-10 rightHTML  -->
-    							
- 
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="Modified/motorKanli_js.js"></script>
     <script src="Modified/datepicker.js"></script>
     <script src="Modified/indexNew.js"></script>
-<!--RWD部分:下面兩行我拿掉一行和JQuery有關的script, 不然datepicker會衝到  -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 </body>
 </html>

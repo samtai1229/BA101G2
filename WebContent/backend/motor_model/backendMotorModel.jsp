@@ -26,6 +26,7 @@
     <link href="Modified/main.css" rel="stylesheet">
     <script src="Modified/motorKanli_js.js"></script>
     <script src="Modified/datepicker.js"></script>
+    <script src="Modified/upload.js"></script> 
 
 </head>
 
@@ -96,7 +97,6 @@
     <div class="col-xs-12 col-sm-10 rightHTML" id="demo">
 
 
-
 		<div class="topTitle">
             <h1>車型登錄管理系統</h1>
         </div>
@@ -128,7 +128,7 @@
 					              <a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">查詢</a>
 					          </li>
 					          <li role="presentation">
-					              <a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">新增(pic?)</a>
+					              <a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">新增</a>
 					          </li>
 					          <li role="presentation">
 					              <a href="#tab3" aria-controls="tab3" role="tab" data-toggle="tab">修改</a>
@@ -143,7 +143,7 @@
 					          		<fieldset>
 					          		<legend>車型資料查詢</legend>
 		<!--form功能 單一查詢  -->
-									<form method="get" action="motorModel.do">
+
 										<div class="InputForm">
 											<label class="title">查詢</label> 
 												<select name="modtype"  onchange="queryMotorTypeByModtype(this.value)">
@@ -152,15 +152,9 @@
 															${mmVO.brand}
 															${mmVO.name}
 														</option>
-														
 													</c:forEach> 
 												</select><br />
 										</div>
-<!-- 										<div class="InputForm">
-											<input type="hidden" name="action" value="query">
-											<input type="submit" value="query" class="click" /> 
-										</div>	 -->
-									</form>
 
 <!--錨點div:單筆顯示   showSingleQueryResult  --> 
 									<div id="showSingleQueryResult"></div>
@@ -171,30 +165,38 @@
 		<!--form功能 新增  -->
 							     	<fieldset>
 								    <legend>車型資料新增</legend>
-									<form method="post" action="motorModel.do">
+									<form method="post" action="motorModel.do" enctype="multipart/form-data">
 										<div class="InputForm">
-											<label class="title">廠牌</label><input type="text"
-												name="brand" maxlength="30" /><br>
+											<label class="title">廠牌</label>
+											<input type="text" name="brand" maxlength="30" /><br>
 										</div>
 										<div class="InputForm">
-											<label class="title">排氣量</label><input type="text"
-												name="displacement" maxlength="10" placeholder="請輸入數字" /><br>
+											<label class="title">排氣量</label>
+											<input type="text" name="displacement" maxlength="10" placeholder="請輸入數字" /><br>
 										</div>
 										<div class="InputForm">
-											<label class="title">車輛名稱</label><input type="text"
-												name="engno" maxlength="30" /><br>
+											<label class="title">車輛名稱</label>
+											<input type="text" name="name" maxlength="30" /><br>
 										</div>
 										<div class="InputForm">
-											<label class="title">租賃價格</label><input type="text" name="renprice" /><br>
+											<label class="title">租賃價格</label>
+											<input type="text" name="renprice" /><br>
 										</div>
 										
 										<div class="InputForm">
-											<label class="title">出售價格</label><input type="text" name="saleprice"/><br>
-										</div>
-														
+											<label class="title">出售價格</label>
+											<input type="text" name="saleprice"/><br>
+										</div>	
 										<div class="InputForm">
-											<label class="title">車輛圖片</label><input type="text"
-												name="locno" maxlength="10" placeholder="待改上傳方式" /><br>
+											<label class="title">車輛圖片</label>
+												<input type="file" id="myFileInsert" name="motpic" >
+												<p>
+													<textarea id="fileInfoInsert" rows="5" cols="34"></textarea>
+												</p>
+												<h2>Content here...</h2>
+												<p>
+												<img id="imageInsert">
+											</p>
 										</div>
 										<div>
 											<input id="file_selector" type="file" value="" onchange="file_viewer.load();"/>
@@ -213,41 +215,50 @@
 		<!--form功能 修改  -->
 					                <fieldset>
 							  	    <legend>車型資料修改</legend>
-									<form method="post" action="motorModel.do">
+									<form method="post" action="motorModel.do" enctype="multipart/form-data">
 									
 										<div class="InputForm">
 											<label class="title">車輛型號</label> 
 												<select name="modtype">
 													<c:forEach var="mmVO" items="${mmSvc.all}">
 														<option value="${mmVO.modtype}">
-															${mmVO.modtype}
+															${mmVO.brand}${mmVO.name}
 														</option>
 													</c:forEach>
 												</select><br />
 										</div>
 										<div class="InputForm">
-											<label class="title">廠牌</label><input type="text"
-												name="brand" maxlength="30" /><br>
+											<label class="title">廠牌</label>
+											<input type="text" name="brand" maxlength="30" /><br>
 										</div>
 										<div class="InputForm">
-											<label class="title">排氣量</label><input type="text"
-												name="displacement" maxlength="10" placeholder="請輸入數字" /><br>
+											<label class="title">排氣量</label>
+											<input type="text" name="displacement" maxlength="10" placeholder="請輸入數字" /><br>
 										</div>
 										<div class="InputForm">
-											<label class="title">車輛名稱</label><input type="text"
-												name="engno" maxlength="30" /><br>
+											<label class="title">車輛名稱</label>
+											<input type="text" name="name" maxlength="30" /><br>
 										</div>
 										<div class="InputForm">
-											<label class="title">租賃價格</label><input type="text" name="renprice" /><br>
+											<label class="title">租賃價格</label>
+											<input type="text" name="renprice" /><br>
 										</div>
 										
 										<div class="InputForm">
-											<label class="title">出售價格</label><input type="text" name="saleprice"/><br>
+											<label class="title">出售價格</label>
+											<input type="text" name="saleprice"/><br>
 										</div>
 														
 										<div class="InputForm">
-											<label class="title">車輛圖片</label><input type="text"
-												name="locno" maxlength="10" placeholder="待改上傳方式" /><br>
+											<label class="title">車輛圖片</label>
+												<input type="file" id="myFileUpdate" name="motpic" >
+												<p>
+													<textarea id="fileInfoUpdate" rows="5" cols="34"></textarea>
+												</p>
+												<h2>Content here...</h2>
+												<p>
+												<img id="imageUpdate">
+											</p>
 										</div>
 										<div class="InputForm">
 											<input type="hidden" name="action" value="update">
@@ -268,7 +279,7 @@
 												<select name="modtype">
 													<c:forEach var="mmVO" items="${mmSvc.all}">
 														<option value="${mmVO.modtype}">
-															${mmVO.modtype}
+															${mmVO.brand}${mmVO.name}
 														</option>
 													</c:forEach>
 												</select><br />
