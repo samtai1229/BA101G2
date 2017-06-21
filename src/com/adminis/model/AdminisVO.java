@@ -9,7 +9,8 @@ public class AdminisVO implements java.io.Serializable {
 	private String acc;
 	private String pw;
 
-	protected AdminisVO() {
+
+	public AdminisVO() {
 		super();
 	}
 

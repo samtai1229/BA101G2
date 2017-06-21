@@ -9,9 +9,8 @@ public class AdminisService {
 	public AdminisService(){
 		dao = new AdminisDAO();
 	}
-	public AdminisVO addAdminis(String admno,String locno,String authno,String name,String acc,String pw){
+	public AdminisVO addAdminis(String locno,String authno,String name,String acc,String pw){
 		AdminisVO	adminisVO = new AdminisVO();
-		adminisVO.setAdmno(admno);
 		adminisVO.setLocno(locno);
 		adminisVO.setAuthno(authno);
 		adminisVO.setName(name);
@@ -30,15 +29,15 @@ public class AdminisService {
 		adminisVO.setName(name);
 		adminisVO.setAcc(acc);
 		adminisVO.setPw(pw);
-		dao.insert(adminisVO);
+		dao.update(adminisVO);
 		
 		return adminisVO;
 	}
-	public void deleteEmp(String admno) {
+	public void deleteAdminis(String admno) {
 		dao.delete(admno);
 	}
 
-	public AdminisVO getOneEmp(String admno) {
+	public AdminisVO getOneAdminis(String admno) {
 		return dao.findByPrimaryKey(admno);
 	}
 

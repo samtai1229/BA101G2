@@ -3,7 +3,7 @@ package com.auth_cate.model;
 public class AuthCateVO implements java.io.Serializable{
 	private String authno;
 	private String descr;
-	protected AuthCateVO() {
+	public AuthCateVO() {
 		super();
 	}
 	public String getAuthno() {
