@@ -38,7 +38,7 @@
 	排氣量:<c:out value="${mmQueryVO.displacement}" default="未收到結果"/><br>
 	租賃價格:<c:out value="${mmQueryVO.renprice}" default="未收到結果"/><br>
 	出售價格:<c:out value="${mmQueryVO.saleprice}" default="未收到結果"/><br>
-	<img src='mmReader.do?modtype=${mmQueryVO.modtype}' width='500'>
+	<img src='<%=request.getContextPath()%>/backend/motor_model/mmReader.do?modtype=${mmQueryVO.modtype}' width='500'>
 
 </body>
 </html>

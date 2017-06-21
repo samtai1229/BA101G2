@@ -60,10 +60,34 @@
 					<td><c:out value="${roVO.slocno}" default="無資料" /></td>
 					<td><fmt:formatDate pattern="yyyy-MM-dd" value="${roVO.startdate}" /></td>
 					<td><c:out value="${roVO.note}" default="無資料" /></td>
-					<td><input type="hidden" name="action" value="update">
-						<input type="submit" value="update" class="click2" /></td>
-					<td><input type="hidden" name="action" value="close">
-						<input type="submit" value="close" class="click2" /></td>
+
+					<td>
+						<form method="post" action="NewFile.jsp">	
+							<input type="hidden" name="rentno" value="${roVO.rentno}">
+							<input type="submit" value="update" class="click2"/>
+						</form>						
+					</td>	
+					<c:if test="${roVO.status =='noreturn'}">
+						<td>
+							<form method="post" action="NewFile.jsp">						
+								<input type="hidden" name="rentno" value="${roVO.rentno}">
+								<input type="hidden" name="comeFrom" value="noreturn">								
+								<input type="submit" value="closeable" class="click3"/>
+							</form>					
+						</td>					 
+					</c:if>
+					
+					<c:if test="${roVO.status =='overtime'}">
+						<td>
+							<form method="post" action="NewFile.jsp">						
+								<input type="hidden" name="rentno" value="${roVO.rentno}">
+								<input type="hidden" name="comeFrom" value="overtime">	
+								<input type="submit" value="overtime" class="click4"/>
+							</form>					
+						</td>					 
+					</c:if>					
+					
+											
 				</tr>
 			</c:forEach>
 		</tbody>

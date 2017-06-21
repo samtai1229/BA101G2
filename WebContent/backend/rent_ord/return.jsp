@@ -31,19 +31,83 @@
 
 <body>
 
+    <nav class="navbar navbar-default" role="navigation">
+        <!-- logo區 -->
+        <a class="navbar-brand" href="#" id="navA">AUTOBIKE</a>
+        <!-- 左選單 -->
+        <ul class="nav navbar-nav">
+            <li><a href="#" id="navA">後端管理系統</a></li>
+            <!-- 時鐘 -->
+            <iframe scrolling="no" frameborder="no" clocktype="html5" style="overflow:hidden;border:0;margin:0;padding:0;width:120px;height:40px;" src="http://www.clocklink.com/html5embed.php?clock=004&timezone=CCT&color=yellow&size=120&Title=&Message=&Target=&From=2017,1,1,0,0,0&Color=yellow">
+            </iframe>
+        </ul>
+        <!-- 右選單 -->
+        <ul class="nav navbar-nav navbar-right">
+        </ul>
+    </nav>
+ <%--保留寫法     href="<%=request.getContextPath()%>/backend/backendRentOrd.jsp"  --%>
+    <div class="col-xs-12 col-sm-2 leftBar">
+        <img id="menuLogo" src="images/logo.jpg">
+        <button class="accordion accordionMenu accordion accordionMenuMenu">總部管理系統</button>
+        <div class="btn-group-vertical">
+                
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/motor/backendMotor.jsp"  role="button">車輛資料管理</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/motor_model/backendMotorModel.jsp"  role="button">車輛型號管理</a>           
+            <a class="btn btn-default" href="#" role="button">車輛調度</a>            
+<!--        <a class="btn btn-default" role="button" onclick="loadRentOrd()">租賃單管理</a> -->
+			<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/backendRentOrd.jsp" role="button">租賃單管理</a>
+            <a class="btn btn-default" href="#" role="button">裝備管理</a>
+            <a class="btn btn-default" href="#" role="button">裝備調度</a>
+            <a class="btn btn-default" href="#" role="button">據點管理</a>
+        </div>
+        <button class="accordion accordionMenu">據點管理系統</button>
+        <div class="btn-group-vertical">
+            <a class="btn btn-default" href="#" role="button">據點車輛管理</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/lease.jsp"  role="button">交車管理</a>
+          	<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/return.jsp"  role="button">還車管理</a>
+            <a class="btn btn-default" href="#" role="button">車輛調度申請</a>
+            <a class="btn btn-default" href="#" role="button">車輛保養/維修管理</a>
+            <a class="btn btn-default" href="#" role="button">據點裝備管理</a>
+            <a class="btn btn-default" href="#" role="button">裝備申請</a>
+        </div>
+        <button class="accordion accordionMenu">二手車管理系統</button>
+        <div class="btn-group-vertical">
+            <a class="btn btn-default" href="#" role="button">二手車輛管理</a>
+            <a class="btn btn-default" href="#" role="button">二手車訂單管理</a>
+            <a class="btn btn-default" href="#" role="button">二手車交易管理</a>
+        </div>
+        <button class="accordion accordionMenu">會員管理系統</button>
+        <div class="btn-group-vertical"></div>
+        <button class="accordion accordionMenu">活動企劃管理系統</button>
+        <div class="btn-group-vertical">
+            <a class="btn btn-default" href="#" role="button">推播管理</a>
+            <a class="btn btn-default" href="#" role="button">留言版管理</a>
+            <a class="btn btn-default" href="#" role="button">最新消息管理</a>
+        </div>
+        <button class="accordion accordionMenu">後端管理系統</button>
+        <div class="btn-group-vertical">
+            <a class="btn btn-default" href="#" role="button">後端權限管理</a>
+            <a class="btn btn-default" href="#" role="button">推薦景點管理</a>
+            <a class="btn btn-default" href="#" role="button">後端登入管理</a>
+        </div>
+        <div class="btn-group-vertical"></div>
+    </div>
+    <div class="col-xs-12 col-sm-10 rightHTML" id="demo">
+
+
+
 
 		<div class="topTitle">
             <h1>還車系統</h1>
         </div>
-        
-
-        
+      
 <%
 	RentOrdVO roVO = (RentOrdVO) request.getAttribute("roVO"); //MotorServlet.java (Concroller), 存入req的VO物件 (包括幫忙取出的VO, 也包括輸入資料錯誤時的VO物件)
 %>       
         
          		<div class="container-fluid">       
-<jsp:useBean id="roSvc" scope="page" class="com.rent_ord.model.RentOrdService"/>
+
+
 <!--block1 --><div id="block1" class="col-xs-12 col-sm-4">
 				
 <%-- 錯誤表列 --%>
@@ -64,41 +128,39 @@
 					              <a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">查詢</a>
 					          </li>
 					          <li role="presentation">
-					              <a href="#tab5" aria-controls="tab3" role="tab" data-toggle="tab">?</a>
+					              <a href="#tab5" aria-controls="tab3" role="tab" data-toggle="tab">還車</a>
 					          </li>
 					          <li role="presentation">
-					              <a href="#tab6" aria-controls="tab4" role="tab" data-toggle="tab">?</a>
+					              <a href="#tab6" aria-controls="tab4" role="tab" data-toggle="tab">還車</a>
 					          </li>
 <!-- 標籤面板：標籤區結束 -->	  </ul>				  
 
 <!-- 標籤面板：內容區開始 -->     <div class="tab-content">
 							  <div role="tabpanel" class="tab-pane active" id="tab1">
+					          		
+					          		
 					          		<fieldset>
+
+<jsp:useBean id="locSvc" scope="page" class="com.location.model.LocationService"/>
 					          		<legend>租賃單查詢</legend>
 	<!--form功能 依據點查詢  -->
-									<form method="get" action="rentOrd.do">
 										<div class="InputForm">
 											<label class="title">據點查詢</label> 
-												<select name="rlocno">
-														<option value="L000001">L000001</option>
-														<option value="L000002">L000002</option>
-														<option value="L000003">L000003</option>
-														<option value="L000004">L000004</option>														
-														<option value="L000005">L000005</option>
-														<option value="L000006">L000006</option>														
+												<select name="rlocno" onchange="queryRentOrdByRlocno(this.value)">
+						 							<c:forEach var="locVO" items="${locSvc.all}">
+						 							<c:if test="${locVO.locno != 'TPE00'}"> 
+														<option value="${locVO.locno}">${locVO.locno}</option>
+													</c:if>	
+													</c:forEach> 													
 												</select><br />
 										</div>
-										<div class="InputForm">
-											<input type="hidden" name="action" value="get_for_return_view">
-											<input type="submit" value="query" class="click" /> 
-										</div>	
-									</form>
-					          		
+
+<jsp:useBean id="roSvc" scope="page" class="com.rent_ord.model.RentOrdService"/>					          		
 		<!--form功能 單一查詢  -->
 									<form method="get" action="rentOrd.do">
 										<div class="InputForm">
 											<label class="title">單一查詢</label> 
-												<select name="rentno">
+												<select name="rentno" onchange="queryRentOrdByRentOrdPK(this.value)">
 						 							<c:forEach var="roVO" items="${roSvc.all}">
 														<option value="${roVO.rentno}">
 															${roVO.rentno}
@@ -106,34 +168,10 @@
 													</c:forEach> 
 												</select><br />
 										</div>
-										<div class="InputForm">
-											<input type="hidden" name="action" value="get_one_in_return_view">
-											<input type="submit" value="query" class="click" /> 
-										</div>	
 									</form>
-									<%
-										RentOrdVO roQueryVO = (RentOrdVO)request.getAttribute("roQueryVO");
-									%>
 									
-									租賃單號:<c:out value="${roQueryVO.rentno}" default="無資料"/><br>
-  									租賃狀態:<c:out value="${roQueryVO.status}" default="無資料"/><br>
-									會員編號:<c:out value="${roQueryVO.memno}" default="無資料"/><br>
-									車輛編號:<c:out value="${roQueryVO.motno}" default="無資料"/><br>
-									取車時間:<fmt:formatDate pattern = "yyyy-MM-dd" value = "${roQueryVO.startdate}" /><br>
-									取車據點:<c:out value="${roQueryVO.slocno}" default="無資料"/><br>
-								            還車據點:<c:out value="${roQueryVO.rlocno}" default="無資料"/><br>
-									起始里程:<c:out value="${roQueryVO.milstart}" default="無資料"/><br>
-									備註:<c:out value="${roQueryVO.note}" default="無資料"/><br>
- 									<%-- 結束里程:<c:out value="${roQueryVO.milend}" default="無資料"/><br> --%>
-									填表日期:<fmt:formatDate pattern = "yyyy-MM-dd" value = "${roQueryVO.filldate}" /><br>
- 									結束日期:<fmt:formatDate pattern = "yyyy-MM-dd" value = "${roQueryVO.enddate}" /><br>
-									還車日期:<fmt:formatDate pattern = "yyyy-MM-dd" value = "${roQueryVO.returndate}" /><br>
-									        罰金:<c:out value="${roQueryVO.fine}" default="無資料"/><br>
-									    總金額:<c:out value="${roQueryVO.total}" default="無資料"/><br>
-									<%--         評價:<c:out value="${roQueryVO.rank}" default="無資料"/><br> --%>
-
-									        
-
+<!--錨點div:單筆顯示   showSingleQueryResult  --> 
+									<div id="showSingleQueryResult"></div>
 									
 									</fieldset>
 							  </div>
@@ -166,29 +204,19 @@
 
 <!-- block3 表格 --> <div id="block3" class="col-xs-12 col-sm-8">
 
-					<%if(request.getAttribute("get_for_return_view")!=null){ %>
+<%-- 					<%if(request.getAttribute("get_for_return_view")!=null){ %>
 						<jsp:include page="get_for_return_view.jsp"/>
-					<%}%>
- 					
+					<%}%> --%>
 
 					</div>
 <!--end: block3 --> 	
 <!--container--></div>	
 
+					<script src="Modified/QueryTablePagination.js"></script> 
+    </div><!-- sm-10 rightHTML  -->
  
 <!--RWD部分:下面兩行我拿掉一行和JQuery有關的script, 不然datepicker會衝到  -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+    <script src="Modified/rentOrdNew.js"></script>
 </body>
 </html>
-
-<%-- <% DateFormat df = new SimpleDateFormat("yyyy-MM"); %> --%>
-<%-- <c:set scope="page" var="temp">
- <c:out value="${motorVO.manudate}"/> 
-</c:set>
-<% 
-  String str = String.valueOf(pageContext.getAttribute("temp"));
-  java.util.Date du = (java.util.Date)(df.parse(str));
-  String date = df.format(du);	
-  <td><%=date %></td> 
-%>	 --%>
