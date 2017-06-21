@@ -30,13 +30,14 @@
 	
 	<c:forEach var="soVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 		<tr align='center' valign='middle'>
+		<c:if test="${soVO.status.equals('value')}">
 			<td>${soVO.sono}</td>
 			<td>${soVO.memno}</td>
 			<td>${soVO.motorno}</td>
 			<td><fmt:formatDate pattern = "yyyy-MM-dd hh:mm"  
          value = "${soVO.buildtime}" /></td>
 			<td>${soVO.status}</td>		
-			
+			</c:if>
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
 			     <input type="submit" value="н╫зя"> 

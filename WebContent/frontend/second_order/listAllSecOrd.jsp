@@ -38,13 +38,26 @@
 </c:if>
 <%@ include file="pages/page1.file" %> 
 <span><font color=blue><b>訂單狀態</b></font>
-<select onchange="toggleStatus()" >
+<select name="status" onchange="loadOrder(this.value)" >
 	<option value="unpaid">未付款</option>
 	<option value="paid">已付款</option>
 	<option value="closed">已結單</option>
 	<option value="other">其他</option>
 </select>
 </span>
+<script type="text/javascript">
+function loadOrder() {
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			document.getElementById("demo").innerHTML = this.responseText;
+		}
+	};
+	xhttp.open("GET", "table.jsp", true);
+	xhttp.send();
+}
+
+</script>
 <div id="demo"></div>
 <table border='1' bordercolor='#CCCCFF' width='800'>
 	<tr>
