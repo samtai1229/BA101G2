@@ -18,7 +18,8 @@ public class SecOrdJDBCDAO implements SecOrdDAO_interface {
 
 	private static final String INSERT_STMT = "INSERT INTO SEC_ORD (sono,memno,motno,sodate,status) VALUES ('S'||lpad(to_char(sono_seq.NEXTVAL),6,'0'), ?, ?, ?, ?)";
 	private static final String GET_ALL_STMT = "SELECT sono,memno,motno,sodate,status FROM SEC_ORD order by sono";
-	private static final String GET_ONE_STMT = "SELECT sono,memno,motno,sodate,status FROM SEC_ORD where sono = ?";
+	private static final String GET_ONE_STMT_SONO = "SELECT sono,memno,motno,sodate,status FROM SEC_ORD where sono = ?";
+	private static final String GET_ONE_STMT_MEMNO = "SELECT sono,memno,motno,sodate,status FROM SEC_ORD where memno = ?";
 	private static final String DELETE = "DELETE FROM SEC_ORD where sono = ?";
 	private static final String UPDATE = "UPDATE SEC_ORD set memno=?, motno=?, sodate=?, status=? where sono = ?";
 
@@ -203,7 +204,7 @@ public class SecOrdJDBCDAO implements SecOrdDAO_interface {
 	}
 
 	@Override
-	public SecOrdVO findByPrimaryKey(String sono) {
+	public SecOrdVO findBySono(String sono) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -212,7 +213,7 @@ public class SecOrdJDBCDAO implements SecOrdDAO_interface {
 		try {
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
-			pstmt = con.prepareStatement(GET_ONE_STMT);
+			pstmt = con.prepareStatement(GET_ONE_STMT_SONO);
 			// sono,memno,motno,sodate,status
 			// pstmt.setString(1, secordVO.getSecondNo());
 			pstmt.setString(1,sono);
@@ -314,6 +315,61 @@ public class SecOrdJDBCDAO implements SecOrdDAO_interface {
 
 		
 		return list;
+	}
+
+	@Override
+	public SecOrdVO findByMemno(String memno) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		SecOrdVO obj = null;
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_ONE_STMT_MEMNO);
+			// sono,memno,motno,sodate,status
+			// pstmt.setString(1, secordVO.getSecondNo());
+			pstmt.setString(1, memno);
+			pstmt.executeUpdate();
+
+			rs = pstmt.getResultSet();
+			while (rs.next()) {
+				obj = new SecOrdVO();
+				// sodate,status
+				obj.setSono(rs.getString("sono"));
+				obj.setMemno(rs.getString("memno"));
+				obj.setMotorno(rs.getString("motno"));
+				obj.setBuildtime(rs.getTimestamp("sodate"));
+				obj.setStatus(rs.getString("status"));
+
+			}
+
+			// Handle any driver errors
+		}catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		}  finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+
+		return obj;
 	}
 
 }

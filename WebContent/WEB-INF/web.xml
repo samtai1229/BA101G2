@@ -48,7 +48,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>SecondOrderServlet</servlet-name>
-		<url-pattern>/frontend/secord/SecOrd.do</url-pattern>
+		<url-pattern>/frontend/second_order/SecOrd.do</url-pattern>
 	</servlet-mapping>
   
   

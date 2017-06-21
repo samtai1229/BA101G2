@@ -25,10 +25,10 @@
 </c:if>
 
 <ul>
-  <li><a href='<%=request.getContextPath()%>/frontend/secord/listAllSecOrd.jsp'>List</a> all SecOrd. </li> <br><br>
+  <li><a href='<%=request.getContextPath()%>/frontend/second_order/listAllSecOrd.jsp'>List</a> all SecOrd. </li> <br><br>
   
   <li>
-    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/secord/SecOrd.do" >
+    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do" >
         <b>輸入二手車訂單編號 (如S000001):</b>
         <input type="text" name="sono">
         <input type="submit" value="送出">
@@ -39,7 +39,7 @@
   <jsp:useBean id="soSvc" scope="page" class="com.sec_ord.model.SecOrdService" />
    
  <li>
-    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/secord/SecOrd.do" >
+    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do" >
         <b>輸入會員編號 (如MEM000001):</b>
         <input type="text" name="memno">
         <input type="submit" value="送出">
@@ -52,7 +52,7 @@
 <h3>訂單管理</h3>
 
 <ul>
-  <li><a href='<%=request.getContextPath()%>/frontend/secord/addSecOrd.jsp'>Add</a> a new SecOrd.</li>
+  <li><a href='<%=request.getContextPath()%>/frontend/second_order/addSecOrd.jsp'>Add</a> a new SecOrd.</li>
 </ul>
 
 </body>

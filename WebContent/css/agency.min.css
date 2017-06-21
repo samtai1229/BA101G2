@@ -322,7 +322,7 @@ section {
 }
 
 #news #board{
-    height: 1100px;
+    height: 1000px;
 }
 
 section h2.section-heading {
@@ -332,15 +332,14 @@ section h2.section-heading {
 }
 
 section h3.section-subheading {
-    font-size: 16px;
+    font-size: 25px;
     text-transform: none;
     font-weight: 400;
-    margin-bottom: 75px
-}
+    margin-bottom: 30px;
 
 @media (min-width:768px) {
     section {
-        padding: 0px 0
+        padding: 10px 0
     }
 }
 
