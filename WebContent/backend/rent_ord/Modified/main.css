@@ -13,28 +13,31 @@
 	
 }
 
-.click, .pgBtn, .pgBtn2, #selectBox{
-	color: #ffffff;
+.click, .click2, .click3, .click4, .pgBtn, .pgBtn2, #selectBox{
 	background-color: #719c92;
 	border:none;
 	font-size:16px;
 	border-radius:5px;
-	margin-right:20px;
+/*  	margin-left:10px; */
 	height:30px;
 	width:80px;
 	text-align:center;
 	color: #edd14a;
+	padding:5px;
 }
 
 .click2{
-	color: #ffffff;
 	background-color: #719c92;
-	border:none;
-	font-size:16px;
-	border-radius:5px;
-	height:30px;
-	width:60px;
-	text-align:center;
+	color: #edd14a;
+}
+
+.click3{
+	background-color: #0000ff;
+	color: #edd14a;
+}
+
+.click4{
+	background-color: #ff0000;
 	color: #edd14a;
 }
 

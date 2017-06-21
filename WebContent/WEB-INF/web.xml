@@ -21,7 +21,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MotorServlet</servlet-name>
-    <url-pattern>/backend/motor.do</url-pattern>
+    <url-pattern>/backend/motor/motor.do</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>MotorModelServlet</servlet-name>
@@ -29,8 +29,9 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MotorModelServlet</servlet-name>
-    <url-pattern>/backend/motorModel.do</url-pattern>
+    <url-pattern>/backend/motor_model/motorModel.do</url-pattern>
   </servlet-mapping>
+
 
   
   <servlet>
@@ -59,7 +60,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>RentOrdServlet</servlet-name>
-    <url-pattern>/backend/rentOrd.do</url-pattern>
+    <url-pattern>/backend/rent_ord/rentOrd.do</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>MotorDispatchServlet</servlet-name>
@@ -67,7 +68,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MotorDispatchServlet</servlet-name>
-    <url-pattern>/backend/motorDispatch.do</url-pattern>
+    <url-pattern>/backend/motor_dispatch/motorDispatch.do</url-pattern>
   </servlet-mapping>
   
     <servlet>
@@ -76,7 +77,6 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MotorModelDBGifReader</servlet-name>
-    <url-pattern>/backend/mmReader.do</url-pattern>
+    <url-pattern>/backend/motor_model/mmReader.do</url-pattern>
   </servlet-mapping>
-
 </web-app>

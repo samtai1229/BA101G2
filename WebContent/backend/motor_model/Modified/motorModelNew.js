@@ -110,7 +110,7 @@ function queryMotorTypeByModtype(str) {
 			document.getElementById("showSingleQueryResult").innerHTML = this.responseText;
 		}
 	};
-	xhttp.open("GET", "/BA101G2/backend/motorModel.do?action=query&modtype="+str, true);
+	xhttp.open("GET", "/BA101G2/backend/motor_model/motorModel.do?action=query&modtype="+str, true);
 	xhttp.send(null);
 }
 
