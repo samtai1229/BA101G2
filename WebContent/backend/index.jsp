@@ -91,10 +91,10 @@
 		<img src="images/android_logo.png" id="mainPageLogo" style="vertical-align:middle">
     </div><!-- sm-10 rightHTML  -->
 
-	<!--RWD部分:下面兩行我拿掉一行和JQuery有關的script, 不然datepicker會衝到  -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="Modified/motorKanli_js.js"></script>
     <script src="Modified/datepicker.js"></script>
     <script src="Modified/indexNew.js"></script>
+
 </body>
 </html>

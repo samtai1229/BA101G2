@@ -96,6 +96,7 @@
     </div>
     <div class="col-xs-12 col-sm-10 rightHTML" id="demo">
 
+
 		<div class="topTitle">
             <h1>車型登錄管理系統</h1>
         </div>
@@ -196,6 +197,9 @@
 												<p>
 												<img id="imageInsert">
 											</p>
+										</div>
+										<div>
+											<input id="file_selector" type="file" value="" onchange="file_viewer.load();"/>
 										</div>
 										<div class="InputForm">
 											<input type="hidden" name="action" value="insert">
