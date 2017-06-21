@@ -254,6 +254,7 @@ public class MotorModelServlet extends HttpServlet {
 					RequestDispatcher failureView = req
 							.getRequestDispatcher("/backend/motor_model/get_motor_model_by_pk.jsp");
 					failureView.forward(req, res);
+					
 					return;//程式中斷
 				}
 				
