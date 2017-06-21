@@ -48,13 +48,8 @@
 				<tr class="QueryTable_TR">
 					
 					<!-- 產生超連結，直接進入表格頁面  -->
-					<c:if test="${roVO.status == 'unoccupied' || roVO.status =='noshow'}">
-						<td><a href="javascript:presses(${roVO.rentno})">${roVO.rentno}</a></td>						 
-					</c:if>
-					<c:if test="${roVO.status == 'unpaid'}">
-						<td><c:out value="${roVO.rentno}" default="無資料" /></td>						 
-					</c:if> 					 
-
+					
+					<td><c:out value="${roVO.rentno}" default="無資料" /></td>
 					<td><c:out value="${roVO.status}" default="無資料" /></td>
 					<td><c:out value="${roVO.slocno}" default="無資料" /></td>
 					<td><fmt:formatDate pattern="yyyy-MM-dd" value="${roVO.startdate}" /></td>
@@ -63,18 +58,45 @@
 					<td><c:out value="${roVO.rlocno}" default="無資料" /></td>
 					<td><fmt:formatDate pattern="yyyy-MM-dd" value="${roVO.enddate}" /></td>
 					<td><c:out value="${roVO.note}" default="無資料" /></td>
-					<td><input type="hidden" name="action" value="update">
-						<input type="submit" value="update" class="click2" /></td>
-					<td><input type="hidden" name="action" value="lease">
-						<input type="submit" value="lease" class="click2" disabled /></td>
+					<td>
+						<form method="post" action="NewFile.jsp">	
+							<input type="hidden" name="rentno" value="${roVO.rentno}">
+							<input type="submit" value="update" class="click2"/>
+						</form>						
+					</td>
+					
+					<c:if test="${roVO.status == 'unpaid'}">					
+						<td>
+							<form method="post" action="NewFile.jsp">	
+								<input type="hidden" name="rentno" value="${roVO.rentno}">
+								<input type="hidden" name="comeFrom" value="unpaid">	
+								<input type="submit" value="unpaid" class="click2"/>
+							</form>								
+						</td>				 
+					</c:if>
+					<c:if test="${roVO.status == 'unoccupied'}">
+						<td>
+							<form method="post" action="NewFile.jsp">						
+								<input type="hidden" name="rentno" value="${roVO.rentno}">
+								<input type="hidden" name="comeFrom" value="unoccupied">
+								<input type="submit" value="unoccupied" class="click3"/>
+							</form>					
+						</td>					 
+					</c:if>
+					<c:if test="${roVO.status =='noshow'}">
+						<td>
+							<form method="post" action="NewFile.jsp">						
+								<input type="hidden" name="rentno" value="${roVO.rentno}">
+								<input type="hidden" name="comeFrom" value="noshow">	
+								<input type="submit" value="noshow" class="click4"/>
+							</form>					
+						</td>					 
+					</c:if>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
 	<script>
-function presses(rentno){
-	document.open("rentOrd.do?rentno="+rentno+"&action=lease_ord_form", "" ,"height=250,width=850,left=65,top=157,resizable=yes,scrollbars=yes");
-}
 </script>
 	<script src="Modified/QueryTablePagination.js"></script>
 </body>

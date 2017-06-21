@@ -25,7 +25,6 @@
     <link href="Modified/main.css" rel="stylesheet">
     <script src="Modified/motorKanli_js.js"></script>
     <script src="Modified/datepicker.js"></script>
-
 </head>
 <body>
 

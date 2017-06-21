@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<HTML>
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=Big5">
+<script src="upload_1.js"></script> 
+</HEAD>
+<BODY bgcolor="red" onload="init();">
+
+  <FORM action="uploadServlet3_1.do" method=post enctype="multipart/form-data">
+  
+ 		<input type="text" name="namexx" value="馬斯克">
+  		<br>  	
+  		
+  		
+  		<div>
+			<input id="file_selector" type="file" value="" onchange="file_viewer.load();"/>
+ 		</div>
+
+ 		<div>
+			Name: <input id="show_filename" type="text"readonly="true" value=""/><br/>
+			Size: <input id="show_filesize" type="text"readonly="true" value=""/>Bytes
+			<br/>
+	<!-- 	<textarea id="show_data" readonly="true" cols="60" rows="2">
+			</textarea>
+	 		<br/>
+	-->		<img id="show_image" alt="Show Image" />
+		</div>
+  		
+  			
+        <input type="file" name="upfile1" accept='image/*' id="upfile1">  <br>
+        <img id='output' name='output'>
+        <br>
+        <input type="file" name="upfile2" accept='image/*' id="upfile2">  <br>
+        <img id='output' name='output'>
+        <br> 
+        <input type='file' accept='image/*' onchange='openFile(event)' name="upfile"><br>
+ 		<img id='output' name='output'>
+        
+        <input type="submit" value="上傳">
+  </FORM>
+
+
+</BODY>
+</HTML>
+

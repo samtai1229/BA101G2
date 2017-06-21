@@ -28,7 +28,7 @@ public class MemberDAO implements MemberDAO_interface{
 	static {
 		try {
 			Context ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB");
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB3");
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
@@ -53,18 +53,6 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 	/*	String memno,String memname,String sex,Timestamp birth,String mail,String phone,
 		String addr,String acc,String pwd,byte[] idcard1,byte[] idcard2,byte[] license,
 		Timestamp credate,String status,*/
-	public static void main(String[] args)
-	{
-		MemberDAO dao = new MemberDAO();
-		
-		List<MemberVO> list = dao.getAll();
-		for(MemberVO m : list)
-		{
-			System.out.print(m.getAcc()+",");
-			System.out.print(m.getAddr()+",");
-		}
-	}
-	
 	
 	@Override
 	public void insert(MemberVO memberVO) {
@@ -240,7 +228,7 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				// empVo 也稱為 Domain objects
+				// memberVO 也稱為 Domain objects
 				memberVO = new MemberVO();
 				memberVO.setMemno(rs.getString("memno"));
 				memberVO.setMemname(rs.getString("memname"));
@@ -291,7 +279,7 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 	@Override
 	public List<MemberVO> getAll() {
 		List<MemberVO> list = new ArrayList<MemberVO>();
-		MemberVO empVO = null;
+		
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -305,24 +293,25 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 
 			while (rs.next()) {
 
-				empVO = new MemberVO();
-				empVO.setMemno(rs.getString("memno"));
-				empVO.setMemname(rs.getString("memname"));
-				empVO.setSex(rs.getString("sex"));
-				empVO.setBirth(rs.getTimestamp("birth"));
-				empVO.setMail(rs.getString("mail"));
-				empVO.setPhone(rs.getString("phone"));
-				empVO.setAddr(rs.getString("addr"));
-				empVO.setAcc(rs.getString("acc"));
-				empVO.setPwd(rs.getString("pwd"));
-				empVO.setIdcard1(rs.getBytes("idcard1"));
-				empVO.setIdcard2(rs.getBytes("idcard2"));
-				empVO.setLicense(rs.getBytes("license"));
-				empVO.setCredate(rs.getTimestamp("credate"));
-				empVO.setStatus(rs.getString("status"));
-				list.add(empVO); // Store the row in the list
+				MemberVO memberVO = null;
+				memberVO = new MemberVO();
+				memberVO.setMemno(rs.getString("memno"));
+				memberVO.setMemname(rs.getString("memname"));
+				memberVO.setSex(rs.getString("sex"));
+				memberVO.setBirth(rs.getTimestamp("birth"));
+				memberVO.setMail(rs.getString("mail"));
+				memberVO.setPhone(rs.getString("phone"));
+				memberVO.setAddr(rs.getString("addr"));
+				memberVO.setAcc(rs.getString("acc"));
+				memberVO.setPwd(rs.getString("pwd"));
+				memberVO.setIdcard1(rs.getBytes("idcard1"));
+				memberVO.setIdcard2(rs.getBytes("idcard2"));
+				memberVO.setLicense(rs.getBytes("license"));
+				memberVO.setCredate(rs.getTimestamp("credate"));
+				memberVO.setStatus(rs.getString("status"));
+				list.add(memberVO); // Store the row in the list
 			}
-
+			System.out.println(rs.getString("memno"));
 			// Handle any driver errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
@@ -353,7 +342,9 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 		}
 		return list;
 	}
-
+	public static void main(String[] args){
+		
+	}
 	// 使用InputStream資料流方式
 		public static InputStream getPictureStream(String path) throws IOException {
 			File file = new File(path);
