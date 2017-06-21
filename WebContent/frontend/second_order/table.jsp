@@ -11,41 +11,14 @@
 	pageContext.setAttribute("list",list);
 %>
 
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>所有二手車訂單資料 - listAllSecOrd.jsp</title>
+<meta http-equiv="Content-Type" content="text/html; charset=BIG5">
+<title>Insert title here</title>
 </head>
-<body bgcolor='white'>
-<b><font color=red>此頁練習採用 EL 的寫法取值:</font></b>
-<table border='1' cellpadding='5' cellspacing='0' width='800'>
-	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
-		<td>
-		<h3>所有二手車訂單資料 - ListAllSecOrds.jsp</h3>
-		<a href="<%=request.getContextPath()%>/frontend/second_order/select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a>
-		</td>
-	</tr>
-</table>
-
-<%-- 錯誤表列 --%>
-<c:if test="${not empty errorMsgs}">
-	<font color='red'>請修正以下錯誤:
-	<ul>
-		<c:forEach var="message" items="${errorMsgs}">
-			<li>${message}</li>
-		</c:forEach>
-	</ul>
-	</font>
-</c:if>
+<body>
 <%@ include file="pages/page1.file" %> 
-<span><font color=blue><b>訂單狀態</b></font>
-<select onchange="toggleStatus()" >
-	<option value="unpaid">未付款</option>
-	<option value="paid">已付款</option>
-	<option value="closed">已結單</option>
-	<option value="other">其他</option>
-</select>
-</span>
-<div id="demo"></div>
 <table border='1' bordercolor='#CCCCFF' width='800'>
 	<tr>
 		<th>二手車訂單編號</th>
@@ -60,7 +33,7 @@
 			<td>${soVO.sono}</td>
 			<td>${soVO.memno}</td>
 			<td>${soVO.motorno}</td>
-			<td><fmt:formatDate pattern = "yyyy-MM-dd hh:mm" 
+			<td><fmt:formatDate pattern = "yyyy-MM-dd hh:mm"  
          value = "${soVO.buildtime}" /></td>
 			<td>${soVO.status}</td>		
 			
@@ -82,9 +55,5 @@
 	</c:forEach>
 </table>
 <%@ include file="pages/page2.file" %>
-
-<br>本網頁的路徑:<br><b>
-   <font color=blue>request.getServletPath():</font> <%= request.getServletPath()%><br>
-   <font color=blue>request.getRequestURI(): </font> <%= request.getRequestURI()%> </b>
 </body>
 </html>
