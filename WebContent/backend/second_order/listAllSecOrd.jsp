@@ -21,7 +21,7 @@
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
 		<h3>所有二手車訂單資料 - ListAllSecOrds.jsp</h3>
-		<a href="<%=request.getContextPath()%>/frontend/secord/select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a>
+		<a href="<%=request.getContextPath()%>/frontend/second_order/select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a>
 		</td>
 	</tr>
 </table>
@@ -56,14 +56,14 @@
 			<td>${soVO.status}</td>		
 			
 			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/secord/SecOrd.do">
+			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
 			     <input type="submit" value="修改"> 
 			     <input type="hidden" name="sono" value="${soVO.sono}">
 			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--><!-- 目前尚未用到  -->
 			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 			</td>
 			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/secord/SecOrd.do">
+			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
 			    <input type="submit" value="刪除">
 			    <input type="hidden" name="sono" value="${soVO.sono}">
 			    <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->

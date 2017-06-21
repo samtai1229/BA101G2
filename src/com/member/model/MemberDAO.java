@@ -53,6 +53,18 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 	/*	String memno,String memname,String sex,Timestamp birth,String mail,String phone,
 		String addr,String acc,String pwd,byte[] idcard1,byte[] idcard2,byte[] license,
 		Timestamp credate,String status,*/
+	public static void main(String[] args)
+	{
+		MemberDAO dao = new MemberDAO();
+		
+		List<MemberVO> list = dao.getAll();
+		for(MemberVO m : list)
+		{
+			System.out.print(m.getAcc()+",");
+			System.out.print(m.getAddr()+",");
+		}
+	}
+	
 	
 	@Override
 	public void insert(MemberVO memberVO) {

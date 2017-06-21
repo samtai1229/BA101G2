@@ -51,8 +51,11 @@ public class SecOrdService {
 		return secordVO;
 	}
 	
-	public SecOrdVO getOneSecOrd(String sono) {
-		return dao.findByPrimaryKey(sono);
+	public SecOrdVO getOneSecOrdBySono(String sono) {
+		return dao.findBySono(sono);
+	}
+	public SecOrdVO getOneSecOrdByMemno(String memno) {
+		return dao.findByMemno(memno);
 	}
 
 	public List<SecOrdVO> getAll() {

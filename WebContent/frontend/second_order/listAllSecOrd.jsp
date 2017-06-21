@@ -21,7 +21,7 @@
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
 		<h3>所有二手車訂單資料 - ListAllSecOrds.jsp</h3>
-		<a href="<%=request.getContextPath()%>/frontend/secord/select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a>
+		<a href="<%=request.getContextPath()%>/frontend/second_order/select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a>
 		</td>
 	</tr>
 </table>
@@ -37,6 +37,28 @@
 	</font>
 </c:if>
 <%@ include file="pages/page1.file" %> 
+<span><font color=blue><b>訂單狀態</b></font>
+<select name="status" onchange="loadOrder(this.value)" >
+	<option value="unpaid">未付款</option>
+	<option value="paid">已付款</option>
+	<option value="closed">已結單</option>
+	<option value="other">其他</option>
+</select>
+</span>
+<script type="text/javascript">
+function loadOrder() {
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			document.getElementById("demo").innerHTML = this.responseText;
+		}
+	};
+	xhttp.open("GET", "table.jsp", true);
+	xhttp.send();
+}
+
+</script>
+<div id="demo"></div>
 <table border='1' bordercolor='#CCCCFF' width='800'>
 	<tr>
 		<th>二手車訂單編號</th>
@@ -56,14 +78,14 @@
 			<td>${soVO.status}</td>		
 			
 			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/secord/SecOrd.do">
+			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
 			     <input type="submit" value="修改"> 
 			     <input type="hidden" name="sono" value="${soVO.sono}">
 			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--><!-- 目前尚未用到  -->
 			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 			</td>
 			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/secord/SecOrd.do">
+			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
 			    <input type="submit" value="刪除">
 			    <input type="hidden" name="sono" value="${soVO.sono}">
 			    <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->

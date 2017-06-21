@@ -37,26 +37,13 @@ public class SecondOrderServlet extends HttpServlet {
 				 * 1.接收請求參數 - 輸入格式的錯誤處理
 				 **********************/
 				String sono = req.getParameter("sono");
-			
-				
-				if (sono == null || (sono.trim()).length() == 0) {
-				     
-					//errorMsgs.add("請輸入景點編號");
-				}
-				// Send the use back to the form, if there were errors
-				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/frontend/second_order/select_page.jsp");
-					failureView.forward(req, res);
-					return;// 程式中斷
+				String memno = req.getParameter("memno");
+
+				if ((sono == null || (sono.trim()).length() == 0) && (memno == null || (memno.trim()).length() == 0)) {
+
+					errorMsgs.add("請輸入訂單或會員編號");
 				}
 
-				
-				try {
-					if (sono.length() != 8 || !sono.contains("S"))
-						throw new Exception();
-				} catch (Exception e) {
-					errorMsgs.add("訂單編號格式不正確");
-				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req.getRequestDispatcher("/frontend/second_order/select_page.jsp");
@@ -66,9 +53,12 @@ public class SecondOrderServlet extends HttpServlet {
 
 				/*************************** 2.開始查詢資料 *****************************************/
 				SecOrdService soSvc = new SecOrdService();
-				SecOrdVO soVO= soSvc.getOneSecOrd(sono);
-		
-				if (soVO == null ) {
+				SecOrdVO soVO = null;
+				if (sono != null)
+					soVO = soSvc.getOneSecOrdBySono(sono);
+				else
+					soVO = soSvc.getOneSecOrdByMemno(memno);
+				if (soVO == null) {
 					errorMsgs.add("查無資料");
 				}
 				// Send the use back to the form, if there were errors
@@ -81,7 +71,7 @@ public class SecondOrderServlet extends HttpServlet {
 				/***************************
 				 * 3.查詢完成,準備轉交(Send the Success view)
 				 *************/
-				
+
 				req.setAttribute("soVO", soVO); // 資料庫取出的empVO物件,存入req
 				String url = "/frontend/second_order/listOneSecOrd.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
@@ -107,10 +97,10 @@ public class SecondOrderServlet extends HttpServlet {
 			try {
 				/*************************** 1.接收請求參數 ****************************************/
 				String sono = req.getParameter("sono");
-		//		String spname = req.getParameter("spname");
+				// String spname = req.getParameter("spname");
 				/*************************** 2.開始查詢資料 ****************************************/
 				SecOrdService soSvc = new SecOrdService();
-				SecOrdVO soVO = soSvc.getOneSecOrd(sono);
+				SecOrdVO soVO = soSvc.getOneSecOrdBySono(sono);
 
 				/***************************
 				 * 3.查詢完成,準備轉交(Send the Success view)
@@ -138,8 +128,8 @@ public class SecondOrderServlet extends HttpServlet {
 				 * 1.接收請求參數 - 輸入格式的錯誤處理
 				 **********************/
 				String sono = req.getParameter("sono").trim();
-				
-				// String job = req.getParameter("job").trim();
+
+				String memno = req.getParameter("memno").trim();
 				//
 				// java.sql.Date hiredate = null;
 				// try {
@@ -150,38 +140,38 @@ public class SecondOrderServlet extends HttpServlet {
 				// errorMsgs.add("請輸入日期!");
 				// }
 
-//				Float longitude = null;
-//				try {
-//					longitude = new Float(req.getParameter("splong").trim());
-//				} catch (NumberFormatException e) {
-//					longitude = 0.f;
-//					errorMsgs.add("經度格式錯誤.");
-//				}
-//
-//				Float latitude = null;
-//				try {
-//					latitude = new Float(req.getParameter("splat").trim());
-//				} catch (NumberFormatException e) {
-//					latitude = 0.f;
-//					errorMsgs.add("緯度格式錯誤.");
-//				}
-//
-//				String locno = req.getParameter("locno").trim();
+				// Float longitude = null;
+				// try {
+				// longitude = new Float(req.getParameter("splong").trim());
+				// } catch (NumberFormatException e) {
+				// longitude = 0.f;
+				// errorMsgs.add("經度格式錯誤.");
+				// }
+				//
+				// Float latitude = null;
+				// try {
+				// latitude = new Float(req.getParameter("splat").trim());
+				// } catch (NumberFormatException e) {
+				// latitude = 0.f;
+				// errorMsgs.add("緯度格式錯誤.");
+				// }
+				//
+				// String locno = req.getParameter("locno").trim();
 
 				SecOrdVO soVO = new SecOrdVO();
-				
 
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("soVO", soVO); // 含有輸入格式錯誤的empVO物件,也存入req
-					RequestDispatcher failureView = req.getRequestDispatcher("/frontend/second_order/update_SecOrd_input.jsp");
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/frontend/second_order/update_SecOrd_input.jsp");
 					failureView.forward(req, res);
 					return; // 程式中斷
 				}
 
 				/*************************** 2.開始修改資料 *****************************************/
 				SecOrdService soSvc = new SecOrdService();
-		//		soVO = soSvc.updateOneSecOrd(spno, spname, locno, longitude, latitude);
+				soVO = soSvc.addSecOrd(sono, memno);
 
 				/***************************
 				 * 3.修改完成,準備轉交(Send the Success view)
@@ -194,7 +184,8 @@ public class SecondOrderServlet extends HttpServlet {
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/second_order/update_SecOrd_input.jsp");
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/frontend/second_order/update_SecOrd_input.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -210,44 +201,13 @@ public class SecondOrderServlet extends HttpServlet {
 				/***********************
 				 * 1.接收請求參數 - 輸入格式的錯誤處理
 				 *************************/
-				String sono = req.getParameter("sono").trim();
 				String memno = req.getParameter("memno").trim();
+				String motno = req.getParameter("motno").trim();
 
-				
-				// java.sql.Date hiredate = null;
-				// try {
-				// hiredate =
-				// java.sql.Date.valueOf(req.getParameter("hiredate").trim());
-				// } catch (IllegalArgumentException e) {
-				// hiredate=new java.sql.Date(System.currentTimeMillis());
-				// errorMsgs.add("請輸入日期!");
-				// }
-
-//				Float longitude = null;
-//				try {
-//					longitude = new Float(req.getParameter("longitude").trim());
-//				} catch (NumberFormatException e) {
-//					longitude = 0.f;
-//					errorMsgs.add("經度格式錯誤.");
-//				}
-//
-//				Float latitude = null;
-//				try {
-//					latitude = new Float(req.getParameter("latitude").trim());
-//				} catch (NumberFormatException e) {
-//					latitude = 0.f;
-//					errorMsgs.add("緯度格式錯誤.");
-//				}
-//
-//			
 				SecOrdVO soVO = new SecOrdVO();
-				soVO.setSono(sono);
-				
+				soVO.setMotorno(motno);
 				soVO.setMemno(memno);
-				
-	
-//
-//				// Send the use back to the form, if there were errors
+
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("soVO", soVO); // 含有輸入格式錯誤的empVO物件,也存入req
 					RequestDispatcher failureView = req.getRequestDispatcher("/frontend/second_order/addSecOrd.jsp");
@@ -257,7 +217,7 @@ public class SecondOrderServlet extends HttpServlet {
 
 				/*************************** 2.開始新增資料 ***************************************/
 				SecOrdService soSvc = new SecOrdService();
-			//	SecOrdVO = soSvc.addSecOrd(sono, memno, motno, sodate, status);
+				soVO = soSvc.addSecOrd(memno, motno);
 
 				/***************************
 				 * 3.新增完成,準備轉交(Send the Success view)
@@ -265,17 +225,17 @@ public class SecondOrderServlet extends HttpServlet {
 				String url = "/frontend/second_order/listAllSecOrd.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
 				successView.forward(req, res);
-//
-//				/*************************** 其他可能的錯誤處理 **********************************/
-		} catch (Exception e) {
+				//
+				// /*************************** 其他可能的錯誤處理
+				// **********************************/
+			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/second_order/addSecOrd.jsp");
 				failureView.forward(req, res);
-		}
+			}
 		}
 
-		if ("delete".equals(action)) { 
-										
+		if ("delete".equals(action)) {
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -291,12 +251,11 @@ public class SecondOrderServlet extends HttpServlet {
 
 			try {
 				/*************************** 1.接收請求參數 ***************************************/
-				String spno = req.getParameter("spno");
-
+				 String sono = req.getParameter("sono");
 				/*************************** 2.開始刪除資料 ***************************************/
-	//			SpotService spSvc = new SpotService();
-			
-	//			spSvc.deleteOneSpot(spno);
+				 SecOrdService soSvc = new SecOrdService();
+
+				 soSvc.deleteSecOrd(sono);
 
 				/***************************
 				 * 3.刪除完成,準備轉交(Send the Success view)
@@ -307,10 +266,9 @@ public class SecondOrderServlet extends HttpServlet {
 				// req.setAttribute("listEmps_ByDeptno",deptSvc.getEmpsByDeptno(empVO.getDeptno()));
 				// // 資料庫取出的list物件,存入request
 				//
-				 String url = requestURL;
-				 RequestDispatcher successView =
-				 req.getRequestDispatcher(url); // 刪除成功後,轉交回送出刪除的來源網頁
-				 successView.forward(req, res);
+				String url = requestURL;
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 刪除成功後,轉交回送出刪除的來源網頁
+				successView.forward(req, res);
 				//
 				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
@@ -319,7 +277,5 @@ public class SecondOrderServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		}
-
 	}
-
 }

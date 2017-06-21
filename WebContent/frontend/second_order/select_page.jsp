@@ -6,13 +6,13 @@
 
 <table border='1' cellpadding='5' cellspacing='0' width='400'>
   <tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
-    <td><h3>IBM Spot: Home</h3><font color=red>( MVC )</font></td>
+    <td><h3>BA101G2 Second Order: Home</h3><font color=red>( MVC )</font></td>
   </tr>
 </table>
 
-<p>This is the Home page for BA101G2 Spots: Home</p>
+<p>This is the Home page for BA101G2 Second Order: Home</p>
 
-<h3>資料查詢:</h3>
+<h3>二手車訂單查詢:</h3>
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
   <font color='red'>請修正以下錯誤:
@@ -25,10 +25,10 @@
 </c:if>
 
 <ul>
-  <li><a href='<%=request.getContextPath()%>/frontend/secord/listAllSecOrd.jsp'>List</a> all SecOrd. </li> <br><br>
+  <li><a href='<%=request.getContextPath()%>/frontend/second_order/listAllSecOrd.jsp'>List</a>全部二手車訂單 </li> <br><br>
   
   <li>
-    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/secord/SecOrd.do" >
+    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do" >
         <b>輸入二手車訂單編號 (如S000001):</b>
         <input type="text" name="sono">
         <input type="submit" value="送出">
@@ -39,7 +39,7 @@
   <jsp:useBean id="soSvc" scope="page" class="com.sec_ord.model.SecOrdService" />
    
  <li>
-    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/secord/SecOrd.do" >
+    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do" >
         <b>輸入會員編號 (如MEM000001):</b>
         <input type="text" name="memno">
         <input type="submit" value="送出">
@@ -52,7 +52,7 @@
 <h3>訂單管理</h3>
 
 <ul>
-  <li><a href='<%=request.getContextPath()%>/frontend/secord/addSecOrd.jsp'>Add</a> a new SecOrd.</li>
+  <li><a href='<%=request.getContextPath()%>/frontend/second_order/addSecOrd.jsp'>加入</a>二手車訂單</li>
 </ul>
 
 </body>
