@@ -25,7 +25,7 @@
 		</td>
 	</tr>
 </table>
-<select size="1"></select>
+
 <table border='1' bordercolor='#CCCCFF' width='800'>
 	<tr>
 		<th>二手車訂單編號</th>
