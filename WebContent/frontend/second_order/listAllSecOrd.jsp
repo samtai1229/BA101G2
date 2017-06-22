@@ -76,8 +76,8 @@
 		<th>訂單成立時間</th>
 		<th>訂單狀態</th>
 	</tr>
-	
-	<c:forEach var="soVO" items="${list}" >
+<%-- 					begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" --%>
+	<c:forEach var="soVO" items="${list}"  >
 		<tr align='center' valign='middle'>
 			<td>${soVO.sono}</td>
 			<td>${soVO.memno}</td>

@@ -96,8 +96,8 @@ public class SecondOrderServlet extends HttpServlet {
 
 			try {
 				/*************************** 1.接收請求參數 ****************************************/
+				
 				String sono = req.getParameter("sono");
-				// String spname = req.getParameter("spname");
 				/*************************** 2.開始查詢資料 ****************************************/
 				SecOrdService soSvc = new SecOrdService();
 				SecOrdVO soVO = soSvc.getOneSecOrdBySono(sono);
@@ -130,33 +130,7 @@ public class SecondOrderServlet extends HttpServlet {
 				String sono = req.getParameter("sono").trim();
 
 				String memno = req.getParameter("memno").trim();
-				//
-				// java.sql.Date hiredate = null;
-				// try {
-				// hiredate =
-				// java.sql.Date.valueOf(req.getParameter("hiredate").trim());
-				// } catch (IllegalArgumentException e) {
-				// hiredate=new java.sql.Date(System.currentTimeMillis());
-				// errorMsgs.add("請輸入日期!");
-				// }
-
-				// Float longitude = null;
-				// try {
-				// longitude = new Float(req.getParameter("splong").trim());
-				// } catch (NumberFormatException e) {
-				// longitude = 0.f;
-				// errorMsgs.add("經度格式錯誤.");
-				// }
-				//
-				// Float latitude = null;
-				// try {
-				// latitude = new Float(req.getParameter("splat").trim());
-				// } catch (NumberFormatException e) {
-				// latitude = 0.f;
-				// errorMsgs.add("緯度格式錯誤.");
-				// }
-				//
-				// String locno = req.getParameter("locno").trim();
+			
 
 				SecOrdVO soVO = new SecOrdVO();
 

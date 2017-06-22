@@ -7,7 +7,7 @@ SecOrdVO soVO = (SecOrdVO) request.getAttribute("soVO");
 
 <html>
 <head>
-<title>員工資料新增 - addSecOrd.jsp</title></head>
+<title>訂單資料新增 - addSecOrd.jsp</title></head>
 <link rel="stylesheet" type="text/css" href="js/calendar.css">
 <script language="JavaScript" src="js/calendarcode.js"></script>
 <div id="popupcalendar" class="text"></div>
