@@ -31,29 +31,6 @@
     <servlet-name>MotorModelServlet</servlet-name>
     <url-pattern>/backend/motor_model/motorModel.do</url-pattern>
   </servlet-mapping>
-
-
-  
-  <servlet>
-		<servlet-name>SpotServlet</servlet-name>
-		<servlet-class>com.spots.controller.SpotServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>SpotServlet</servlet-name>
-		<url-pattern>/frontend/spots/spot.do</url-pattern>
-	</servlet-mapping>
-	
-	 <servlet>
-		<servlet-name>SecondOrderServlet</servlet-name>
-		<servlet-class>com.sec_ord.controller.SecondOrderServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>SecondOrderServlet</servlet-name>
-		<url-pattern>/frontend/second_order/SecOrd.do</url-pattern>
-	</servlet-mapping>
-  
-  
-
   <servlet>
     <servlet-name>RentOrdServlet</servlet-name>
     <servlet-class>com.rent_ord.controller.RentOrdServlet</servlet-class>
@@ -79,10 +56,4 @@
     <servlet-name>MotorModelDBGifReader</servlet-name>
     <url-pattern>/backend/motor_model/mmReader.do</url-pattern>
   </servlet-mapping>
-  
-  
-  
-  
-  
-  
 </web-app>

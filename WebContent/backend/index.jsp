@@ -1,29 +1,26 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*"%>
 <%@	page import="java.sql.Timestamp"%>
 <%@	page import="java.text.SimpleDateFormat"%>
 <%@	page import="java.text.DateFormat"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page import="java.util.*"%>
 <%@ page import="com.motor.model.*"%>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Backend HP</title>
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-    <link href="" rel="stylesheet">
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
 
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>  
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">     
-    <link rel="stylesheet" href="Modified/backendHP_css.css">
-    <link href="Modified/main.css" rel="stylesheet">
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>  	
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">     
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css" >
 
+	<title>Backend HP</title>	
 </head>
 <body>
     <nav class="navbar navbar-default" role="navigation">
@@ -48,8 +45,7 @@
                 
             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/motor/backendMotor.jsp"  role="button">車輛資料管理</a>
             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/motor_model/backendMotorModel.jsp"  role="button">車輛型號管理</a>           
-            <a class="btn btn-default" href="#" role="button">車輛調度</a>            
-<!--        <a class="btn btn-default" role="button" onclick="loadRentOrd()">租賃單管理</a> -->
+            <a class="btn btn-default" href="#" role="button">車輛調度</a>
 			<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/backendRentOrd.jsp" role="button">租賃單管理</a>
             <a class="btn btn-default" href="#" role="button">裝備管理</a>
             <a class="btn btn-default" href="#" role="button">裝備調度</a>
@@ -91,10 +87,9 @@
 		<img src="images/android_logo.png" id="mainPageLogo" style="vertical-align:middle">
     </div><!-- sm-10 rightHTML  -->
 
+	<!--RWD部分:下面兩行我拿掉一行和JQuery有關的script, 不然datepicker會衝到  -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="Modified/motorKanli_js.js"></script>
-    <script src="Modified/datepicker.js"></script>
-    <script src="Modified/indexNew.js"></script>
-
+    <script src="<%=request.getContextPath()%>/backend/Modified/motorKanli_js.js"></script>
+    <script src="<%=request.getContextPath()%>/backend/Modified/indexNew.js"></script>
 </body>
 </html>
