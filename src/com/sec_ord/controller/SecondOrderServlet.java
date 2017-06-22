@@ -1,6 +1,7 @@
 package com.sec_ord.controller;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -127,25 +128,25 @@ public class SecondOrderServlet extends HttpServlet {
 				/***************************
 				 * 1.接收請求參數 - 輸入格式的錯誤處理
 				 **********************/
-				String sono = req.getParameter("sono").trim();
-
+				String sono = req.getParameter("sono");
+				String motno = req.getParameter("motno");
 				String memno = req.getParameter("memno").trim();
-			
-
+				Timestamp sodate =Timestamp.valueOf( req.getParameter("sodate"));
+				String status = req.getParameter("status");
 				SecOrdVO soVO = new SecOrdVO();
 
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("soVO", soVO); // 含有輸入格式錯誤的empVO物件,也存入req
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/frontend/second_order/update_SecOrd_input.jsp");
+							.getRequestDispatcher("/frontend/second_order/listOneSecOrd.jsp");
 					failureView.forward(req, res);
 					return; // 程式中斷
 				}
 
 				/*************************** 2.開始修改資料 *****************************************/
 				SecOrdService soSvc = new SecOrdService();
-				soVO = soSvc.addSecOrd(sono, memno);
+				soVO = soSvc.updateSecOrd( memno, motno, sodate, status, sono );
 
 				/***************************
 				 * 3.修改完成,準備轉交(Send the Success view)

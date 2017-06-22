@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="com.sec_ord.model.*"%>
 <%@ page import="java.util.*" %> 
 <%
@@ -40,16 +41,22 @@
 <table border="0">
 	<tr>
 		<td>訂單編號:<font color=red><b>*</b></font></td>
-		<td><%=soVO.getSono()%></td>
+		<td>${soVO.sono}</td>
 	</tr>
 	<tr>
 		<td>會員編號:</td>
-		<td><input type="TEXT" name="memno" size="45" value="<%=soVO.getMemno()%>" /></td>
+		<td><input type="TEXT" name="memno" size="45" value="${soVO.memno}" /></td>
 	</tr>
 	
 	<tr>
 		<td>車輛編號:</td>
-		<td><input type="TEXT" name="motno" size="45" value="<%=soVO.getMotorno()%>" /></td>
+		<td><input type="TEXT" name="motno" size="45" value="${soVO.motorno}" /></td>
+	</tr>
+	
+	<tr>
+		<td>訂單時間:</td>
+		<td><fmt:formatDate pattern = "yyyy-MM-dd hh:mm" 
+         value = "${soVO.buildtime}" /></td>
 	</tr>
 	<tr>
 
@@ -73,7 +80,9 @@
 </table>
 <br>
 <input type="hidden" name="action" value="update">
-<input type="hidden" name="sono" value="<%=soVO.getSono()%>">
+<input type="hidden" name="sono" value="${soVO.sono}">
+<input type="hidden" name="sodate" value="<fmt:formatDate pattern = "yyyy-MM-dd hh:mm:ss" 
+         value = "${soVO.buildtime}" />">
 <input type="submit" value="送出修改"></FORM>
 
 </body>
