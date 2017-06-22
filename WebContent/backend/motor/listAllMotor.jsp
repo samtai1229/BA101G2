@@ -55,9 +55,9 @@
 
 				<td>${motorVO.motno}</td>
 				<td>${motorVO.modtype}</td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<td>motorMOD</td>
+				<td>motorMOD</td>
+				<td>motorMOD</td>
 				<td>${motorVO.plateno}</td>
 				<td>${motorVO.engno}</td>
 				<td>${motorVO.manudate}</td>
@@ -65,9 +65,23 @@
 				<td>${motorVO.locno}</td>
 				<td>${motorVO.status}</td>
 
-				<td><input type="submit" name="fix" value="修改"
-					class="btn btn-default" role="button"> <input type="button"
-					name="del" value="刪除" class="btn btn-default" role="button"></td>
+				<td>
+					<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/backend/motor/motor4H.do">
+						<input type="submit" name="fix" value="修改" class="btn btn-default" role="button">
+						<input type="hidden" name="motno" value="${motorVO.motno}">
+						<input type="hidden" name="requestURL" value="<%=request.getServletPath()%>">
+			   			<input type="hidden" name="action" value="getOne_For_Update">
+					</FORM>
+				</td>
+				<td>
+					<FORM METHOD="post"	ACTION="<%=request.getContextPath()%>/backend/motor/motor4H.do">
+						<input type="submit" name="del" value="刪除" class="btn btn-default"	role="button"> 
+						<input type="hidden" name="motno" value="${motorVO.motno}"> 
+						<input type="hidden" name="requestURL" value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
+						<input type="hidden" name="action" value="delete">
+					</FORM>
+				</td>
+
 
 			</tr>
 		</c:forEach>

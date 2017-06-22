@@ -10,8 +10,7 @@
 	// List<EmpVO> list = empSvc.getAll();
 	// pageContext.setAttribute("list",list);
 %>
-<jsp:useBean id="motorSvc" scope="page"
-	class="com.motor.model.MotorService" />
+<jsp:useBean id="motorSvc" scope="page"	class="com.motor.model.MotorService" />
 <html>
 
 <head>
@@ -111,12 +110,10 @@
 				</font>
 			</c:if>
 			<div class="searchBar">
-				<FORM METHOD="post"
-					ACTION="<%=request.getContextPath()%>/backend/motor.do">
-					<input type="text" name="search" id="search" value=""> <input
-						type="submit" name="serchAllMotor" value="蒐尋全部車輛"
-						class="btn btn-default" role="button"> <input
-						type="hidden" name="action" value="listAllMotor_B">
+				<FORM METHOD="post"	ACTION="<%=request.getContextPath()%>/backend/motor/motor4H.do">
+					<input type="text" name="search" id="search" value=""> 
+					<input type="submit" name="serchAllMotor" value="蒐尋全部車輛" class="btn btn-default" role="button"> 
+					<input type="hidden" name="action" value="listAllMotor_B">
 					<button id="add" class="btn btn-default" role="button">新增車輛</button>
 				</FORM>
 				<br>
@@ -124,13 +121,9 @@
 			</div>
 			<br>
 
-			<%
-				if (request.getAttribute("listAllMotor") != null) {
-			%>
-			<jsp:include page="listAllMotor.jsp" />
-			<%
-				}
-			%>
+			<%if (request.getAttribute("listAllMotor") != null) {%>
+			<jsp:include page="/backend/motor/listAllMotor.jsp" />
+			<%}%>
 
 			<!-- 頁籤 -->
 			<!-- <li class="active"> = hightlight -->

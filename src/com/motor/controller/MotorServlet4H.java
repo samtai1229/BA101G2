@@ -1,6 +1,8 @@
 package com.motor.controller;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
@@ -16,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.motor.model.MotorService;
 import com.motor.model.MotorVO;
 
-public class MotorServlet extends HttpServlet {
+public class MotorServlet4H extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -125,32 +127,19 @@ public class MotorServlet extends HttpServlet {
 				String plateno = req.getParameter("plateno").trim();
 				String engno = req.getParameter("engno").trim();
 				String locno = req.getParameter("locno").trim();
-				System.out.println("132132 : "+locno);
 				String status = req.getParameter("status").trim();
-				System.out.println("132132"+status);
 				String note = req.getParameter("note").trim();
-				System.out.println("132132"+note);
 				String motno = req.getParameter("motno").trim();
-				System.out.println("132132a"+motno);
+				
 				// 處理日期
-				String dateString = req.getParameter("manudate");
-				System.out.println(req.getParameter("manudate"));
-				SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-				SimpleDateFormat sdf2 = new SimpleDateFormat("MM/dd/yyyy");
-				java.util.Date date;
-				java.sql.Timestamp manudate = null;
-				long longTime;
+				Timestamp manudate = null;
+				
 				try {
-					date =  sdf.parse(dateString);// String to
-					System.out.println("date"+date);						// Date
-					longTime = date.getTime(); // 取long
-					manudate = new java.sql.Timestamp(longTime); // 切為SQL專用格式
-					System.out.println(longTime);
-				} catch (ParseException e) {
-					e.printStackTrace();
+					manudate = Timestamp.valueOf(req.getParameter("manudate").trim());
+				} catch (IllegalArgumentException e) {
+					manudate = new Timestamp(System.currentTimeMillis());
 					errorMsgs.add("請輸入日期!");
-					System.out.println("err date in");
-				} // 處理日期--end
+				}
 
 				Integer mile = null;
 				try {
