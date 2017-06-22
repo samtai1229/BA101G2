@@ -60,7 +60,7 @@ public class MotorModelDBGifReader extends HttpServlet {
 
 		try {
 			Context ctx = new javax.naming.InitialContext();
-			DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB");
+			DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/G2DB");
 			con = ds.getConnection();
 		} catch (NamingException e) {
 			// TODO Auto-generated catch block
