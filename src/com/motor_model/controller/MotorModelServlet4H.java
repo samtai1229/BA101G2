@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.motor_model.model.MotorModelService;
 import com.motor_model.model.MotorModelVO;
 
-public class MotorModelServlet extends HttpServlet {
+public class MotorModelServlet4H extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
  

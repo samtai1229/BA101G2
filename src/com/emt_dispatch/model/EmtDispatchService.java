@@ -9,18 +9,12 @@ public class EmtDispatchService {
 		dao = new EmtDispatchDAO();
 	}
 
-	public EmtDispatchVO addEmtDispatch(String edno, String locno, Timestamp demanddate, Timestamp closeddate,String prog) {
+	public EmtDispatchVO addEmtDispatch(String locno) {
 
 		EmtDispatchVO emtDispatchVO = new EmtDispatchVO();
 
-		emtDispatchVO.setEdno(edno);
 		emtDispatchVO.setLocno(locno);
-		emtDispatchVO.setDemanddate(demanddate);
-		emtDispatchVO.setCloseddate(closeddate);
-		emtDispatchVO.setProg(prog);
-		
 		dao.insert(emtDispatchVO);
-
 		return emtDispatchVO;
 	}
 

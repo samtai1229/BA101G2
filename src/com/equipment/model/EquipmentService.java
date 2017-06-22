@@ -10,15 +10,12 @@ public class EquipmentService {
 		dao = new EquipmentDAO();
 	}
 
-	public EquipmentVO addEquipment(String emtno, String ecno, String locno, Timestamp purchdate, String status, String note) {
+	public EquipmentVO addEquipment(String ecno, Timestamp purchdate,String note) {
 
 		EquipmentVO equipmentVO = new EquipmentVO();
 
-		equipmentVO.setEmtno(emtno);
 		equipmentVO.setEcno(ecno);
-		equipmentVO.setLocno(locno);
 		equipmentVO.setPurchdate(purchdate);
-		equipmentVO.setStatus(status);
 		equipmentVO.setNote(note);
 		dao.insert(equipmentVO);
 
