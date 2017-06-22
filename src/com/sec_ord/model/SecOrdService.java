@@ -62,7 +62,9 @@ public class SecOrdService {
 		return dao.getAll();
 	}
 	
-	
+	public List<SecOrdVO> getAll(String status) {
+		return dao.getAll(status);
+	}
 	
 	
 	

@@ -7,7 +7,7 @@ SecOrdVO soVO = (SecOrdVO) request.getAttribute("soVO");
 
 <html>
 <head>
-<title>新增二手車訂單 - addOrder.jsp</title></head>
+<title>員工資料新增 - addSecOrd.jsp</title></head>
 <link rel="stylesheet" type="text/css" href="js/calendar.css">
 <script language="JavaScript" src="js/calendarcode.js"></script>
 <div id="popupcalendar" class="text"></div>
@@ -17,15 +17,15 @@ SecOrdVO soVO = (SecOrdVO) request.getAttribute("soVO");
 <table border='1' cellpadding='5' cellspacing='0' width='400'>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
-		<h3>新增二手車訂單  - addSecOrd.jsp</h3>
+		<h3>訂單資料新增 - addOrd.jsp</h3>
 		</td>
 		<td>
-		   <a href="<%=request.getContextPath()%>/frontend/second_order/select_page.jsp"><img src="images/back1.gif" width="100" height="100" border="1">回首頁</a>
+		   <a href="<%=request.getContextPath()%>/frontend/second_ord/select_page.jsp"><img src="images/tomcat.gif" width="100" height="100" border="1">回首頁</a>
 	    </td>
 	</tr>
 </table>
 
-<h3>新增訂單:</h3>
+<h3>資料員工:</h3>
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
 	<font color='red'>請修正以下錯誤:
@@ -41,22 +41,15 @@ SecOrdVO soVO = (SecOrdVO) request.getAttribute("soVO");
 <table border="0">
 
 	<tr>
-		<td>會員ID:</td>
+		<td>會員編號:</td>
 		<td><input type="TEXT" name="memno" size="45" 
 			value="<%= (soVO==null)? "MEM000000" : soVO.getMemno()%>" /></td>
 	</tr>
-
 	<tr>
 		<td>車輛編號:</td>
 		<td><input type="TEXT" name="motno" size="45"
-			value="<%= (soVO==null)? "M000001" : soVO.getMotorno()%>" /></td>
+			value="<%= (soVO==null)? "M000000" : soVO.getMotorno()%>" /></td>
 	</tr>
-	
-<!-- 	<tr> -->
-<!-- 		<td>狀態:</td> -->
-<!-- 		<td><input type="TEXT" name="status" size="45" -->
-<%-- 			value="<%= (soVO==null)? "other" : soVO.getStatus()%>" /></td> --%>
-<!-- 	</tr> -->
 	
 </table>
 <br>

@@ -190,6 +190,42 @@ public class SecondOrderServlet extends HttpServlet {
 			}
 		}
 
+		
+		
+		if ("listSecOrd_ByStatus".equals(action)) { // 來自ListAllSecOrd.jsp的請求
+           System.out.println("近來狀態查詢");
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				/***********************
+				 * 1.接收請求參數 - 輸入格式的錯誤處理
+				 *************************/
+				String status = req.getParameter("status");
+				System.out.println("欲查詢狀態:"+status);
+				
+
+				
+
+				/***************************
+				 * 3.查詢完成,準備轉交(Send the Success view)
+				 ***********/
+				req.setAttribute("status", status);
+				String url = "/frontend/second_order/listAllSecOrd.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
+				successView.forward(req, res);
+				//
+				// /*************************** 其他可能的錯誤處理
+				// **********************************/
+			} catch (Exception e) {
+				errorMsgs.add(e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/second_order//frontend/second_order/listAllSecOrd.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
 		if ("insert".equals(action)) { // 來自addSpot.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();

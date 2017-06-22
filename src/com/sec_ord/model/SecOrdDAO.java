@@ -29,7 +29,7 @@ public class SecOrdDAO implements SecOrdDAO_interface {
 	private static final String GET_ONE_STMT_MEMNO = "SELECT sono,memno,motno,sodate,status FROM SEC_ORD where memno = ?";
 	private static final String DELETE = "DELETE FROM SEC_ORD where sono = ?";
 	private static final String UPDATE = "UPDATE SEC_ORD set memno=?, motno=?, sodate=?, status=? where sono = ?";
-
+	private static final String GET_ALL_STMT_ByStatus = "SELECT sono,memno,motno,sodate,status FROM SEC_ORD where status= ? order by sodate desc";
 	
 
 	@Override
@@ -166,7 +166,6 @@ public class SecOrdDAO implements SecOrdDAO_interface {
 			// pstmt.setString(1, secordVO.getSecondNo());
 			pstmt.setString(1, sono);
 			pstmt.executeUpdate();
-
 			rs = pstmt.getResultSet();
 			while (rs.next()) {
 				obj = new SecOrdVO();
@@ -202,6 +201,61 @@ public class SecOrdDAO implements SecOrdDAO_interface {
 
 		return obj;
 	}
+	public List<SecOrdVO> getAll(String status) {
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<SecOrdVO> list = new ArrayList<SecOrdVO>();
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ALL_STMT_ByStatus);
+			pstmt.setString(1, status);
+			pstmt.executeUpdate();
+
+			rs = pstmt.getResultSet();
+			while (rs.next()) {
+				SecOrdVO obj = new SecOrdVO();
+				obj.setSono(rs.getString("sono"));
+				obj.setMemno(rs.getString("memno"));
+				obj.setMotorno(rs.getString("motno"));
+				obj.setBuildtime(rs.getTimestamp("sodate"));
+				obj.setStatus(rs.getString("status"));
+
+				list.add(obj);
+
+			}
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+
+		return list;
+	}
+	
+	
+	
+	
+	
+	
+	
 
 	@Override
 	public List<SecOrdVO> getAll() {

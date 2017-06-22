@@ -23,6 +23,7 @@ public class SecOrdJDBCDAO implements SecOrdDAO_interface {
 	private static final String DELETE = "DELETE FROM SEC_ORD where sono = ?";
 	private static final String UPDATE = "UPDATE SEC_ORD set memno=?, motno=?, sodate=?, status=? where sono = ?";
 
+	private static final String GET_ALL_STMT_ByStatus = "SELECT sono,memno,motno,sodate,status FROM SEC_ORD where status= ? order by sodate desc";
 	public static void main(String[] args) {
 		SecOrdJDBCDAO dao = new SecOrdJDBCDAO();
 		// 新增
@@ -370,6 +371,62 @@ public class SecOrdJDBCDAO implements SecOrdDAO_interface {
 		}
 
 		return obj;
+	}
+
+	@Override
+	public List<SecOrdVO> getAll(String status) {
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<SecOrdVO> list = new ArrayList();
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_ALL_STMT_ByStatus);
+			// sono,memno,motno,sodate,status
+			// pstmt.setString(1, secordVO.getSecondNo());
+			pstmt.executeUpdate();
+			rs = pstmt.getResultSet();
+			while(rs.next())
+			{
+				SecOrdVO  obj  = new SecOrdVO();
+				obj.setSono(rs.getString("sono"));
+				obj.setMemno(rs.getString("memno"));
+				obj.setMotorno(rs.getString("motno"));
+			    obj.setBuildtime(rs.getTimestamp("sodate"));
+			    obj.setStatus(rs.getString("status"));
+			    list.add(obj);
+               
+			}
+
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+
+		
+		return list;
+
 	}
 
 }

@@ -7,8 +7,15 @@
 
 <%
 	SecOrdService soSvc = new SecOrdService();
-	List<SecOrdVO> list = soSvc.getAll();
+    String status = (String)request.getAttribute("status");
+    System.out.println("取得參數:"+status);
+    List<SecOrdVO> list;
+    if("all".equalsIgnoreCase(status) || status==null)
+    	list = soSvc.getAll();  
+    else	
+		list = soSvc.getAll(status);
 	pageContext.setAttribute("list",list);
+
 %>
 
 <html>
@@ -17,6 +24,9 @@
 </head>
 <body bgcolor='white'>
 <b><font color=red>此頁練習採用 EL 的寫法取值:</font></b>
+
+ 
+
 <table border='1' cellpadding='5' cellspacing='0' width='800'>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
@@ -37,28 +47,19 @@
 	</font>
 </c:if>
 <%@ include file="pages/page1.file" %> 
-<span><font color=blue><b>訂單狀態</b></font>
-<select name="status" onchange="loadOrder(this.value)" >
-	<option value="unpaid">未付款</option>
-	<option value="paid">已付款</option>
-	<option value="closed">已結單</option>
-	<option value="other">其他</option>
-</select>
-</span>
-<script type="text/javascript">
-function loadOrder() {
-	var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			document.getElementById("demo").innerHTML = this.responseText;
-		}
-	};
-	xhttp.open("GET", "table.jsp", true);
-	xhttp.send();
-}
-
-</script>
-<div id="demo"></div>
+    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do" >
+       <b><font color=orange>訂單狀態:</font></b>
+       <span><select size="1" name="status">
+     
+       		<option  ${status == 'all' ? 'selected="selected"' : ''}  value="all">全部
+       	   <option ${status == 'unpaid' ? 'selected="selected"' : ''} value="unpaid">未付款
+       	   <option ${status == 'paid' ? 'selected="selected"' : ''} value="paid">已付款
+       	   <option ${status == 'closed' ? 'selected="selected"' : ''} value="closed">已結單
+      
+       	</select></span>
+       <input type="submit" value="送出">
+       <input type="hidden" name="action" value="listSecOrd_ByStatus">
+     </FORM>
 <table border='1' bordercolor='#CCCCFF' width='800'>
 	<tr>
 		<th>二手車訂單編號</th>

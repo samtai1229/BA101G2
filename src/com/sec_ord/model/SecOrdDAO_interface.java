@@ -11,6 +11,8 @@ public interface SecOrdDAO_interface {
        public SecOrdVO findBySono(String sono);
        public SecOrdVO findByMemno(String memno);
        public List<SecOrdVO> getAll();
+       public List<SecOrdVO> getAll(String status);
        //萬用複合查詢(傳入參數型態Map)(回傳 List)
 //     public List<EmpVO> getAll(Map<String, String[]> map); 
+	
 }
