@@ -20,7 +20,7 @@ SpotsVO spotVO = (SpotsVO) request.getAttribute("spotVO");
 		<h3>景點資料新增 - addSpot.jsp</h3>
 		</td>
 		<td>
-		   <a href="<%=request.getContextPath()%>/select_page.jsp"><img src="images/back1.gif" width="100" height="100" border="1">回首頁</a>
+		   <a href="<%=request.getContextPath()%>/frontend/spots/select_page.jsp"><img src="images/back1.gif" width="100" height="100" border="1">回首頁</a>
 	    </td>
 	</tr>
 </table>
