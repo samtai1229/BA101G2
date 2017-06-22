@@ -7,13 +7,21 @@
 
 <%
 	SecOrdService soSvc = new SecOrdService();
-    String status = (String)request.getAttribute("status");
-    System.out.println("眔把计:"+status);
-    List<SecOrdVO> list;
-    if("all".equalsIgnoreCase(status) || status==null)
+    String status = request.getParameter("status");
+    String status2 = request.getParameter("status");
+    List<SecOrdVO> list = null;
+    if("all".equalsIgnoreCase(status) || "all".equalsIgnoreCase(status2)|| status==null || status2==null)
     	list = soSvc.getAll();  
     else	
-		list = soSvc.getAll(status);
+    {
+    
+    	 list = soSvc.getAll(status);
+    	if(status!=null)
+			list = soSvc.getAll(status2);
+    	
+    }
+    System.out.println("眔把计status:"+status);
+    System.out.println("眔把计status2:"+status2);
 	pageContext.setAttribute("list",list);
 
 %>
@@ -69,7 +77,7 @@
 		<th>璹虫篈</th>
 	</tr>
 	
-	<c:forEach var="soVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+	<c:forEach var="soVO" items="${list}" >
 		<tr align='center' valign='middle'>
 			<td>${soVO.sono}</td>
 			<td>${soVO.memno}</td>
@@ -95,7 +103,7 @@
 		</tr>
 	</c:forEach>
 </table>
-<%@ include file="pages/page2.file" %>
+<%-- <%@ include file="pages/page2.file" %> --%>
 
 <br>セ呼隔畖:<br><b>
    <font color=blue>request.getServletPath():</font> <%= request.getServletPath()%><br>
