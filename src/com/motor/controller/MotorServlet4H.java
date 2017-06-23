@@ -1,6 +1,7 @@
 package com.motor.controller;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -52,21 +53,18 @@ public class MotorServlet4H extends HttpServlet {
 				String note = req.getParameter("note").trim();
 
 				// 處理日期
-				String dateString = req.getParameter("manudate");
-				SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-				java.util.Date date;
-				java.sql.Timestamp manudate = null;
-				long longTime;
+				Timestamp manudate = null;
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				
 				try {
-					date = (java.util.Date) sdf.parse(dateString);// String to
-																	// Date
-					longTime = date.getTime(); // 取long
-					manudate = new java.sql.Timestamp(longTime); // 切為SQL專用格式
-					System.out.println(longTime);
-				} catch (ParseException e) {
-					e.printStackTrace();
+					//String 轉成 sdf(日期) 再轉成long
+					System.out.println(req.getParameter("manudate"));
+					long manudateTypeLong = (sdf.parse(req.getParameter("manudate").trim())).getTime();
+					manudate = new Timestamp(manudateTypeLong);
+				} catch (IllegalArgumentException e) {
+					manudate = new Timestamp(System.currentTimeMillis());
 					errorMsgs.add("請輸入日期!");
-				} // 處理日期--end
+				}
 
 				Integer mile = null;
 				try {
@@ -133,12 +131,17 @@ public class MotorServlet4H extends HttpServlet {
 				
 				// 處理日期
 				Timestamp manudate = null;
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				
 				try {
-					manudate = Timestamp.valueOf(req.getParameter("manudate").trim());
+					//getTime = long 老吳：取得long就取得全世界
+					//String 轉成 sdf(日期) 再轉成long
+					System.out.println(req.getParameter("manudate"));
+					long manudateTypeLong = (sdf.parse(req.getParameter("manudate").trim())).getTime();
+					manudate = new Timestamp(manudateTypeLong);
 				} catch (IllegalArgumentException e) {
 					manudate = new Timestamp(System.currentTimeMillis());
-					errorMsgs.add("請輸入日期!");
+					errorMsgs.add("請輸入日期");
 				}
 
 				Integer mile = null;
@@ -148,7 +151,7 @@ public class MotorServlet4H extends HttpServlet {
 					System.out.println("err mile in");
 					errorMsgs.add("里程數請寫數字");
 				}
-				System.out.println("132132");
+				
 				MotorVO motorVO = new MotorVO();
 				motorVO.setMotno(motno);
 				motorVO.setModtype(modtype);
@@ -463,6 +466,7 @@ public class MotorServlet4H extends HttpServlet {
 			}
 		} // get_motors_by_modtype 'if' end
 
+//include listAllMotor.jsp
 		// 來自MotorMgmtHqSelectPage.jsp的請求 // 來自 motor/listAllMotor.jsp的請求
 		if ("listAllMotor_A".equals(action) || "listAllMotor_B".equals(action)) {
 
@@ -490,6 +494,35 @@ public class MotorServlet4H extends HttpServlet {
 				else if ("listAllMotor_B".equals(action))
 					url = "/backend/motor/motorMgmtHqSelectPage.jsp"; // 成功轉交
 																		// dept/listAllDept.jsp
+
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+
+				/*************************** 其他可能的錯誤處理 ***********************************/
+			} catch (Exception e) {
+				throw new ServletException(e);
+			}
+		}
+
+//include updateMotorInput.jsp
+		if ("updateMotorInput".equals(action)) {
+
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				//------ 1.接收請求參數
+				String motno = new String(req.getParameter("motno"));
+
+				//------2.開始查詢資料 
+				MotorService motorSvc = new MotorService();
+				List<MotorVO> list = motorSvc.getAll();
+
+				//------3.查詢完成,準備轉交(Send the Success view)
+
+				req.setAttribute("updateMotorInput", list); // 資料庫取出的list物件,存入request
+
+				String url = "/backend/motor/motorMgmtHqSelectPage.jsp"; 
 
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
