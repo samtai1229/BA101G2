@@ -1,25 +1,25 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
-<%@ page import="com.spots.model.*"%>
+<%@ page import="com.member.model.*"%>
 <%-- 此頁練習採用 EL 的寫法取值 --%>
 
 <%
-	SpotService spSvc = new SpotService();
-	List<SpotsVO> list = spSvc.getAll();
+	MemberService memSvc = new MemberService();
+	List<MemberVO> list = memSvc.getAll();
 	pageContext.setAttribute("list",list);
 %>
 
 <html>
 <head>
-<title>所有景點資料 - listAllSpots.jsp</title>
+<title>所有會員資料 - listAllMembers.jsp</title>
 </head>
 <body bgcolor='white'>
 <table border='1' cellpadding='5' cellspacing='0' width='800'>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
-		<h3>所有景點資料 - ListAllSpots.jsp</h3>
-		<a href="<%=request.getContextPath()%>/frontend/spots/select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a>
+		<h3>所有會員資料 - ListAllMembers.jsp</h3>
+		<a href="<%=request.getContextPath()%>/frontend/member/select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a>
 		</td>
 	</tr>
 </table>
@@ -34,35 +34,36 @@
 	</ul>
 	</font>
 </c:if>
-<%@ include file="pages/page1.file" %> 
+<%-- <%@ include file="pages/page1.file" %>  --%>
 <table border='1' bordercolor='#CCCCFF' width='800'>
 	<tr>
-		<th>景點編號</th>
-		<th>景點名稱</th>
-		<th>經度</th>
-		<th>緯度</th>
-		<th>據點編號</th>
+		<th>會員編號</th>
+		<th>會員名稱</th>
+		<th>性別</th>
+		<th>生日</th>
+		<th>Mail</th>
+		<th>認證狀態</th>
 	</tr>
 <%-- 	begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" --%>
-	<c:forEach var="spotVO" items="${list}" >
+	<c:forEach var="memVO" items="${list}" >
 		<tr align='center' valign='middle'>
-			<td>${spotVO.spno}</td>
-			<td>${spotVO.spname}</td>
-			<td>${spotVO.splong}</td>
-			<td>${spotVO.splat}</td>
-			<td>${spotVO.locno}</td>		
-			
+			<td>${memVO.memno}</td>
+			<td>${memVO.memname}</td>
+			<td>${memVO.sex}</td>
+			<td>${memVO.birth}</td>
+			<td>${memVO.mail}</td>		
+			<td>${memVO.status}</td>	
 			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/spots/spot.do">
+			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/member/member.do">
 			     <input type="submit" value="修改"> 
-			     <input type="hidden" name="spno" value="${spotVO.spno}">
+			     <input type="hidden" name="memno" value="${memVO.memno}">
 			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--><!-- 目前尚未用到  -->
 			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 			</td>
 			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/spots/spot.do">
+			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/member/member.do">
 			    <input type="submit" value="刪除">
-			    <input type="hidden" name="spno" value="${spotVO.spno}">
+			    <input type="hidden" name="memno" value="${memVO.memno}">
 			    <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
 			    <input type="hidden" name="action"value="delete"></FORM>
 			</td>

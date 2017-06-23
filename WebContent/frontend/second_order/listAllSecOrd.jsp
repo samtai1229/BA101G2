@@ -31,10 +31,6 @@
 <title>所有二手車訂單資料 - listAllSecOrd.jsp</title>
 </head>
 <body bgcolor='white'>
-<b><font color=red>此頁練習採用 EL 的寫法取值:</font></b>
-
- 
-
 <table border='1' cellpadding='5' cellspacing='0' width='800'>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>

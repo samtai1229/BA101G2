@@ -28,7 +28,7 @@ public class MemberDAO implements MemberDAO_interface{
 	static {
 		try {
 			Context ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB3");
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/G2DB");
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
@@ -279,8 +279,7 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 	@Override
 	public List<MemberVO> getAll() {
 		List<MemberVO> list = new ArrayList<MemberVO>();
-		
-
+	
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -290,11 +289,10 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
-
+			
 			while (rs.next()) {
 
-				MemberVO memberVO = null;
-				memberVO = new MemberVO();
+				MemberVO memberVO = new MemberVO();
 				memberVO.setMemno(rs.getString("memno"));
 				memberVO.setMemname(rs.getString("memname"));
 				memberVO.setSex(rs.getString("sex"));
@@ -311,7 +309,6 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 				memberVO.setStatus(rs.getString("status"));
 				list.add(memberVO); // Store the row in the list
 			}
-			System.out.println(rs.getString("memno"));
 			// Handle any driver errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
@@ -342,29 +339,29 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 		}
 		return list;
 	}
-	public static void main(String[] args){
-		
-	}
-	// 使用InputStream資料流方式
-		public static InputStream getPictureStream(String path) throws IOException {
-			File file = new File(path);
-			FileInputStream fis = new FileInputStream(file);
-			return fis;
-		}
-
-		// 使用byte[]方式
-		public static byte[] getPictureByteArray(String path) throws IOException {
-			File file = new File(path);
-			FileInputStream fis = new FileInputStream(file);
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			byte[] buffer = new byte[8192];
-			int i;
-			while ((i = fis.read(buffer)) != -1) {
-				baos.write(buffer, 0, i);
-			}
-			baos.close();
-			fis.close();
-
-			return baos.toByteArray();
-		}
+//	public static void main(String[] args){
+//		
+//	}
+//	// 使用InputStream資料流方式
+//		public static InputStream getPictureStream(String path) throws IOException {
+//			File file = new File(path);
+//			FileInputStream fis = new FileInputStream(file);
+//			return fis;
+//		}
+//
+//		// 使用byte[]方式
+//		public static byte[] getPictureByteArray(String path) throws IOException {
+//			File file = new File(path);
+//			FileInputStream fis = new FileInputStream(file);
+//			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//			byte[] buffer = new byte[8192];
+//			int i;
+//			while ((i = fis.read(buffer)) != -1) {
+//				baos.write(buffer, 0, i);
+//			}
+//			baos.close();
+//			fis.close();
+//
+//			return baos.toByteArray();
+//		}
 }

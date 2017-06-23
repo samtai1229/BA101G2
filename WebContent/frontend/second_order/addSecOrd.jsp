@@ -25,7 +25,7 @@ SecOrdVO soVO = (SecOrdVO) request.getAttribute("soVO");
 	</tr>
 </table>
 
-<h3>資料員工:</h3>
+<h3>新增資料:</h3>
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
 	<font color='red'>請修正以下錯誤:

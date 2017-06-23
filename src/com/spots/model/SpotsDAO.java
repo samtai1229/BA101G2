@@ -232,11 +232,8 @@ public class SpotsDAO implements SpotsDAO_interface{
 
 	@Override
 	public List<SpotsVO> getAll() {
-
-
 		List<SpotsVO> list = new ArrayList<SpotsVO>();
 		SpotsVO spVO = null;
-
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -246,8 +243,6 @@ public class SpotsDAO implements SpotsDAO_interface{
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
-
-			
 
 			while (rs.next()) {
 				spVO = new SpotsVO();
