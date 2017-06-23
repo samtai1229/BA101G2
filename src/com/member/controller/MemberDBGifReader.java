@@ -20,7 +20,7 @@ import javax.sql.DataSource;
 /**
  * Servlet implementation class MotorModelDBGifReader
  */
-@WebServlet("/MemberDBGifReader")
+
 public class MemberDBGifReader extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -34,12 +34,13 @@ public class MemberDBGifReader extends HttpServlet {
 
 		try {
 			Statement stmt = con.createStatement();
-			String modtype = req.getParameter("modtype"); // 後
+			String memno = req.getParameter("memno"); // 後
+			String card = req.getParameter("card");
 			//String empno2 = new String(empno.getBytes("ISO-8859-1"), "big5");// 再
-			ResultSet rs = stmt.executeQuery("SELECT MOTPIC FROM MOTOR_MODEL WHERE MODTYPE ='"+modtype+"'");
+			ResultSet rs = stmt.executeQuery("SELECT "+card+" FROM MEMBER WHERE memno ="+"'"+memno+"'");
 
 			if (rs.next()) {
-				BufferedInputStream in = new BufferedInputStream(rs.getBinaryStream("motpic"));
+				BufferedInputStream in = new BufferedInputStream(rs.getBinaryStream(card));
 				byte[] buf = new byte[4 * 1024]; // 4K buffer
 				int len;
 				while ((len = in.read(buf)) != -1) {

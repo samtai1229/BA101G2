@@ -89,7 +89,14 @@
     <url-pattern>/member/member.do</url-pattern>
   </servlet-mapping>
   
-  
+  <servlet>
+    <servlet-name>MemberDBGifReader</servlet-name>
+    <servlet-class>com.member.controller.MemberDBGifReader</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MemberDBGifReader</servlet-name>
+    <url-pattern>/backend/member/memReader.do</url-pattern>
+  </servlet-mapping>
   
   
 </web-app>
