@@ -19,7 +19,6 @@
 <title>所有機車查詢 - MotorMgmtHqSelectPage.jsp</title>
 <meta name="description" content="">
 <meta name="keywords" content="">
-<link href="" rel="stylesheet">
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="https://code.jquery.com/jquery.js"></script>
 <script
@@ -39,7 +38,9 @@
 		<!-- 左選單 -->
 		<ul class="nav navbar-nav">
 			<li><a href="#" id="navA">後端管理系統</a></li>
-			<!-- 時鐘 -->
+			 <!-- 時鐘 -->
+            <iframe scrolling="no" frameborder="no" clocktype="html5" style="overflow:hidden;border:0;margin:0;padding:0;width:120px;height:40px;" src="http://www.clocklink.com/html5embed.php?clock=004&timezone=CCT&color=yellow&size=120&Title=&Message=&Target=&From=2017,1,1,0,0,0&Color=yellow">
+            </iframe>
 
 		</ul>
 		<!-- 右選單 -->

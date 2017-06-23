@@ -52,7 +52,7 @@ div.panel {
     font-size: 16px;
 }
 
-img {
+#logo {
     width: 100%;
 }
 
@@ -119,5 +119,6 @@ h1 {
     color: #edd14a;
     font-size: 20px;
 }
+
 
 
