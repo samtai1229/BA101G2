@@ -15,11 +15,6 @@
 <head>
 <title>所有會員資料 - listAllMembers.jsp</title>
 
-<style>
-
-
-</style>
-
 </head>
 <body bgcolor='white'>
 <table border='1' cellpadding='5' cellspacing='0' width='1600'>
@@ -81,14 +76,14 @@
 			<td>${memVO.status}</td>
 				
 			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/member/member.do">
+			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/backend/member/member.do">
 			     <input type="submit" value="修改"> 
 			     <input type="hidden" name="memno" value="${memVO.memno}">
 			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--><!-- 目前尚未用到  -->
 			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 			</td>
 			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/member/member.do">
+			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>backend/member/member.do">
 			    <input type="submit" value="刪除">
 			    <input type="hidden" name="memno" value="${memVO.memno}">
 			    <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->

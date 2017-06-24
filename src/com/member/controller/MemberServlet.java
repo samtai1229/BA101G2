@@ -105,7 +105,6 @@ public class MemberServlet extends HttpServlet {
 			try {
 				/*************************** 1.接收請求參數 ****************************************/
 				String memno = req.getParameter("memno");
-		//		String spname = req.getParameter("spname");
 				/*************************** 2.開始查詢資料 ****************************************/
 				MemberService memSvc = new MemberService();
 				MemberVO memVO= memSvc.getOneMember(memno);
@@ -114,7 +113,7 @@ public class MemberServlet extends HttpServlet {
 				 * 3.查詢完成,準備轉交(Send the Success view)
 				 ************/
 				req.setAttribute("memVO", memVO); // 資料庫取出的empVO物件,存入req
-				String url = "/frontend/member/update_member_input.jsp";
+				String url = "/backend/member/update_member_input.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交update_emp_input.jsp
 				successView.forward(req, res);
 

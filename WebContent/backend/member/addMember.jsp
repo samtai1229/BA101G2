@@ -45,32 +45,24 @@ SpotsVO spotVO = (SpotsVO) request.getAttribute("spotVO");
 		<td><input type="TEXT" name="spname" size="45" 
 			value="<%= (spotVO==null)? "我家" : spotVO.getSpname()%>" /></td>
 	</tr>
-
-	
 	<tr>
 		<td>據點編號:</td>
 		<td><input type="TEXT" name="locno" size="45"
 			value="<%= (spotVO==null)? "L000001" : spotVO.getLocno()%>" /></td>
-	</tr>
-	
+	</tr>	
 	<tr>
 		<td>經度:</td>
 		<td><input type="TEXT" name="longitude" size="45"
 			value="<%= (spotVO==null)? "121.21" : spotVO.getSplong()%>" /></td>
-	</tr>
-	
+	</tr>	
 	<tr>
 		<td>緯度:</td>
 		<td><input type="TEXT" name="latitude" size="45"
 			value="<%= (spotVO==null)? "23.25" : spotVO.getSplat()%>" /></td>
-	</tr>
-	
-
-	
+	</tr>	
 </table>
 <br>
 <input type="hidden" name="action" value="insert">
 <input type="submit" value="送出新增"></FORM>
 </body>
-
 </html>
