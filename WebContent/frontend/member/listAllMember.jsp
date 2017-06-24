@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
 <%@ page import="com.member.model.*"%>
 <%-- 此頁練習採用 EL 的寫法取值 --%>
@@ -13,9 +14,15 @@
 <html>
 <head>
 <title>所有會員資料 - listAllMembers.jsp</title>
+
+<style>
+
+
+</style>
+
 </head>
 <body bgcolor='white'>
-<table border='1' cellpadding='5' cellspacing='0' width='800'>
+<table border='1' cellpadding='5' cellspacing='0' width='1600'>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
 		<h3>所有會員資料 - ListAllMembers.jsp</h3>
@@ -35,11 +42,11 @@
 	</font>
 </c:if>
 <%-- <%@ include file="pages/page1.file" %>  --%>
-<table border='1' bordercolor='#CCCCFF' width='800'>
+<table border='1' bordercolor='#CCCCFF' width='1600'>
 	<tr>
 		<th>會員編號</th>
-		<th>會員名稱</th>
-		<th>性別</th>
+		<th width='70'>會員名稱</th>
+		<th  width='50'>性別 </th>
 		<th>生日</th>
 		<th>Mail</th>
 		<th>電話</th>
@@ -58,7 +65,8 @@
 			<td>${memVO.memno}</td>
 			<td>${memVO.memname}</td>
 			<td>${memVO.sex}</td>
-			<td>${memVO.birth}</td>
+			<td><fmt:formatDate pattern = "yyyy年MM月dd號" 
+         value = "${memVO.birth}" /></td>
 			<td>${memVO.mail}</td>
 			<td>${memVO.phone}</td>	
 			<td>${memVO.addr}</td>	
@@ -68,7 +76,10 @@
 			
 <!-- 反面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard2' width='120' height='100'></td>				
 <!-- 駕照 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=license' width='120' height='100'></td>							
-			<td>${memVO.status}</td>	
+			<td><fmt:formatDate pattern = "yyyy年MM月dd號" 
+         value = "${memVO.credate}" /></td>
+			<td>${memVO.status}</td>
+				
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/member/member.do">
 			     <input type="submit" value="修改"> 
