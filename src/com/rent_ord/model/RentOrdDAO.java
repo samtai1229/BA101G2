@@ -15,6 +15,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.equipment.model.EquipmentVO;
+
 public class RentOrdDAO implements RentOrdDAO_interface {
 	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
 	private static DataSource ds = null;
@@ -36,8 +38,8 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	//合理版本
     final String INSERT_STMT = "INSERT INTO RENT_ORD"
 	+ " (rentno, memno, motno, slocno, rlocno, milstart, "
-	+ "startdate, enddate, note"
-	+ ") VALUES ('R'||LPAD(TO_CHAR(rentno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?,"
+	+ " startdate, enddate, note"
+	+ " ) VALUES ('R'||LPAD(TO_CHAR(rentno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?,"
 	+ "  ?, ?, ?, ?)";
 
 //	private static final String UPDATE = "UPDATE RENT_ORD set memno=?, motno=?,"
@@ -47,27 +49,28 @@ public class RentOrdDAO implements RentOrdDAO_interface {
     //合理版本: 去掉 filldate, memno
 	private static final String UPDATE = "UPDATE RENT_ORD set  motno=?,"
 			+ " slocno=?, rlocno=?, milstart=?, milend=?, startdate=?, enddate=?,"
-			+ "returndate=?, fine=?, total=?, rank=?, status=?, note=? where rentno = ?";
+			+ " returndate=?, fine=?, total=?, rank=?, status=?, note=? where rentno = ?";
 
 	private static final String DELETE = "DELETE FROM RENT_ORD where rentno = ?";
 
 	private static final String selectFactor = "SELECT rentno, memno, motno, slocno, rlocno,"
 			+ " milstart, milend, to_char(filldate,'yyyy-mm-dd hh:mm:ss') filldate, "
-			+ "to_char(startdate,'yyyy-mm-dd hh:mm:ss') startdate, "
-			+ "to_char(enddate,'yyyy-mm-dd hh:mm:ss') enddate, "
-			+ "to_char(returndate,'yyyy-mm-dd hh:mm:ss') returndate, fine, total," + " rank, status, note ";
-
+			+ " to_char(startdate,'yyyy-mm-dd hh:mm:ss') startdate, "
+			+ " to_char(enddate,'yyyy-mm-dd hh:mm:ss') enddate, "
+			+ " to_char(returndate,'yyyy-mm-dd hh:mm:ss') returndate, fine, total," 
+			+ " rank, status, note ";	
+	
 	private static final String GET_ALL = selectFactor 
-			+ " FROM RENT_ORD";
+			+ " FROM RENT_ORD order by rentno desc";
 
 	private static final String GET_ONE = selectFactor 
 			+ " FROM RENT_ORD where rentno = ?";
 
 	private static final String GET_BY_START_LOC_NO = selectFactor 
-			+ " FROM RENT_ORD where slocno = ?";
+			+ " FROM RENT_ORD where slocno = ?  order by rentno desc";
 
 	private static final String GET_BY_RETURN_LOC_NO = selectFactor 
-			+ " FROM RENT_ORD where rlocno = ?";
+			+ " FROM RENT_ORD where rlocno = ?  order by rentno desc";
 
 	private static final String GET_BY_STATUS = selectFactor 
 			+ " FROM RENT_ORD where status = ?";
@@ -82,11 +85,237 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	
 	private static final String GET_FOR_LEASE_VIEW = 
 			selectFactor + " FROM RENT_ORD where slocno=? "
-			+" and (status = 'unpaid' or status = 'unoccupied' or status = 'noshow')";
+			+" and (status = 'unpaid' or status = 'unoccupied' or"
+			+" status = 'noshow' or status = 'available' or status = 'canceled')"
+			+" order by DECODE(status,'noshow',1,'available',2), status, startdate";
 	
 	private static final String GET_FOR_RETURN_VIEW = 
 			selectFactor + " FROM RENT_ORD where rlocno=? "
-			+" and (status = 'noreturn' or status = 'overtime')";
+			+" and (status = 'noreturn' or status = 'overtime')"
+			+"order by DECODE(status,'overtime',1,'noreturn',2), enddate";
+	
+	
+	private static final String UPDATE_EMT_STATUS_FROM_RESERVE_TO_OCCUPIED = 
+			"UPDATE EQUIPMENT set status='occupied' where emtno = ? ";
+	
+	private static final String UPDATE_MOTOR_STATUS_FROM_RESERVE_TO_OCCUPIED = 
+			"UPDATE MOTOR set status='occupied' where motno = ? ";
+
+	private static final String UPDATE_RENT_ORD_STATUS_FROM_RESERVE_TO_OCCUPIED = 
+			"UPDATE RENT_ORD set status='noreturn' where rentno = ? ";
+	
+	private static final String GET_EMTNOs_BY_RENTNO_IN_EMT_LIST= 
+			" SELECT emtno FROM EMT_LIST where rentno = ? ";
+	
+	private static final String GET_EMPVOs_BY_EMTNOs_IN_EQUIPMENT=
+			"SELECT emtno, ecno, locno, to_char(purchdate,'yyyy-mm-dd hh:mm:ss') purchdate,"
+			+" status, note from EQUIPMENT where emtno = ? ";
+
+	@Override
+	public void updateRentOrdStatusAfterLease(String rentno) {
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_RENT_ORD_STATUS_FROM_RESERVE_TO_OCCUPIED);			
+			pstmt.setString(1, rentno);
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	}
+	
+	
+	@Override
+	public void updateMotorStatusAfterLease(String motno) {
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_MOTOR_STATUS_FROM_RESERVE_TO_OCCUPIED);			
+			pstmt.setString(1, motno);
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	}
+
+
+
+	@Override
+	public void updateEmtsStatusAfterLease(String emtno) {
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_EMT_STATUS_FROM_RESERVE_TO_OCCUPIED);			
+			pstmt.setString(1, emtno);
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	}
+
+	@Override
+	public Set<EquipmentVO> getEquipmentVOsByRentno(String rentno) {
+		System.out.println("RentOrdDAO getEquipmentVOsByRentno in");
+		System.out.println("rentno =" + rentno);
+		Set<EquipmentVO> set = new LinkedHashSet<EquipmentVO>();
+
+		Connection con = null;		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+				
+			con = ds.getConnection();			
+			pstmt = con.prepareStatement(GET_EMTNOs_BY_RENTNO_IN_EMT_LIST);
+			
+			pstmt.setString(1, rentno);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				String emtno = null;
+				EquipmentVO emtVO = null;
+				
+				Connection con2 = null;
+				PreparedStatement pstmt2 = null;
+				ResultSet rs2 = null;
+				
+				emtno = rs.getString("emtno");
+				System.out.println("emtno = "+ emtno);
+				
+				try {
+					con2 = ds.getConnection();		
+					pstmt2 = con2.prepareStatement(GET_EMPVOs_BY_EMTNOs_IN_EQUIPMENT);				
+					pstmt2.setString(1, emtno);
+					rs2 = pstmt2.executeQuery();
+					
+					while(rs2.next()){
+						System.out.println("rs2 in with emtno = " + emtno);					
+						emtVO = new EquipmentVO();
+						emtVO.setEmtno(rs2.getString("emtno"));
+						emtVO.setEcno(rs2.getString("ecno"));
+						emtVO.setLocno(rs2.getString("locno"));
+						emtVO.setPurchdate(rs2.getTimestamp("purchdate"));
+						emtVO.setStatus(rs2.getString("status"));
+						emtVO.setNote(rs2.getString("note"));
+						set.add(emtVO); // Store the row in the list
+					}					
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally{
+					if (rs2 != null) {
+						try {
+							rs2.close();
+						} catch (SQLException se) {
+							se.printStackTrace(System.err);
+						}
+					}
+					if (pstmt2 != null) {
+						try {
+							pstmt2.close();
+						} catch (SQLException se) {
+							se.printStackTrace(System.err);
+						}
+					}
+					if (con2 != null) {
+						try {
+							con2.close();
+						} catch (Exception e) {
+							e.printStackTrace(System.err);
+						}
+					}				
+				}
+			}
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return set;
+	}
 
 	@Override
 	public void insert(RentOrdVO roVO) {
@@ -142,7 +371,6 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 				}
 			}
 		}
-
 	}
 
 	@Override
@@ -197,7 +425,6 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 				}
 			}
 		}
-
 	}
 
 	@Override
@@ -403,7 +630,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 
 			while (rs.next()) {
 				roVO = new RentOrdVO();
-				setAttirbute(roVO, rs); // 拉出來寫成一個方法
+				setAllAttributeMethod(roVO, rs); // 拉出來寫成一個方法
 
 				set.add(roVO); // Store the row in the vector
 			}
@@ -453,7 +680,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 
 			while (rs.next()) {
 				roVO = new RentOrdVO();
-				setAttirbute(roVO, rs); // 拉出來寫成一個方法
+				setAllAttributeMethod(roVO, rs); // 拉出來寫成一個方法
 
 				set.add(roVO); // Store the row in the vector
 			}
@@ -503,7 +730,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 
 			while (rs.next()) {
 				roVO = new RentOrdVO();
-				setAttirbute(roVO, rs); // 拉出來寫成一個方法
+				setAllAttributeMethod(roVO, rs); // 拉出來寫成一個方法
 				set.add(roVO); // Store the row in the vector
 			}
 
@@ -553,7 +780,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 
 			while (rs.next()) {
 				roVO = new RentOrdVO();
-				setAttirbute(roVO, rs); // 拉出來寫成一個方法
+				setAllAttributeMethod(roVO, rs); // 拉出來寫成一個方法
 				set.add(roVO); // Store the row in the vector
 			}
 
@@ -603,7 +830,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 
 			while (rs.next()) {
 				roVO = new RentOrdVO();
-				setAttirbute(roVO, rs); // 拉出來寫成一個方法
+				setAllAttributeMethod(roVO, rs); // 拉出來寫成一個方法
 				set.add(roVO); // Store the row in the vector
 			}
 
@@ -652,7 +879,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	
 			while (rs.next()) {
 				roVO = new RentOrdVO();
-				setAttirbute(roVO, rs); // 拉出來寫成一個方法
+				setAllAttributeMethod(roVO, rs); // 拉出來寫成一個方法
 	
 				set.add(roVO); // Store the row in the vector
 			}
@@ -703,7 +930,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	
 			while (rs.next()) {
 				roVO = new RentOrdVO();
-				setAttirbute(roVO, rs); // 拉出來寫成一個方法
+				setAllAttributeMethod(roVO, rs); // 拉出來寫成一個方法
 	
 				set.add(roVO); // Store the row in the vector
 			}
@@ -735,8 +962,8 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 		}
 		return set;
 	}
-
-	private void setAttirbute(RentOrdVO roVO, ResultSet rs) {
+	
+	private void setAllAttributeMethod(RentOrdVO roVO, ResultSet rs) {
 
 		try {
 			roVO.setMotno(rs.getString("motno"));
@@ -761,5 +988,6 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 		}
 
 	}
+
 
 }
