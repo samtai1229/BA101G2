@@ -260,7 +260,7 @@ public class MemberServlet extends HttpServlet {
 				Part idcard2 = req.getPart("idcard2");
 				Part license = req.getPart("license");
 				
-				
+				 
 				MemberVO memVO = new MemberVO();
 				memVO.setMemname(memname);
 				memVO.setAcc(acc);
