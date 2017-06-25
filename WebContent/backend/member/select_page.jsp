@@ -78,7 +78,7 @@
 
 		<ul>
 			<li><a
-				href='<%=request.getContextPath()%>/frontend/member/addMember.jsp'>Add</a>
+				href='<%=request.getContextPath()%>/backend/member/addMember.jsp'>Add</a>
 				a new Member.</li>
 		</ul>
 </body>

@@ -1,19 +1,52 @@
 package com.member.controller;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
 import com.spots.model.*;
-
+@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 public class MemberServlet extends HttpServlet {
 
+	
+	public static byte[] getPicByteArray(Part part) throws IOException
+	{
+		InputStream fis = null;
+	try {
+		fis = part.getInputStream();
+	} catch (IOException e) {
+
+		e.printStackTrace();
+	}
+	
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		byte[] buffer = new byte[8192];
+		int i;
+		while ((i = fis.read(buffer)) != -1) {
+			baos.write(buffer, 0, i);
+		}
+		baos.close();
+		fis.close();
+
+		return baos.toByteArray();
+	 
+	}
+	
+	
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		doPost(req, res);
@@ -43,7 +76,7 @@ public class MemberServlet extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/frontend/member/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/select_page.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -57,7 +90,7 @@ public class MemberServlet extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/memeber/select_page.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -71,7 +104,7 @@ public class MemberServlet extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/frontend/member/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/select_page.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -81,14 +114,14 @@ public class MemberServlet extends HttpServlet {
 				 *************/
 				
 				req.setAttribute("memVO", memVO); // 資料庫取出的empVO物件,存入req
-				String url = "/frontend/member/listOneMember.jsp";
+				String url = "/backend/member/listOneMember.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/member/select_page.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/select_page.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -179,7 +212,7 @@ public class MemberServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("spotVO", spotVO); // 含有輸入格式錯誤的empVO物件,也存入req
-					RequestDispatcher failureView = req.getRequestDispatcher("/frontend/spots/update_spot_input.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/spots/update_spot_input.jsp");
 					failureView.forward(req, res);
 					return; // 程式中斷
 				}
@@ -192,20 +225,20 @@ public class MemberServlet extends HttpServlet {
 				 * 3.修改完成,準備轉交(Send the Success view)
 				 *************/
 				req.setAttribute("spotVO", spotVO); // 資料庫update成功後,正確的的empVO物件,存入req
-				String url = "/frontend/spots/listOneSpot.jsp";
+				String url = "/backend/spots/listOneSpot.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/spots/update_spot_input.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/spots/update_spot_input.jsp");
 				failureView.forward(req, res);
 			}
 		}
 
 		if ("insert".equals(action)) { // 來自addSpot.jsp的請求
-
+           System.out.println("我要新增會員資料");
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
@@ -215,69 +248,57 @@ public class MemberServlet extends HttpServlet {
 				/***********************
 				 * 1.接收請求參數 - 輸入格式的錯誤處理
 				 *************************/
-				String spno = req.getParameter("spno").trim();
-				String spname = req.getParameter("spname").trim();
-				String locno = req.getParameter("locno").trim();
+				String memname = req.getParameter("memname").trim();
+				String sex = req.getParameter("sex");
+				String acc = req.getParameter("acc");
+				String pwd = req.getParameter("pwd");
+				String addr = req.getParameter("addr");
+				String phone = req.getParameter("phone");
+				String mail = req.getParameter("mail");
+				Timestamp birth = Timestamp.valueOf(req.getParameter("birth")+" 00:00:00");
+				Part idcard1 = req.getPart("idcard1");
+				Part idcard2 = req.getPart("idcard2");
+				Part license = req.getPart("license");
 				
-				// java.sql.Date hiredate = null;
-				// try {
-				// hiredate =
-				// java.sql.Date.valueOf(req.getParameter("hiredate").trim());
-				// } catch (IllegalArgumentException e) {
-				// hiredate=new java.sql.Date(System.currentTimeMillis());
-				// errorMsgs.add("請輸入日期!");
-				// }
-
-				Float longitude = null;
-				try {
-					longitude = new Float(req.getParameter("longitude").trim());
-				} catch (NumberFormatException e) {
-					longitude = 0.f;
-					errorMsgs.add("經度格式錯誤.");
-				}
-
-				Float latitude = null;
-				try {
-					latitude = new Float(req.getParameter("latitude").trim());
-				} catch (NumberFormatException e) {
-					latitude = 0.f;
-					errorMsgs.add("緯度格式錯誤.");
-				}
-
-			
-				SpotsVO spotVO = new SpotsVO();
-				spotVO.setLocno(locno);
 				
-				spotVO.setSplat(latitude);
+				MemberVO memVO = new MemberVO();
+				memVO.setMemname(memname);
+				memVO.setAcc(acc);
+				memVO.setPwd(pwd);
+				memVO.setPhone(phone);
+				memVO.setMail(mail);
+				memVO.setAddr(addr);
+				memVO.setIdcard1(getPicByteArray(idcard1));
+				memVO.setIdcard2(getPicByteArray(idcard2));
+				memVO.setLicense(getPicByteArray(license));
+				memVO.setBirth(birth);
+				memVO.setSex(sex);
 				
-				spotVO.setSplong(longitude);
-				
-				spotVO.setSpname(spname);
-				spotVO.setSpno(spno);
 
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					req.setAttribute("spotVO", spotVO); // 含有輸入格式錯誤的empVO物件,也存入req
-					RequestDispatcher failureView = req.getRequestDispatcher("/frontend/spots/addSpot.jsp");
+					req.setAttribute("memVO", memVO); // 含有輸入格式錯誤的empVO物件,也存入req
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/addMember.jsp");
 					failureView.forward(req, res);
 					return;
 				}
 
 				/*************************** 2.開始新增資料 ***************************************/
-				SpotService spSvc = new SpotService();
-				spotVO = spSvc.addOneSpot(spno, spname, locno, longitude, latitude);
+				MemberService memSvc = new MemberService();
+				memVO = memSvc.insert(memname, sex, birth, mail, phone, addr, acc, pwd, getPicByteArray(idcard1), getPicByteArray(idcard2), getPicByteArray(license), null);
 
 				/***************************
 				 * 3.新增完成,準備轉交(Send the Success view)
 				 ***********/
-				String url = "/frontend/spots/listAllSpot.jsp";
+				System.out.println("轉到全部會員清單");
+				String url = "/backend/member/listAllMember.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/spots/addSpot.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/addMember.jsp");
 				failureView.forward(req, res);
 			}
 		}
@@ -299,12 +320,12 @@ public class MemberServlet extends HttpServlet {
 
 			try {
 				/*************************** 1.接收請求參數 ***************************************/
-				String spno = req.getParameter("spno");
+//				String spno = req.getParameter("spno");
 
 				/*************************** 2.開始刪除資料 ***************************************/
 				SpotService spSvc = new SpotService();
 			
-				spSvc.deleteOneSpot(spno);
+//				spSvc.deleteOneSpot(spno);
 
 				/***************************
 				 * 3.刪除完成,準備轉交(Send the Success view)

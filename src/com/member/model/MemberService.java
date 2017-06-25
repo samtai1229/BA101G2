@@ -13,7 +13,7 @@ public class MemberService {
 	
 	public MemberVO insert(String memname,String sex,Timestamp birth,String mail,String phone,String addr,String acc,String pwd,byte[] idcard1,byte[] idcard2,byte[] license,Timestamp credate){
 		MemberVO memberVO = new MemberVO();
-
+        
 //		memberVO.setMemno(memno);
 		memberVO.setMemname(memname);
 		memberVO.setSex(sex);
@@ -27,6 +27,7 @@ public class MemberService {
 		memberVO.setIdcard2(idcard2);
 		memberVO.setLicense(license);
 		memberVO.setCredate(credate);
+		dao.insert(memberVO);
 		return memberVO;
 	}
 	
@@ -46,6 +47,7 @@ public class MemberService {
 		memberVO.setIdcard2(idcard2);
 		memberVO.setLicense(license);
 		memberVO.setCredate(credate);
+		dao.update(memberVO);
 		return memberVO;
 	}
 	
