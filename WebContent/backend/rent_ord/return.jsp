@@ -6,28 +6,21 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
 <%@ page import="com.rent_ord.model.*"%>
-<%@ page import="com.location.model.*" %>
 <!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>AutoBike 還車</title>
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-    <link href="" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-    
-    <link rel="stylesheet" href="Modified/backendHP_css.css">
-    <link href="Modified/main.css" rel="stylesheet">
-    <script src="Modified/motorKanli_js.js"></script>
-    <script src="Modified/datepicker.js"></script>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
 
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>  	
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">     
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css" >
+
+	<title>AutoBike 還車</title>
 </head>
 
 <body>
@@ -46,9 +39,8 @@
         <ul class="nav navbar-nav navbar-right">
         </ul>
     </nav>
- <%--保留寫法     href="<%=request.getContextPath()%>/backend/backendRentOrd.jsp"  --%>
     <div class="col-xs-12 col-sm-2 leftBar">
-        <img id="menuLogo" src="images/logo.jpg">
+        <img id="menuLogo" src="<%=request.getContextPath()%>/backend/images/android_logo2.jpg">
         <button class="accordion accordionMenu accordion accordionMenuMenu">總部管理系統</button>
         <div class="btn-group-vertical">
                 
@@ -109,7 +101,7 @@
          		<div class="container-fluid">       
 
 
-<!--block1 --><div id="block1" class="col-xs-12 col-sm-4">
+<!--block1 --><div id="block1" class="col-xs-12 col-sm-3">
 				
 <%-- 錯誤表列 --%>
 					<c:if test="${not empty errorMsgs}">
@@ -150,7 +142,7 @@
 												<select name="rlocno" onchange="queryRentOrdByRlocno(this.value)">
 						 							<c:forEach var="locVO" items="${locSvc.all}">
 						 							<c:if test="${locVO.locno != 'TPE00'}"> 
-														<option value="${locVO.locno}">${locVO.locno}</option>
+														<option value="${locVO.locno}">${locVO.locname}營業所</option>
 													</c:if>	
 													</c:forEach> 													
 												</select><br />
@@ -203,21 +195,20 @@
 <!--標籤面板 結束 -->		   </div>
 <!--end block1 --> </div>	
 
-<!-- block3 表格 --> <div id="block3" class="col-xs-12 col-sm-8">
-
-<%-- 					<%if(request.getAttribute("get_for_return_view")!=null){ %>
-						<jsp:include page="get_for_return_view.jsp"/>
-					<%}%> --%>
-
+<!-- block3 表格 --> <div id="block3" class="col-xs-12 col-sm-9">
+						<img src="<%=request.getContextPath()%>/backend/images/android_logo.png" id="PageLogo"
+						 style="display:block; margin:auto;">
 					</div>
 <!--end: block3 --> 	
 <!--container--></div>	
 
-					<script src="Modified/QueryTablePagination.js"></script> 
     </div><!-- sm-10 rightHTML  -->
  
 <!--RWD部分:下面兩行我拿掉一行和JQuery有關的script, 不然datepicker會衝到  -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="Modified/rentOrdNew.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/datepicker_for_ro.js"></script>
+ 	<script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/motorKanli_for_ro.js"></script>    
+    <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/rentOrdNew.js"></script>
+ 	<script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/paging_for_ro.js"></script>
 </body>
 </html>
