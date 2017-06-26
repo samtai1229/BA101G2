@@ -72,7 +72,11 @@
             <a class="btn btn-default" href="#" role="button">二手車交易管理</a>
         </div>
         <button class="accordion accordionMenu">會員管理系統</button>
-        <div class="btn-group-vertical"></div>
+        <div class="btn-group-vertical">
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/member/listAllMember.jsp" role="button">會員管理</a>
+            <a class="btn btn-default" href="#" role="button">二手車訂單管理</a>
+            <a class="btn btn-default" href="#" role="button">二手車交易管理</a>
+        </div>
         <button class="accordion accordionMenu">活動企劃管理系統</button>
         <div class="btn-group-vertical">
             <a class="btn btn-default" href="#" role="button">推播管理</a>

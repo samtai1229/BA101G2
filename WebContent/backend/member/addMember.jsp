@@ -62,7 +62,7 @@ MemberVO memVO = (MemberVO) request.getAttribute("memVO");
 	</tr>	
 	<tr>
 		<td>¹q¸Ü:</td>
-		<td><input type="number" name="phone" size="45"/></td>
+		<td><input type="tel" name="phone" size="45"/></td>
 	</tr>
 	<tr>
 		<td>¦a§}:</td>

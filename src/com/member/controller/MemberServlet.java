@@ -1,4 +1,5 @@
 package com.member.controller;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -15,24 +16,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
 import com.spots.model.*;
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 public class MemberServlet extends HttpServlet {
 
-	
-	public static byte[] getPicByteArray(Part part) throws IOException
-	{
+	public static byte[] getPicByteArray(Part part) throws IOException {
 		InputStream fis = null;
-	try {
-		fis = part.getInputStream();
-	} catch (IOException e) {
+		try {
+			fis = part.getInputStream();
+		} catch (IOException e) {
 
-		e.printStackTrace();
-	}
-	
+			e.printStackTrace();
+		}
+
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		byte[] buffer = new byte[8192];
 		int i;
@@ -43,10 +41,9 @@ public class MemberServlet extends HttpServlet {
 		fis.close();
 
 		return baos.toByteArray();
-	 
+
 	}
-	
-	
+
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		doPost(req, res);
@@ -69,9 +66,9 @@ public class MemberServlet extends HttpServlet {
 				 * 1.接收請求參數 - 輸入格式的錯誤處理
 				 **********************/
 				String memno = req.getParameter("memno");
-			
+
 				if (memno == null || (memno.trim()).length() == 0) {
-				     
+
 					errorMsgs.add("請輸入會員編號");
 				}
 				// Send the use back to the form, if there were errors
@@ -81,7 +78,6 @@ public class MemberServlet extends HttpServlet {
 					return;// 程式中斷
 				}
 
-				
 				try {
 					if (memno.length() != 9 || !memno.contains("MEM"))
 						throw new Exception();
@@ -97,9 +93,9 @@ public class MemberServlet extends HttpServlet {
 
 				/*************************** 2.開始查詢資料 *****************************************/
 				MemberService memSvc = new MemberService();
-				MemberVO memVO= memSvc.getOneMember(memno);
-		
-				if (memVO == null ) {
+				MemberVO memVO = memSvc.getOneMember(memno);
+
+				if (memVO == null) {
 					errorMsgs.add("查無資料");
 				}
 				// Send the use back to the form, if there were errors
@@ -112,7 +108,7 @@ public class MemberServlet extends HttpServlet {
 				/***************************
 				 * 3.查詢完成,準備轉交(Send the Success view)
 				 *************/
-				
+
 				req.setAttribute("memVO", memVO); // 資料庫取出的empVO物件,存入req
 				String url = "/backend/member/listOneMember.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
@@ -140,7 +136,7 @@ public class MemberServlet extends HttpServlet {
 				String memno = req.getParameter("memno");
 				/*************************** 2.開始查詢資料 ****************************************/
 				MemberService memSvc = new MemberService();
-				MemberVO memVO= memSvc.getOneMember(memno);
+				MemberVO memVO = memSvc.getOneMember(memno);
 
 				/***************************
 				 * 3.查詢完成,準備轉交(Send the Success view)
@@ -167,87 +163,7 @@ public class MemberServlet extends HttpServlet {
 				/***************************
 				 * 1.接收請求參數 - 輸入格式的錯誤處理
 				 **********************/
-				String memno = req.getParameter("memno").trim();
-				String spname = req.getParameter("spname").trim();
-
-				// String job = req.getParameter("job").trim();
-				//
-				// java.sql.Date hiredate = null;
-				// try {
-				// hiredate =
-				// java.sql.Date.valueOf(req.getParameter("hiredate").trim());
-				// } catch (IllegalArgumentException e) {
-				// hiredate=new java.sql.Date(System.currentTimeMillis());
-				// errorMsgs.add("請輸入日期!");
-				// }
-
-				Float longitude = null;
-				try {
-					longitude = new Float(req.getParameter("splong").trim());
-				} catch (NumberFormatException e) {
-					longitude = 0.f;
-					errorMsgs.add("經度格式錯誤.");
-				}
-
-				Float latitude = null;
-				try {
-					latitude = new Float(req.getParameter("splat").trim());
-				} catch (NumberFormatException e) {
-					latitude = 0.f;
-					errorMsgs.add("緯度格式錯誤.");
-				}
-
-				String locno = req.getParameter("locno").trim();
-
-				SpotsVO spotVO = new SpotsVO();
-				spotVO.setLocno(locno);
-				;
-				spotVO.setSplat(latitude);
-				;
-				spotVO.setSplong(longitude);
-				;
-				spotVO.setSpname(spname);
-				spotVO.setSpno(memno);
-
-				// Send the use back to the form, if there were errors
-				if (!errorMsgs.isEmpty()) {
-					req.setAttribute("spotVO", spotVO); // 含有輸入格式錯誤的empVO物件,也存入req
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/spots/update_spot_input.jsp");
-					failureView.forward(req, res);
-					return; // 程式中斷
-				}
-
-				/*************************** 2.開始修改資料 *****************************************/
-				SpotService spSvc = new SpotService();
-				spotVO = spSvc.updateOneSpot(memno, spname, locno, longitude, latitude);
-
-				/***************************
-				 * 3.修改完成,準備轉交(Send the Success view)
-				 *************/
-				req.setAttribute("spotVO", spotVO); // 資料庫update成功後,正確的的empVO物件,存入req
-				String url = "/backend/spots/listOneSpot.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
-				successView.forward(req, res);
-
-				/*************************** 其他可能的錯誤處理 *************************************/
-			} catch (Exception e) {
-				errorMsgs.add("修改資料失敗:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/spots/update_spot_input.jsp");
-				failureView.forward(req, res);
-			}
-		}
-
-		if ("insert".equals(action)) { // 來自addSpot.jsp的請求
-           System.out.println("我要新增會員資料");
-			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to
-			// send the ErrorPage view.
-			req.setAttribute("errorMsgs", errorMsgs);
-
-			try {
-				/***********************
-				 * 1.接收請求參數 - 輸入格式的錯誤處理
-				 *************************/
+				String memno = req.getParameter("memno");
 				String memname = req.getParameter("memname").trim();
 				String sex = req.getParameter("sex");
 				String acc = req.getParameter("acc");
@@ -255,12 +171,12 @@ public class MemberServlet extends HttpServlet {
 				String addr = req.getParameter("addr");
 				String phone = req.getParameter("phone");
 				String mail = req.getParameter("mail");
-				Timestamp birth = Timestamp.valueOf(req.getParameter("birth")+" 00:00:00");
+				String status = req.getParameter("status");
+				Timestamp birth = Timestamp.valueOf(req.getParameter("birth") + " 00:00:00");
 				Part idcard1 = req.getPart("idcard1");
 				Part idcard2 = req.getPart("idcard2");
 				Part license = req.getPart("license");
-				
-				 
+
 				MemberVO memVO = new MemberVO();
 				memVO.setMemname(memname);
 				memVO.setAcc(acc);
@@ -274,6 +190,69 @@ public class MemberServlet extends HttpServlet {
 				memVO.setBirth(birth);
 				memVO.setSex(sex);
 				
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					req.setAttribute("memVO", memVO); // 含有輸入格式錯誤的empVO物件,也存入req
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/spots/update_spot_input.jsp");
+					failureView.forward(req, res);
+					return; // 程式中斷
+				}
+
+				/*************************** 2.開始修改資料 *****************************************/
+				MemberService memSvc = new MemberService();
+				 memVO = memSvc.update(memno, memname, sex, birth, mail, phone, addr, acc, pwd, getPicByteArray(idcard1), getPicByteArray(idcard2), getPicByteArray(license),status);
+
+				/***************************
+				 * 3.修改完成,準備轉交(Send the Success view)
+				 *************/
+				req.setAttribute("memVO", memVO); // 資料庫update成功後,正確的的empVO物件,存入req
+				String url = "/backend/member/listOneMember.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
+				successView.forward(req, res);
+
+				/*************************** 其他可能的錯誤處理 *************************************/
+			} catch (Exception e) {
+				errorMsgs.add("修改資料失敗:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/spots/update_spot_input.jsp");
+				failureView.forward(req, res);
+			}
+		}
+
+		if ("insert".equals(action)) { // 來自addSpot.jsp的請求
+			System.out.println("我要新增會員資料");
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				/***********************
+				 * 1.接收請求參數 - 輸入格式的錯誤處理
+				 *************************/
+				String memname = req.getParameter("memname").trim();
+				String sex = req.getParameter("sex");
+				String acc = req.getParameter("acc");
+				String pwd = req.getParameter("pwd");
+				String addr = req.getParameter("address");
+				String phone = req.getParameter("phone");
+				String mail = req.getParameter("mail");
+				Timestamp birth = Timestamp.valueOf(req.getParameter("birth") + " 00:00:00");
+				Part idcard1 = req.getPart("idcard1");
+				Part idcard2 = req.getPart("idcard2");
+				Part license = req.getPart("license");
+
+				MemberVO memVO = new MemberVO();
+				memVO.setMemname(memname);
+				memVO.setAcc(acc);
+				memVO.setPwd(pwd);
+				memVO.setPhone(phone);
+				memVO.setMail(mail);
+				memVO.setAddr(addr);
+				memVO.setIdcard1(getPicByteArray(idcard1));
+				memVO.setIdcard2(getPicByteArray(idcard2));
+				memVO.setLicense(getPicByteArray(license));
+				memVO.setBirth(birth);
+				memVO.setSex(sex);
 
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
@@ -285,7 +264,8 @@ public class MemberServlet extends HttpServlet {
 
 				/*************************** 2.開始新增資料 ***************************************/
 				MemberService memSvc = new MemberService();
-				memVO = memSvc.insert(memname, sex, birth, mail, phone, addr, acc, pwd, getPicByteArray(idcard1), getPicByteArray(idcard2), getPicByteArray(license), null);
+				memVO = memSvc.insert(memname, sex, birth, mail, phone, addr, acc, pwd, getPicByteArray(idcard1),
+						getPicByteArray(idcard2), getPicByteArray(license), null);
 
 				/***************************
 				 * 3.新增完成,準備轉交(Send the Success view)
@@ -303,8 +283,7 @@ public class MemberServlet extends HttpServlet {
 			}
 		}
 
-		if ("delete".equals(action)) { 
-										
+		if ("delete".equals(action)) {
 
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -320,12 +299,12 @@ public class MemberServlet extends HttpServlet {
 
 			try {
 				/*************************** 1.接收請求參數 ***************************************/
-//				String spno = req.getParameter("spno");
+				 String memno = req.getParameter("memno");
 
 				/*************************** 2.開始刪除資料 ***************************************/
-				SpotService spSvc = new SpotService();
-			
-//				spSvc.deleteOneSpot(spno);
+				MemberService mmSvc = new MemberService();
+
+				mmSvc.delete(memno);;
 
 				/***************************
 				 * 3.刪除完成,準備轉交(Send the Success view)
@@ -336,10 +315,9 @@ public class MemberServlet extends HttpServlet {
 				// req.setAttribute("listEmps_ByDeptno",deptSvc.getEmpsByDeptno(empVO.getDeptno()));
 				// // 資料庫取出的list物件,存入request
 				//
-				 String url = requestURL;
-				 RequestDispatcher successView =
-				 req.getRequestDispatcher(url); // 刪除成功後,轉交回送出刪除的來源網頁
-				 successView.forward(req, res);
+				String url = requestURL;
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 刪除成功後,轉交回送出刪除的來源網頁
+				successView.forward(req, res);
 				//
 				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {

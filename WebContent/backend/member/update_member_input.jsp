@@ -4,7 +4,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
 	MemberVO memVO = (MemberVO) request.getAttribute("memVO"); //EmpServlet.java (Concroller), 存入req的empVO物件 (包括幫忙取出的empVO, 也包括輸入資料錯誤時的empVO物件)
-   
+	String[] statusArray = {"unconfirm","confirmed"};
+	request.setAttribute("statusArray", statusArray);
 %>
 <html>
 <head>
@@ -19,7 +20,7 @@
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
 		<h3>會員資料修改 - update_member_input.jsp</h3>
-		<a href="<%=request.getContextPath()%>/member/select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a></td>
+		<a href="<%=request.getContextPath()%>/backend/member/select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a></td>
 	</tr>
 </table>
 
@@ -72,16 +73,22 @@
 		<td><%=memVO.getAcc()%></td>
 	</tr>
 	<tr>
-		<td>密碼:</td>
+		<td>修改密碼:</td>
 		<td><%=memVO.getPwd()%></td>
 	</tr>
 	<tr>
+	<td>身分證(正面):</td>
+	<td><input type="file" name="idcard1" size="45"/></td>
 	<!-- 正面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard1' width='120' height='100'></td>	
 	</tr>
 	<tr>	
+	<td>身分證(反面):</td>
+	<td><input type="file" name="idcard2" size="45"/></td>
 <!-- 反面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard2' width='120' height='100'></td>				
 </tr>	
 <tr>
+<td>駕照:</td>
+<td><input type="file" name="license" size="45"/></td>
 <!-- 駕照 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=license' width='120' height='100'></td>							
 </tr>
 <tr>
@@ -89,7 +96,18 @@
          value = "${memVO.credate}" /></td>
          </tr>
          <tr>
-			<td>${memVO.status}</td>
+			<td><select name="status">
+			<option disabled selected value="${memVO.status}">${memVO.status}
+			<c:forEach var="s" items="${statusArray}">
+			<c:if test="${memVO.status!=s}">
+			<option  value="${s}">${s}
+			</c:if>
+			 
+			</c:forEach>
+			
+			
+			
+			</select></td>
 	</tr>
 	
 </table>

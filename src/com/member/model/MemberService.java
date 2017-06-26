@@ -30,10 +30,9 @@ public class MemberService {
 		dao.insert(memberVO);
 		return memberVO;
 	}
-	
-	public MemberVO update(String memno,String memname,String sex,Timestamp birth,String mail,String phone,String addr,String acc,String pwd,byte[] idcard1,byte[] idcard2,byte[] license,Timestamp credate){
+	                            //memno, memname, sex, birth, mail, phone, addr, acc, pwd, idcard1, idcard2, license
+	public MemberVO update(String memno,String memname,String sex,Timestamp birth,String mail,String phone,String addr,String acc,String pwd,byte[] idcard1,byte[] idcard2,byte[] license,String status){
 		MemberVO memberVO = new MemberVO();
-		
 		memberVO.setMemno(memno);
 		memberVO.setMemname(memname);
 		memberVO.setSex(sex);
@@ -46,7 +45,7 @@ public class MemberService {
 		memberVO.setIdcard1(idcard1);
 		memberVO.setIdcard2(idcard2);
 		memberVO.setLicense(license);
-		memberVO.setCredate(credate);
+		memberVO.setStatus(status);
 		dao.update(memberVO);
 		return memberVO;
 	}
