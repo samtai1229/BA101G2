@@ -55,7 +55,7 @@
        <b><font color=orange>訂單狀態:</font></b>
        <span><select size="1" name="status">
      
-       		<option  ${status == 'all' ? 'selected="selected"' : ''}  value="all">全部
+       	   <option  ${status == 'all' ? 'selected="selected"' : ''}  value="all">全部
        	   <option ${status == 'unpaid' ? 'selected="selected"' : ''} value="unpaid">未付款
        	   <option ${status == 'paid' ? 'selected="selected"' : ''} value="paid">已付款
        	   <option ${status == 'closed' ? 'selected="selected"' : ''} value="closed">已結單

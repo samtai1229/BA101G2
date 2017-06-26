@@ -87,34 +87,33 @@
 		<td><input type="file" name="license" size="45"/></td>
 		<!-- 正面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=license' width='120' height='100'></td>
 	</tr>
-<tr>
-			<td><fmt:formatDate pattern = "yyyy年MM月dd號" 
-         value = "${memVO.credate}" /></td>
-         </tr>
-         <tr>
-			<td><select name="status">
-			<option disabled selected value="${memVO.status}">${memVO.status}
-			<c:forEach var="s" items="${statusArray}">
-			<c:if test="${memVO.status!=s}">
-			<option  value="${s}">${s}
-			</c:if>
-			 
-			</c:forEach>
+	<tr>
+		<td>
+		<fmt:formatDate pattern = "yyyy年MM月dd號" value = "${memVO.credate}"/>
+		</td>
+    </tr>
+    <tr>
+		<td><select name="status">
+				<option readonly selected value="${memVO.status}">${memVO.status}
+					<c:forEach var="s" items="${statusArray}">
+					<c:if test="${memVO.status!=s}">
+					<option  value="${s}">${s}
+					</c:if>
+					</c:forEach>
 			
 			
 			
-			</select></td>
+			</select>
+		</td>
 	</tr>
-	
 </table>
-<br>
+<br/>
 <input type="hidden" name="action" value="update">
 <input type="hidden" name="memno" value="<%=memVO.getMemno()%>">
 <input type="hidden" name="sex" value="<%=memVO.getSex()%>">
-<input type="hidden" name="birth" value="<fmt:formatDate pattern = "yyyy-MM-dd HH:mm:ss" 
-         value = "${memVO.birth}" />">
+<input type="hidden" name="birth" value="<fmt:formatDate pattern = "yyyy-MM-dd HH:mm:ss"         value = "${memVO.birth}" />">
 <input type="hidden" name="credate" value="<fmt:formatDate pattern = "yyyy-MM-dd HH:mm:ss" 
-         value = "${memVO.credate}" />">
+ value = "${memVO.credate}" />">
 <input type="submit" value="送出修改"></FORM>
 
 </body>
