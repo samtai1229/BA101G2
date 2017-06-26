@@ -31,7 +31,9 @@ public class MemberService {
 		return memberVO;
 	}
 	                            //memno, memname, sex, birth, mail, phone, addr, acc, pwd, idcard1, idcard2, license
-	public MemberVO update(String memno,String memname,String sex,Timestamp birth,String mail,String phone,String addr,String acc,String pwd,byte[] idcard1,byte[] idcard2,byte[] license,String status){
+	public MemberVO update(String memno,String memname,String sex,Timestamp birth,String mail,String phone,String addr,String acc,String pwd,byte[] idcard1,byte[] idcard2,byte[] license,String status,Timestamp credate){
+//		 memname = ?, sex = ?, birth = ?, mail = ?, phone = ?, addr = ?,"
+//					+ " acc = ? , pwd = ?,idcard1=? ,idcard2=? ,license=? , status = ? where memno = ?"	
 		MemberVO memberVO = new MemberVO();
 		memberVO.setMemno(memno);
 		memberVO.setMemname(memname);
@@ -46,6 +48,7 @@ public class MemberService {
 		memberVO.setIdcard2(idcard2);
 		memberVO.setLicense(license);
 		memberVO.setStatus(status);
+		memberVO.setCredate(credate);
 		dao.update(memberVO);
 		return memberVO;
 	}

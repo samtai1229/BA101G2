@@ -5,7 +5,7 @@
 <%
 	MemberVO memVO = (MemberVO) request.getAttribute("memVO"); //EmpServlet.java (Concroller), 存入req的empVO物件 (包括幫忙取出的empVO, 也包括輸入資料錯誤時的empVO物件)
 	String[] statusArray = {"unconfirm","confirmed"};
-	request.setAttribute("statusArray", statusArray);
+	pageContext.setAttribute("statusArray", statusArray);
 %>
 <html>
 <head>
@@ -36,61 +36,57 @@
 	</font>
 </c:if>
 
-<FORM METHOD="post" ACTION="member.do" name="form1">
+<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/backend/member/member.do" name="form1" enctype="multipart/form-data">
 <table border="0">
 	<tr>
-		<td>會員編號:<font color=red><b>*</b></font></td>
-		<td><%=memVO.getMemno()%></td>
-	</tr>
-	<tr>
 		<td>會員名稱:</td>
-		<td><%=memVO.getMemname()%></td>
+		<td><input readonly type="TEXT" name="memname" size="45" 
+			value="<%= (memVO==null)? "我家" : memVO.getMemname()%>" /></td>
 	</tr>
 	<tr>
 		<td>性別:</td>
 		<td><%=memVO.getSex()%></td>
-	</tr>
+	</tr>	
 	<tr>
-		<td>Email:</td>
-		<td><%=memVO.getMail()%></td>
-	</tr>
-	<tr>
-		<td>Phone:</td>
-		<td><%=memVO.getPhone()%></td>
-	</tr>
-	<tr>
-		<td>Address:</td>
-		<td><%=memVO.getSex()%></td>
-	</tr>
-
-    <tr>
 		<td>生日:</td>
-		<td><%=memVO.getBirth()%></td>
+		<td><fmt:formatDate pattern = "yyyy年MM月dd號" 
+         value = "${memVO.birth}" /></td>
+	</tr>	
+	<tr>
+		<td>信箱:</td>
+		<td><input type="email" name="mail" size="45" readonly value="<%=memVO.getMail() %>"/></td>
+	</tr>	
+	<tr>
+		<td>電話:</td>
+		<td><input value="<%=memVO.getPhone() %>" type="tel" name="phone" size="45"/></td>
 	</tr>
-	
+	<tr>
+		<td>地址:</td>
+		<td><input readonly value="<%=memVO.getAddr() %>" type="text" name="address" size="45"/></td>
+	</tr>
 	<tr>
 		<td>帳號:</td>
-		<td><%=memVO.getAcc()%></td>
+		<td><input readonly value="<%=memVO.getAcc() %>" type="text" name="acc" size="45"/></td>
 	</tr>
 	<tr>
-		<td>修改密碼:</td>
-		<td><%=memVO.getPwd()%></td>
+		<td>密碼:</td>
+		<td><input value="<%=memVO.getPwd() %>" type="password" name="pwd" size="45"/></td>
 	</tr>
 	<tr>
-	<td>身分證(正面):</td>
-	<td><input type="file" name="idcard1" size="45"/></td>
-	<!-- 正面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard1' width='120' height='100'></td>	
+		<td>身分證(正面):</td>
+		<td><input type="file" name="idcard1" size="45"/></td>
+		<!-- 正面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard1' width='120' height='100'></td>	
 	</tr>
-	<tr>	
-	<td>身分證(反面):</td>
-	<td><input type="file" name="idcard2" size="45"/></td>
-<!-- 反面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard2' width='120' height='100'></td>				
-</tr>	
-<tr>
-<td>駕照:</td>
-<td><input type="file" name="license" size="45"/></td>
-<!-- 駕照 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=license' width='120' height='100'></td>							
-</tr>
+	<tr>
+		<td>身分證(反面):</td>
+		<td><input type="file" name="idcard2" size="45"/></td>
+		<!-- 反面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard2' width='120' height='100'></td>
+	</tr>
+	<tr>
+		<td>駕照:</td>
+		<td><input type="file" name="license" size="45"/></td>
+		<!-- 正面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=license' width='120' height='100'></td>
+	</tr>
 <tr>
 			<td><fmt:formatDate pattern = "yyyy年MM月dd號" 
          value = "${memVO.credate}" /></td>
@@ -114,6 +110,11 @@
 <br>
 <input type="hidden" name="action" value="update">
 <input type="hidden" name="memno" value="<%=memVO.getMemno()%>">
+<input type="hidden" name="sex" value="<%=memVO.getSex()%>">
+<input type="hidden" name="birth" value="<fmt:formatDate pattern = "yyyy-MM-dd HH:mm:ss" 
+         value = "${memVO.birth}" />">
+<input type="hidden" name="credate" value="<fmt:formatDate pattern = "yyyy-MM-dd HH:mm:ss" 
+         value = "${memVO.credate}" />">
 <input type="submit" value="送出修改"></FORM>
 
 </body>

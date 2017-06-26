@@ -1,11 +1,7 @@
 package com.member.controller;
-
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
-import com.spots.model.*;
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 public class MemberServlet extends HttpServlet {
 
@@ -199,10 +194,13 @@ public class MemberServlet extends HttpServlet {
 				/*************************** 2.開始查詢資料 ****************************************/
 				MemberService memSvc = new MemberService();
 				MemberVO memVO = memSvc.getOneMember(memno);
-
+                System.out.println("我拿到了memno:"+memno);
+                System.out.println("我拿到了VO:"+memVO);
+                System.out.println("我拿到了VO:"+memVO.getMemno());
 				/***************************
 				 * 3.查詢完成,準備轉交(Send the Success view)
 				 ************/
+                System.out.println("我拿到了VO 準備轉交");
 				req.setAttribute("memVO", memVO); // 資料庫取出的empVO物件,存入req
 				String url = "/backend/member/update_member_input.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交update_emp_input.jsp
@@ -215,7 +213,7 @@ public class MemberServlet extends HttpServlet {
 		}
 
 		if ("update".equals(action)) { // 來自update_emp_input.jsp的請求
-
+			System.out.println("準備更新!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
@@ -225,22 +223,39 @@ public class MemberServlet extends HttpServlet {
 				/***************************
 				 * 1.接收請求參數 - 輸入格式的錯誤處理
 				 **********************/
-				String memno = req.getParameter("memno");
 				String memname = req.getParameter("memname").trim();
+				System.out.println("拿到"+memname);
+				String memno = req.getParameter("memno");
+				System.out.println("拿到"+memno);
 				String sex = req.getParameter("sex");
+				System.out.println("拿到"+sex);
 				String acc = req.getParameter("acc");
+				System.out.println("拿到"+acc);
 				String pwd = req.getParameter("pwd");
-				String addr = req.getParameter("addr");
+				System.out.println("拿到"+pwd);
+				String addr = req.getParameter("address");
+				System.out.println("拿到"+addr);
 				String phone = req.getParameter("phone");
+				System.out.println("拿到"+phone);
 				String mail = req.getParameter("mail");
-				String status = req.getParameter("status");
-				Timestamp birth = Timestamp.valueOf(req.getParameter("birth") + " 00:00:00");
+				System.out.println("拿到"+mail);
+				Timestamp birth = Timestamp.valueOf(req.getParameter("birth"));
+				System.out.println("拿到"+birth);
 				Part idcard1 = req.getPart("idcard1");
+				System.out.println("拿到"+idcard1);
 				Part idcard2 = req.getPart("idcard2");
+				System.out.println("拿到"+idcard2);
 				Part license = req.getPart("license");
+				System.out.println("拿到"+license);
+				String status = req.getParameter("status");
+				System.out.println("拿到"+status);
+				
+	
 
 				MemberVO memVO = new MemberVO();
 				memVO.setMemname(memname);
+				memVO.setMemno(memno);
+				memVO.setStatus(status);
 				memVO.setAcc(acc);
 				memVO.setPwd(pwd);
 				memVO.setPhone(phone);
@@ -251,23 +266,25 @@ public class MemberServlet extends HttpServlet {
 				memVO.setLicense(getPicByteArray(license));
 				memVO.setBirth(birth);
 				memVO.setSex(sex);
-				
+				Timestamp credate = Timestamp.valueOf(req.getParameter("credate"));
+				memVO.setCredate(credate);
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("memVO", memVO); // 含有輸入格式錯誤的empVO物件,也存入req
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/spots/update_spot_input.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/addMember.jsp");
 					failureView.forward(req, res);
 					return; // 程式中斷
 				}
 
 				/*************************** 2.開始修改資料 *****************************************/
 				MemberService memSvc = new MemberService();
-				 memVO = memSvc.update(memno, memname, sex, birth, mail, phone, addr, acc, pwd, getPicByteArray(idcard1), getPicByteArray(idcard2), getPicByteArray(license),status);
-
+				 memVO = memSvc.update(memno, memname, sex, birth, mail, phone, addr, acc, pwd, getPicByteArray(idcard1), getPicByteArray(idcard2), getPicByteArray(license),status,credate);
+                System.out.println("修改完成");
 				/***************************
 				 * 3.修改完成,準備轉交(Send the Success view)
 				 *************/
 				req.setAttribute("memVO", memVO); // 資料庫update成功後,正確的的empVO物件,存入req
+				System.out.println("準備轉交");
 				String url = "/backend/member/listOneMember.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
@@ -275,7 +292,8 @@ public class MemberServlet extends HttpServlet {
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/spots/update_spot_input.jsp");
+				System.out.println("GGGGGGGGGGGGGGGGGGGGGGG");
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/listOneMember.jsp");
 				failureView.forward(req, res);
 			}
 		}

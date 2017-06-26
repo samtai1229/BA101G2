@@ -40,7 +40,7 @@ public class MemberDAO implements MemberDAO_interface{
 /*"INSERT INTO MEMBER (memno,memname,sex,birth,mail,phone,addr,acc,pwd,idcard1,idcard2,license,credate,status) "
 + "VALUES ('M'||LPAD(TO_CHAR(memno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";*/
 private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, birth = ?, mail = ?, phone = ?, addr = ?,"
-			+ " acc = ? , pwd = ?,idcard1=? ,idcard2=? ,license=? , status = ? where memno = ?";
+			+ " acc = ? , pwd = ?,idcard1=? ,idcard2=? ,license=? , status = ? , credate =? where memno = ?";
 
 	
 	private static final String DELETE = "DELETE FROM MEMBER where memno = ?";
@@ -111,9 +111,7 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 			
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
-			Blob blob1 = con.createBlob();
-			Blob blob2 = con.createBlob();
-			Blob blob3 = con.createBlob();
+			
 			
 /*memname= ? ,sex= ? ,birth= ? ,mail= ? ,phone= ? ,addr= ? ,acc= ? ,pwd= ? ,idcard1= ?
  *  ,idcard2= ? ,license= ? ,status= ?  where memno= ?*/
@@ -128,25 +126,11 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 			pstmt.setBytes(9, memberVO.getIdcard1());
 			pstmt.setBytes(10, memberVO.getIdcard2());
 			pstmt.setBytes(11, memberVO.getLicense());
-//			blob1.setBytes(1, memberVO.getIdcard1());
-//			pstmt.setBlob(9,blob1);
-//			blob2.setBytes(1,memberVO.getIdcard2());
-//			pstmt.setBlob(10,blob2);
-//			blob3.setBytes(1,memberVO.getLicense());
-//			pstmt.setBlob(11,blob3);
-		
-//			pstmt.setTimestamp(12, memberVO.getCredate());
 			pstmt.setString(12, memberVO.getStatus());
-			pstmt.setString(13, memberVO.getMemno());
+			pstmt.setTimestamp(13, memberVO.getCredate());
+			pstmt.setString(14, memberVO.getMemno());
 			pstmt.executeUpdate();
-			// 1. setBlob
-//			pstmt.setInt(1, 1);
-//			pstmt.setString(2, "拜仁慕尼黑");
-//			Blob blob = con.createBlob();
-//			byte[] pic2 = getPictureByteArray("items/FC_Bayern.png");
-//			blob.setBytes(1, pic2);
-//			pstmt.setBlob(3, blob);
-//			pstmt.executeUpdate();
+
 			
 
 	

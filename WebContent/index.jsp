@@ -154,9 +154,9 @@ div .aa {
 							class="fa fa-comments-o"></i>留言板</a></li>
 					<li><a class="page-scroll" href="#loc"><i
 							class="fa fa-search"></i>服務據點</a></li>
-					<li><a href="second.html"><i class="fa fa-shopping-cart"></i>二手車購買</a>
+					<li><a href="<%=request.getContextPath()%>/backend/member/member.do"><i class="fa fa-shopping-cart"></i>二手車購買</a>
 					</li>
-					<li><a onclick="openBox()" href="#modal-id"
+					<li><a href="#modal-id"
 						data-toggle="modal"><i class="glyphicon glyphicon-user"></i>會員登入</a></li>
 				</ul>
 			</div>
