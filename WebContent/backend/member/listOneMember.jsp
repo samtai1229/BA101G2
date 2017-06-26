@@ -8,6 +8,9 @@
 <%-- 取出 Concroller EmpServlet.java已存入request的EmpVO物件--%>
 <%MemberVO memVO = (MemberVO) request.getAttribute("memVO");
   pageContext.setAttribute("memVO", memVO);
+  
+  request.getSession().setAttribute("acc", memVO.getAcc());
+  request.getSession().setAttribute("pwd", memVO.getPwd());
 %>
 
 <%-- 取出 對應的LocationVO物件--%>

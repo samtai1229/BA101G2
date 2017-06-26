@@ -103,8 +103,8 @@ public class MemberServlet extends HttpServlet {
 				 * 轉交到會員專區的網頁
 				 *************/
 
-			//	req.getSession().setAttribute("acc", acc);
-			//	req.getSession().setAttribute("pwd", pwd);
+//				req.getSession().setAttribute("acc", acc);
+//				req.getSession().setAttribute("pwd", pwd);
 				req.setAttribute("memVO", memVO); // 資料庫取出的empVO物件,存入req
 				String url = "/backend/member/listOneMember.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
