@@ -1,3 +1,7 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.member.model.*"%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -98,7 +102,7 @@ div .aa {
 					<h4 class="modal-title">登入會員</h4>
 				</div>
 				<div class="modal-body">
-					<form action="/backend/backendIndex.jsp">
+					<form action="<%=request.getContextPath()%>/backend/member/member.do">
 						<div class="form-group">
 							<label for="acc">帳號</label> <input type="text" name="acc"
 								id="acc" placeholder="帳號" class="form-control"> <label
@@ -107,6 +111,7 @@ div .aa {
 								align="center" class="text-center" type="submit" value="送出">
 							<input onclick="javascript:location.href='#'" type="button"
 								value="註冊">
+							<input type="hidden" name="action" value="login">
 						</div>
 					</form>
 				</div>

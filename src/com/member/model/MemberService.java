@@ -58,6 +58,10 @@ public class MemberService {
 		return dao.findByPrimaryKey(memno);
 	}
 	
+	public MemberVO getOneMemberByAccAndPwd(String acc,String pwd){
+		return dao.findByPrimaryKeyByAccAndPwd(acc,pwd);
+	}
+	
 	public List<MemberVO> getAll(){
 		return dao.getAll();
 	}
