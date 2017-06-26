@@ -76,6 +76,7 @@
 		<td>身分證(正面):</td>
 		<td><input type="file" name="idcard1" size="45"/></td>
 		<!-- 正面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard1' width='120' height='100'></td>	
+	   
 	</tr>
 	<tr>
 		<td>身分證(反面):</td>

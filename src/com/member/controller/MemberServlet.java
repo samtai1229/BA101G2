@@ -1,4 +1,5 @@
 package com.member.controller;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
+
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 public class MemberServlet extends HttpServlet {
 
@@ -48,7 +50,7 @@ public class MemberServlet extends HttpServlet {
 
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
-		System.out.println("進來了 要做的是 "+action);
+		System.out.println("進來了 要做的是 " + action);
 		if ("login".equals(action)) {
 			System.out.println("Login~~~~~~~~~~~~~");
 			List<String> errorMsgs = new LinkedList<String>();
@@ -60,7 +62,7 @@ public class MemberServlet extends HttpServlet {
 				 **********************/
 				String acc = req.getParameter("acc");
 				String pwd = req.getParameter("pwd");
-				if (acc == null || pwd==null || (acc.trim()).length() == 0 || (pwd.trim()).length() == 0) {
+				if (acc == null || pwd == null || (acc.trim()).length() == 0 || (pwd.trim()).length() == 0) {
 
 					errorMsgs.add("帳號/密碼不可為空");
 				}
@@ -71,18 +73,14 @@ public class MemberServlet extends HttpServlet {
 					return;// 程式中斷
 				}
 
-
 				/*************************** 2.開始比對帳密會員資料 *****************************************/
 				MemberService memSvc = new MemberService();
-				MemberVO memVO = memSvc.getOneMemberByAccAndPwd(acc,pwd);
+				MemberVO memVO = memSvc.getOneMemberByAccAndPwd(acc, pwd);
 
 				if (memVO == null) {
 					errorMsgs.add("查無資料");
-				}
-				else
-				{
-					if(!pwd.equals(memVO.getPwd()))
-					{
+				} else {
+					if (!pwd.equals(memVO.getPwd())) {
 						errorMsgs.add("帳號/密碼錯誤");
 					}
 				}
@@ -94,12 +92,11 @@ public class MemberServlet extends HttpServlet {
 				}
 
 				/***************************
-				 * 3.查詢完成,準備轉交(Send the Success view)
-				 * 轉交到會員專區的網頁
+				 * 3.查詢完成,準備轉交(Send the Success view) 轉交到會員專區的網頁
 				 *************/
 
-//				req.getSession().setAttribute("acc", acc);
-//				req.getSession().setAttribute("pwd", pwd);
+				// req.getSession().setAttribute("acc", acc);
+				// req.getSession().setAttribute("pwd", pwd);
 				req.setAttribute("memVO", memVO); // 資料庫取出的empVO物件,存入req
 				String url = "/backend/member/listOneMember.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
@@ -194,13 +191,13 @@ public class MemberServlet extends HttpServlet {
 				/*************************** 2.開始查詢資料 ****************************************/
 				MemberService memSvc = new MemberService();
 				MemberVO memVO = memSvc.getOneMember(memno);
-                System.out.println("我拿到了memno:"+memno);
-                System.out.println("我拿到了VO:"+memVO);
-                System.out.println("我拿到了VO:"+memVO.getMemno());
+				System.out.println("我拿到了memno:" + memno);
+				System.out.println("我拿到了VO:" + memVO);
+				System.out.println("我拿到了VO:" + memVO.getMemno());
 				/***************************
 				 * 3.查詢完成,準備轉交(Send the Success view)
 				 ************/
-                System.out.println("我拿到了VO 準備轉交");
+				System.out.println("我拿到了VO 準備轉交");
 				req.setAttribute("memVO", memVO); // 資料庫取出的empVO物件,存入req
 				String url = "/backend/member/update_member_input.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交update_emp_input.jsp
@@ -224,34 +221,33 @@ public class MemberServlet extends HttpServlet {
 				 * 1.接收請求參數 - 輸入格式的錯誤處理
 				 **********************/
 				String memname = req.getParameter("memname").trim();
-				System.out.println("拿到"+memname);
+				System.out.println("拿到" + memname);
 				String memno = req.getParameter("memno");
-				System.out.println("拿到"+memno);
+				System.out.println("拿到" + memno);
 				String sex = req.getParameter("sex");
-				System.out.println("拿到"+sex);
+				System.out.println("拿到" + sex);
 				String acc = req.getParameter("acc");
-				System.out.println("拿到"+acc);
+				System.out.println("拿到" + acc);
 				String pwd = req.getParameter("pwd");
-				System.out.println("拿到"+pwd);
+				System.out.println("拿到" + pwd);
 				String addr = req.getParameter("address");
-				System.out.println("拿到"+addr);
+				System.out.println("拿到" + addr);
 				String phone = req.getParameter("phone");
-				System.out.println("拿到"+phone);
+				System.out.println("拿到" + phone);
 				String mail = req.getParameter("mail");
-				System.out.println("拿到"+mail);
+				System.out.println("拿到" + mail);
 				Timestamp birth = Timestamp.valueOf(req.getParameter("birth"));
-				System.out.println("拿到"+birth);
+				System.out.println("拿到" + birth);
 				Part idcard1 = req.getPart("idcard1");
-				System.out.println("拿到"+idcard1);
+				System.out.println("拿到idcard1:大小" + idcard1.getSize());
 				Part idcard2 = req.getPart("idcard2");
-				System.out.println("拿到"+idcard2);
+				System.out.println("拿到idcard2:大小" + idcard2.getSize());
 				Part license = req.getPart("license");
-				System.out.println("拿到"+license);
+				System.out.println("拿到license:大小" + license.getSize());
 				String status = req.getParameter("status");
-				System.out.println("拿到"+status);
+				System.out.println("拿到" + status);
 				
 	
-
 				MemberVO memVO = new MemberVO();
 				memVO.setMemname(memname);
 				memVO.setMemno(memno);
@@ -261,9 +257,12 @@ public class MemberServlet extends HttpServlet {
 				memVO.setPhone(phone);
 				memVO.setMail(mail);
 				memVO.setAddr(addr);
-				memVO.setIdcard1(getPicByteArray(idcard1));
-				memVO.setIdcard2(getPicByteArray(idcard2));
-				memVO.setLicense(getPicByteArray(license));
+				if(idcard1.getSize()!=0)
+				   memVO.setIdcard1(getPicByteArray(idcard1));
+				if(idcard2.getSize()!=0)
+					memVO.setIdcard2(getPicByteArray(idcard2));
+				if(license.getSize()!=0)
+					memVO.setLicense(getPicByteArray(license));
 				memVO.setBirth(birth);
 				memVO.setSex(sex);
 				Timestamp credate = Timestamp.valueOf(req.getParameter("credate"));
@@ -278,8 +277,16 @@ public class MemberServlet extends HttpServlet {
 
 				/*************************** 2.開始修改資料 *****************************************/
 				MemberService memSvc = new MemberService();
-				 memVO = memSvc.update(memno, memname, sex, birth, mail, phone, addr, acc, pwd, getPicByteArray(idcard1), getPicByteArray(idcard2), getPicByteArray(license),status,credate);
-                System.out.println("修改完成");
+	            MemberVO oldVO = memSvc.getOneMember(memno);
+				byte[] id1 =oldVO.getIdcard1();
+				byte[] id2 =oldVO.getIdcard2();
+				byte[] lic =oldVO.getLicense();
+				
+				
+				
+				memVO = memSvc.update(memno, memname, sex, birth, mail, phone, addr, acc, pwd,  (idcard1.getSize()==0)? id1 :getPicByteArray(idcard1),
+						 (idcard2.getSize()==0)? id2 :getPicByteArray(idcard2), (license.getSize()==0)? lic :getPicByteArray(license), status, credate);
+				System.out.println("修改完成");
 				/***************************
 				 * 3.修改完成,準備轉交(Send the Success view)
 				 *************/
@@ -379,12 +386,13 @@ public class MemberServlet extends HttpServlet {
 
 			try {
 				/*************************** 1.接收請求參數 ***************************************/
-				 String memno = req.getParameter("memno");
+				String memno = req.getParameter("memno");
 
 				/*************************** 2.開始刪除資料 ***************************************/
 				MemberService mmSvc = new MemberService();
 
-				mmSvc.delete(memno);;
+				mmSvc.delete(memno);
+				;
 
 				/***************************
 				 * 3.刪除完成,準備轉交(Send the Success view)
