@@ -411,7 +411,7 @@ public class RentOrdServlet extends HttpServlet {
 
 // get_for_lease_view
 		if ("get_for_lease_view".equals(action)) {
-			System.out.println("ro get_for_lease_view in");
+			System.out.println("======================================ro get_for_lease_view in");
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.

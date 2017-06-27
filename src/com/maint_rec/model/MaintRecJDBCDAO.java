@@ -15,8 +15,8 @@ import java.util.Set;
 public class MaintRecJDBCDAO implements MaintRecDAO_interface {
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "servlet";
-	String passwd = "123456";
+	String userid = "ba101g2";
+	String passwd = "ba101g2";
 
 	private static final String INSERT_STMT = "INSERT INTO MAINT_REC (maintno, motno, "
 			+ " startdate, enddate, cont) VALUES " 

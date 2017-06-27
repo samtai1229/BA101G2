@@ -82,7 +82,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	
 	private static final String GET_FOR_LEASE_VIEW = 
 			selectFactor + " FROM RENT_ORD where slocno=? "
-			+" and (status = 'unpaid' or status = 'unoccupied' or status = 'noshow')";
+			+" and (status = 'unpaid' or status = 'unoccupied' or status = 'noshow' or status = 'available')";
 	
 	private static final String GET_FOR_RETURN_VIEW = 
 			selectFactor + " FROM RENT_ORD where rlocno=? "

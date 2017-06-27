@@ -9,22 +9,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>車輛查詢-AutoBike</title>
-<meta name="description" content="">
-<meta name="keywords" content="">
-<link href="" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-<link rel="stylesheet" href="Modified/backendHP_css.css">
-<link href="Modified/main.css" rel="stylesheet">
-<script src="Modified/motorKanli_js.js"></script>
-<script src="Modified/datepicker.js"></script>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
 
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>  	
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">     
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css" >
+	
+	<title>車輛查詢-AutoBike</title>
+	<script type="text/javascript">
+		$(function(){
+			alert(1);
+		})
+	</script>
 </head>
 <body>
 	<table id="QueryTable">
@@ -65,40 +66,46 @@
 						</form>						
 					</td>
 					
-					<c:if test="${roVO.status == 'unpaid'}">					
+					<c:if test="${(roVO.status == 'unpaid')||(roVO.status =='unoccupied')}">					
 						<td>
 							<form method="post" action="NewFile.jsp">	
 								<input type="hidden" name="rentno" value="${roVO.rentno}">
-								<input type="hidden" name="comeFrom" value="unpaid">	
-								<input type="submit" value="unpaid" class="click2"/>
+								<input type="hidden" name="status" value="unoccupied">	
+								<input type="submit" value="Wait" class="click2"/>
 							</form>								
 						</td>				 
 					</c:if>
-					<c:if test="${roVO.status == 'unoccupied'}">
-						<td>
-							<form method="post" action="NewFile.jsp">						
-								<input type="hidden" name="rentno" value="${roVO.rentno}">
-								<input type="hidden" name="comeFrom" value="unoccupied">
-								<input type="submit" value="unoccupied" class="click3"/>
-							</form>					
-						</td>					 
-					</c:if>
+
 					<c:if test="${roVO.status =='noshow'}">
 						<td>
 							<form method="post" action="NewFile.jsp">						
 								<input type="hidden" name="rentno" value="${roVO.rentno}">
-								<input type="hidden" name="comeFrom" value="noshow">	
-								<input type="submit" value="noshow" class="click4"/>
+								<input type="hidden" name="status" value="noshow">	
+								<input type="submit" value="NoShow" class="click4"/>
 							</form>					
 						</td>					 
 					</c:if>
+					
+					<c:if test="${roVO.status == 'available'}">
+						<td>
+							<form method="post" action="<%=request.getContextPath()%>/backend/rent_ord/leaseForm.jsp">						
+								<input type="hidden" name="rentno" value="${roVO.rentno}">
+								<input type="hidden" name="status" value="available">
+								<input type="hidden" name="action" value="availableRoute">
+								<input type="submit" value="Available" class="click3"/>
+							</form>					
+						</td>					 
+					</c:if>
+					
+					
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
-	<script>
-</script>
-	<script src="Modified/QueryTablePagination.js"></script>
+	
+	<script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/rentOrdNew.js"></script>
+    <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/motorKanli_for_ro.js"></script>
+ 	<script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/paging_for_ro.js"></script>	
 </body>
 </html>
 

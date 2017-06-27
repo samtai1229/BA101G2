@@ -23,7 +23,7 @@ public class MotorModelJNDIDAO implements MotorModelDAO_interface {
 	static {
 		try {
 			Context ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB");
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/G2DB");
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}

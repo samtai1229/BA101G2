@@ -8,28 +8,20 @@
 <%@ page import="com.motor_model.model.*"%>
 <!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
+
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>  	
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">     
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css" >
+
     <title>車型管理-AutoBike</title>
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-    <link href="" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-    
-    <link rel="stylesheet" href="Modified/backendHP_css.css">
-    <link href="Modified/main.css" rel="stylesheet">
-    <script src="Modified/motorKanli_js.js"></script>
-    <script src="Modified/datepicker.js"></script>
-    <script src="Modified/upload.js"></script> 
-
 </head>
-
 <body>
 
 
@@ -95,7 +87,6 @@
         <div class="btn-group-vertical"></div>
     </div>
     <div class="col-xs-12 col-sm-10 rightHTML" id="demo">
-
 
 		<div class="topTitle">
             <h1>車型登錄管理系統</h1>
@@ -197,9 +188,6 @@
 												<p>
 												<img id="imageInsert">
 											</p>
-										</div>
-										<div>
-											<input id="file_selector" type="file" value="" onchange="file_viewer.load();"/>
 										</div>
 										<div class="InputForm">
 											<input type="hidden" name="action" value="insert">
@@ -322,7 +310,6 @@
 									</c:forEach>							
 							  </tbody>	 	  								
 						</table>
-					<script src="Modified/QueryTablePagination_for_mm.js"></script> 
 					</div>
 <!--end: block3 --> 	
 <!--container--></div>	
@@ -330,10 +317,10 @@
 
     </div><!-- sm-10 rightHTML  -->
 
- 
-<!--RWD部分:下面兩行我拿掉一行和JQuery有關的script, 不然datepicker會衝到  -->
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="Modified/motorModelNew.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/motor_model/Modified/paging_for_mm.js"></script>
+    <script src="<%=request.getContextPath()%>/backend/motor_model/Modified/motorModelNew.js"></script>   
+    <script src="<%=request.getContextPath()%>/backend/motor_model/Modified/motorKanli_for_mm.js"></script>
+    <script src="<%=request.getContextPath()%>/backend/motor_model/Modified/upload.js"></script> 
 </body>
 </html>

@@ -9,23 +9,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>車輛查詢-AutoBike</title>
-<meta name="description" content="">
-<meta name="keywords" content="">
-<link href="" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
 
-<link rel="stylesheet" href="Modified/backendHP_css.css">
-<link href="Modified/main.css" rel="stylesheet">
-<script src="Modified/motorKanli_js.js"></script>
-<script src="Modified/datepicker.js"></script>
-
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>  	
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">     
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css" >
+	
+	<title>車輛查詢-AutoBike</title>
 </head>
 <body>
 	<table id="QueryTable">
@@ -86,12 +81,14 @@
 							</form>					
 						</td>					 
 					</c:if>					
-					
-											
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
-	<script src="Modified/QueryTablePagination.js"></script>
+
+    <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/motorKanli_for_ro.js"></script>
+    <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/datepicker_for_ro.js"></script>
+ 	<script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/paging_for_ro.js"></script>	
+	
 </body>
 </html>

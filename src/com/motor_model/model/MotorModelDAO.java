@@ -42,7 +42,7 @@ public class MotorModelDAO implements MotorModelDAO_interface {
 			+ "  name, renprice, saleprice, motpic FROM MOTOR_MODEL where modtype = ?";
 
 	private static final String GET_ALL = "SELECT modtype, brand, displacement,"
-			+ "  name, renprice, saleprice, motpic FROM MOTOR_MODEL";
+			+ "  name, renprice, saleprice, motpic FROM MOTOR_MODEL order by modtype desc";
 
 	@Override
 	public void insert(MotorModelVO mmVO) {
