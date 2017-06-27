@@ -15,6 +15,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.equipment.model.EquipmentVO;
+
 public class RentOrdDAO implements RentOrdDAO_interface {
 	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
 	private static DataSource ds = null;
@@ -36,8 +38,8 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	//合理版本
     final String INSERT_STMT = "INSERT INTO RENT_ORD"
 	+ " (rentno, memno, motno, slocno, rlocno, milstart, "
-	+ "startdate, enddate, note"
-	+ ") VALUES ('R'||LPAD(TO_CHAR(rentno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?,"
+	+ " startdate, enddate, note"
+	+ " ) VALUES ('R'||LPAD(TO_CHAR(rentno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?,"
 	+ "  ?, ?, ?, ?)";
 
 //	private static final String UPDATE = "UPDATE RENT_ORD set memno=?, motno=?,"
@@ -47,27 +49,28 @@ public class RentOrdDAO implements RentOrdDAO_interface {
     //合理版本: 去掉 filldate, memno
 	private static final String UPDATE = "UPDATE RENT_ORD set  motno=?,"
 			+ " slocno=?, rlocno=?, milstart=?, milend=?, startdate=?, enddate=?,"
-			+ "returndate=?, fine=?, total=?, rank=?, status=?, note=? where rentno = ?";
+			+ " returndate=?, fine=?, total=?, rank=?, status=?, note=? where rentno = ?";
 
 	private static final String DELETE = "DELETE FROM RENT_ORD where rentno = ?";
 
 	private static final String selectFactor = "SELECT rentno, memno, motno, slocno, rlocno,"
 			+ " milstart, milend, to_char(filldate,'yyyy-mm-dd hh:mm:ss') filldate, "
-			+ "to_char(startdate,'yyyy-mm-dd hh:mm:ss') startdate, "
-			+ "to_char(enddate,'yyyy-mm-dd hh:mm:ss') enddate, "
-			+ "to_char(returndate,'yyyy-mm-dd hh:mm:ss') returndate, fine, total," + " rank, status, note ";
-
+			+ " to_char(startdate,'yyyy-mm-dd hh:mm:ss') startdate, "
+			+ " to_char(enddate,'yyyy-mm-dd hh:mm:ss') enddate, "
+			+ " to_char(returndate,'yyyy-mm-dd hh:mm:ss') returndate, fine, total," 
+			+ " rank, status, note ";	
+	
 	private static final String GET_ALL = selectFactor 
-			+ " FROM RENT_ORD";
+			+ " FROM RENT_ORD order by rentno desc";
 
 	private static final String GET_ONE = selectFactor 
 			+ " FROM RENT_ORD where rentno = ?";
 
 	private static final String GET_BY_START_LOC_NO = selectFactor 
-			+ " FROM RENT_ORD where slocno = ?";
+			+ " FROM RENT_ORD where slocno = ?  order by rentno desc";
 
 	private static final String GET_BY_RETURN_LOC_NO = selectFactor 
-			+ " FROM RENT_ORD where rlocno = ?";
+			+ " FROM RENT_ORD where rlocno = ?  order by rentno desc";
 
 	private static final String GET_BY_STATUS = selectFactor 
 			+ " FROM RENT_ORD where status = ?";
@@ -82,11 +85,549 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	
 	private static final String GET_FOR_LEASE_VIEW = 
 			selectFactor + " FROM RENT_ORD where slocno=? "
-			+" and (status = 'unpaid' or status = 'unoccupied' or status = 'noshow' or status = 'available')";
+			+" and (status = 'unpaid' or status = 'unoccupied' or"
+			+" status = 'noshow' or status = 'available' or status = 'canceled')"
+			+" order by DECODE(status,'noshow',1,'available',2), status, startdate";
 	
 	private static final String GET_FOR_RETURN_VIEW = 
 			selectFactor + " FROM RENT_ORD where rlocno=? "
-			+" and (status = 'noreturn' or status = 'overtime')";
+			+" and (status = 'noreturn' or status = 'overtime')"
+			+"order by DECODE(status,'overtime',1,'noreturn',2), enddate";
+	
+	
+	
+	private static final String GET_EMTNOs_BY_RENTNO_IN_EMT_LIST= 
+			" SELECT emtno FROM EMT_LIST where rentno = ? ";
+	
+	private static final String GET_EMPVOs_BY_EMTNOs_IN_EQUIPMENT=
+			"SELECT emtno, ecno, locno, to_char(purchdate,'yyyy-mm-dd hh:mm:ss') purchdate,"
+			+" status, note from EQUIPMENT where emtno = ? ";
+
+	//DIFFER_DATE_CALCULATOR
+		private static final String DIFFER_DATE_CALCULATOR = 
+			"select to_char(SYSDATE - TO_DATE(to_char(ENDDATE, 'yyyy/mm/dd'),'yyyy/mm/dd')) DIFFDAY "
+			+"from rent_ord where rentno = ? ";
+	
+	//RENT_ORD from-status-changer: for available	
+	private static final String UPDATE_EMT_STATUS_FROM_RESERVE_TO_OCCUPIED = 
+			"UPDATE EQUIPMENT set status='occupied' where emtno = ? ";
+	private static final String UPDATE_MOTOR_STATUS_FROM_RESERVE_TO_OCCUPIED = 
+			"UPDATE MOTOR set status='occupied' where motno = ? ";
+	private static final String UPDATE_RENT_ORD_STATUS_FROM_UNOCCUPIED_TO_NORETURN = 
+			"UPDATE RENT_ORD set status='noreturn', note = ? where rentno = ? ";
+	
+	
+//RENT_ORD from-status-changer: for noshow
+	private static final String UPDATE_EMT_STATUS_FROM_RESERVE_TO_UNLEASABLE = 
+			"UPDATE EQUIPMENT set status='unleasable' where emtno = ? ";
+	private static final String UPDATE_MOTOR_STATUS_FROM_RESERVE_TO_UNLEASABLE = 
+			"UPDATE MOTOR set status='unleasable' where motno = ? ";
+	private static final String UPDATE_RENT_ORD_STATUS_FROM_UNOCCUPIED_TO_ABNORMALCLOSED = 
+			"UPDATE RENT_ORD set status='abnormalclosed', note = ? where rentno = ? ";
+	
+
+	//RENT_ORD from-status-changer: for noreturn/overtime
+	//1. 處理租賃單狀態(milend, returndate, fine, rank, 'status', note)
+	//2. 車輛狀態(mile, 'status')
+	//3. 裝備狀態('status')
+	private static final String UPDATE_RENT_ORD_FROM_NORETURN_TO_CLOSED = 
+			"UPDATE RENT_ORD set milend = ?, returndate = ?,"
+			+" fine = ?, status='closed', rank = ?, note = ? where rentno = ? ";
+	private static final String UPDATE_RENT_ORD_FROM_OVERTIME_TO_ABNORMALCLOSED = 
+			"UPDATE RENT_ORD set milend = ?, returndate = ?,"
+			+" fine = ?, status='abnormalclosed', rank = ?, note = ? where rentno = ? ";
+	private static final String UPDATE_EMT_STATUS_FROM_OCCUPIED_TO_UNLEASABLE = 
+			"UPDATE EQUIPMENT set status='unleasable' where emtno = ? ";
+	private static final String UPDATE_MOTOR_STATUS_FROM_OCCUPIED_TO_UNLEASABLE = 
+			"UPDATE MOTOR set mile = ?, status='unleasable' where motno = ? ";
+
+	
+	
+	
+	
+	
+	@Override
+	public void updateRentOrdAfterOvertime(String rentno, Integer milend, Timestamp returndate, Integer fine,
+			String rank, String note, String action) {
+	
+		Connection con = null;
+		PreparedStatement pstmt = null;
+	
+		try {
+			con = ds.getConnection();
+			
+			pstmt = con.prepareStatement(UPDATE_RENT_ORD_FROM_OVERTIME_TO_ABNORMALCLOSED);
+
+			pstmt.setInt(1, milend);
+			pstmt.setTimestamp(2, returndate);
+			pstmt.setInt(3, fine);
+			pstmt.setString(4, rank);
+			pstmt.setString(5, note);
+			pstmt.setString(6, rentno);
+			
+			pstmt.executeUpdate();
+	
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	}
+
+
+	@Override
+	public void updateRentOrdAfterNoreturn(String rentno, Integer milend, Timestamp returndate, Integer fine, String rank,
+			String note, String action) {
+	
+		Connection con = null;
+		PreparedStatement pstmt = null;
+	
+		try {
+			con = ds.getConnection();
+			
+			pstmt = con.prepareStatement(UPDATE_RENT_ORD_FROM_NORETURN_TO_CLOSED);
+			
+			pstmt.setInt(1, milend);
+			pstmt.setTimestamp(2, returndate);
+			pstmt.setInt(3, fine);
+			pstmt.setString(4, rank);
+			pstmt.setString(5, note);
+			pstmt.setString(6, rentno);
+			
+			pstmt.executeUpdate();
+	
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	}
+
+
+	//overload for noshow
+	@Override
+	public void updateRentOrdStatusAfterAvailable(String rentno, String note, String action) {
+	
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+	
+		try {
+			con = ds.getConnection();
+
+			pstmt = con.prepareStatement(UPDATE_RENT_ORD_STATUS_FROM_UNOCCUPIED_TO_NORETURN);
+			
+			pstmt.setString(1, note);
+			pstmt.setString(2, rentno);
+			pstmt.executeUpdate();
+	
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	}
+
+
+	@Override
+	public void updateRentOrdStatusAfterNoshow(String rentno, String note, String action) {
+	
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+	
+		try {
+			con = ds.getConnection();
+			
+			pstmt = con.prepareStatement(UPDATE_RENT_ORD_STATUS_FROM_UNOCCUPIED_TO_ABNORMALCLOSED);
+				
+			pstmt.setString(1, note);
+			pstmt.setString(2, rentno);
+			pstmt.executeUpdate();
+	
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	}
+
+
+	@Override
+	public void updateMotorStatusAfterNoshow(String motno, String action) {
+	
+		Connection con = null;
+		PreparedStatement pstmt = null;
+	
+		try {
+			con = ds.getConnection();
+
+			pstmt = con.prepareStatement(UPDATE_MOTOR_STATUS_FROM_RESERVE_TO_UNLEASABLE);
+
+			pstmt.setString(1, motno);
+			pstmt.executeUpdate();
+	
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	}
+
+
+	@Override
+	public void updateMotorAfterReturn(String motno, Integer mile, String action) {
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+	
+		try {
+			con = ds.getConnection();
+	
+			pstmt = con.prepareStatement(UPDATE_MOTOR_STATUS_FROM_OCCUPIED_TO_UNLEASABLE);
+
+			pstmt.setInt(1, mile);
+			pstmt.setString(2, motno);
+			
+			pstmt.executeUpdate();
+	
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	}
+
+
+	@Override
+	public void updateMotorStatusAfterAvailable(String motno, String action) {
+	
+		Connection con = null;
+		PreparedStatement pstmt = null;
+	
+		try {
+			con = ds.getConnection();
+
+			pstmt = con.prepareStatement(UPDATE_MOTOR_STATUS_FROM_RESERVE_TO_OCCUPIED);
+
+			pstmt.setString(1, motno);
+			pstmt.executeUpdate();
+	
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	}
+
+
+	@Override
+	public void updateEmtsAfterReturn(String emtno, String action) {
+	
+		Connection con = null;
+		PreparedStatement pstmt = null;
+	
+		try {
+			con = ds.getConnection();
+			
+			pstmt = con.prepareStatement(UPDATE_EMT_STATUS_FROM_OCCUPIED_TO_UNLEASABLE);
+	
+			pstmt.setString(1, emtno);
+			
+			pstmt.executeUpdate();
+	
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	}
+
+
+	@Override
+	public void updateEmtsStatusAfterNoshow(String emtno, String action) {
+	
+		Connection con = null;
+		PreparedStatement pstmt = null;
+	
+		try {
+			con = ds.getConnection();
+
+			pstmt = con.prepareStatement(UPDATE_EMT_STATUS_FROM_RESERVE_TO_UNLEASABLE);
+
+			pstmt.setString(1, emtno);
+			pstmt.executeUpdate();
+	
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	}
+
+
+	@Override
+	public void updateEmtsStatusAfterAvailable(String emtno, String action) {
+	
+		Connection con = null;
+		PreparedStatement pstmt = null;
+	
+		try {
+			con = ds.getConnection();
+
+			pstmt = con.prepareStatement(UPDATE_EMT_STATUS_FROM_RESERVE_TO_OCCUPIED);
+
+			pstmt.setString(1, emtno);
+			pstmt.executeUpdate();
+	
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	}
+
+
+	@Override
+	public Set<EquipmentVO> getEquipmentVOsByRentno(String rentno) {
+		System.out.println("RentOrdDAO getEquipmentVOsByRentno in");
+		System.out.println("rentno =" + rentno);
+		Set<EquipmentVO> set = new LinkedHashSet<EquipmentVO>();
+
+		Connection con = null;		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+				
+			con = ds.getConnection();			
+			pstmt = con.prepareStatement(GET_EMTNOs_BY_RENTNO_IN_EMT_LIST);
+			
+			pstmt.setString(1, rentno);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				String emtno = null;
+				EquipmentVO emtVO = null;
+				
+				Connection con2 = null;
+				PreparedStatement pstmt2 = null;
+				ResultSet rs2 = null;
+				
+				emtno = rs.getString("emtno");
+				System.out.println("emtno = "+ emtno);
+				
+				try {
+					con2 = ds.getConnection();		
+					pstmt2 = con2.prepareStatement(GET_EMPVOs_BY_EMTNOs_IN_EQUIPMENT);				
+					pstmt2.setString(1, emtno);
+					rs2 = pstmt2.executeQuery();
+					
+					while(rs2.next()){
+						System.out.println("rs2 in with emtno = " + emtno);					
+						emtVO = new EquipmentVO();
+						emtVO.setEmtno(rs2.getString("emtno"));
+						emtVO.setEcno(rs2.getString("ecno"));
+						emtVO.setLocno(rs2.getString("locno"));
+						emtVO.setPurchdate(rs2.getTimestamp("purchdate"));
+						emtVO.setStatus(rs2.getString("status"));
+						emtVO.setNote(rs2.getString("note"));
+						set.add(emtVO); // Store the row in the list
+					}					
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				} finally{
+					if (rs2 != null) {
+						try {
+							rs2.close();
+						} catch (SQLException se) {
+							se.printStackTrace(System.err);
+						}
+					}
+					if (pstmt2 != null) {
+						try {
+							pstmt2.close();
+						} catch (SQLException se) {
+							se.printStackTrace(System.err);
+						}
+					}
+					if (con2 != null) {
+						try {
+							con2.close();
+						} catch (Exception e) {
+							e.printStackTrace(System.err);
+						}
+					}				
+				}
+			}
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return set;
+	}
 
 	@Override
 	public void insert(RentOrdVO roVO) {
@@ -142,7 +683,6 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 				}
 			}
 		}
-
 	}
 
 	@Override
@@ -197,7 +737,6 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 				}
 			}
 		}
-
 	}
 
 	@Override
@@ -403,7 +942,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 
 			while (rs.next()) {
 				roVO = new RentOrdVO();
-				setAttirbute(roVO, rs); // 拉出來寫成一個方法
+				setAllAttributeMethod(roVO, rs); // 拉出來寫成一個方法
 
 				set.add(roVO); // Store the row in the vector
 			}
@@ -453,7 +992,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 
 			while (rs.next()) {
 				roVO = new RentOrdVO();
-				setAttirbute(roVO, rs); // 拉出來寫成一個方法
+				setAllAttributeMethod(roVO, rs); // 拉出來寫成一個方法
 
 				set.add(roVO); // Store the row in the vector
 			}
@@ -503,7 +1042,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 
 			while (rs.next()) {
 				roVO = new RentOrdVO();
-				setAttirbute(roVO, rs); // 拉出來寫成一個方法
+				setAllAttributeMethod(roVO, rs); // 拉出來寫成一個方法
 				set.add(roVO); // Store the row in the vector
 			}
 
@@ -553,7 +1092,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 
 			while (rs.next()) {
 				roVO = new RentOrdVO();
-				setAttirbute(roVO, rs); // 拉出來寫成一個方法
+				setAllAttributeMethod(roVO, rs); // 拉出來寫成一個方法
 				set.add(roVO); // Store the row in the vector
 			}
 
@@ -603,7 +1142,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 
 			while (rs.next()) {
 				roVO = new RentOrdVO();
-				setAttirbute(roVO, rs); // 拉出來寫成一個方法
+				setAllAttributeMethod(roVO, rs); // 拉出來寫成一個方法
 				set.add(roVO); // Store the row in the vector
 			}
 
@@ -652,7 +1191,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	
 			while (rs.next()) {
 				roVO = new RentOrdVO();
-				setAttirbute(roVO, rs); // 拉出來寫成一個方法
+				setAllAttributeMethod(roVO, rs); // 拉出來寫成一個方法
 	
 				set.add(roVO); // Store the row in the vector
 			}
@@ -703,7 +1242,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	
 			while (rs.next()) {
 				roVO = new RentOrdVO();
-				setAttirbute(roVO, rs); // 拉出來寫成一個方法
+				setAllAttributeMethod(roVO, rs); // 拉出來寫成一個方法
 	
 				set.add(roVO); // Store the row in the vector
 			}
@@ -735,8 +1274,63 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 		}
 		return set;
 	}
+	
+	@Override
+	public String differDateCalculator(String rentno) {
+	
+			String differDate = null;
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+	
+			try {
+				con = ds.getConnection();
+				pstmt = con.prepareStatement(DIFFER_DATE_CALCULATOR);
+	
+				pstmt.setString(1, rentno);
+	
+				rs = pstmt.executeQuery();
+	
+				while (rs.next()) {
+					// deptVO 也稱為 Domain objects
+					Integer num = (int) Math.ceil(Double.parseDouble(rs.getString(1)));
+					differDate = num.toString();
+					System.out.println("rs.getString(1)"+ rs.getString(1));
+					System.out.println("differDate : "+differDate);
+	
+				}
+	
+			} catch (SQLException se) {
+				throw new RuntimeException("A database error occured. " + se.getMessage());
+				// Clean up JDBC resources
+			} finally {
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}
+			}
+			return differDate;
+		}
 
-	private void setAttirbute(RentOrdVO roVO, ResultSet rs) {
+
+	private void setAllAttributeMethod(RentOrdVO roVO, ResultSet rs) {
 
 		try {
 			roVO.setMotno(rs.getString("motno"));
@@ -761,5 +1355,6 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 		}
 
 	}
+
 
 }
