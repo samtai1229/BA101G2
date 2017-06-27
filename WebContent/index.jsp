@@ -157,7 +157,7 @@ div .aa {
                         <input id="pass" type="password" class="input" data-type="password">
                     </div>
                     <div class="group">
-                        <label for="pass" class="label">信箱/label>
+                        <label for="pass" class="label">信箱</label>
                         <input id="pass" type="text" class="input">
                     </div>
                     <div class="group">
