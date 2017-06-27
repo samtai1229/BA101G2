@@ -65,6 +65,12 @@ public class MemberService {
 		return dao.findByPrimaryKeyByAccAndPwd(acc,pwd);
 	}
 	
+	public boolean checkAccIsExisted(String acc){
+		if(dao.findByAcc(acc).getAcc().equals(acc))
+			return true;
+		return false;
+	}
+	
 	public List<MemberVO> getAll(){
 		return dao.getAll();
 	}

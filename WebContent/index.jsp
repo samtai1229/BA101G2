@@ -124,47 +124,52 @@ div .aa {
             <div class="login-form">
                 <div class="sign-in-htm">
                     <div class="group">
-                        <label for="user" class="label">帳號</label>
-                        <input id="user" type="text" class="input">
+                        <label for="acc" class="label">帳號</label>
+                        <input id="acc" name="acc" type="text" class="input">
                     </div>
                     <div class="group">
-                        <label for="pass" class="label">密碼</label>
-                        <input id="pass" type="password" class="input" data-type="password">
+                        <label for="pwd" class="label">密碼</label>
+                        <input id="pwd" name="pwd" type="password" class="input" data-type="password">
                     </div>
                     <div class="group">
-                        <input id="check" type="checkbox" class="check" checked>
+                        <input id="check" name="check" type="checkbox" class="check" checked>
                         <label for="check"><span class="icon"></span>記住我</label>
                     </div>
                     <div class="group">
                         <input type="submit" class="button" value="Sign In">
+                        <input type="hidden" name="action" value="login">
                     </div>
                     <div class="hr"></div>
                     <div class="foot-lnk">
                         <a href="#forgot">忘記密碼?</a>
                     </div>
+                   
                 </div>
+				</form>
+                <form action="<%=request.getContextPath()%>/backend/member/member.do">
                 <div class="sign-up-htm">
                     <div class="group">
-                        <label for="user" class="label">帳號</label>
-                        <input id="user" type="text" class="input">
+                        <label for="new_acc" class="label">帳號</label>
+                        <input name="new_acc" type="text" class="input">
                     </div>
                     <div class="group">
-                        <label for="pass" class="label">密碼</label>
-                        <input id="pass" type="password" class="input" data-type="password">
+                        <label for="new_pwd" class="label">密碼</label>
+                        <input name="new_pwd" type="password" class="input" data-type="password">
                     </div>
                     <div class="group">
-                        <label for="pass" class="label">重設密碼</label>
-                        <input id="pass" type="password" class="input" data-type="password">
+                        <label for="pass" class="label">確認密碼</label>
+                        <input name="pass" type="password" class="input" data-type="password">
                     </div>
                     <div class="group">
-                        <label for="pass" class="label">信箱</label>
-                        <input id="pass" type="text" class="input">
+                        <label for="mail" class="label">信箱</label>
+                        <input id="mail" name="mail" type="email" class="input">
                     </div>
                     <div class="group">
                         <input type="submit" class="button" value="Sign Up">
+                        <input type="hidden" name="action" value="register">
                     </div>
                     <div class="hr"></div>
-                    <div class="foot-lnk">
+                    <div >
                         <label for="tab-1">已經是會員?</a>
                     </div>
                 </div>

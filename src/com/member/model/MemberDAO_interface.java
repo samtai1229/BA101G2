@@ -9,4 +9,5 @@ public interface MemberDAO_interface {
     public MemberVO findByPrimaryKey(String memno);
     public List<MemberVO> getAll();
 	MemberVO findByPrimaryKeyByAccAndPwd(String acc, String pwd);
+	public MemberVO findByAcc(String acc);
 }

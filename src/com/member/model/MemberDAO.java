@@ -50,7 +50,8 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 	private static final String GET_ALL_STMT = selectfactor	+ "FROM MEMBER order by memno";
 	
 	private static final String GET_ONE_STMT = selectfactor	+ "FROM MEMBER where memno = ?";
-	private static final String GET_ONE_STMT_BY_ACC_PWD = selectfactor	+ "FROM MEMBER where acc = ?";
+	private static final String GET_ONE_STMT_BY_ACC_PWD = selectfactor	+ "FROM MEMBER where acc = ? AND pwd = ?";
+	private static final String GET_ONE_STMT_BY_ACC = selectfactor	+ "FROM MEMBER where acc = ?";
 	/*	String memno,String memname,String sex,Timestamp birth,String mail,String phone,
 		String addr,String acc,String pwd,byte[] idcard1,byte[] idcard2,byte[] license,
 		Timestamp credate,String status,*/
@@ -207,7 +208,7 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 			pstmt = con.prepareStatement(GET_ONE_STMT_BY_ACC_PWD);
 
 			pstmt.setString(1, acc);
-		//	pstmt.setString(2,pwd);
+			pstmt.setString(2,pwd);
 
 			rs = pstmt.executeQuery();
 
@@ -415,4 +416,71 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 //
 //			return baos.toByteArray();
 //		}
+
+	@Override
+	public MemberVO findByAcc(String acc) {
+		
+		MemberVO memberVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ONE_STMT_BY_ACC);
+
+			pstmt.setString(1, acc);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				// memberVO 也稱為 Domain objects
+				memberVO = new MemberVO();
+				memberVO.setMemno(rs.getString("memno"));
+				memberVO.setMemname(rs.getString("memname"));
+				memberVO.setSex(rs.getString("sex"));
+				memberVO.setBirth(rs.getTimestamp("birth"));
+				memberVO.setMail(rs.getString("mail"));
+				memberVO.setPhone(rs.getString("phone"));
+				memberVO.setAddr(rs.getString("addr"));
+				memberVO.setAcc(rs.getString("acc"));
+				memberVO.setPwd(rs.getString("pwd"));
+				memberVO.setIdcard1(rs.getBytes("idcard1"));
+				memberVO.setIdcard2(rs.getBytes("idcard2"));
+				memberVO.setLicense(rs.getBytes("license"));
+				memberVO.setCredate(rs.getTimestamp("Credate"));
+				memberVO.setStatus(rs.getString("status"));
+			}
+
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return memberVO;
+	}
 }

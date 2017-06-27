@@ -51,6 +51,72 @@ public class MemberServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		System.out.println("進來了 要做的是 " + action);
+		
+		
+		if ("register".equals(action)) {
+			System.out.println("Register~~~~~~~~~~~~~");
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				/***************************
+				 * 1.接收請求參數 - 輸入格式的錯誤處理
+				 **********************/
+				String new_acc = req.getParameter("new_acc");
+				String new_pwd = req.getParameter("new_pwd");
+				String pass = req.getParameter("pass");
+				String mail = req.getParameter("mail");
+				if ( mail==null||(mail.trim()).length() == 0 ||   pass==null||(pass.trim()).length() == 0 ||new_acc == null || new_pwd == null || (new_acc.trim()).length() == 0 || (new_pwd.trim()).length() == 0) {
+
+					errorMsgs.add("欄位不可為空");
+				}
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/select_page.jsp");
+					failureView.forward(req, res);
+					return;// 程式中斷
+				}
+
+				/*************************** 2.開始檢查帳號是否存在 *****************************************/
+				MemberService memSvc = new MemberService();
+				MemberVO memVO = new MemberVO();
+
+				if ( memSvc.checkAccIsExisted(new_acc)) {
+					errorMsgs.add("該帳號已存在");
+				}
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/select_page.jsp");
+					failureView.forward(req, res);
+					return;// 程式中斷
+				}
+
+				/***************************
+				 * 3.查詢完成,準備轉交(Send the Success view) 轉交到會員專區的網頁
+				 *************/
+				memVO.setAcc(new_acc);
+				memVO.setPwd(new_pwd);
+				// req.getSession().setAttribute("acc", acc);
+				// req.getSession().setAttribute("pwd", pwd);
+				req.setAttribute("memVO", memVO); // 資料庫取出的empVO物件,存入req
+				String url = "/backend/member/listOneMember.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
+				successView.forward(req, res);
+
+				/*************************** 其他可能的錯誤處理 *************************************/
+			} catch (Exception e) {
+				errorMsgs.add("無法取得資料:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/select_page.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
 		if ("login".equals(action)) {
 			System.out.println("Login~~~~~~~~~~~~~");
 			List<String> errorMsgs = new LinkedList<String>();
