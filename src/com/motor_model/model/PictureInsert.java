@@ -71,7 +71,7 @@ public class PictureInsert {
 			byte[] pic;
 
 			try {
-				pic = getPictureByteArray("C://motor//M" + i + ".jpg");
+				pic = getPictureByteArray("C://motor//MM" + i + ".jpg");
 				mmVO1.setMotpic(pic);
 			} catch (IOException e) {
 				e.printStackTrace();

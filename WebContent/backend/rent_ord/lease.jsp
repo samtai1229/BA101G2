@@ -20,6 +20,7 @@
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css" >
 
+
     <title>AutoBike 交車</title>
 </head>
 
@@ -39,6 +40,9 @@
         <ul class="nav navbar-nav navbar-right">
         </ul>
     </nav>
+
+ <%--保留寫法     href="<%=request.getContextPath()%>/backend/backendRentOrd.jsp"  --%>
+
     <div class="col-xs-12 col-sm-2 leftBar">
         <img id="menuLogo" src="<%=request.getContextPath()%>/backend/images/android_logo2.jpg">
         <button class="accordion accordionMenu accordion accordionMenuMenu">總部管理系統</button>
@@ -137,9 +141,14 @@
 										<div class="InputForm">
 											<label class="title">據點查詢</label> 
 												<select name="slocno" onchange="queryRentOrdBySlocno(this.value)">
+													<option value=""><%="======="%></option>
 						 							<c:forEach var="locVO" items="${locSvc.all}">
 						 							<c:if test="${locVO.locno != 'TPE00'}"> 
+
 														<option value="${locVO.locno}">${locVO.locname}營業所</option>
+
+														<option value="${locVO.locno}">${locVO.locname}</option>
+
 													</c:if>	
 													</c:forEach> 															
 												</select><br />
@@ -189,9 +198,15 @@
 <!--標籤面板 內容區結束 -->      </div>
 <!--標籤面板 結束 -->		   </div>
 <!--end block1 --> </div>	
+
 <!-- block3 表格 --> <div id="block3" class="col-xs-12 col-sm-9">
 						<img src="<%=request.getContextPath()%>/backend/images/android_logo.png" id="PageLogo"
 						 style="display:block; margin:auto;">
+
+
+<!-- block3 表格 --> <div id="block3" class="col-xs-12 col-sm-8">
+
+
 					</div>
 <!--end: block3 --> 	
 <!--container--></div>	

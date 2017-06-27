@@ -12,7 +12,9 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
 
+
  	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+
 	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>  	
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>	
@@ -95,7 +97,27 @@
 							<input type="submit" value="修改" class="btn btn-default"/>
 						</form>						
 					</td>	
-				
+
+					<c:if test="${roVO.status =='noreturn'}">
+						<td>
+							<form method="post" action="NewFile.jsp">						
+								<input type="hidden" name="rentno" value="${roVO.rentno}">
+								<input type="hidden" name="comeFrom" value="noreturn">								
+								<input type="submit" value="closeable" class="click3"/>
+							</form>					
+						</td>					 
+					</c:if>
+					
+					<c:if test="${roVO.status =='overtime'}">
+						<td>
+							<form method="post" action="NewFile.jsp">						
+								<input type="hidden" name="rentno" value="${roVO.rentno}">
+								<input type="hidden" name="comeFrom" value="overtime">	
+								<input type="submit" value="overtime" class="click4"/>
+							</form>					
+						</td>					 
+					</c:if>					
+
 				</tr>
 			</c:forEach>
 		</tbody>
@@ -103,6 +125,8 @@
 
     <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/motorKanli_for_ro.js"></script>
     <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/datepicker_for_ro.js"></script>
+
  	<script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/paging_for_ro.js"></script>		
+
 </body>
 </html>

@@ -18,8 +18,8 @@ public class LocationJDBCDAO implements LocationDAO_interface{
 
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "servlet";
-	String passwd = "123456";
+	String userid = "ba101g2";
+	String passwd = "ba101g2";
 
 	private static final String INSERT_STMT = 
 			"INSERT INTO LOCATION (locno,locname,tel,addr,pic,lon,lat,status) "

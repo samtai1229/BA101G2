@@ -44,6 +44,7 @@
 	        狀態:<c:out value="${roQueryVO.status}" default="無資料"/><br>
 	        備註:<c:out value="${roQueryVO.note}" default="無資料"/><br>
 
+
     <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/motorKanli_for_ro.js"></script>
     <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/datepicker_for_ro.js"></script>	
 </body>

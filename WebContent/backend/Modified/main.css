@@ -13,7 +13,7 @@
 	
 }
 
-.click, .pgBtn, .pgBtn2, #selectBox{
+.click, .click2, .click3, .click4, .pgBtn, .pgBtn2, #selectBox{
 	color: #ffffff;
 	background-color: #719c92;
 	border:none;
@@ -27,14 +27,17 @@
 }
 
 .click2{
-	color: #ffffff;
 	background-color: #719c92;
-	border:none;
-	font-size:16px;
-	border-radius:5px;
-	height:30px;
-	width:60px;
-	text-align:center;
+	color: #edd14a;
+}
+
+.click3{
+	background-color: #ff0000;
+	color: #edd14a;
+}
+
+.click4{
+	background-color: #0080ff;
 	color: #edd14a;
 }
 

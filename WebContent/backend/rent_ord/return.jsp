@@ -140,9 +140,14 @@
 										<div class="InputForm">
 											<label class="title">據點查詢</label> 
 												<select name="rlocno" onchange="queryRentOrdByRlocno(this.value)">
+						 							<option value=""><%="======="%></option>
 						 							<c:forEach var="locVO" items="${locSvc.all}">
 						 							<c:if test="${locVO.locno != 'TPE00'}"> 
+
 														<option value="${locVO.locno}">${locVO.locname}營業所</option>
+
+														<option value="${locVO.locno}">${locVO.locname}</option>
+
 													</c:if>	
 													</c:forEach> 													
 												</select><br />

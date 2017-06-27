@@ -15,8 +15,8 @@ import java.util.Set;
 public class MotorJDBCDAO implements MotorDAO_interface {
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "servlet";
-	String passwd = "123456";
+	String userid = "ba101g2";
+	String passwd = "ba101g2";
 
 	private static final String INSERT_STMT = "INSERT INTO MOTOR (motno, modtype, plateno,"
 			+ " engno, manudate, mile, locno, status, note"
