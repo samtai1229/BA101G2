@@ -62,13 +62,19 @@ public class MemberServlet extends HttpServlet {
 				/***************************
 				 * 1.接收請求參數 - 輸入格式的錯誤處理
 				 **********************/
+				
 				String new_acc = req.getParameter("new_acc");
 				String new_pwd = req.getParameter("new_pwd");
 				String pass = req.getParameter("pass");
 				String mail = req.getParameter("mail");
+			
 				if ( mail==null||(mail.trim()).length() == 0 ||   pass==null||(pass.trim()).length() == 0 ||new_acc == null || new_pwd == null || (new_acc.trim()).length() == 0 || (new_pwd.trim()).length() == 0) {
-
+					
 					errorMsgs.add("欄位不可為空");
+				}
+				if(!pass.equals(new_pwd))
+				{
+					errorMsgs.add("2次密碼不一致");
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
@@ -79,10 +85,17 @@ public class MemberServlet extends HttpServlet {
 
 				/*************************** 2.開始檢查帳號是否存在 *****************************************/
 				MemberService memSvc = new MemberService();
-				MemberVO memVO = new MemberVO();
-
+				
+				MemberVO memVO = null;
+						
 				if ( memSvc.checkAccIsExisted(new_acc)) {
 					errorMsgs.add("該帳號已存在");
+					 memVO = memSvc.getOneMemberByAcc(new_acc);
+				}
+				else
+				{
+				  System.out.println("馬的BBBBBBB都是NULL");
+				   memVO = memSvc.insert("未填", "未填", new Timestamp(System.currentTimeMillis()), mail, "未填", "未填", new_acc, new_pwd, null, null, null);
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
@@ -94,12 +107,9 @@ public class MemberServlet extends HttpServlet {
 				/***************************
 				 * 3.查詢完成,準備轉交(Send the Success view) 轉交到會員專區的網頁
 				 *************/
-				memVO.setAcc(new_acc);
-				memVO.setPwd(new_pwd);
-				// req.getSession().setAttribute("acc", acc);
-				// req.getSession().setAttribute("pwd", pwd);
+
 				req.setAttribute("memVO", memVO); // 資料庫取出的empVO物件,存入req
-				String url = "/backend/member/listOneMember.jsp";
+				String url = "/backend/member/listAllMember.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
 				successView.forward(req, res);
 
@@ -418,7 +428,7 @@ public class MemberServlet extends HttpServlet {
 				/*************************** 2.開始新增資料 ***************************************/
 				MemberService memSvc = new MemberService();
 				memVO = memSvc.insert(memname, sex, birth, mail, phone, addr, acc, pwd, getPicByteArray(idcard1),
-						getPicByteArray(idcard2), getPicByteArray(license), null);
+						getPicByteArray(idcard2), getPicByteArray(license));
 
 				/***************************
 				 * 3.新增完成,準備轉交(Send the Success view)

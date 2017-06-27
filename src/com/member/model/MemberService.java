@@ -11,7 +11,7 @@ public class MemberService {
 		dao = new MemberDAO();
 	}
 	
-	public MemberVO insert(String memname,String sex,Timestamp birth,String mail,String phone,String addr,String acc,String pwd,byte[] idcard1,byte[] idcard2,byte[] license,Timestamp credate){
+	public MemberVO insert(String memname,String sex,Timestamp birth,String mail,String phone,String addr,String acc,String pwd,byte[] idcard1,byte[] idcard2,byte[] license){
 		MemberVO memberVO = new MemberVO();
         
 //		memberVO.setMemno(memno);
@@ -26,7 +26,7 @@ public class MemberService {
 		memberVO.setIdcard1(idcard1);
 		memberVO.setIdcard2(idcard2);
 		memberVO.setLicense(license);
-		memberVO.setCredate(credate);
+//		memberVO.setCredate(credate);
 		dao.insert(memberVO);
 		return memberVO;
 	}
@@ -64,10 +64,15 @@ public class MemberService {
 	public MemberVO getOneMemberByAccAndPwd(String acc,String pwd){
 		return dao.findByPrimaryKeyByAccAndPwd(acc,pwd);
 	}
-	
+	public MemberVO getOneMemberByAcc(String acc){
+		return dao.findByAcc(acc);
+	}
 	public boolean checkAccIsExisted(String acc){
-		if(dao.findByAcc(acc).getAcc().equals(acc))
-			return true;
+		if(dao.findByAcc(acc)!=null)
+		{
+			if(dao.findByAcc(acc).getAcc().equals(acc))
+				return true;
+		}
 		return false;
 	}
 	

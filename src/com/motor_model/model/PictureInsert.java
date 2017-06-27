@@ -64,7 +64,7 @@ public class PictureInsert {
 
 		PictureInsert dao = new PictureInsert();
 
-		for (int i = 100001; i < 100019; i++) {
+		for (int i = 101; i < 119; i++) {
 
 			MotorModelVO mmVO1 = new MotorModelVO();
 

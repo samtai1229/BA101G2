@@ -27,9 +27,9 @@ public class PictureInsert {
 
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
-	//		pstmt = con.prepareStatement(UPDATE_F); //正面
+			pstmt = con.prepareStatement(UPDATE_F); //正面
 	//		pstmt = con.prepareStatement(UPDATE_B); //背面		
-            pstmt = con.prepareStatement(UPDATE_L);  //駕照
+    //        pstmt = con.prepareStatement(UPDATE_L);  //駕照
 			pstmt.setBytes(1, memVO.getLicense()); //拿到正背面 or 駕照
 			pstmt.setString(2, memVO.getMemno());
 
@@ -74,9 +74,9 @@ public class PictureInsert {
 			byte[] pic;
 
 			try {
-		//		pic = getPictureByteArray("C://IDCARD//F1.jpg"); //正面圖	
-				pic = getPictureByteArray("C://IDCARD//B1.jpg"); //背面圖
-				pic = getPictureByteArray("C://IDCARD//L1.jpg");
+				pic = getPictureByteArray("C://IDCARD//F1.jpg"); //正面圖	
+		//		pic = getPictureByteArray("C://IDCARD//B1.jpg"); //背面圖
+		//		pic = getPictureByteArray("C://IDCARD//L1.jpg");
 		//		mmVO1.setIdcard1(pic);  //正面
 	   //        mmVO1.setIdcard2(pic);  //背面			
 	         mmVO1.setLicense(pic); //駕照

@@ -370,4 +370,10 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 			// TODO Auto-generated method stub
 			return null;
 		}
+
+		@Override
+		public MemberVO findByAcc(String acc) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 }

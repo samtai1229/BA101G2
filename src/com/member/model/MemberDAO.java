@@ -34,8 +34,8 @@ public class MemberDAO implements MemberDAO_interface{
 		}
 	}
 	private static final String INSERT_STMT = 
-		"INSERT INTO MEMBER (memno,memname,sex,birth,mail,phone,addr,acc,pwd,idcard1,idcard2,license) "
-		+ "VALUES ('MEM'||LPAD(TO_CHAR(memno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		"INSERT INTO MEMBER (memno,memname,sex,birth,mail,phone,addr,acc,pwd,idcard1,idcard2,license,status) "
+		+ "VALUES ('MEM'||LPAD(TO_CHAR(memno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,'unconfirmed') order by memno desc";
 	 
 /*"INSERT INTO MEMBER (memno,memname,sex,birth,mail,phone,addr,acc,pwd,idcard1,idcard2,license,credate,status) "
 + "VALUES ('M'||LPAD(TO_CHAR(memno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";*/
@@ -78,7 +78,7 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 			pstmt.setBytes(9, memberVO.getIdcard1());
 			pstmt.setBytes(10, memberVO.getIdcard2());
 			pstmt.setBytes(11, memberVO.getLicense());
-	
+			
 			pstmt.executeUpdate();
 			
 			}catch (SQLException se) {
@@ -429,9 +429,7 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ONE_STMT_BY_ACC);
-
 			pstmt.setString(1, acc);
-
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -483,4 +481,6 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 		}
 		return memberVO;
 	}
+
+	
 }

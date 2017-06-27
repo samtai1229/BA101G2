@@ -116,7 +116,7 @@ div .aa {
 					<form action="<%=request.getContextPath()%>/backend/member/member.do">
 
 										<div class="login-wrap">
-        <div class="login-html">
+        <div class="login-html" style="width:100% height:1000px">
             <input id="tab-1" type="radio" name="tab" class="sign-in" checked>
             <label for="tab-1" class="tab">登入</label>
             <input id="tab-2" type="radio" name="tab" class="sign-up">
@@ -169,7 +169,7 @@ div .aa {
                         <input type="hidden" name="action" value="register">
                     </div>
                     <div class="hr"></div>
-                    <div >
+                    <div class="foot-lnk">
                         <label for="tab-1">已經是會員?</a>
                     </div>
                 </div>

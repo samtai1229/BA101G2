@@ -4,8 +4,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
 	MemberVO memVO = (MemberVO) request.getAttribute("memVO"); //EmpServlet.java (Concroller), 存入req的empVO物件 (包括幫忙取出的empVO, 也包括輸入資料錯誤時的empVO物件)
-	String[] statusArray = {"unconfirm","confirmed"};
-	pageContext.setAttribute("statusArray", statusArray);
+	String[] statusArray = {"unconfirmed","confirmed"};
+	String[] gender = {"female","male"};
+
+    pageContext.setAttribute("statusArray", statusArray);
+	pageContext.setAttribute("gender", gender);
 %>
 <html>
 <head>
@@ -16,7 +19,7 @@
 
 <body bgcolor='white'>
 
-<table border='1' cellpadding='5' cellspacing='0' width='1600'>
+<table border='1' cellpadding='5' cellspacing='0' width='1690'>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
 		<h3>會員資料修改 - update_member_input.jsp</h3>
@@ -40,12 +43,15 @@
 <table border="0">
 	<tr>
 		<td>會員名稱:</td>
-		<td><input readonly type="TEXT" name="memname" size="45" 
+		<td><input  type="TEXT" name="memname" size="45" 
 			value="<%= (memVO==null)? "我家" : memVO.getMemname()%>" /></td>
 	</tr>
 	<tr>
 		<td>性別:</td>
-		<td><%=memVO.getSex()%></td>
+		<td><select size="1" name="sex">
+		<option value="male">男</option>
+		<option value="female">女</option>
+		</select></td>
 	</tr>	
 	<tr>
 		<td>生日:</td>
@@ -62,7 +68,7 @@
 	</tr>
 	<tr>
 		<td>地址:</td>
-		<td><input readonly value="<%=memVO.getAddr() %>" type="text" name="address" size="45"/></td>
+		<td><input  value="<%=memVO.getAddr() %>" type="text" name="address" size="45"/></td>
 	</tr>
 	<tr>
 		<td>帳號:</td>
@@ -95,7 +101,7 @@
     </tr>
     <tr>
 		<td><select name="status">
-				<option readonly selected value="${memVO.status}">${memVO.status}
+				<option disabled selected value="${memVO.status}">${memVO.status}
 					<c:forEach var="s" items="${statusArray}">
 					<c:if test="${memVO.status!=s}">
 					<option  value="${s}">${s}
