@@ -89,6 +89,8 @@ div .aa {
 	border: 1px red solid;
 }
 </style>
+<link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans:600'>
+    <link rel="stylesheet" href="css/style_login.css">
 </head>
 
 <body id="page-top" class="index">
@@ -102,15 +104,75 @@ div .aa {
 	<!-- 會員登入燈箱 -->
 	<div class="modal fade" id="modal-id">
 		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
+			<div >
+			<!-- 	<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
 					<h4 class="modal-title">登入會員</h4>
-				</div>
+				</div> -->
 				<div class="modal-body">
+				   <button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
 					<form action="<%=request.getContextPath()%>/backend/member/member.do">
-						<div class="form-group">
+
+										<div class="login-wrap">
+        <div class="login-html">
+            <input id="tab-1" type="radio" name="tab" class="sign-in" checked>
+            <label for="tab-1" class="tab">登入</label>
+            <input id="tab-2" type="radio" name="tab" class="sign-up">
+            <label for="tab-2" class="tab">註冊</label>
+            <div class="login-form">
+                <div class="sign-in-htm">
+                    <div class="group">
+                        <label for="user" class="label">帳號</label>
+                        <input id="user" type="text" class="input">
+                    </div>
+                    <div class="group">
+                        <label for="pass" class="label">密碼</label>
+                        <input id="pass" type="password" class="input" data-type="password">
+                    </div>
+                    <div class="group">
+                        <input id="check" type="checkbox" class="check" checked>
+                        <label for="check"><span class="icon"></span>記住我</label>
+                    </div>
+                    <div class="group">
+                        <input type="submit" class="button" value="Sign In">
+                    </div>
+                    <div class="hr"></div>
+                    <div class="foot-lnk">
+                        <a href="#forgot">忘記密碼?</a>
+                    </div>
+                </div>
+                <div class="sign-up-htm">
+                    <div class="group">
+                        <label for="user" class="label">帳號</label>
+                        <input id="user" type="text" class="input">
+                    </div>
+                    <div class="group">
+                        <label for="pass" class="label">密碼</label>
+                        <input id="pass" type="password" class="input" data-type="password">
+                    </div>
+                    <div class="group">
+                        <label for="pass" class="label">重設密碼</label>
+                        <input id="pass" type="password" class="input" data-type="password">
+                    </div>
+                    <div class="group">
+                        <label for="pass" class="label">信箱/label>
+                        <input id="pass" type="text" class="input">
+                    </div>
+                    <div class="group">
+                        <input type="submit" class="button" value="Sign Up">
+                    </div>
+                    <div class="hr"></div>
+                    <div class="foot-lnk">
+                        <label for="tab-1">已經是會員?</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+						<!-- <div class="form-group">
 							<label for="acc">帳號</label> <input type="text" name="acc"
 								id="acc" placeholder="帳號" class="form-control"> <label
 								for="pwd">密碼</label> <input type="password" name="pwd" id="pwd"
@@ -119,7 +181,7 @@ div .aa {
 							<input onclick="javascript:location.href='#'" type="button"
 								value="註冊">
 							<input type="hidden" name="action" value="login">
-						</div>
+						</div> -->
 					</form>
 				</div>
 			</div>
@@ -156,8 +218,9 @@ div .aa {
 							class="fa fa-search"></i>服務據點</a></li>
 					<li><a href="<%=request.getContextPath()%>/backend/member/member.do"><i class="fa fa-shopping-cart"></i>二手車購買</a>
 					</li>
-					<li><a href="#modal-id"
-						data-toggle="modal"><i class="glyphicon glyphicon-user"></i>會員登入</a></li>
+ 					<li><a href="#modal-id"
+						data-toggle="modal"><i class="glyphicon glyphicon-user"></i>會員登入</a></li> 
+					<!-- <li><a href="login_register.html"><i class="glyphicon glyphicon-user"></i>會員登入</a></li> -->
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
