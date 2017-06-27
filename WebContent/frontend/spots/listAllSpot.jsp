@@ -15,7 +15,6 @@
 <title>所有景點資料 - listAllSpots.jsp</title>
 </head>
 <body bgcolor='white'>
-<b><font color=red>此頁練習採用 EL 的寫法取值:</font></b>
 <table border='1' cellpadding='5' cellspacing='0' width='800'>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
@@ -44,8 +43,8 @@
 		<th>緯度</th>
 		<th>據點編號</th>
 	</tr>
-	
-	<c:forEach var="spotVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
+<%-- 	begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" --%>
+	<c:forEach var="spotVO" items="${list}" >
 		<tr align='center' valign='middle'>
 			<td>${spotVO.spno}</td>
 			<td>${spotVO.spname}</td>
@@ -70,7 +69,7 @@
 		</tr>
 	</c:forEach>
 </table>
-<%@ include file="pages/page2.file" %>
+<%-- <%@ include file="pages/page2.file" %> --%>
 
 <br>本網頁的路徑:<br><b>
    <font color=blue>request.getServletPath():</font> <%= request.getServletPath()%><br>

@@ -45,7 +45,7 @@ public class SpotServlet extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/frontend/spots/select_page.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}

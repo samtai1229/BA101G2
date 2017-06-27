@@ -56,4 +56,23 @@
     <servlet-name>MotorModelDBGifReader</servlet-name>
     <url-pattern>/backend/motor_model/mmReader.do</url-pattern>
   </servlet-mapping>
+
+  
+    <servlet>
+    <servlet-name>MemberServlet</servlet-name>
+    <servlet-class>com.member.controller.MemberServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MemberServlet</servlet-name>
+    <url-pattern>/backend/member/member.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>MemberDBGifReader</servlet-name>
+    <servlet-class>com.member.controller.MemberDBGifReader</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MemberDBGifReader</servlet-name>
+    <url-pattern>/backend/member/memReader.do</url-pattern>
+  </servlet-mapping>
 </web-app>

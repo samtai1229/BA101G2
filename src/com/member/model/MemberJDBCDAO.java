@@ -498,4 +498,10 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 
 			return baos.toByteArray();
 		}
+
+		@Override
+		public MemberVO findByPrimaryKeyByAccAndPwd(String acc, String pwd) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 }

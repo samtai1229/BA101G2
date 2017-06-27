@@ -32,7 +32,7 @@ public class PictureInsert {
 			pstmt.setString(2, mmVO.getModtype());
 
 			pstmt.executeUpdate();
-
+			con.commit();
 			// Handle any driver errors
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
@@ -48,6 +48,7 @@ public class PictureInsert {
 					se.printStackTrace(System.err);
 				}
 			}
+
 			if (con != null) {
 				try {
 					con.close();
@@ -63,7 +64,7 @@ public class PictureInsert {
 
 		PictureInsert dao = new PictureInsert();
 
-		for (int i = 101; i < 119; i++) {
+		for (int i = 100001; i < 100019; i++) {
 
 			MotorModelVO mmVO1 = new MotorModelVO();
 
