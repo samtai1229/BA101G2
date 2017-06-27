@@ -1,0 +1,28 @@
+* {
+	font-size: 16px;
+}
+
+.arr1 {
+	width: 400px;
+	float: left;
+	/* 			border: 1px solid red; */
+}
+
+.clear {
+	clear: both;
+}
+
+.innerDiv {
+	width: 250px;
+}
+
+.control-label {
+	/*死都不換行*/
+	white-space: nowrap;
+	padding-right: 1px;
+	float: left;
+}
+
+h1 {
+	text-align: center;
+}
