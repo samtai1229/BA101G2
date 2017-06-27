@@ -16,6 +16,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.equipment.model.EquipmentVO;
+
 public class RentOrdJNDIDAO implements RentOrdDAO_interface {
 	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
 	private static DataSource ds = null;
@@ -759,5 +761,83 @@ public class RentOrdJNDIDAO implements RentOrdDAO_interface {
 			e.printStackTrace();
 		}
 
+	}
+
+
+
+
+
+	@Override
+	public Set<EquipmentVO> getEquipmentVOsByRentno(String rentno) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateEmtsAfterReturn(String emtno, String action) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateMotorAfterReturn(String motno, Integer mile, String action) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String differDateCalculator(String rentno) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateEmtsStatusAfterAvailable(String emtno, String action) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateEmtsStatusAfterNoshow(String emtno, String action) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateRentOrdStatusAfterAvailable(String rentno, String note, String action) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateRentOrdStatusAfterNoshow(String rentno, String note, String action) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateMotorStatusAfterAvailable(String motno, String action) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateMotorStatusAfterNoshow(String motno, String action) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateRentOrdAfterNoreturn(String rentno, Integer milend, Timestamp returndate, Integer fine,
+			String rank, String note, String action) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateRentOrdAfterOvertime(String rentno, Integer milend, Timestamp returndate, Integer fine,
+			String rank, String note, String action) {
+		// TODO Auto-generated method stub
+		
 	}
 }

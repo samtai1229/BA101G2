@@ -11,6 +11,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.equipment.model.EquipmentVO;
+
 public class RentOrdJDBCDAO implements RentOrdDAO_interface {
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
@@ -987,5 +989,80 @@ public class RentOrdJDBCDAO implements RentOrdDAO_interface {
 		System.out.println("getNote:" + aRO.getNote() + ",");
 		System.out.println();
 		System.out.println();
+	}
+
+
+	@Override
+	public Set<EquipmentVO> getEquipmentVOsByRentno(String rentno) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String differDateCalculator(String rentno) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateMotorAfterReturn(String motno, Integer mile, String action) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateEmtsAfterReturn(String emtno, String action) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateEmtsStatusAfterAvailable(String emtno, String action) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateEmtsStatusAfterNoshow(String emtno, String action) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateRentOrdStatusAfterAvailable(String rentno, String note, String action) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateRentOrdStatusAfterNoshow(String rentno, String note, String action) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateMotorStatusAfterAvailable(String motno, String action) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateMotorStatusAfterNoshow(String motno, String action) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateRentOrdAfterNoreturn(String rentno, Integer milend, Timestamp returndate, Integer fine,
+			String rank, String note, String action) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateRentOrdAfterOvertime(String rentno, Integer milend, Timestamp returndate, Integer fine,
+			String rank, String note, String action) {
+		// TODO Auto-generated method stub
+		
 	}
 }

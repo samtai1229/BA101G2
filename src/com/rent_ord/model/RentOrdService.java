@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 
+import com.equipment.model.EquipmentVO;
+
 public class RentOrdService {
 	private RentOrdDAO_interface dao;
 
@@ -102,4 +104,57 @@ public class RentOrdService {
 	public Set<RentOrdVO> getForReturnView(String rlocno){
 		return dao.getRentalOrdersForReturnView(rlocno);
 	};
+	
+	public Set<EquipmentVO> getEquipmentVOsByRentno(String rentno){
+		return dao.getEquipmentVOsByRentno(rentno);
+	}
+	
+	public void updateEmtsStatusAfterNoshow(String emtno, String action){
+		dao.updateEmtsStatusAfterNoshow(emtno, action);
+	};
+	
+	public void updateEmtsStatusAfterAvailable(String emtno, String action){
+		dao.updateEmtsStatusAfterAvailable(emtno, action);
+	};
+	
+	public void updateRentOrdStatusAfterNoshow(String rentno, String note, String action){
+		dao.updateRentOrdStatusAfterNoshow(rentno, note, action);
+	};
+	
+	public void updateRentOrdStatusAfterAvailable(String rentno, String note, String action){
+		dao.updateRentOrdStatusAfterAvailable(rentno, note, action);
+	};	
+	
+	public void updateMotorStatusAfterAvailable(String motno, String action){
+		dao.updateMotorStatusAfterAvailable(motno, action);
+	};
+	
+	public void updateMotorStatusAfterNoshow(String motno, String action){
+		dao.updateMotorStatusAfterNoshow(motno, action);
+	};	
+	
+	
+	public void updateRentOrdAfterNoreturn(String rentno, Integer milend, Timestamp returndate, 
+			Integer fine, String rank, String note, String action){
+		dao.updateRentOrdAfterNoreturn(rentno, milend, returndate, fine, rank, note, action);
+	};
+	
+	
+	public void updateRentOrdAfterOvertime(String rentno, Integer milend, Timestamp returndate, 
+			Integer fine, String rank, String note, String action){
+		dao.updateRentOrdAfterOvertime(rentno, milend, returndate, fine, rank, note, action);
+	};	
+	
+	public void updateMotorAfterReturn(String motno, Integer mile, String action) {
+		dao.updateMotorAfterReturn(motno, mile, action);
+	}
+	
+	public void updateEmtsAfterReturn(String emtno, String action) {
+		dao.updateEmtsAfterReturn(emtno, action);
+	}
+	
+	public String differDateCalculator(String rentno){
+		return dao.differDateCalculator(rentno);
+	};
+
 }
