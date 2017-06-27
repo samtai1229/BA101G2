@@ -33,7 +33,7 @@
 <table border='1' bordercolor='#CCCCFF' width='1600'>
 	<tr>
 		<th>會員編號</th>
-		<th width='70'>會員名稱</th>
+		<th width='100'>會員名稱</th>
 		<th width='50'>性別 </th>
 		<th>生日</th>
 		<th>Mail</th>
@@ -42,6 +42,7 @@
 		<th>帳號</th>
 		<th>密碼</th>
 		<th>身分證正面</th>
+		<!-- <th>影片</th> -->
 		<th>身分證反面</th>
 		<th>駕照</th>
 		<th>加入時間</th>
@@ -57,11 +58,12 @@
 			<td>${memVO.phone}</td>	
 			<td>${memVO.addr}</td>	
 			<td>${memVO.acc}</td>
-			<td>${memVO.pwd}</td>	
-<!-- 正面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard1' width=200' height='180'></td>	
-			
-<!-- 反面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard2'  width=200' height='180'></td>				
-<!-- 駕照 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=license'  width=200' height='180'></td>							
+			<td>${memVO.pwd}</td>
+			<video></video>
+<!-- 正面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard1' width='200' height='180'></td>	
+<!-- 影片 --><!-- <td><video src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard1' width='200' height='180' controls></video></td> -->				
+<!-- 反面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard2'  width='200' height='180'></td>				
+<!-- 駕照 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=license'  width='200' height='180'></td>							
 			<td><fmt:formatDate pattern = "yyyy年MM月dd號" 
          value = "${memVO.credate}" /></td>
 			<td>${memVO.status}</td>

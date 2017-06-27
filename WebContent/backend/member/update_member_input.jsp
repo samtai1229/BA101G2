@@ -5,7 +5,7 @@
 <%
 	MemberVO memVO = (MemberVO) request.getAttribute("memVO"); //EmpServlet.java (Concroller), 存入req的empVO物件 (包括幫忙取出的empVO, 也包括輸入資料錯誤時的empVO物件)
 	String[] statusArray = {"unconfirmed","confirmed"};
-	String[] gender = {"female","male"};
+	String[] gender = {"Girl","Boy"};
 
     pageContext.setAttribute("statusArray", statusArray);
 	pageContext.setAttribute("gender", gender);
@@ -49,8 +49,14 @@
 	<tr>
 		<td>性別:</td>
 		<td><select size="1" name="sex">
-		<option value="male">男</option>
-		<option value="female">女</option>
+		<c:forEach var="s" items="${gender}">
+					<c:if test="${memVO.sex==s}">
+					<option readonly value="${s}">${s}
+					</c:if>
+					<c:if test="${memVO.sex!=s}">
+					<option value="${s}">${s}
+					</c:if>
+					</c:forEach>
 		</select></td>
 	</tr>	
 	<tr>
@@ -101,10 +107,13 @@
     </tr>
     <tr>
 		<td><select name="status">
-				<option disabled selected value="${memVO.status}">${memVO.status}
+				
 					<c:forEach var="s" items="${statusArray}">
+					<c:if test="${memVO.status==s}">
+					<option readonly value="${s}">${s}
+					</c:if>
 					<c:if test="${memVO.status!=s}">
-					<option  value="${s}">${s}
+					<option value="${s}">${s}
 					</c:if>
 					</c:forEach>
 			

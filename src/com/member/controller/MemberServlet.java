@@ -358,8 +358,6 @@ public class MemberServlet extends HttpServlet {
 				byte[] id2 =oldVO.getIdcard2();
 				byte[] lic =oldVO.getLicense();
 				
-				
-				
 				memVO = memSvc.update(memno, memname, sex, birth, mail, phone, addr, acc, pwd,  (idcard1.getSize()==0)? id1 :getPicByteArray(idcard1),
 						 (idcard2.getSize()==0)? id2 :getPicByteArray(idcard2), (license.getSize()==0)? lic :getPicByteArray(license), status, credate);
 				System.out.println("修改完成");
