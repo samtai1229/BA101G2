@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 
+import com.equipment.model.EquipmentVO;
+
 public class RentOrdService {
 	private RentOrdDAO_interface dao;
 
@@ -102,4 +104,22 @@ public class RentOrdService {
 	public Set<RentOrdVO> getForReturnView(String rlocno){
 		return dao.getRentalOrdersForReturnView(rlocno);
 	};
+	
+	public Set<EquipmentVO> getEquipmentVOsByRentno(String rentno){
+		return dao.getEquipmentVOsByRentno(rentno);
+	}
+	
+	public void updateEmtsStatusAfterLease(String emtno){
+		dao.updateEmtsStatusAfterLease(emtno);
+	};
+	
+	public void updateRentOrdStatusAfterLease(String rentno){
+		dao.updateRentOrdStatusAfterLease(rentno);
+	};
+	
+	public void updateMotorStatusAfterLease(String motno){
+		dao.updateMotorStatusAfterLease(motno);
+	};
+	
+
 }

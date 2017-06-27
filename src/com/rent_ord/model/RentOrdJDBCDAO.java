@@ -11,11 +11,13 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.equipment.model.EquipmentVO;
+
 public class RentOrdJDBCDAO implements RentOrdDAO_interface {
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "servlet";
-	String passwd = "123456";
+	String userid = "ba101g2";
+	String passwd = "ba101g2";
 
 //	private static final String INSERT_STMT = "INSERT INTO RENT_ORD" 
 //			+ " (rentno, memno, motno, slocno, rlocno, milstart, milend, filldate, "
@@ -987,5 +989,30 @@ public class RentOrdJDBCDAO implements RentOrdDAO_interface {
 		System.out.println("getNote:" + aRO.getNote() + ",");
 		System.out.println();
 		System.out.println();
+	}
+
+
+	@Override
+	public Set<EquipmentVO> getEquipmentVOsByRentno(String rentno) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateEmtsStatusAfterLease(String emtno) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateRentOrdStatusAfterLease(String rentno) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateMotorStatusAfterLease(String motno) {
+		// TODO Auto-generated method stub
+		
 	}
 }

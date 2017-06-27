@@ -16,13 +16,15 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.equipment.model.EquipmentVO;
+
 public class RentOrdJNDIDAO implements RentOrdDAO_interface {
 	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
 	private static DataSource ds = null;
 	static {
 		try {
 			Context ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB");
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/G2DB");
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
@@ -759,5 +761,33 @@ public class RentOrdJNDIDAO implements RentOrdDAO_interface {
 			e.printStackTrace();
 		}
 
+	}
+
+
+
+
+
+	@Override
+	public Set<EquipmentVO> getEquipmentVOsByRentno(String rentno) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateEmtsStatusAfterLease(String emtno) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateRentOrdStatusAfterLease(String rentno) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateMotorStatusAfterLease(String motno) {
+		// TODO Auto-generated method stub
+		
 	}
 }
