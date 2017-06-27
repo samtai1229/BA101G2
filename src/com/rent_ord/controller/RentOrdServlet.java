@@ -3,6 +3,7 @@ package com.rent_ord.controller;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -12,6 +13,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.equipment.model.EquipmentService;
+import com.equipment.model.EquipmentVO;
+import com.location.model.LocationService;
+import com.location.model.LocationVO;
+import com.member.model.MemberService;
+import com.member.model.MemberVO;
+import com.motor.model.MotorService;
+import com.motor.model.MotorVO;
+import com.motor_model.model.MotorModelService;
+import com.motor_model.model.MotorModelVO;
 import com.rent_ord.model.RentOrdService;
 import com.rent_ord.model.RentOrdVO;
 
@@ -28,13 +40,76 @@ public class RentOrdServlet extends HttpServlet {
 		System.out.println("RentOrdServlet in");
 
 		
-// query
-		if ("query".equals(action)||"lease_ord_form".equals(action)) {
+		// after_lease_form
+		if ("after_lease_form".equals(action)) {
+			//1. 處理租賃單狀態、2. 車輛狀態、3. 裝備狀態
+
+			System.out.println("ro after_lease_form in");
+
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				/***************************
+				 * 1.接收請求參數
+				 **********************/
+				
+				String rentno = req.getParameter("rentno");
+				String motno = req.getParameter("motno");
+				
+				Enumeration<String> enumber = req.getParameterNames();
+				RentOrdService roSvc = new RentOrdService();
+		
+				/*************************** 2.開始處理 *****************************************/
+				
+				//處理1.租賃單狀態、2. 車輛狀態
+				roSvc.updateMotorStatusAfterLease(motno);
+				roSvc.updateRentOrdStatusAfterLease(rentno);
+				
+				//處理 3. 裝備狀態
+				while(enumber.hasMoreElements()){
+					String name = (String) enumber.nextElement();
+					String values[] = req.getParameterValues(name);
+					if(values!=null){
+						for(int i=0;i<values.length;i++){
+							//System.out.println(name+"["+i+"]: "+values[i]);
+							
+							if(name.length()>4){
+								//System.out.println("name.substring(0,5):"+ name.substring(0,5));
+								if("emtno".equals(name.substring(0,5))){
+									System.out.println("emtno found! value = "+values[i]);
+									
+									roSvc.updateEmtsStatusAfterLease(values[i]);		
+								}
+							}	
+						}
+					}
+				}
+
+				/***************************
+				 * 3.處理完成,準備轉交(Send the Success view)
+				 *************/ // 資料庫取出的VO物件,存入req
+
+				RequestDispatcher successView = req.getRequestDispatcher("/backend/rent_ord/lease.jsp"); // 成功轉交
+
+				successView.forward(req, res);
+
+				/*************************** 其他可能的錯誤處理 *************************************/
+			} catch (Exception e) {
+				System.out.println("RentOrdServlet exception=================");
+				errorMsgs.add("無法取得資料:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/lease.jsp");
+				failureView.forward(req, res);
+			}
+		} // after_lease_form end
+		
+
+		// query
+		if ("query".equals(action) || "lease_ord_form".equals(action)) {
 
 			System.out.println("ro query in");
 			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to
-			// send the ErrorPage view.
+
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			try {
@@ -43,18 +118,14 @@ public class RentOrdServlet extends HttpServlet {
 				 **********************/
 				String rentno = req.getParameter("rentno");
 				System.out.println("rentno:" + rentno);
+
 				if (rentno == null || (rentno.trim()).length() == 0) {
 					errorMsgs.add("請輸入編號");
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/get_rent_ord_by_pk.jsp");
-					failureView.forward(req, res);
-					return;// 程式中斷
-				}
-
-				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/get_rent_ord_by_pk.jsp");
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/backend/rent_ord/get_rent_ord_by_pk.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -68,7 +139,8 @@ public class RentOrdServlet extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/get_rent_ord_by_pk.jsp");
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/backend/rent_ord/get_rent_ord_by_pk.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -79,14 +151,15 @@ public class RentOrdServlet extends HttpServlet {
 				System.out.println("query-finished");
 				req.setAttribute("roQueryVO", roQueryVO); // 資料庫取出的VO物件,存入req
 				System.out.println("roQueryVO.getRentno:" + roQueryVO.getRentno());
-				System.out.println("action="+action);
+				System.out.println("action=" + action);
 				if ("query".equals(action)) {
-					RequestDispatcher successView = req.getRequestDispatcher("/backend/rent_ord/get_rent_ord_by_pk.jsp"); 
-																														
+					RequestDispatcher successView = req
+							.getRequestDispatcher("/backend/rent_ord/get_rent_ord_by_pk.jsp");
+
 					successView.forward(req, res);
-				}else if("lease_ord_form".equals(action)){
+				} else if ("lease_ord_form".equals(action)) {
 					RequestDispatcher successView = req.getRequestDispatcher("/backend/rent_ord/lease_ord_form.jsp");
-					successView.forward(req, res);					
+					successView.forward(req, res);
 				}
 
 				/*************************** 其他可能的錯誤處理 *************************************/
@@ -96,11 +169,8 @@ public class RentOrdServlet extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		} // query end
-		
-		
-		
 
-// insert
+		// insert
 		if ("insert".equals(action)) {
 			System.out.println("RentOrdServlet in insert-action");
 			List<String> errorMsgs = new LinkedList<String>();
@@ -199,7 +269,7 @@ public class RentOrdServlet extends HttpServlet {
 			}
 		} // insert 'if' end
 
-// update
+		// update
 		if ("update".equals(action)) {
 			System.out.println("RentOrdServlet in update-action");
 			List<String> errorMsgs = new LinkedList<String>();
@@ -355,7 +425,7 @@ public class RentOrdServlet extends HttpServlet {
 			}
 		} // update end
 
-// delete
+		// delete
 		if ("delete".equals(action)) {
 			System.out.println("RentOrdServlet in delete-action");
 			List<String> errorMsgs = new LinkedList<String>();
@@ -407,9 +477,7 @@ public class RentOrdServlet extends HttpServlet {
 			}
 		} // delete end
 
-
-
-// get_for_lease_view
+		// get_for_lease_view
 		if ("get_for_lease_view".equals(action)) {
 			System.out.println("======================================ro get_for_lease_view in");
 			List<String> errorMsgs = new LinkedList<String>();
@@ -426,15 +494,10 @@ public class RentOrdServlet extends HttpServlet {
 				if (slocno == null || (slocno.trim()).length() == 0) {
 					errorMsgs.add("請輸入選擇地點");
 				}
-				// Send the use back to the form, if there were errors
-				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/get_for_lease_view.jsp");
-					failureView.forward(req, res);
-					return;// 程式中斷
-				}
 
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/get_for_lease_view.jsp");
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/backend/rent_ord/get_for_lease_view.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -443,12 +506,14 @@ public class RentOrdServlet extends HttpServlet {
 				System.out.println("query-started");
 				RentOrdService roSvc = new RentOrdService();
 				Set<RentOrdVO> set = roSvc.getForLeaseView(slocno);
+
 				if (set == null) {
 					errorMsgs.add("查無資料");
 				}
-				// Send the use back to the form, if there were errors
+
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/get_for_lease_view.jsp");
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/backend/rent_ord/get_for_lease_view.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -459,8 +524,8 @@ public class RentOrdServlet extends HttpServlet {
 				System.out.println("query-finished");
 				req.setAttribute("get_for_lease_view", set); // 資料庫取出的VO物件,存入req
 
-				RequestDispatcher successView = req.getRequestDispatcher("/backend/rent_ord/get_for_lease_view.jsp"); 
-																											
+				RequestDispatcher successView = req.getRequestDispatcher("/backend/rent_ord/get_for_lease_view.jsp");
+
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
@@ -471,7 +536,7 @@ public class RentOrdServlet extends HttpServlet {
 			}
 		} // get_for_lease_view end
 
-// get_for_return_view
+		// get_for_return_view
 		if ("get_for_return_view".equals(action)) {
 			System.out.println("ro get_for_return_view in");
 			List<String> errorMsgs = new LinkedList<String>();
@@ -490,13 +555,8 @@ public class RentOrdServlet extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/get_for_return_view.jsp");
-					failureView.forward(req, res);
-					return;// 程式中斷
-				}
-
-				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/get_for_return_view.jsp");
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/backend/rent_ord/get_for_return_view.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -510,7 +570,8 @@ public class RentOrdServlet extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/get_for_return_view.jsp");
+					RequestDispatcher failureView = req
+							.getRequestDispatcher("/backend/rent_ord/get_for_return_view.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -522,13 +583,84 @@ public class RentOrdServlet extends HttpServlet {
 				req.setAttribute("get_for_return_view", set); // 資料庫取出的VO物件,存入req
 
 				RequestDispatcher successView = req.getRequestDispatcher("/backend/rent_ord/get_for_return_view.jsp"); // 成功轉交
-																											// Emp.jsp
+
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/get_for_return_view.jsp");
+				failureView.forward(req, res);
+			}
+		} // get_for_return_view end
+
+		// change_lease_form_to_return_form
+		if ("change_lease_form_to_return_form".equals(action)) {
+
+			System.out.println("ro change_lease_form_to_return_form in");
+
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				/***************************
+				 * 1.接收請求參數 - 輸入格式的錯誤處理
+				 **********************/
+				String rentno = req.getParameter("rentno");
+				System.out.println("rlocno:" + rentno);
+
+				/*************************** 2.開始查詢資料 *****************************************/
+				System.out.println("change_lease_form_to_return_form - started");
+
+				RentOrdService roSvc = new RentOrdService();
+				RentOrdVO roQueryVO = roSvc.findByPK(rentno);
+
+				Set<EquipmentVO> set = roSvc.getEquipmentVOsByRentno(rentno);
+
+				MotorService motorSvc = new MotorService();
+				MotorVO motorQueryVO = motorSvc.findByPK(roQueryVO.getMotno());
+
+				MemberService memSvc = new MemberService();
+				MemberVO memQueryVO = memSvc.getOneMember(roQueryVO.getMemno());
+
+				LocationService locSvc = new LocationService();
+				LocationVO slocQueryVO = locSvc.getOneLocation(roQueryVO.getSlocno());
+				LocationVO rlocQueryVO = locSvc.getOneLocation(roQueryVO.getRlocno());
+
+				MotorModelService mmSvc = new MotorModelService();
+				MotorModelVO mmQueryVO = mmSvc.findByPK(motorQueryVO.getModtype());
+
+				System.out.println("Set<EquipmentVO>.size()"+set.size());
+				System.out.println("roQueryVO.getRentno(): " + roQueryVO.getRentno());
+
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/lease.jsp");
+					failureView.forward(req, res);
+					return;// 程式中斷
+				}
+
+				/***************************
+				 * 3.查詢完成,準備轉交(Send the Success view)
+				 *************/ // 資料庫取出的VO物件,存入req
+				System.out.println("query-finished");
+				req.setAttribute("roQueryVO", roQueryVO);
+				req.setAttribute("memQueryVO", memQueryVO);
+				req.setAttribute("motorQueryVO", motorQueryVO);
+				req.setAttribute("slocQueryVO", slocQueryVO);
+				req.setAttribute("rlocQueryVO", rlocQueryVO);
+				req.setAttribute("mmQueryVO", mmQueryVO);
+				req.setAttribute("get_equipmentVOs_by_rentno", set);
+
+				RequestDispatcher successView = req.getRequestDispatcher("/backend/rent_ord/leaseForm.jsp"); // 成功轉交
+
+				successView.forward(req, res);
+
+				/*************************** 其他可能的錯誤處理 *************************************/
+			} catch (Exception e) {
+				System.out.println("exception=================");
+				errorMsgs.add("無法取得資料:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/leaseForm.jsp");
 				failureView.forward(req, res);
 			}
 		} // get_for_return_view end
