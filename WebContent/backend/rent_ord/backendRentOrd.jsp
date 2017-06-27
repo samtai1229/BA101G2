@@ -5,7 +5,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
-<%@ page import="com.rent_ord.model.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,8 +12,10 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
 
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+
 	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>  	
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
+
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>	
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">     
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css">
@@ -22,6 +23,13 @@
 
    <title>租賃單管理-AutoBike</title>
 </head>
+
+<style>
+	 th, tr{
+		/*死都不換行*/
+		white-space:nowrap;
+	} 
+</style>
 
 <body>
 
@@ -41,7 +49,7 @@
     </nav>
  <%--保留寫法     href="<%=request.getContextPath()%>/backend/backendRentOrd.jsp"  --%>
     <div class="col-xs-12 col-sm-2 leftBar">
-        <img id="menuLogo" src="images/logo.jpg">
+        <img id="menuLogo" src="<%=request.getContextPath()%>/backend/images/android_logo2.jpg">
         <button class="accordion accordionMenu accordion accordionMenuMenu">總部管理系統</button>
         <div class="btn-group-vertical">
                 
@@ -88,23 +96,16 @@
     </div>
     <div class="col-xs-12 col-sm-10 rightHTML" id="demo">
 
-
-
-
-
 		<div class="topTitle">
             <h1>租賃單管理系統</h1>
         </div>
         
-
-        
-<%
-	RentOrdVO roVO = (RentOrdVO) request.getAttribute("roVO"); //MotorServlet.java (Concroller), 存入req的VO物件 (包括幫忙取出的VO, 也包括輸入資料錯誤時的VO物件)
-%>       
-        
          		<div class="container-fluid">       
 <jsp:useBean id="roSvc" scope="page" class="com.rent_ord.model.RentOrdService"/>
-<!--block1 --><div id="block1" class="col-xs-12 col-sm-4">
+<jsp:useBean id="locSvc" scope="page" class="com.location.model.LocationService"/>
+<jsp:useBean id="motorSvc" scope="page" class="com.motor.model.MotorService"/>
+
+<!--block1 --><div id="block1" class="col-xs-12 col-sm-3">
 				
 <%-- 錯誤表列 --%>
 					<c:if test="${not empty errorMsgs}">
@@ -216,59 +217,83 @@
 									
 										<div class="InputForm">
 											<label class="title">租賃單號</label> 
-												<select name="rentno">
-						 							<c:forEach var="roVO" items="${roSvc.all}">
-														<option value="${roVO.rentno}">
-															${roVO.rentno}
-														</option>
-													</c:forEach> 
-												</select><br />
+											<select name="rentno">
+					 							<c:forEach var="roVO" items="${roSvc.all}">
+													<option value="${roVO.rentno}">
+														${roVO.rentno}
+													</option>
+												</c:forEach> 
+											</select><br />
 										</div>								
 										<div class="InputForm">
-											<label class="title">車輛編號</label><input type="text" name="motno" maxlength="10" /><br>
+											<label class="title">車輛編號</label>
+											<input type="text" name="motno" maxlength="10" /><br>
+										</div>
+										<div class="InputForm">									
+											<label class="title">取車地點</label>
+											<select name="slocno">
+					 							<c:forEach var="locVO" items="${locSvc.all}">
+													<option value="${locVO.locno}">
+														${locVO.locname}營業所
+													</option>
+												</c:forEach> 
+											</select><br/>
 										</div>
 										<div class="InputForm">
-											<label class="title">取車地點</label><input type="text" name="slocno" maxlength="10" /><br>
+										    <label class="title">還車地點</label>
+										    <select name="rlocno">
+					 							<c:forEach var="locVO" items="${locSvc.all}">
+													<option value="${locVO.locno}">
+														${locVO.locname}營業所
+													</option>
+												</c:forEach> 
+											</select><br/>
 										</div>
 										<div class="InputForm">
-										    <label class="title">還車地點</label><input type="text" name="rlocno" maxlength="10" /><br>
+											<label class="title">起始里程</label>
+											<input type="text" name="milstart" value=""/><br>
 										</div>
 										<div class="InputForm">
-											<label class="title">起始里程</label><input type="text" name="milstart"/><br>
+											<label class="title">結束里程</label>
+											<input type="text" name="milend"/><br>
 										</div>
 										<div class="InputForm">
-											<label class="title">結束里程</label><input type="text" name="milend"/><br>
-										</div>
-										<div class="InputForm">
-											<label class="title">起始時間</label><input type="text" name="startdate"class="from" /><br>
+											<label class="title">起始時間</label>
+											<input type="text" name="startdate"class="from" /><br>
 										</div>										
 										<div class="InputForm">
-											<label class="title">結束時間</label><input type="text" name="enddate" class="to" /><br>
+											<label class="title">結束時間</label>
+											<input type="text" name="enddate" class="to" /><br>
 										</div>
 										<div class="InputForm">
-											<label class="title">還車時間</label><input type="text" name="returndate" class="to" /><br>
+											<label class="title">還車時間</label>
+											<input type="text" name="returndate" class="to" /><br>
 										</div>
 										<div class="InputForm">
-											<label class="title">罰金</label><input type="text" name="fine" /><br>
+											<label class="title">罰金</label>
+											<input type="text" name="fine" /><br>
 										</div>
 										<div class="InputForm">
-											<label class="title">總金額</label><input type="text" name="total" /><br>
+											<label class="title">總金額</label>
+											<input type="text" name="total" /><br>
 										</div>																				
-										<div class="InputForm">
-											<label class="title">評價</label><input type="text" name="rank" /><br>
-										</div>										
+										<!-- <div class="InputForm">
+											<label class="title">評價</label>
+											<input type="text" name="rank" /><br>
+										</div> -->										
 										<div class="InputForm">
 											<label class="title">狀態</label> 
 												<select name="status">
-														<option value="unpaid">待繳費
-														<option value="unoccupied">未交車
-														<option value="noshow">逾期未交
-														<option value="noreturn">未還車
-														<option value="overtime">逾期末還
-														<option value="abnormalclosed">異常結案
-														<option value="closed">正常結案
-														<option value="other">其它
-														</option>
+													<option value="unpaid">待繳費
+													<option value="unoccupied">未交車
+													<option value="available">待取車
+													<option value="canceled">取消定單
+													<option value="noshow">逾期未交
+													<option value="noreturn">未還車
+													<option value="overtime">逾期末還
+													<option value="abnormalclosed">異常結案
+													<option value="closed">正常結案
+													<option value="other">其它
 												</select><br />
 										</div>											
 										<div class="InputForm">
@@ -334,28 +359,33 @@
 <!--標籤面板 結束 -->		   </div>
 <!--end block1 --> </div>	
 
-<!-- block3 表格 --> <div id="block3" class="col-xs-12 col-sm-8">
-						<table id="QueryTable">
+<!-- block3 表格 --> <div id="block3" class="col-xs-12 col-sm-9">
+						<table id="QueryTable"  class="table table-bordred table-striped  table-hover">
 							  <thead>	
 									<tr class="QueryTable_TR">
-										<th>租賃單編號</th>
+										<th>租賃單號</th>
 										<th>會員編號</th>		
 										<th>車輛編號</th>
 										<th>交車據點</th>				
 										<th>還車據點</th>
-										<th>里程數起始</th>
-										<th>里程數結束</th>
-										<th>填表日期</th>				
-										<th>起始時間</th>
-										<th>結束時間</th>
-										<th>還車時間</th>
+										<th>年份</th>
+										<th>填表日</th>				
+										<th>起始日</th>
+										<th>結束日</th>
+										<th>還車日</th>
 										<th>罰金</th>				
 										<th>總金額</th>
 										<th>評價</th>
 										<th>狀態</th>	
-										<th>備註</th>
 										<th>修改</th>	
-										<th>刪除</th>																			
+										
+										<!--
+										<th>里程數起始</th>
+										<th>里程數結束</th> 
+										<th>備註</th> 
+										<th>刪除</th>	 
+										-->	
+																											
 									</tr>
 								  </thead>
 								  <tbody>				  		
@@ -366,25 +396,29 @@
 											<td>${roVO.motno}</td>	
 											<td>${roVO.slocno}</td>
 											<td>${roVO.rlocno}</td>
-											<td>${roVO.milstart}</td>
-											<td>${roVO.milend}</td>
-											<td><fmt:formatDate pattern = "yyyy-MM-dd" value = "${roVO.filldate}" /></td>
-											<td><fmt:formatDate pattern = "yyyy-MM-dd" value = "${roVO.startdate}" /></td>									
-											<td><fmt:formatDate pattern = "yyyy-MM-dd" value = "${roVO.enddate}" /></td>
-											<td><fmt:formatDate pattern = "yyyy-MM-dd" value = "${roVO.returndate}" /></td>
+ 											<td><fmt:formatDate pattern = "yyyy" value = "${roVO.filldate}" /></td>
+											<td><fmt:formatDate pattern = "MM/dd" value = "${roVO.filldate}" /></td>
+											<td><fmt:formatDate pattern = "MM/dd" value = "${roVO.startdate}" /></td>									
+											<td><fmt:formatDate pattern = "MM/dd" value = "${roVO.enddate}" /></td>
+											<td><fmt:formatDate pattern = "MM/dd" value = "${roVO.returndate}" /></td>
 											<td>${roVO.fine}</td>
 											<td>${roVO.total}</td>
 											<td>${roVO.rank}</td>
-											<td>${roVO.status}</td>
-											<td>${roVO.note}</td>
+											<td>${roVO.status}</td>	
 											<td>
 											<input type="hidden" name="action" value="update">
-											<input type="submit" value="update" class="click2" /> 
+											<input type="submit" value="Update" class="click2" /> 
 											</td>
+											
+											<!-- 
+											<td>${roVO.milstart}</td>
+											<td>${roVO.milend}</td>
+											<td>${roVO.note}</td>
 											<td>
 											<input type="hidden" name="action" value="delete">
-											<input type="submit" value="delete" class="click2" /> 
-											</td>								
+											<input type="submit" value="Delete" class="click2" /> 
+											</td> 
+											-->								
 										</tr>
 									</c:forEach>							
 							  </tbody>	 	  								

@@ -42,8 +42,7 @@
 	    總金額:<c:out value="${roQueryVO.total}" default="無資料"/><br>
 	        評價:<c:out value="${roQueryVO.rank}" default="無資料"/><br>
 	        狀態:<c:out value="${roQueryVO.status}" default="無資料"/><br>
-	        備註<c:out value="${roQueryVO.note}" default="無資料"/><br>
-
+	        備註:<c:out value="${roQueryVO.note}" default="無資料"/><br>
 
 
     <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/motorKanli_for_ro.js"></script>

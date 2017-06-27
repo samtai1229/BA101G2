@@ -8,6 +8,7 @@
 */
 
 /*2017 summer, modified by voka1031 */
+
 function startPageRow(){
 	console.log("1-------------------");
 	
@@ -140,37 +141,45 @@ function pagePaginationDiv(pCount,nthPage) {
 		** it will creates each button and sets the onclick attribute
 		** to the "sort" function with a special (pageNumber) number..
 		*/
-	PaginationDiv = "<input type='button' value='&lt;&lt;'  class='pgBtn2' onclick='sort(1)' "+prevDis+">";		
+
+	PaginationDiv = "<input type='button' value='&lt;&lt;'  class='pgBtn2' onclick='sort(1,"+pageCount+")' "+prevDis+">";		
 	
-	PaginationDiv += "<input type='button' value='&lt;'  class='pgBtn2' onclick='sort("+(nthPage - 1)+")' "+prevDis+">";
+	PaginationDiv += "<input type='button' value='&lt;'  class='pgBtn2' onclick='sort("+(nthPage - 1)+","+pageCount+")' "+prevDis+">";
+
 	
 	//pCount2: 有新row要在新分頁放置時再建立新分頁
 	pCount2=(rowCount%rowPerPage==boolean_j)?(pCount-1):(pCount);
 	if(pCount<=9){
 			for (i=1; i <=pCount2;i++){
-				PaginationDiv += "<input type='button' id='id"+i+"'value='"+i+"' class='pgBtn' onclick='sort("+i+")'>";													
+
+				PaginationDiv += "<input type='button' id='id"+i+"'value='"+i+"' class='pgBtn' onclick='sort("+i+","+pageCount+")'>";													
+
 			}
 	}else{
 		if(nthPage<=5){
 			for (i=1; i <=9;i++){
-				PaginationDiv += "<input type='button' id='id"+i+"'value='"+i+"' class='pgBtn' onclick='sort("+i+")'>";													
+
+				PaginationDiv += "<input type='button' id='id"+i+"'value='"+i+"' class='pgBtn' onclick='sort("+i+","+pageCount+")'>";													
 			}
 		}else if((pCount - nthPage<5)){
 			for (i=(pCount2-8); i <=pCount2;i++){
-				PaginationDiv += "<input type='button' id='id"+i+"'value='"+i+"' class='pgBtn' onclick='sort("+i+")'>";															
+				PaginationDiv += "<input type='button' id='id"+i+"'value='"+i+"' class='pgBtn' onclick='sort("+i+","+pageCount+")'>";															
 			}	
 		}else{
 			for (i=(nthPage-4); i <=(parseInt(nthPage, 10)+4); i++){ //nthPage會變成字串?，所以先強制轉為int
-				PaginationDiv += "<input type='button' id='id"+i+"'value='"+i+"' class='pgBtn' onclick='sort("+i+")'>";
+				PaginationDiv += "<input type='button' id='id"+i+"'value='"+i+"' class='pgBtn' onclick='sort("+i+","+pageCount+")'>";
+
 			}		
 		}
 	}
 																						//nthPage會變成字串?，所以先強制轉為int
-	PaginationDiv += "<input type='button' value='&gt;' class='pgBtn2' onclick='sort("+(parseInt(nthPage, 10) + 1)+")' "+nextDis+">";
-	PaginationDiv += "<input type='button' value='&gt;&gt;' class='pgBtn2' onclick='sort("+(pCount2)+")' "+nextDis+">";
+
+	PaginationDiv += "<input type='button' value='&gt;' class='pgBtn2' onclick='sort("+(parseInt(nthPage, 10) + 1)+","+pageCount+")' "+nextDis+">";
+	PaginationDiv += "<input type='button' value='&gt;&gt;' class='pgBtn2' onclick='sort("+(pCount2)+","+pageCount+")' "+nextDis+">";
 	
 	//試加select tag:
-		PaginationDiv +="<select id='selectBox' onchange='sort(value);'>"		
+		PaginationDiv +="<select id='selectBox' onchange='sort(value,"+pageCount+");'>"		
+
 		for(i=1;i<=pCount2;i++){
 			if(i==nthPage){
 				PaginationDiv +="<option value="+i+" selected>page"+i+"</option>";
