@@ -9,29 +9,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>車輛查詢-AutoBike</title>
-<meta name="description" content="">
-<meta name="keywords" content="">
-<link href="" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-<link rel="stylesheet" href="Modified/backendHP_css.css">
-<link href="Modified/main.css" rel="stylesheet">
-<script src="Modified/motorKanli_js.js"></script>
-<script src="Modified/datepicker.js"></script>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
 
+ 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+ 	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script> 	
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">     
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css" >
+	
+	<title>車輛查詢-AutoBike</title>
 </head>
+
+<style>
+	 th, tr{
+		/*死都不換行*/
+		white-space:nowrap;
+	} 
+</style>
+
 <body>
-	<table id="QueryTable">
+	<table id="QueryTable" class="table table-bordred table-striped table-hover">
 		<thead>
 			<tr class="QueryTable_TR">
+				<th>租賃單狀態</th>			
 				<th>租賃單編號</th>
-				<th>租賃單狀態</th>
 				<th>交車據點</th>
 				<th>起始時間</th>
 				<th>會員編號</th>
@@ -40,17 +44,69 @@
 				<th>結束時間</th>
 				<th>備註</th>
 				<th>修改訂單</th>
-				<th>交車</th>
+
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="roVO" items="${get_for_lease_view}">
 				<tr class="QueryTable_TR">
+				
+					<c:if test="${(roVO.status == 'unpaid')}">					
+						<td>
+							<form method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do" target="_blank">	
+								<input type="hidden" name="rentno" value="${roVO.rentno}">
+								<input type="hidden" name="status" value="unpaid">
+								<input type="hidden" name="action" value="leaseform_default">	
+								<input type="submit" value="尚未繳費" class="btn btn-primary"/>
+							</form>								
+						</td>				 
+					</c:if>
+										
+					<c:if test="${(roVO.status =='unoccupied')}">					
+						<td>
+							<form method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do" target="_blank">	
+								<input type="hidden" name="rentno" value="${roVO.rentno}">
+								<input type="hidden" name="status" value="unoccupied">
+								<input type="hidden" name="action" value="leaseform_default">	
+								<input type="submit" value="完成繳費" class="btn btn-success"/>
+							</form>								
+						</td>				 
+					</c:if>
 					
-					<!-- 產生超連結，直接進入表格頁面  -->
+					<c:if test="${roVO.status == 'available'}">
+						<td>
+							<form method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do" target="_blank">						
+								<input type="hidden" name="rentno" value="${roVO.rentno}">
+								<input type="hidden" name="status" value="available">
+								<input type="hidden" name="action" value="leaseform_available">
+								<input type="submit" value="等待取車" class="btn btn-warning"/>
+							</form>					
+						</td>					 
+					</c:if>	
 					
+					<c:if test="${roVO.status == 'canceled'}">
+						<td>
+							<form method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do" target="_blank" target="_blank">						
+								<input type="hidden" name="rentno" value="${roVO.rentno}">
+								<input type="hidden" name="status" value="canceled">
+								<input type="hidden" name="action" value="leaseform_noshow">
+								<input type="submit" value="訂單取消" class="btn btn-info"/>
+							</form>					
+						</td>					 
+					</c:if>			
+
+					<c:if test="${roVO.status =='noshow'}">
+						<td>
+							<form method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do" target="_blank">						
+								<input type="hidden" name="rentno" value="${roVO.rentno}">
+								<input type="hidden" name="status" value="noshow">
+								<input type="hidden" name="action" value="leaseform_noshow">	
+								<input type="submit" value="逾期未取" class="btn btn-danger"/>
+							</form>					
+						</td>					 
+					</c:if>
+
 					<td><c:out value="${roVO.rentno}" default="無資料" /></td>
-					<td><c:out value="${roVO.status}" default="無資料" /></td>
 					<td><c:out value="${roVO.slocno}" default="無資料" /></td>
 					<td><fmt:formatDate pattern="yyyy-MM-dd" value="${roVO.startdate}" /></td>
 					<td><c:out value="${roVO.memno}" default="無資料" /></td>
@@ -61,44 +117,17 @@
 					<td>
 						<form method="post" action="NewFile.jsp">	
 							<input type="hidden" name="rentno" value="${roVO.rentno}">
-							<input type="submit" value="update" class="click2"/>
+							<input type="submit" value="修改" class="btn btn-default"/>
 						</form>						
 					</td>
-					
-					<c:if test="${roVO.status == 'unpaid'}">					
-						<td>
-							<form method="post" action="NewFile.jsp">	
-								<input type="hidden" name="rentno" value="${roVO.rentno}">
-								<input type="hidden" name="comeFrom" value="unpaid">	
-								<input type="submit" value="unpaid" class="click2"/>
-							</form>								
-						</td>				 
-					</c:if>
-					<c:if test="${roVO.status == 'unoccupied'}">
-						<td>
-							<form method="post" action="NewFile.jsp">						
-								<input type="hidden" name="rentno" value="${roVO.rentno}">
-								<input type="hidden" name="comeFrom" value="unoccupied">
-								<input type="submit" value="unoccupied" class="click3"/>
-							</form>					
-						</td>					 
-					</c:if>
-					<c:if test="${roVO.status =='noshow'}">
-						<td>
-							<form method="post" action="NewFile.jsp">						
-								<input type="hidden" name="rentno" value="${roVO.rentno}">
-								<input type="hidden" name="comeFrom" value="noshow">	
-								<input type="submit" value="noshow" class="click4"/>
-							</form>					
-						</td>					 
-					</c:if>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
-	<script>
-</script>
-	<script src="Modified/QueryTablePagination.js"></script>
+	
+	<script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/rentOrdNew.js"></script>
+    <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/motorKanli_for_ro.js"></script>
+ 	<script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/paging_for_ro.js"></script>	
 </body>
 </html>
 
