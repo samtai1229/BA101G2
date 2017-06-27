@@ -54,6 +54,7 @@ public class MotorDAO implements MotorDAO_interface {
 			+ " engno, to_char(manudate,'yyyy-mm-dd hh:mm:ss') manudate,"
 			+ " mile, locno, status, note FROM motor  where manudate" + " between ? and ? order by manudate";
 
+//	private static final String GET_ALL_STATUS="slelect distinct status from motor";
 	@Override
 	public void insert(MotorVO motorVO) {
 		System.out.println("MotorDAO insert in");

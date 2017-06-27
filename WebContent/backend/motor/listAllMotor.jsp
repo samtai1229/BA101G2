@@ -33,8 +33,7 @@
 			</ul>
 		</font>
 	</c:if>
-	<table
-		class="table table-hover table-condensed table-striped table-bordered">
+	<table class="table table-hover table-condensed table-striped table-bordered">
 		<thead>
 			<td>車輛編號</td>
 			<td>車輛型號</td>
@@ -52,12 +51,28 @@
 		<c:forEach var="motorVO" items="${motorSvc.all}">
 
 			<tr>
-
+<!-- <jsp:useBean id="motorModelSvc" scope="page" class="com.motor_model.model.MotorModelService" /> -->
 				<td>${motorVO.motno}</td>
 				<td>${motorVO.modtype}</td>
-				<td>motorMOD</td>
-				<td>motorMOD</td>
-				<td>motorMOD</td>
+				
+				<td>
+					<c:forEach var="motorModelVO" items="${motorModelSvc.all}">
+                   		<c:if test="${motorVO.modtype==motorModelVO.modtype}">${motorModelVO.name}
+                    	</c:if>
+                	</c:forEach>
+                </td>
+				<td>
+					<c:forEach var="motorModelVO" items="${motorModelSvc.all}">
+                    	<c:if test="${motorVO.modtype==motorModelVO.modtype}">${motorModelVO.displacement}c.c.
+                   		</c:if>
+                	</c:forEach>
+				</td>
+				<td>
+					<c:forEach var="motorModelVO" items="${motorModelSvc.all}">
+                    	<c:if test="${motorVO.modtype==motorModelVO.modtype}">${motorModelVO.renprice}/日
+                    	</c:if>
+                	</c:forEach>
+				</td>
 				<td>${motorVO.plateno}</td>
 				<td>${motorVO.engno}</td>
 				<td>${motorVO.manudate}</td>
@@ -72,8 +87,7 @@
 						<input type="hidden" name="requestURL" value="<%=request.getServletPath()%>">
 			   			<input type="hidden" name="action" value="getOne_For_Update">
 					</FORM>
-				</td>
-				<td>
+				
 					<FORM METHOD="post"	ACTION="<%=request.getContextPath()%>/backend/motor/motor4H.do">
 						<input type="submit" name="del" value="刪除" class="btn btn-default"	role="button"> 
 						<input type="hidden" name="motno" value="${motorVO.motno}"> 

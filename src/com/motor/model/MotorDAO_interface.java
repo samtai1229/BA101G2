@@ -20,4 +20,7 @@ public interface MotorDAO_interface {
 	public Set<MotorVO> getMotorsByLocNo(String locno);
 
 	public Set<MotorVO> getMotorsByManuDate(Timestamp start_time, Timestamp end_time);
+	
+//	public List<MotorVO> getMotorsByAllStatus();
+	
 }
