@@ -90,7 +90,7 @@ div .aa {
 }
 </style>
 <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans:600'>
-    <link rel="stylesheet" href="css/style_login.css">
+ <link rel="stylesheet" href="css/style_login.css">
 </head>
 
 <body id="page-top" class="index">

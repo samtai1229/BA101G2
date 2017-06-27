@@ -35,17 +35,17 @@
 		<th>會員編號</th>
 		<th width='100'>會員名稱</th>
 		<th width='50'>性別 </th>
-		<th>生日</th>
+		<th  width='150'>生日</th>
 		<th>Mail</th>
 		<th>電話</th>
-		<th>地址</th>
+		<th  width='100'>地址</th>
 		<th>帳號</th>
 		<th>密碼</th>
 		<th>身分證正面</th>
 		<!-- <th>影片</th> -->
 		<th>身分證反面</th>
 		<th>駕照</th>
-		<th>加入時間</th>
+		<th  width='150'>加入時間</th>
 		<th>認證狀態</th>
 	</tr>
 	<tr align='center' valign='middle'>
@@ -59,7 +59,6 @@
 			<td>${memVO.addr}</td>	
 			<td>${memVO.acc}</td>
 			<td>${memVO.pwd}</td>
-			<video></video>
 <!-- 正面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard1' width='200' height='180'></td>	
 <!-- 影片 --><!-- <td><video src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard1' width='200' height='180' controls></video></td> -->				
 <!-- 反面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard2'  width='200' height='180'></td>				
