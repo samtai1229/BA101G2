@@ -174,7 +174,9 @@ public class MemberServlet extends HttpServlet {
 				// req.getSession().setAttribute("acc", acc);
 				// req.getSession().setAttribute("pwd", pwd);
 				req.setAttribute("memVO", memVO); // 資料庫取出的empVO物件,存入req
-				String url = "/backend/member/listOneMember.jsp";
+				req.getSession().setAttribute("memID", memVO.getMemname());
+//				String url = "/backend/member/listOneMember.jsp";
+				String url = "/index.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
 				successView.forward(req, res);
 

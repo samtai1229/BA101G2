@@ -1,10 +1,20 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="com.member.model.*"%>
-<% List<LocationVO>%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="java.util.*"%>
+<%@ page import="com.location.model.*"%>
+<%-- 此頁練習採用 EL 的寫法取值 --%>
+
+<%
+	LocationService locSvc = new LocationService();
+	List<LocationVO> list = locSvc.getAll();
+	String memID = (String)session.getAttribute("memID");
+	pageContext.setAttribute("list",list);
+	pageContext.setAttribute("memID",memID);
+%>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta name="generator"
 	content="HTML Tidy for HTML5 (experimental) for Windows https://github.com/w3c/tidy-html5/tree/c63cc39" />
@@ -15,9 +25,9 @@
 <meta name="author" content="" />
 <title>AutoBike Test Homepage</title>
 <!-- Bootstrap Core CSS -->
-<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<link href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 <!-- Custom Fonts -->
-<link href="vendor/font-awesome/css/font-awesome.min.css"
+<link href="<%=request.getContextPath()%>/vendor/font-awesome/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css" />
 <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
 	rel="stylesheet" type="text/css" />
@@ -30,14 +40,14 @@
 	href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700'
 	rel='stylesheet' type='text/css' />
 <!-- Theme CSS -->
-<link href="css/gallery.css" rel="stylesheet" />
-<link rel="stylesheet" href="css/owl.carousel.min.css">
-<link rel="stylesheet" href="css/owl.theme.default.min.css">
-<link rel="stylesheet" href="css/magnific-popup.css">
+<link href="<%=request.getContextPath()%>/css/gallery.css" rel="stylesheet" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.carousel.min.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.theme.default.min.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/magnific-popup.css">
 <!-- Theme Style -->
-<link rel="stylesheet" href="css/style.css">
-<link href="css/agency.css" rel="stylesheet" />
-<link href="css/agency.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
+<link href="<%=request.getContextPath()%>/css/agency.css" rel="stylesheet" />
+<link href="<%=request.getContextPath()%>/css/agency.min.css" rel="stylesheet" />
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -193,7 +203,7 @@ input[type=submit], [type=button] {
 	   				</div>
 	   				<input style="background-color: transparent;" type="submit" class="form-control" value="快速查詢">
 	   			</form>
-				<ul class="nav navbar-nav navbar-right">
+				<ul class="nav navbar-nav navbar-center">
 				<li><a class="page-scroll" href="#"><i
 							class="glyphicon glyphicon-alert"></i>我要租車</a></li>
 					<li><a class="page-scroll" href="#news"><i
@@ -204,9 +214,18 @@ input[type=submit], [type=button] {
 							class="fa fa-search"></i>服務據點</a></li>
 					<li><a href="<%=request.getContextPath()%>/backend/member/member.do"><i class="fa fa-shopping-cart"></i>二手車購買</a>
 					</li>
- 					<li><a href="#modal-id"
-						data-toggle="modal"><i class="glyphicon glyphicon-user"></i>會員登入</a></li> 
-					<!-- <li><a href="login_register.html"><i class="glyphicon glyphicon-user"></i>會員登入</a></li> -->
+					<li>
+					<c:if test="${not empty memID}">			
+						<a href="<%=request.getContextPath()%>/backend/member/member.do?memID=${memID}">歡迎，${memID}</a>
+					</c:if>
+					
+					<c:if test="${ empty memID}">
+						<a href="#modal-id"
+						data-toggle="modal"><i class="glyphicon glyphicon-user"></i>會員登入</a>
+					</c:if>
+ 				  </li>	
+ 				  <li><a href="<%=request.getContextPath()%>/backend/member/member.do"><i class="fa fa-shopping-cart"></i>二手車購買</a>
+					</li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -247,7 +266,7 @@ input[type=submit], [type=button] {
 				<div class="fh5co-slider">
 					<div class="owl-carousel owl-carousel-fullwidth ">
 						<div onclick="window.location='news.html';" class="item"
-							style="background-image: url(img/newsSlide/s1.jpg)">
+							style="background-image: url(<%=request.getContextPath()%>/img/newsSlide/s1.jpg)">
 							<div class="fh5co-overlay"></div>
 							<div class="container">
 								<div class="row">
@@ -263,7 +282,7 @@ input[type=submit], [type=button] {
 							</div>
 						</div>
 						<div class="item"
-							style="background-image: url(img/newsSlide/s2.jpg)">
+							style="background-image: url(<%=request.getContextPath()%>/img/newsSlide/s2.jpg)">
 							<div class="fh5co-overlay"></div>
 							<div class="container">
 								<div class="row">
@@ -279,7 +298,7 @@ input[type=submit], [type=button] {
 							</div>
 						</div>
 						<div class="item"
-							style="background-image: url(img/newsSlide/s3.jpg)">
+							style="background-image: url(<%=request.getContextPath()%>/img/newsSlide/s3.jpg)">
 							<div class="fh5co-overlay"></div>
 							<div class="container">
 								<div class="row">
@@ -360,7 +379,7 @@ input[type=submit], [type=button] {
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 text-center">
-					<h2 class="section-heading">MESSAGE BOARD</h2>
+					<h2 class="section-heading">留言板</h2>
 					<a href="#" id="general"><h4>Enter MESSAGE BOARD</h4></a>
 
 
@@ -402,59 +421,31 @@ input[type=submit], [type=button] {
 	</section>
 	<aside id="loc">
 		<div class="container-fluid bg-light-gray">
+		 
 			<div class="row">
 				<br />
 				<div class="col-xs-12 col-sm-12 text-center">
-					<h2>Local Service</h2>
+					<h2>我們的據點</h2>
 					<a href="leave_message_Page.html" id="general"><h3
 							style="color: blue" class="section-subheading">
 							See More
-							</h4></a>
+							</h3></a>
 				</div>
 			</div>
+		   	
 			<div class="row">
-				<div class="col-xs-12 col-sm-2 col-sm-offset-1">
-					<div class="team-member">
-						<a href="location.html"> <img src="logo3.png"
-							class="img-responsive img-circle" alt="" /></a>
-						<h4>Taipei</h4>
-						<h5>address : XXXXX phone : xxxx</h5>
-					</div>
-				</div>
+			 <c:forEach var="locVO" items="${list}" >
 				<div class="col-xs-12 col-sm-2">
 					<div class="team-member">
-						<a href="location.html"> <img src="logo3.png"
+						<a href="location.html"> <img src='<%=request.getContextPath()%>/frontend/location/locReader.do?locno=${locVO.locno}'
 							class="img-responsive img-circle" alt="" /></a>
-						<h4>Banchao</h4>
-						<h5>address : XXXXX phone : xxxx</h5>
+						<h4>${locVO.locname}</h4>
+						<h5>address :${locVO.addr} phone :${locVO.tel}</h5>
 					</div>
 				</div>
-				<div class="col-xs-12 col-sm-2">
-					<div class="team-member">
-						<a href="location.html"> <img src="logo3.png"
-							class="img-responsive img-circle" alt="" /></a>
-						<h4>Taichung</h4>
-						<h5>address : XXXXX phone : xxxx</h5>
-					</div>
-				</div>
-				<div class="col-xs-12 col-sm-2">
-					<div class="team-member">
-						<a href="location.html"> <img src="logo3.png"
-							class="img-responsive img-circle" alt="" /></a>
-						<h4>Tainan</h4>
-						<h5>address : XXXXX phone : xxxx</h5>
-					</div>
-				</div>
-				<div class="col-xs-12 col-sm-2">
-					<div class="team-member">
-						<a href="location.html"> <img src="logo3.png"
-							class="img-responsive img-circle" alt="" /></a>
-						<h4>Kaohsiung</h4>
-						<h5>address : XXXXX phone : xxxx</h5>
-					</div>
-				</div>
-
+			</c:forEach>
 			</div>
+			
 		</div>
 		<!-- <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 text-center">
@@ -480,28 +471,28 @@ input[type=submit], [type=button] {
 	</footer>
 	<!-- jQuery -->
 	<!--  <script src="vendor/jquery/jquery.min.js"></script> -->
-	<script src="js/jquery.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 	<script type="text/javascript"
 		src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<!-- Bootstrap Core JavaScript -->
-	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="<%=request.getContextPath()%>/vendor/bootstrap/js/bootstrap.min.js"></script>
 	<!-- Plugin JavaScript -->
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"
 		integrity="sha384-mE6eXfrb8jxl0rzJDBRanYqgBxtJ6Unn4/1F7q4xRRyIw7Vdg9jP4ycT7x1iVsgb"
 		crossorigin="anonymous"></script>
 	<!-- Owl carousel -->
-	<script src="js/owl.carousel.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/owl.carousel.min.js"></script>
 	<!-- Waypoints -->
 	<!-- Magnific Popup -->
 	<!-- Main JS -->
-	<script src="js/main.js"></script>
+	<script src="<%=request.getContextPath()%>/js/main.js"></script>
 	<!-- Contact Form JavaScript -->
-	<script src="js/jqBootstrapValidation.js"></script>
-	<script src="js/contact_me.js"></script>
+	<script src="<%=request.getContextPath()%>/js/jqBootstrapValidation.js"></script>
+	<script src="<%=request.getContextPath()%>/js/contact_me.js"></script>
 	<!-- Theme JavaScript -->
-	<script src="js/jquery.magnific-popup.min.js"></script>
-	<script src="js/agency.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/jquery.magnific-popup.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/agency.min.js"></script>
 </body>
 
 </html>

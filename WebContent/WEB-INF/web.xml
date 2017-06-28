@@ -56,6 +56,15 @@
     <servlet-name>MotorModelDBGifReader</servlet-name>
     <url-pattern>/backend/motor_model/mmReader.do</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>LocationDBGifReader</servlet-name>
+    <servlet-class>com.location.controller.LocationDBGifReader</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LocationDBGifReader</servlet-name>
+    <url-pattern>/frontend/location/locReader.do</url-pattern>
+  </servlet-mapping>
 
 
 <servlet>

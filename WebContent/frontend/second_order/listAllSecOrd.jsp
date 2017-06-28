@@ -10,7 +10,10 @@
     String status = request.getParameter("status");
     String status2 = request.getParameter("status");
     List<SecOrdVO> list = null;
-    if("all".equalsIgnoreCase(status) || "all".equalsIgnoreCase(status2)|| status==null || status2==null)
+    if("all".equalsIgnoreCase(status) 
+      || "all".equalsIgnoreCase(status2)
+      || status==null
+      || status2==null)
     	list = soSvc.getAll();  
     else	
     {
