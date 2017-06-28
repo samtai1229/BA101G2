@@ -45,7 +45,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js" integrity="sha384-ZoaMbDF+4LeFxg6WdScQ9nnR1QC2MIRxA1O9KWEXQwns1G8UNyIEZIQidzb0T1fo" crossorigin="anonymous"></script>
     <![endif]-->
 <style>
-input[type=date] {
+/*input[type=date] {
 	box-sizing: border-box;
 	border: 2px solid #ccc;
 	border-radius: 16px;
@@ -65,42 +65,16 @@ input[type=submit], [type=button] {
 	line-height: 48px;
 	border: 2px solid #ccc;
 }
+*/
 
-.modal {
-	text-align: center;
-	padding: 0 !important;
-}
 
-.modal:before {
-	content: '';
-	display: inline-block;
-	height: 100%;
-	vertical-align: middle;
-	margin-right: -4px;
-}
 
-.modal .modal-dialog {
-	display: inline-block;
-	text-align: left;
-	vertical-align: middle;
-}
-
-div .aa {
-	border: 1px red solid;
-}
 </style>
 <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans:600'>
  <link rel="stylesheet" href="css/style_login.css">
 </head>
 
 <body id="page-top" class="index">
-
-	
-
-
-
-
-
 	<!-- 會員登入燈箱 -->
 	<div class="modal fade" id="modal-id">
 		<div class="modal-dialog">
@@ -197,24 +171,31 @@ div .aa {
 		class="navbar navbar-default navbar-custom navbar-fixed-top">
 		<div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header page-scroll">
+		
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
 					data-target="#bs-example-navbar-collapse-1">
 					<span class="sr-only">Toggle navigation</span> Menu
 				</button>
 
-				<a class="navbar-brand page-scroll" href="#page-top">AutoBike</a> <img
-					style="width:10%" src="logo3.png"></div>
+<!-- 				<a class="navbar-brand page-scroll" href="#page-top">AutoBike</a> -->
+		
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse text-center"
+			<div class="collapse navbar-collapse "
 				id="bs-example-navbar-collapse-1">
+             
+                <a class="navbar-brand page-scroll" href="#page-top">AutoBike</a>
+                 <form  method="post" action="#" class="navbar-form navbar-left" role="search">
+	   				<div class="form-group">
+
+	   					 <input style="background-color: transparent;" class="form-control" type="date" name="start" placeholder="find something">
+				 		<input style="background-color: transparent;" class="form-control" type="date" name="end" placeholder="find something">
+	   				</div>
+	   				<input style="background-color: transparent;" type="submit" class="form-control" value="快速查詢">
+	   			</form>
 				<ul class="nav navbar-nav navbar-right">
-					<li class="hidden"><a href="#page-top"></a></li>
-					<li><a class="page-scroll" href="#rent"><i
-							class="fa fa-smile-o"></i>TOP</a></li>
-					<li><a class="page-scroll" href="#"><i
-							class="fa fa-smile-o"></i>我要租車</a></li>
+				<li><a class="page-scroll" href="#"><i
+							class="glyphicon glyphicon-alert"></i>我要租車</a></li>
 					<li><a class="page-scroll" href="#news"><i
 							class="glyphicon glyphicon-alert"></i>最新消息</a></li>
 					<li><a class="page-scroll" href="#board"><i

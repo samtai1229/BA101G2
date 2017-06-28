@@ -33,12 +33,12 @@
 <table border='1' bordercolor='#CCCCFF' width='1600'>
 	<tr>
 		<th>會員編號</th>
-		<th width='100'>會員名稱</th>
-		<th width='50'>性別 </th>
-		<th  width='150'>生日</th>
+		<th >會員名稱</th>
+		<th >性別</th>
+		<th>生日</th>
 		<th>Mail</th>
 		<th>電話</th>
-		<th  width='100'>地址</th>
+		<th>地址</th>
 		<th>帳號</th>
 		<th>密碼</th>
 		<th>身分證正面</th>
@@ -50,13 +50,13 @@
 	</tr>
 	<tr align='center' valign='middle'>
 			<td>${memVO.memno}</td>
-			<td>${memVO.memname}</td>
-			<td>${memVO.sex}</td>
-			<td><fmt:formatDate pattern = "yyyy年MM月dd號" 
+			<td width='100'>${memVO.memname}</td>
+			<td width='50'>${memVO.sex}</td>
+			<td  width='150'><fmt:formatDate pattern = "yyyy年MM月dd號" 
          value = "${memVO.birth}" /></td>
 			<td>${memVO.mail}</td>
 			<td>${memVO.phone}</td>	
-			<td>${memVO.addr}</td>	
+			<td   width='200'>${memVO.addr}</td>	
 			<td>${memVO.acc}</td>
 			<td>${memVO.pwd}</td>
 <!-- 正面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard1' width='200' height='180'></td>	
