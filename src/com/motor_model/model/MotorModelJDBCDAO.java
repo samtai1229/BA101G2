@@ -16,17 +16,17 @@ import java.util.List;
 public class MotorModelJDBCDAO implements MotorModelDAO_interface {
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "ba101g2";
+	String userid = "g2db";
 	String passwd = "ba101g2";
 
-//	private static final String INSERT_STMT = "INSERT INTO MOTOR_MODEL"
-//			+ " (modtype, brand, displacement, name, renprice, saleprice, motpic"
-//			+ ") VALUES ('MM'||LPAD(TO_CHAR(modtype_seq.NEXTVAL), 3,'0'), ?, ?, ?, ?, ?,?)";
-	
-	
 	private static final String INSERT_STMT = "INSERT INTO MOTOR_MODEL"
-			+ " (modtype, brand, displacement, name, renprice, saleprice "
-			+ ") VALUES ('MM'||LPAD(TO_CHAR(modtype_seq.NEXTVAL), 3,'0'), ?, ?, ?, ?, ?)";
+			+ " (modtype, brand, displacement, name, renprice, saleprice, motpic"
+			+ ") VALUES ('MM'||LPAD(TO_CHAR(modtype_seq.NEXTVAL), 3,'0'), ?, ?, ?, ?, ?,?)";
+	
+	
+//	private static final String INSERT_STMT = "INSERT INTO MOTOR_MODEL"
+//			+ " (modtype, brand, displacement, name, renprice, saleprice "
+//			+ ") VALUES ('MM'||LPAD(TO_CHAR(modtype_seq.NEXTVAL), 3,'0'), ?, ?, ?, ?, ?)";
 
 	private static final String UPDATE = "UPDATE MOTOR_MODEL set brand=?,"
 			+ " displacement=?, name=?, renprice=?, saleprice=?, motpic=? where modtype = ?";
@@ -55,7 +55,7 @@ public class MotorModelJDBCDAO implements MotorModelDAO_interface {
 			pstmt.setString(3, mmVO.getName());
 			pstmt.setInt(4, mmVO.getRenprice());
 			pstmt.setInt(5, mmVO.getSaleprice());
-			//pstmt.setBytes(6, mmVO.getMotpic());
+			pstmt.setBytes(6, mmVO.getMotpic());
 
 			pstmt.executeUpdate();
 
@@ -368,19 +368,19 @@ public class MotorModelJDBCDAO implements MotorModelDAO_interface {
 		// dao.delete("MM000003");
 		// System.out.println("delete ok");
 
-		// MotorModelVO mmVO3 = dao.findByPrimaryKey("MM000004");
-		// System.out.println(mmVO3.getModtype()+",");
-		// System.out.println(mmVO3.getBrand()+",");
-		// System.out.println(mmVO3.getDisplacement()+",");
-		// System.out.println(mmVO3.getName()+",");
-		// System.out.println(mmVO3.getRenprice()+",");
-		// System.out.println(mmVO3.getSaleprice()+",");
-		// readPicture(mmVO3.getMotpic());
+		 MotorModelVO mmVO3 = dao.findByPrimaryKey("MM121");
+		 System.out.println(mmVO3.getModtype()+",");
+		 System.out.println(mmVO3.getBrand()+",");
+		 System.out.println(mmVO3.getDisplacement()+",");
+		 System.out.println(mmVO3.getName()+",");
+		 System.out.println(mmVO3.getRenprice()+",");
+		 System.out.println(mmVO3.getSaleprice()+",");
+		 readPicture(mmVO3.getMotpic());
 
-		 List<MotorModelVO> list = dao.getAll();
-		 for (MotorModelVO aMM : list) {
-		 printMethod(aMM);
-		 }
+//		 List<MotorModelVO> list = dao.getAll();
+//		 for (MotorModelVO aMM : list) {
+//		 printMethod(aMM);
+//		 }
 
 	}
 
@@ -401,7 +401,7 @@ public class MotorModelJDBCDAO implements MotorModelDAO_interface {
 	private static void readPicture(byte[] motpic) {
 		try {
 			// 不給放在根目錄，一定要有資料夾???
-			FileOutputStream fos = new FileOutputStream("C://temp//0001.gif");
+			FileOutputStream fos = new FileOutputStream("C://temp//0001.jpg");
 			fos.write(motpic);
 			fos.flush();
 			fos.close();

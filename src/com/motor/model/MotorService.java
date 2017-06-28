@@ -2,6 +2,7 @@ package com.motor.model;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class MotorService {
@@ -12,8 +13,7 @@ public class MotorService {
 		dao = new MotorDAO();
 	}
 
-	public MotorVO addMotor(String modtype, String plateno, String engno, java.sql.Timestamp manudate, Integer mile,
-			String locno, String status, String note) {
+	public MotorVO addMotor(String modtype, String plateno, String engno, java.sql.Timestamp manudate, Integer mile, String note) {
 		System.out.println("MotorService, addMotor in");
 
 		MotorVO motorVO = new MotorVO();
@@ -22,8 +22,6 @@ public class MotorService {
 		motorVO.setEngno(engno);
 		motorVO.setManudate(manudate);
 		motorVO.setMile(mile);
-		motorVO.setLocno(locno);
-		motorVO.setStatus(status);
 		motorVO.setNote(note);
 		dao.insert(motorVO);
 
@@ -73,5 +71,8 @@ public class MotorService {
 	public Set<MotorVO> getMotorsByManuDate(Timestamp start_time, Timestamp end_time) {
 		return dao.getMotorsByManuDate(start_time, end_time);
 	}
-
+	
+	public List<MotorVO> getAll(Map<String, String[]> map) {
+		return dao.getAll(map);
+	}
 }

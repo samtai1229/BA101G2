@@ -29,7 +29,7 @@ public class MotorModelDBGifReader extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
 		res.setContentType("image/jpg");
-		req.setCharacterEncoding("big5"); // 先
+		req.setCharacterEncoding("UTF-8"); // 先
 		ServletOutputStream out = res.getOutputStream();
 
 		try {
