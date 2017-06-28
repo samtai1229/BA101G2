@@ -172,11 +172,11 @@ input[type=submit], [type=button] {
 		<div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
 		
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
+				<!-- <button type="button" class="navbar-toggle" data-toggle="collapse"
 					data-target="#bs-example-navbar-collapse-1">
 					<span class="sr-only">Toggle navigation</span> Menu
 				</button>
-
+ -->
 <!-- 				<a class="navbar-brand page-scroll" href="#page-top">AutoBike</a> -->
 		
 
