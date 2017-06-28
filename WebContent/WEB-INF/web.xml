@@ -57,6 +57,16 @@
     <url-pattern>/backend/motor_model/mmReader.do</url-pattern>
   </servlet-mapping>
 
+
+<servlet>
+    <servlet-name>SecondOrderServlet</servlet-name>
+    <servlet-class>com.sec_ord.controller.SecondOrderServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SecondOrderServlet</servlet-name>
+    <url-pattern>/frontend/second_order/SecOrd.do</url-pattern>
+  </servlet-mapping>
+
   
     <servlet>
     <servlet-name>MemberServlet</servlet-name>
