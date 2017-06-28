@@ -11,84 +11,24 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>車輛管理-AutoBike</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <link href="" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>  	
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>	
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css">    
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css">
-
-    <title>車輛管理-AutoBike</title>
+	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    
+    <link rel="stylesheet" href="Modified/backendHP_css.css">
+    <link href="Modified/main.css" rel="stylesheet">
+    <script src="Modified/motorKanli_js.js"></script>
+    <script src="Modified/datepicker.js"></script>
+    <script src="Modified/motorNew.js"></script>
 </head>
+
 <body>
-
-    <nav class="navbar navbar-default" role="navigation">
-        <!-- logo區 -->
-        <a class="navbar-brand" href="#" id="navA">AUTOBIKE</a>
-        <!-- 左選單 -->
-        <ul class="nav navbar-nav">
-            <li><a href="#" id="navA">後端管理系統</a></li>
-            <!-- 時鐘 -->
-            <iframe scrolling="no" frameborder="no" clocktype="html5" style="overflow:hidden;border:0;margin:0;padding:0;width:120px;height:40px;" src="http://www.clocklink.com/html5embed.php?clock=004&timezone=CCT&color=yellow&size=120&Title=&Message=&Target=&From=2017,1,1,0,0,0&Color=yellow">
-            </iframe>
-        </ul>
-        <!-- 右選單 -->
-        <ul class="nav navbar-nav navbar-right">
-        </ul>
-    </nav>
- <%--保留寫法     href="<%=request.getContextPath()%>/backend/backendRentOrd.jsp"  --%>
-    <div class="col-xs-12 col-sm-2 leftBar">
-        <img id="menuLogo" src="images/logo.jpg">
-        <button class="accordion accordionMenu accordion accordionMenuMenu">總部管理系統</button>
-        <div class="btn-group-vertical">
-                
-            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/motor/backendMotor.jsp"  role="button">車輛資料管理</a>
-            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/motor_model/backendMotorModel.jsp"  role="button">車輛型號管理</a>           
-            <a class="btn btn-default" href="#" role="button">車輛調度</a>            
-<!--        <a class="btn btn-default" role="button" onclick="loadRentOrd()">租賃單管理</a> -->
-			<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/backendRentOrd.jsp" role="button">租賃單管理</a>
-            <a class="btn btn-default" href="#" role="button">裝備管理</a>
-            <a class="btn btn-default" href="#" role="button">裝備調度</a>
-            <a class="btn btn-default" href="#" role="button">據點管理</a>
-        </div>
-        <button class="accordion accordionMenu">據點管理系統</button>
-        <div class="btn-group-vertical">
-            <a class="btn btn-default" href="#" role="button">據點車輛管理</a>
-            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/lease.jsp"  role="button">交車管理</a>
-          	<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/return.jsp"  role="button">還車管理</a>
-            <a class="btn btn-default" href="#" role="button">車輛調度申請</a>
-            <a class="btn btn-default" href="#" role="button">車輛保養/維修管理</a>
-            <a class="btn btn-default" href="#" role="button">據點裝備管理</a>
-            <a class="btn btn-default" href="#" role="button">裝備申請</a>
-        </div>
-        <button class="accordion accordionMenu">二手車管理系統</button>
-        <div class="btn-group-vertical">
-            <a class="btn btn-default" href="#" role="button">二手車輛管理</a>
-            <a class="btn btn-default" href="#" role="button">二手車訂單管理</a>
-            <a class="btn btn-default" href="#" role="button">二手車交易管理</a>
-        </div>
-        <button class="accordion accordionMenu">會員管理系統</button>
-        <div class="btn-group-vertical"></div>
-        <button class="accordion accordionMenu">活動企劃管理系統</button>
-        <div class="btn-group-vertical">
-            <a class="btn btn-default" href="#" role="button">推播管理</a>
-            <a class="btn btn-default" href="#" role="button">留言版管理</a>
-            <a class="btn btn-default" href="#" role="button">最新消息管理</a>
-        </div>
-        <button class="accordion accordionMenu">後端管理系統</button>
-        <div class="btn-group-vertical">
-            <a class="btn btn-default" href="#" role="button">後端權限管理</a>
-            <a class="btn btn-default" href="#" role="button">推薦景點管理</a>
-            <a class="btn btn-default" href="#" role="button">後端登入管理</a>
-        </div>
-        <div class="btn-group-vertical"></div>
-    </div>
-    <div class="col-xs-12 col-sm-10 rightHTML" id="demo">
-
-
-
-
 <%
 	MotorVO motorVO = (MotorVO) request.getAttribute("motorVO"); //MotorServlet.java (Concroller), 存入req的VO物件 (包括幫忙取出的VO, 也包括輸入資料錯誤時的VO物件)
 %>  
@@ -138,14 +78,13 @@
 <!-- 標籤面板：內容區開始 -->     <div class="tab-content">
 							  <div role="tabpanel" class="tab-pane active" id="tab1">
 					          		<fieldset>
-					                <legend>全部查詢</legend>
-										<form method="post" action="<%=request.getContextPath()%>/backend/motor/backendMotor.jsp">
-											<input type="submit" value="check" class="click" />          		
-						          		</form>
 					                <legend>型號查詢</legend>
+		<!--form功能 依型號查詢  -->
+									<form  method="post" action="motor.do">
 										<div class="InputForm">
 											<label class="title">型號選單</label> 										
-												<select name="modtype" onchange="queryMotorByModtype(this.value)">
+										
+										<select name="modtype" onchange="queryMotorByModtype(this.value)">
 						 							<c:forEach var="mmVO" items="${mmSvc.all}">
 														<option value="${mmVO.modtype}">
 															${mmVO.brand}${mmVO.name}
@@ -153,7 +92,14 @@
 													</c:forEach> 
 												</select><br />
 											</div>
+									    <!--<div class="InputForm">
+ 											<input type="hidden" name="action" value="get_motors_by_modtype">
+											<input type="submit" value="Query" class="click""/> 
+										</div>-->	
+									</form>
+										
 					          		<legend>單筆查詢</legend>
+		<!--form功能 單一查詢  -->
 									<form method="post" action="motor.do">
 										<div class="InputForm">
  											<label class="title">編號選單</label>
@@ -163,17 +109,19 @@
 															${motorVO.motno}
 															${motorVO.plateno}
 														</option>
+														
 													</c:forEach> 
 												</select><br />
 										</div>
- 										<!--<div class="InputForm">
+<!-- 										<div class="InputForm">
 											<input type="hidden" name="action" value="getOne_For_Display">
 											<input type="submit" value="query" class="click" /> 
-										</div>-->
+										</div>	 -->
 									</form>
 
 
 <!--錨點div:單筆顯示   showSingleQueryResult  --> 
+
 									<div id="showSingleQueryResult"></div>
 									
 									</fieldset>
@@ -357,63 +305,20 @@
 							  </div>
 <!--標籤面板 內容區結束 -->      </div>
 <!--標籤面板 結束 -->		   </div>
-<!--end block1 --> </div>
-<!-- block3 表格 --> <div id="block3" class="col-xs-12 col-sm-8">
+<!--end block1 --> </div>	
 
-			<%-- 		<jsp:useBean id="motorModelSvc" scope="page" class="com.motor_model.model.MotorModelService"/> --%>
-						<table id="QueryTable">
-							  <thead>	
-									<tr class="QueryTable_TR">
-										<th>車輛編號</th>
-										<th>車輛型號</th>		
-										<th>車牌號碼</th>
-										<th>引擎號碼</th>				
-										<th>出廠日期</th>
-										<th>累計里程</th>
-										<th>據點編號</th>
-										<th>車輛狀態</th>				
-										<th>備註</th>
-										<th>修改</th>
-										<th>刪除</th>								
-									</tr>
-								  </thead>
-								  <tbody>				  		
-							 		<c:forEach var="motorVO" items="${motorSvc.all}">
-										<tr class="QueryTable_TR">
-											<td>${motorVO.motno}</td>
-											<td>${motorVO.modtype}</td>
-											<td>${motorVO.plateno}</td>
-											<td>${motorVO.engno}</td>
-										    <td><fmt:formatDate pattern = "yyyy-MM" value = "${motorVO.manudate}" /></td>
-											<td>${motorVO.mile}</td>
-											<td>${motorVO.locno}</td>
-											<td>${motorVO.status}</td>
-											<td>${motorVO.note}</td>
-											<td>
-											<input type="hidden" name="action" value="update">
-											<input type="submit" value="update" class="click2" /> 
-											</td>
-											<td>
-											<input type="hidden" name="action" value="delete">
-											<input type="submit" value="delete" class="click2" /> 
-											</td>								
-										</tr>
-									</c:forEach>							
-							  </tbody>	 	  								
-						</table>
 
 <!--錨點:表格顯示   block3  --> <div id="block3" class="col-xs-12 col-sm-8">
-						  </div>		
-					
+
+					</div>
 <!--end: block3 --> 	
 <!--container--></div>	
  
-     </div><!-- sm-10 rightHTML  -->
- 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="<%=request.getContextPath()%>/backend/motor/Modified/motorNew.js"></script>
-    <script src="<%=request.getContextPath()%>/backend/motor/Modified/motorKanli_for_motor.js"></script>
-    <script src="<%=request.getContextPath()%>/backend/motor/Modified/datepicker_for_motor.js"></script>
-	<script src="<%=request.getContextPath()%>/backend/motor/Modified/paging_for_motor.js"></script>
+<script>
+
+</script>
+
+
 </body>
 </html>
