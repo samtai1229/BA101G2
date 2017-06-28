@@ -1,12 +1,4 @@
 @charset "UTF-8";
-
-/**
- * 
- * @authors Hsueh (you@example.org)
- * @date    2017-06-02 17:10:54
- * @version $Id$
- */
-
 body {
     font: normal 18px 微軟正黑體;
 }
@@ -121,7 +113,5 @@ h1 {
 }
 
 input[type="text"]{
-    height: 20px;
-    
+   height:35px
 }
-
