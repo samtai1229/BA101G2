@@ -75,14 +75,14 @@ input[type=submit], [type=button] {
 </head>
 
 <body id="page-top" class="index">
-	<!-- æœƒå“¡ç™»å…¥ç‡ˆç®± -->
+	<!-- •ş†TµÇÈëŸôÏä -->
 	<div class="modal fade" id="modal-id">
 		<div class="modal-dialog">
 			<div >
 			<!-- 	<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h4 class="modal-title">ç™»å…¥æœƒå“¡</h4>
+					<h4 class="modal-title">µÇÈë•ş†T</h4>
 				</div> -->
 				<div class="modal-body">
 				   <button type="button" class="close" data-dismiss="modal"
@@ -92,22 +92,22 @@ input[type=submit], [type=button] {
 										<div class="login-wrap">
         <div class="login-html" style="width:100% height:1000px">
             <input id="tab-1" type="radio" name="tab" class="sign-in" checked>
-            <label for="tab-1" class="tab">ç™»å…¥</label>
+            <label for="tab-1" class="tab">µÇÈë</label>
             <input id="tab-2" type="radio" name="tab" class="sign-up">
-            <label for="tab-2" class="tab">è¨»å†Š</label>
+            <label for="tab-2" class="tab">Ô]ƒÔ</label>
             <div class="login-form">
                 <div class="sign-in-htm">
                     <div class="group">
-                        <label for="acc" class="label">å¸³è™Ÿ</label>
+                        <label for="acc" class="label">¤Ì–</label>
                         <input id="acc" name="acc" type="text" class="input">
                     </div>
                     <div class="group">
-                        <label for="pwd" class="label">å¯†ç¢¼</label>
+                        <label for="pwd" class="label">ÃÜ´a</label>
                         <input id="pwd" name="pwd" type="password" class="input" data-type="password">
                     </div>
                     <div class="group">
                         <input id="check" name="check" type="checkbox" class="check" checked>
-                        <label for="check"><span class="icon"></span>è¨˜ä½æˆ‘</label>
+                        <label for="check"><span class="icon"></span>Ó›×¡ÎÒ</label>
                     </div>
                     <div class="group">
                         <input type="submit" class="button" value="Sign In">
@@ -115,7 +115,7 @@ input[type=submit], [type=button] {
                     </div>
                     <div class="hr"></div>
                     <div class="foot-lnk">
-                        <a href="#forgot">å¿˜è¨˜å¯†ç¢¼?</a>
+                        <a href="#forgot">ÍüÓ›ÃÜ´a?</a>
                     </div>
                    
                 </div>
@@ -123,19 +123,19 @@ input[type=submit], [type=button] {
                 <form action="<%=request.getContextPath()%>/backend/member/member.do">
                 <div class="sign-up-htm">
                     <div class="group">
-                        <label for="new_acc" class="label">å¸³è™Ÿ</label>
+                        <label for="new_acc" class="label">¤Ì–</label>
                         <input name="new_acc" type="text" class="input">
                     </div>
                     <div class="group">
-                        <label for="new_pwd" class="label">å¯†ç¢¼</label>
+                        <label for="new_pwd" class="label">ÃÜ´a</label>
                         <input name="new_pwd" type="password" class="input" data-type="password">
                     </div>
                     <div class="group">
-                        <label for="pass" class="label">ç¢ºèªå¯†ç¢¼</label>
+                        <label for="pass" class="label">´_ÕJÃÜ´a</label>
                         <input name="pass" type="password" class="input" data-type="password">
                     </div>
                     <div class="group">
-                        <label for="mail" class="label">ä¿¡ç®±</label>
+                        <label for="mail" class="label">ĞÅÏä</label>
                         <input id="mail" name="mail" type="email" class="input">
                     </div>
                     <div class="group">
@@ -144,7 +144,7 @@ input[type=submit], [type=button] {
                     </div>
                     <div class="hr"></div>
                     <div class="foot-lnk">
-                        <label for="tab-1">å·²ç¶“æ˜¯æœƒå“¡?</a>
+                        <label for="tab-1">ÒÑ½›ÊÇ•ş†T?</a>
                     </div>
                 </div>
             </div>
@@ -152,13 +152,13 @@ input[type=submit], [type=button] {
     </div>
 
 						<!-- <div class="form-group">
-							<label for="acc">å¸³è™Ÿ</label> <input type="text" name="acc"
-								id="acc" placeholder="å¸³è™Ÿ" class="form-control"> <label
-								for="pwd">å¯†ç¢¼</label> <input type="password" name="pwd" id="pwd"
-								placeholder="å¯†ç¢¼" class="form-control"> <br /> <input
-								align="center" class="text-center" type="submit" value="é€å‡º">
+							<label for="acc">¤Ì–</label> <input type="text" name="acc"
+								id="acc" placeholder="¤Ì–" class="form-control"> <label
+								for="pwd">ÃÜ´a</label> <input type="password" name="pwd" id="pwd"
+								placeholder="ÃÜ´a" class="form-control"> <br /> <input
+								align="center" class="text-center" type="submit" value="ËÍ³ö">
 							<input onclick="javascript:location.href='#'" type="button"
-								value="è¨»å†Š">
+								value="Ô]ƒÔ">
 							<input type="hidden" name="action" value="login">
 						</div> -->
 					</form>
@@ -172,11 +172,11 @@ input[type=submit], [type=button] {
 		<div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
 		
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
+				<!-- <button type="button" class="navbar-toggle" data-toggle="collapse"
 					data-target="#bs-example-navbar-collapse-1">
 					<span class="sr-only">Toggle navigation</span> Menu
 				</button>
-
+ -->
 <!-- 				<a class="navbar-brand page-scroll" href="#page-top">AutoBike</a> -->
 		
 
@@ -191,29 +191,29 @@ input[type=submit], [type=button] {
 	   					 <input style="background-color: transparent;" class="form-control" type="date" name="start" placeholder="find something">
 				 		<input style="background-color: transparent;" class="form-control" type="date" name="end" placeholder="find something">
 	   				</div>
-	   				<input style="background-color: transparent;" type="submit" class="form-control" value="å¿«é€ŸæŸ¥è©¢">
+	   				<input style="background-color: transparent;" type="submit" class="form-control" value="¿ìËÙ²éÔƒ">
 	   			</form>
 				<ul class="nav navbar-nav navbar-right">
 				<li><a class="page-scroll" href="#"><i
-							class="glyphicon glyphicon-alert"></i>æˆ‘è¦ç§Ÿè»Š</a></li>
+							class="glyphicon glyphicon-alert"></i>ÎÒÒª×âÜ‡</a></li>
 					<li><a class="page-scroll" href="#news"><i
-							class="glyphicon glyphicon-alert"></i>æœ€æ–°æ¶ˆæ¯</a></li>
+							class="glyphicon glyphicon-alert"></i>×îĞÂÏûÏ¢</a></li>
 					<li><a class="page-scroll" href="#board"><i
-							class="fa fa-comments-o"></i>ç•™è¨€æ¿</a></li>
+							class="fa fa-comments-o"></i>ÁôÑÔ°å</a></li>
 					<li><a class="page-scroll" href="#loc"><i
-							class="fa fa-search"></i>æœå‹™æ“šé»</a></li>
-					<li><a href="<%=request.getContextPath()%>/backend/member/member.do"><i class="fa fa-shopping-cart"></i>äºŒæ‰‹è»Šè³¼è²·</a>
+							class="fa fa-search"></i>·ş„Õ“şüc</a></li>
+					<li><a href="<%=request.getContextPath()%>/backend/member/member.do"><i class="fa fa-shopping-cart"></i>¶şÊÖÜ‡ÙÙI</a>
 					</li>
  					<li><a href="#modal-id"
-						data-toggle="modal"><i class="glyphicon glyphicon-user"></i>æœƒå“¡ç™»å…¥</a></li> 
-					<!-- <li><a href="login_register.html"><i class="glyphicon glyphicon-user"></i>æœƒå“¡ç™»å…¥</a></li> -->
+						data-toggle="modal"><i class="glyphicon glyphicon-user"></i>•ş†TµÇÈë</a></li> 
+					<!-- <li><a href="login_register.html"><i class="glyphicon glyphicon-user"></i>•ş†TµÇÈë</a></li> -->
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
 		</div>
 		<!-- /.container-fluid -->
 	</nav>
-	<!-- ç§Ÿè»Šä¸»è»¸Header -->
+	<!-- ×âÜ‡Ö÷İSHeader -->
 	<header id="rent">
 		
 		<div class="container">
@@ -222,7 +222,7 @@ input[type=submit], [type=button] {
 				<div class="intro-lead-in">Welcome To Autobike!</div>
 				<div class="intro-heading">The Best Bike For You!</div>
 				
-				<!-- 				<a href="rent.html" class="page-scroll btn btn-xl">é»æˆ‘ç§Ÿè»Š</a> -->
+				<!-- 				<a href="rent.html" class="page-scroll btn btn-xl">ücÎÒ×âÜ‡</a> -->
 			</div>
 
 		
@@ -232,9 +232,9 @@ input[type=submit], [type=button] {
 		<div class="container-fluid">
 			<div class="row ">
 				<div class="col-xs-12 col-sm-12 text-center">
-					<h2 class="section-heading">æœ€æ–°æ¶ˆæ¯</h2>
+					<h2 class="section-heading">×îĞÂÏûÏ¢</h2>
 					<h3 class="section-subheading text-muted">
-						<a style="color: blue" href="news.html">é»æˆ‘çœ‹æ›´å¤š</a>
+						<a style="color: blue" href="news.html">ücÎÒ¿´¸ü¶à</a>
 					</h3>
 
 				</div>
@@ -321,8 +321,8 @@ input[type=submit], [type=button] {
             <div class="row">
                 <br/>
                 <div class="col-xs-12 col-sm-12 text-center">
-                    <h2 class="intro-lead-in">ç•™è¨€æ¿</h2>
-                    <h3 class="intro-heading">è¨˜éŒ„æ„Ÿå‹•çš„æ¯ä¸€åˆ»</h3>
+                    <h2 class="intro-lead-in">ÁôÑÔ°å</h2>
+                    <h3 class="intro-heading">Ó›ä›¸Ğ„ÓµÄÃ¿Ò»¿Ì</h3>
                 </div>
             </div>
             <div class="row">
@@ -464,11 +464,11 @@ input[type=submit], [type=button] {
 	</aside>
 	<footer>
 		<div class="col-xs-12 col-sm-12">
-			<span>è¯çµ¡è³‡è¨Š</span>
+			<span>Â“½jÙYÓ</span>
 		</div>
 		<div class="container-fluid">
 			<div class="col-xs-12 col-sm-4">
-				<span>åœ°å€:æ¡ƒåœ’å¸‚å¹³é®å€ä¸­å¤®è·¯115è™Ÿ</span>
+				<span>µØÖ·:ÌÒˆ@ÊĞÆ½æ‚…^ÖĞÑëÂ·115Ì–</span>
 			</div>
 			<div class="col-xs-12 col-sm-4">
 				<span>EMAIL:taic@oregonstate.edu</span>
