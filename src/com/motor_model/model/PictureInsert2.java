@@ -16,8 +16,8 @@ import java.sql.Statement;
 public class PictureInsert2 {
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "ba101g2";
-	String passwd = "ba101g2";
+	String userid = "servlet";
+	String passwd = "123456";
 
 	private static final String UPDATE = "UPDATE MOTOR_MODEL set " + "  motpic=? where modtype = ?";
 
@@ -68,8 +68,8 @@ public class PictureInsert2 {
 	public static void main(String[] args) throws SQLException {
 		String driver = "oracle.jdbc.driver.OracleDriver";
 		String url = "jdbc:oracle:thin:@localhost:1521:XE";
-		String userid = "ba101g2";
-		String passwd = "ba101g2";
+		String userid = "servlet";
+		String passwd = "123456";
 
 		MotorModelJDBCDAO dao = new MotorModelJDBCDAO();
 		
