@@ -79,4 +79,9 @@ public class MemberService {
 	public List<MemberVO> getAll(){
 		return dao.getAll();
 	}
+
+	public MemberVO getOneMemberById(String memid) {
+		
+		return dao.findByPrimaryKeyById(memid);
+	}
 }

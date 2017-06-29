@@ -209,8 +209,7 @@ input[type=submit], [type=button] {
               	                    <li class="hidden">
               	                        <a href="#page-top"></a>
               	                    </li>
-              					<li><a class="page-scroll" href="#"><i
-              								class="glyphicon glyphicon-alert"></i>我要租車</a></li>
+              					<li><a class="page-scroll" href="#"><i class="glyphicon glyphicon-heart"></i>我要租車</a></li>
               						<li><a class="page-scroll" href="#news"><i
               								class="glyphicon glyphicon-alert"></i>最新消息</a></li>
               						<li><a class="page-scroll" href="#board"><i
@@ -221,7 +220,7 @@ input[type=submit], [type=button] {
               						</li>
               						
               						<c:if test="${not empty memID}">			
-              							<li><a href="#">歡迎，${memID}</a></li>
+              							<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memID}">歡迎，${memID}</a></li>
               									<li>
               										<a href="javascript:document.form1.submit()"
               								data-toggle="modal"><i class="glyphicon glyphicon-user"></i>登出</a>
