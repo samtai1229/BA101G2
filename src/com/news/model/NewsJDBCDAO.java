@@ -20,8 +20,8 @@ public class NewsJDBCDAO implements NewsDAO_interface{
 	
 		String driver = "oracle.jdbc.driver.OracleDriver";
 		String url = "jdbc:oracle:thin:@localhost:1521:XE";
-		String userid = "servlet";
-		String passwd = "123456";
+		String userid = "ba101g2";
+		String passwd = "ba101g2";
 		
 		private static final String INSERT_STMT = "INSERT INTO NEWS(newsno,admno,cont,pic,title,status) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),3,'0'),?,?, ?, ?, ?)";
 		private static final String GET_ALL_STMT ="SELECT * FROM news order by newsno";
@@ -157,7 +157,7 @@ public class NewsJDBCDAO implements NewsDAO_interface{
 			newsVO = new NewsVO();
 			newsVO.setNewsno(rs.getString("newsno"));
 			newsVO.setAdmno(rs.getString("admno"));
-			newsVO.setDate(rs.getTimestamp("date"));
+			newsVO.setNewsdate(rs.getTimestamp("newsdate"));
 			newsVO.setCont(rs.getString("cont"));
 			newsVO.setPic(rs.getBytes("pic"));
 			newsVO.setTitle(rs.getString("title"));
@@ -213,12 +213,12 @@ public class NewsJDBCDAO implements NewsDAO_interface{
 				newsVO = new NewsVO();
 				newsVO.setNewsno(rs.getString("newsno"));
 				newsVO.setAdmno(rs.getString("admno"));
-				newsVO.setDate(rs.getTimestamp("date"));
+				newsVO.setNewsdate(rs.getTimestamp("newsdate"));
 				newsVO.setCont(rs.getString("cont"));
 				newsVO.setPic(rs.getBytes("pic"));
 				newsVO.setTitle(rs.getString("title"));
 				newsVO.setStatus(rs.getString("status"));
-				//newsVO.setShowdate(new SimpleDateFormat("yyyy/MM/dd").format(rs.getTimestamp("date")));
+				//newsVO.setShownewsdate(new SimpleDateFormat("yyyy/MM/dd").format(rs.getTimestamp("date")));
 				list.add(newsVO);}
 		}catch (ClassNotFoundException e) {
 			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
@@ -292,7 +292,7 @@ public static void main(String[] args) throws IOException {
 		NewsVO newsvo2 = news.findByPrimaryKey("N000003");
 		System.out.println(newsvo2.getNewsno() + ",");
 		System.out.println(newsvo2.getAdmno() + ",");
-		System.out.println(newsvo2.getDate() + ",");
+		System.out.println(newsvo2.getNewsdate() + ",");
 		System.out.println(newsvo2.getCont() + ",");
 		System.out.println(newsvo2.getPic() + ",");
 		System.out.println(newsvo2.getTitle() + ",");
@@ -311,7 +311,7 @@ public static void main(String[] args) throws IOException {
 
 		System.out.println(newsvo2.getNewsno() + ",");
 		System.out.println(newsvo2.getAdmno() + ",");
-		System.out.println(newsvo2.getDate() + ",");
+		System.out.println(newsvo2.getNewsdate() + ",");
 		System.out.println(newsvo2.getCont() + ",");
 		System.out.println(newsvo2.getPic() + ",");
 		System.out.println(newsvo2.getTitle() + ",");
@@ -322,7 +322,7 @@ public static void main(String[] args) throws IOException {
 //for(int i=1;i<7;i++){
 //			newsvo.setPic("MMH00"+i);
 //			newsvo.setAdmno("A000008");
-//			newsvo.setDate(new Timestamp(System.currentTimeMillis()));
+//			newsvo.setNewsate(new Timestamp(System.currentTimeMillis()));
 //			newsvo.setCont("�y���ӳ�");
 //			newsvo.setTitle("ball");
 //			newsvo.setStatus("normal");
