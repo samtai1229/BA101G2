@@ -97,7 +97,7 @@ input[type=submit], [type=button] {
 				<div class="modal-body">
 				   <button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<form action="<%=request.getContextPath()%>/backend/member/member.do">
+					
 
 										<div class="login-wrap">
         <div class="login-html" style="width:100% height:1000px">
@@ -106,6 +106,7 @@ input[type=submit], [type=button] {
             <input id="tab-2" type="radio" name="tab" class="sign-up">
             <label for="tab-2" class="tab">註冊</label>
             <div class="login-form">
+            <form action="<%=request.getContextPath()%>/backend/member/member.do">
                 <div class="sign-in-htm">
                     <div class="group">
                         <label for="acc" class="label">帳號</label>
@@ -154,9 +155,10 @@ input[type=submit], [type=button] {
                     </div>
                     <div class="hr"></div>
                     <div class="foot-lnk">
-                        <label for="tab-1">已經是會員?</a>
+                        <label for="tab-1">已經是會員?</label>
                     </div>
                 </div>
+                </form>
             </div>
         </div>
     </div>
@@ -171,11 +173,11 @@ input[type=submit], [type=button] {
 								value="註冊">
 							<input type="hidden" name="action" value="login">
 						</div> -->
-					</form>
+					
 				</div>
 			</div>
 		</div>
-	</div>
+		</div>
 	<!-- Navigation -->
 	<nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
         <div class="container-fluid">
@@ -192,7 +194,7 @@ input[type=submit], [type=button] {
                
              
              
-                <li>
+             
                 	 <form  method="post" action="#" class="navbar-form navbar-left" role="search">
                 		   				<div class="form-group">
                 	
@@ -201,7 +203,7 @@ input[type=submit], [type=button] {
                 		   				</div>
                 		   				<input style="background-color: transparent;" type="submit" class="form-control" value="快速查詢">
                 		   			</form>
-                </li>
+                
 				 <ul class="nav navbar-nav navbar-right">
                     <li class="hidden">
                         <a href="#page-top"></a>
@@ -216,20 +218,23 @@ input[type=submit], [type=button] {
 							class="fa fa-search"></i>服務據點</a></li>
 					<li><a href="<%=request.getContextPath()%>/backend/member/member.do"><i class="fa fa-shopping-cart"></i>二手車購買</a>
 					</li>
-					<li>
+					
 					<c:if test="${not empty memID}">			
-						<a href="<%=request.getContextPath()%>/backend/member/member.do?memID=${memID}">歡迎，${memID}</a>
-						<form   name="form1"  method="post"  action="<%=request.getContextPath()%>/backend/member/member.do?action=logout" >  
-								<a href="javascript:document.form1.submit()">登出</a>
-                         </form>
+						<li><a href="#">歡迎，${memID}</a></li>
+								<li>
+									<a href="#modal-out"
+							data-toggle="modal"><i class="glyphicon glyphicon-user"></i>登出</a>
+								</li>
 					
 					</c:if>
 					
 					<c:if test="${ empty memID}">
-						<a href="#modal-id"
-						data-toggle="modal"><i class="glyphicon glyphicon-user"></i>會員登入</a>
+						<li>
+							<a href="#modal-id"
+							data-toggle="modal"><i class="glyphicon glyphicon-user"></i>會員登入</a>
+						</li>
 					</c:if>
- 				  </li>	
+ 				  	
  				  
 				</ul>
 			</div>
@@ -249,7 +254,7 @@ input[type=submit], [type=button] {
 				<!-- 				<a href="rent.html" class="page-scroll btn btn-xl">點我租車</a> -->
 			</div>
 
-		
+		</div>
 	</header>
 	<!-- news Section -->
 	<section id="news">
@@ -385,7 +390,7 @@ input[type=submit], [type=button] {
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 text-center">
 					<h2 class="section-heading">留言板</h2>
-					<a href="#" id="general"><h4>Enter MESSAGE BOARD</h4></a>
+				<h4>	<a href="#" id="general">Enter MESSAGE BOARD</a></h4>
 
 
 				</div>
@@ -431,10 +436,10 @@ input[type=submit], [type=button] {
 				<br />
 				<div class="col-xs-12 col-sm-12 text-center">
 					<h2>我們的據點</h2>
-					<a href="leave_message_Page.html" id="general"><h3
-							style="color: blue" class="section-subheading">
+					<h3
+							style="color: blue" class="section-subheading"><a href="leave_message_Page.html" id="general">
 							See More
-							</h3></a>
+							</a></h3>
 				</div>
 			</div>
 		   	
@@ -456,7 +461,7 @@ input[type=submit], [type=button] {
                 <div class="col-lg-8 col-lg-offset-2 text-center">
                     <p class="large text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
                 </div>-->
-		</div>
+		
 	</aside>
 	<footer>
 		<div class="col-xs-12 col-sm-12">
