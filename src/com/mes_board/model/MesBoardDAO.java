@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,6 +79,7 @@ public class MesBoardDAO implements MesBoardDAO_interface{
 		PreparedStatement pstmt = null;
 
 		try {
+			System.out.println("DAOOOOO");
 
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
@@ -167,10 +169,10 @@ public class MesBoardDAO implements MesBoardDAO_interface{
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				// empVo �]�٬� Domain objects
+				mesboardVO=new MesBoardVO();
 				mesboardVO.setMesno(rs.getString("mesno"));
 				mesboardVO.setMemno(rs.getString("memno"));
-				mesboardVO.setDate(rs.getTimestamp("date"));
+				mesboardVO.setTimestamp(rs.getTimestamp("mesdate"));
 				mesboardVO.setCont(rs.getString("cont"));
 				mesboardVO.setPic(rs.getBytes("pic"));
 				mesboardVO.setStatus(rs.getString("status"));
@@ -226,7 +228,7 @@ public class MesBoardDAO implements MesBoardDAO_interface{
 				mesboardVO = new MesBoardVO();
 				mesboardVO.setMesno(rs.getString("mesno"));
 				mesboardVO.setMemno(rs.getString("memno"));
-				mesboardVO.setDate(rs.getTimestamp("date"));
+				mesboardVO.setTimestamp(rs.getTimestamp("mesdate"));
 				mesboardVO.setCont(rs.getString("cont"));
 				mesboardVO.setPic(rs.getBytes("pic"));
 				mesboardVO.setStatus(rs.getString("status"));
