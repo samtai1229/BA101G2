@@ -63,7 +63,7 @@ public class MemberServlet extends HttpServlet {
 				 * 1.接收請求參數 - 輸入格式的錯誤處理
 				 **********************/
 				String memid = req.getParameter("memid");
-
+				System.out.println("幹"+memid);
 				
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
@@ -76,7 +76,7 @@ public class MemberServlet extends HttpServlet {
 
 				/*************************** 2.開始查詢資料 *****************************************/
 				MemberService memSvc = new MemberService();
-				MemberVO memVO = memSvc.getOneMemberById(memid);
+				MemberVO memVO = memSvc.getOneMember(memid);
 
 				if (memVO == null) {
 					errorMsgs.add("查無資料");
@@ -252,8 +252,9 @@ public class MemberServlet extends HttpServlet {
 
 				// req.getSession().setAttribute("acc", acc);
 				// req.getSession().setAttribute("pwd", pwd);
-				req.setAttribute("memVO", memVO); // 資料庫取出的empVO物件,存入req
-				req.getSession().setAttribute("memID", memVO.getMemname());
+			//	req.setAttribute("memVO", memVO); // 資料庫取出的empVO物件,存入req
+				req.getSession().setAttribute("memno", memVO.getMemno());
+				req.getSession().setAttribute("memname", memVO.getMemname());
 //				String url = "/backend/member/listOneMember.jsp";
 				String url = "/index.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp

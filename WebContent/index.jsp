@@ -1,16 +1,20 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
 <%@ page import="com.location.model.*"%>
-<%-- æ­¤é ç·´ç¿’æ¡ç”¨ EL çš„å¯«æ³•å–å€¼ --%>
+<%-- ¦¹­¶½m²ß±Ä¥Î EL ªº¼gªk¨ú­È --%>
 
 <%
 	LocationService locSvc = new LocationService();
 	List<LocationVO> list = locSvc.getAll();
-	String memID = (String)session.getAttribute("memID");
+	String memno = (String)session.getAttribute("memno");
+	String memname = (String)session.getAttribute("memname");
+	System.out.println(memno);
+	System.out.println(memname);
 	pageContext.setAttribute("list",list);
-	pageContext.setAttribute("memID",memID);
+	pageContext.setAttribute("memno",memno);
+	pageContext.setAttribute("memname",memname);
 %>
 
 <!DOCTYPE html>
@@ -85,14 +89,14 @@ input[type=submit], [type=button] {
 </head>
 
 <body id="page-top" class="index">
-	<!-- æœƒå“¡ç™»å…¥ç‡ˆç®± -->
+	<!-- ·|­ûµn¤J¿O½c -->
 	<div class="modal fade" id="modal-id">
 		<div class="modal-dialog">
 			<div >
 			<!-- 	<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h4 class="modal-title">ç™»å…¥æœƒå“¡</h4>
+					<h4 class="modal-title">µn¤J·|­û</h4>
 				</div> -->
 				<div class="modal-body">
 				   <button type="button" class="close" data-dismiss="modal"
@@ -102,23 +106,23 @@ input[type=submit], [type=button] {
 										<div class="login-wrap">
         <div class="login-html" style="width:100% height:1000px">
             <input id="tab-1" type="radio" name="tab" class="sign-in" checked>
-            <label for="tab-1" class="tab">ç™»å…¥</label>
+            <label for="tab-1" class="tab">µn¤J</label>
             <input id="tab-2" type="radio" name="tab" class="sign-up">
-            <label for="tab-2" class="tab">è¨»å†Š</label>
+            <label for="tab-2" class="tab">µù¥U</label>
             <div class="login-form">
             <form action="<%=request.getContextPath()%>/backend/member/member.do">
                 <div class="sign-in-htm">
                     <div class="group">
-                        <label for="acc" class="label">å¸³è™Ÿ</label>
+                        <label for="acc" class="label">±b¸¹</label>
                         <input id="acc" name="acc" type="text" class="input">
                     </div>
                     <div class="group">
-                        <label for="pwd" class="label">å¯†ç¢¼</label>
+                        <label for="pwd" class="label">±K½X</label>
                         <input id="pwd" name="pwd" type="password" class="input" data-type="password">
                     </div>
                     <div class="group">
                         <input id="check" name="check" type="checkbox" class="check" checked>
-                        <label for="check"><span class="icon"></span>è¨˜ä½æˆ‘</label>
+                        <label for="check"><span class="icon"></span>°O¦í§Ú</label>
                     </div>
                     <div class="group">
                         <input type="submit" class="button" value="Sign In">
@@ -126,7 +130,7 @@ input[type=submit], [type=button] {
                     </div>
                     <div class="hr"></div>
                     <div class="foot-lnk">
-                        <a href="#forgot">å¿˜è¨˜å¯†ç¢¼?</a>
+                        <a href="#forgot">§Ñ°O±K½X?</a>
                     </div>
                    
                 </div>
@@ -134,19 +138,19 @@ input[type=submit], [type=button] {
                 <form action="<%=request.getContextPath()%>/backend/member/member.do">
                 <div class="sign-up-htm">
                     <div class="group">
-                        <label for="new_acc" class="label">å¸³è™Ÿ</label>
+                        <label for="new_acc" class="label">±b¸¹</label>
                         <input name="new_acc" type="text" class="input">
                     </div>
                     <div class="group">
-                        <label for="new_pwd" class="label">å¯†ç¢¼</label>
+                        <label for="new_pwd" class="label">±K½X</label>
                         <input name="new_pwd" type="password" class="input" data-type="password">
                     </div>
                     <div class="group">
-                        <label for="pass" class="label">ç¢ºèªå¯†ç¢¼</label>
+                        <label for="pass" class="label">½T»{±K½X</label>
                         <input name="pass" type="password" class="input" data-type="password">
                     </div>
                     <div class="group">
-                        <label for="mail" class="label">ä¿¡ç®±</label>
+                        <label for="mail" class="label">«H½c</label>
                         <input id="mail" name="mail" type="email" class="input">
                     </div>
                     <div class="group">
@@ -155,7 +159,7 @@ input[type=submit], [type=button] {
                     </div>
                     <div class="hr"></div>
                     <div class="foot-lnk">
-                        <label for="tab-1">å·²ç¶“æ˜¯æœƒå“¡?</label>
+                        <label for="tab-1">¤w¸g¬O·|­û?</label>
                     </div>
                 </div>
                 </form>
@@ -164,13 +168,13 @@ input[type=submit], [type=button] {
     </div>
 
 						<!-- <div class="form-group">
-							<label for="acc">å¸³è™Ÿ</label> <input type="text" name="acc"
-								id="acc" placeholder="å¸³è™Ÿ" class="form-control"> <label
-								for="pwd">å¯†ç¢¼</label> <input type="password" name="pwd" id="pwd"
-								placeholder="å¯†ç¢¼" class="form-control"> <br /> <input
-								align="center" class="text-center" type="submit" value="é€å‡º">
+							<label for="acc">±b¸¹</label> <input type="text" name="acc"
+								id="acc" placeholder="±b¸¹" class="form-control"> <label
+								for="pwd">±K½X</label> <input type="password" name="pwd" id="pwd"
+								placeholder="±K½X" class="form-control"> <br /> <input
+								align="center" class="text-center" type="submit" value="°e¥X">
 							<input onclick="javascript:location.href='#'" type="button"
-								value="è¨»å†Š">
+								value="µù¥U">
 							<input type="hidden" name="action" value="login">
 						</div> -->
 					
@@ -201,50 +205,49 @@ input[type=submit], [type=button] {
                 		   					 <input style="background-color: transparent;" class="form-control" type="date" name="start" placeholder="find something">
                 					 		<input style="background-color: transparent;" class="form-control" type="date" name="end" placeholder="find something">
                 		   				</div>
-                		   				<input style="background-color: transparent;" type="submit" class="form-control" value="å¿«é€ŸæŸ¥è©¢">
+                		   				<input style="background-color: transparent;" type="submit" class="form-control" value="§Ö³t¬d¸ß">
                 		   			</form>
-              <form id ="form1" name="form1" action="<%=request.getContextPath()%>/backend/member/member.do">
-              	  
+
               					 <ul class="nav navbar-nav navbar-right">
               	                    <li class="hidden">
               	                        <a href="#page-top"></a>
               	                    </li>
-              					<li><a class="page-scroll" href="#"><i class="glyphicon glyphicon-heart"></i>æˆ‘è¦ç§Ÿè»Š</a></li>
+              					<li><a class="page-scroll" href="#"><i class="glyphicon glyphicon-heart"></i>§Ú­n¯²¨®</a></li>
               						<li><a class="page-scroll" href="#news"><i
-              								class="glyphicon glyphicon-alert"></i>æœ€æ–°æ¶ˆæ¯</a></li>
+              								class="glyphicon glyphicon-alert"></i>³Ì·s®ø®§</a></li>
               						<li><a class="page-scroll" href="#board"><i
-              								class="fa fa-comments-o"></i>ç•™è¨€æ¿</a></li>
+              								class="fa fa-comments-o"></i>¯d¨¥ªO</a></li>
               						<li><a class="page-scroll" href="#loc"><i
-              								class="fa fa-search"></i>æœå‹™æ“šé»</a></li>
-              						<li><a href="<%=request.getContextPath()%>/backend/member/member.do"><i class="fa fa-shopping-cart"></i>äºŒæ‰‹è»Šè³¼è²·</a>
+              								class="fa fa-search"></i>ªA°È¾ÚÂI</a></li>
+              						<li><a href="<%=request.getContextPath()%>/backend/member/member.do"><i class="fa fa-shopping-cart"></i>¤G¤â¨®ÁÊ¶R</a>
               						</li>
               						
-              						<c:if test="${not empty memID}">			
-              							<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memID}">æ­¡è¿ï¼Œ${memID}</a></li>
+              						<c:if test="${not empty memno}">			
+              							<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">Åwªï¡A${memname}</a></li>
               									<li>
-              										<a href="javascript:document.form1.submit()"
-              								data-toggle="modal"><i class="glyphicon glyphicon-user"></i>ç™»å‡º</a>
+              										<a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout"
+              								data-toggle="modal"><i class="glyphicon glyphicon-user"></i>µn¥X</a>
               									</li>
-              						<input type="hidden" name="action" value="logout">			
+              			
               						
               						</c:if>
               						
-              						<c:if test="${ empty memID}">
+              						<c:if test="${ empty memno}">
               							<li>
               								<a href="#modal-id"
-              								data-toggle="modal"><i class="glyphicon glyphicon-user"></i>æœƒå“¡ç™»å…¥</a>
+              								data-toggle="modal"><i class="glyphicon glyphicon-user"></i>·|­ûµn¤J</a>
               							</li>
               						</c:if>
               	 				  	
               	 				  
               					</ul>
-              </form>
+            
 			</div>
 			<!-- /.navbar-collapse -->
 		</div>
 		<!-- /.container-fluid -->
 	</nav>
-	<!-- ç§Ÿè»Šä¸»è»¸Header -->
+	<!-- ¯²¨®¥D¶bHeader -->
 	<header id="rent">
 		
 		<div class="container">
@@ -253,7 +256,7 @@ input[type=submit], [type=button] {
 				<div class="intro-lead-in">Welcome To Autobike!</div>
 				<div class="intro-heading">The Best Bike For You!</div>
 				
-				<!-- 				<a href="rent.html" class="page-scroll btn btn-xl">é»æˆ‘ç§Ÿè»Š</a> -->
+				<!-- 				<a href="rent.html" class="page-scroll btn btn-xl">ÂI§Ú¯²¨®</a> -->
 			</div>
 
 		</div>
@@ -263,9 +266,9 @@ input[type=submit], [type=button] {
 		<div class="container-fluid">
 			<div class="row ">
 				<div class="col-xs-12 col-sm-12 text-center">
-					<h2 class="section-heading">æœ€æ–°æ¶ˆæ¯</h2>
+					<h2 class="section-heading">³Ì·s®ø®§</h2>
 					<h3 class="section-subheading text-muted">
-						<a style="color: blue" href="news.html">é»æˆ‘çœ‹æ›´å¤š</a>
+						<a style="color: blue" href="news.html">ÂI§Ú¬İ§ó¦h</a>
 					</h3>
 
 				</div>
@@ -352,8 +355,8 @@ input[type=submit], [type=button] {
             <div class="row">
                 <br/>
                 <div class="col-xs-12 col-sm-12 text-center">
-                    <h2 class="intro-lead-in">ç•™è¨€æ¿</h2>
-                    <h3 class="intro-heading">è¨˜éŒ„æ„Ÿå‹•çš„æ¯ä¸€åˆ»</h3>
+                    <h2 class="intro-lead-in">¯d¨¥ªO</h2>
+                    <h3 class="intro-heading">°O¿ı·P°Êªº¨C¤@¨è</h3>
                 </div>
             </div>
             <div class="row">
@@ -391,7 +394,7 @@ input[type=submit], [type=button] {
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 text-center">
-					<h2 class="section-heading">ç•™è¨€æ¿</h2>
+					<h2 class="section-heading">¯d¨¥ªO</h2>
 				<h4>	<a href="#" id="general">Enter MESSAGE BOARD</a></h4>
 
 
@@ -437,7 +440,7 @@ input[type=submit], [type=button] {
 			<div class="row">
 				<br />
 				<div class="col-xs-12 col-sm-12 text-center">
-					<h2>æˆ‘å€‘çš„æ“šé»</h2>
+					<h2>§Ú­Ìªº¾ÚÂI</h2>
 					<h3
 							style="color: blue" class="section-subheading"><a href="leave_message_Page.html" id="general">
 							See More
@@ -467,11 +470,11 @@ input[type=submit], [type=button] {
 	</aside>
 	<footer>
 		<div class="col-xs-12 col-sm-12">
-			<span>è¯çµ¡è³‡è¨Š</span>
+			<span>Ápµ¸¸ê°T</span>
 		</div>
 		<div class="container-fluid">
 			<div class="col-xs-12 col-sm-4">
-				<span>åœ°å€:æ¡ƒåœ’å¸‚å¹³é®å€ä¸­å¤®è·¯115è™Ÿ</span>
+				<span>¦a§}:®ç¶é¥«¥­Âí°Ï¤¤¥¡¸ô115¸¹</span>
 			</div>
 			<div class="col-xs-12 col-sm-4">
 				<span>EMAIL:taic@oregonstate.edu</span>

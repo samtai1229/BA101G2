@@ -6,7 +6,7 @@
 </head>
 <body bgcolor='white'>
 
-	<table border='1' cellpadding='5' cellspacing='0' width='400'>
+	<table border='1' cellpadding='5' cellspacing='0' width='1450'>
 		<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 			<td><h3>IBM Member: Home</h3>
 				<font color=red>( MVC )</font></td>
