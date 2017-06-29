@@ -53,6 +53,27 @@ public class MemberServlet extends HttpServlet {
 		System.out.println("進來了 要做的是 " + action);
 		
 		
+		if ("logout".equals(action)) {
+			System.out.println("登出~~~~~~~~~~~~~");
+			
+			req.getSession().invalidate();
+			
+			
+//			req.setAttribute("memVO", null); // 資料庫取出的empVO物件,存入req
+//			req.getSession().setAttribute("memID", null);
+//			String url = "/backend/member/listOneMember.jsp";
+			String url = "/index.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
+			successView.forward(req, res);
+			
+			
+			
+			
+		}
+		
+		
+		
+		
 		if ("register".equals(action)) {
 			System.out.println("Register~~~~~~~~~~~~~");
 			List<String> errorMsgs = new LinkedList<String>();

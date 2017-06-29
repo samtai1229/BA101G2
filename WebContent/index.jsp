@@ -81,7 +81,7 @@ input[type=submit], [type=button] {
 
 </style>
 <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans:600'>
- <link rel="stylesheet" href="css/style_login.css">
+ <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style_login.css">
 </head>
 
 <body id="page-top" class="index">
@@ -219,6 +219,10 @@ input[type=submit], [type=button] {
 					<li>
 					<c:if test="${not empty memID}">			
 						<a href="<%=request.getContextPath()%>/backend/member/member.do?memID=${memID}">歡迎，${memID}</a>
+						<form   name="form1"  method="post"  action="<%=request.getContextPath()%>/backend/member/member.do?action=logout" >  
+								<a href="javascript:document.form1.submit()">登出</a>
+                         </form>
+					
 					</c:if>
 					
 					<c:if test="${ empty memID}">
