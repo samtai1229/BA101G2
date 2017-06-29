@@ -1,38 +1,33 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
-<%@ page import="com.motor.model.*"%>
 <%@ page import="com.motor_model.model.*"%>
+<%-- 此頁練習採用 EL 的寫法取值 --%>
+
+<jsp:useBean id="motorModelSvc" scope="page"
+	class="com.motor_model.model.MotorModelService" />
 
 <!DOCTYPE html>
-<%-- 此頁練習採用 EL 的寫法取值 --%>
-<%
-	// EmpService empSvc = new EmpService();
-	// List<EmpVO> list = empSvc.getAll();
-	// pageContext.setAttribute("list",list);
-%>
-<jsp:useBean id="motorSvc" scope="page"	class="com.motor.model.MotorService" />
-<jsp:useBean id="motorModelSvc" scope="page" class="com.motor_model.model.MotorModelService" />
-<html>
-
+<html lang="">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>所有機車查詢 - MotorMgmtHqSelectPage.jsp</title>
-<meta name="description" content="">
-<meta name="keywords" content="">
-<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-<script src="https://code.jquery.com/jquery.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+<title>所有車型資料- listAllMotorModel.jsp</title>
+
+<!-- CSS -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/backend/motor/js/motorMgmtHqSelectPage_css.css">
-<script
-	src="${pageContext.request.contextPath}/backend/motor/js/motorMgmtHqSelectPage_js.js"></script>
-</head>
+	href="${pageContext.request.contextPath}/backend/motor_model/js/listAllMotorModel_css.css">
 
+<!-- JS -->
+<script src="${pageContext.request.contextPath}/backend/motor/js/motorMgmtHqSelectPage_js.js"></script>
+<script src="https://code.jquery.com/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
 <body>
 	<nav class="navbar navbar-default" role="navigation">
 		<!-- logo區 -->
@@ -96,7 +91,6 @@
 				class="btn btn-default" href="#" role="button">後端登入管理</a>
 		</div>
 	</div>
-
 	<div class="col-xs-12 col-sm-10 rightHTML">
 		<div class="topTitle">
 			<h1>車輛資料管理</h1>
@@ -137,39 +131,64 @@
 				</tr>
 				</table>
 				<br>
-
 			</div>
-			<br>
-			
-			<%if (request.getAttribute("listAllMotorModel") != null) {%>
-			<jsp:include page="/backend/motor_model/listAllMotorModel.jsp" />
-			<%}%>
+	<table
+		class="table table-hover table-condensed table-striped table-bordered">
+		<thead>
+			<td>車輛型號</td>
+			<td>廠牌</td>
+			<td>排氣量</td>
+			<td>名稱</td>
+			<td>租賃價格</td>
+			<td>出售價格</td>
+			<td>圖示</td>
+			<td>修改/刪除</td>
+		</thead>
+		<c:forEach var="motorModelVO" items="${motorModelSvc.all}">
 
-			<%if (request.getAttribute("listAllMotor") != null) {%>
-			<jsp:include page="/backend/motor/listAllMotor.jsp" />
-			<%}%>
-			
+			<tr ${(motorModelVO.modtype==param.modtype) ? 'style="background-color:red;"':''}>
+				<td>--${motorModelVO.modtype==param.modtype}--${motorModelVO.modtype}</td>
+				<td>${motorModelVO.brand}</td>
+				<td>${motorModelVO.displacement}</td>
+				<td>${motorModelVO.name}</td>
+				<td>${motorModelVO.renprice}</td>
+				<td>${motorModelVO.saleprice}</td>
+				<td><img id = "motpic" src="<%=request.getContextPath()%>/backend/motor_model/mmReader.do?modtype=${motorModelVO.modtype}"></td>
+				<td >
+					<FORM METHOD="post"  style="display: inline;"
+						ACTION="<%=request.getContextPath()%>/backend/motor_model/motorModel4H.do" >
+						<input type="submit" name="fix" value="修改" class="btn btn-default"
+							role="button"> 
+						<input type="hidden" name="modtype"
+							value="${motorModelVO.modtype}"> 
+						<input type="hidden"
+							name="requestURL" value="<%=request.getServletPath()%>">
+						<input type="hidden" name="action" value="getOne_For_Update">
+					</FORM>
+				
+					<FORM METHOD="post" style="display: inline;"
+						ACTION="<%=request.getContextPath()%>/backend/motor_model/motorModel4H.do">
+						<input type="submit" name="del" value="刪除" class="btn btn-default"
+							role="button"> 
+						<input type="hidden" name="modtype" value="${motorModelVO.modtype}"> 
+						<input type="hidden"
+							name="requestURL" value="<%=request.getServletPath()%>">
+						<!--送出本網頁的路徑給Controller-->
+						<input type="hidden" name="action" value="delete">
+					</FORM>
+				</td>
+			</tr>
+		</c:forEach>
+	</table>
+
+
+	
+
 			
 			
 			
 
-			<!-- 頁籤 -->
-			<!-- <li class="active"> = hightlight -->
-			<div class="text-center">
-				<ul class="pagination pagination-sm">
-					<li><a href="#"><i
-							class="glyphicon glyphicon-circle-arrow-left"></i></a></li>
-					<li><a href="#">1</a></li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li><a href="#">4</a></li>
-					<li><a href="#">5</a></li>
-					<li><a href="#"><i
-							class="glyphicon glyphicon-circle-arrow-right"></i></a></li>
-				</ul>
-			</div>
 		</div>
 	</div>
 </body>
-
 </html>

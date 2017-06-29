@@ -69,11 +69,11 @@ h1 {
 
 tr {
     text-align: center;
+    vertical-align:middle;
 }
 
 td {
-    padding: 5px;
-    white-space: nowrap;
+	vertical-align:middle;
 }
 
 .searchBar {
@@ -125,3 +125,7 @@ input[type="text"]{
     
 }
 
+#motpic{
+	max-width: 150px;
+	max-height: 150px;
+}

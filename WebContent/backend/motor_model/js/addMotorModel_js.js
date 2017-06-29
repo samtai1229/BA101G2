@@ -31,5 +31,21 @@ function doFirst() {
             }
         }
     }
+
+    //上傳圖片
+    document.getElementById('filePic').onchange = fileChange;
 }
 window.addEventListener('load', doFirst, false);
+
+function fileChange() {
+    var file = document.getElementById('filePic').files[0];
+    var readFile = new FileReader();
+    readFile.readAsDataURL(file);
+    readFile.addEventListener('load', function() { //function(event)
+        // alert(event.target+' : ' + event.type);
+        var image = document.getElementById('imgPic');
+        
+        image.removeAttribute("src");
+        image.src = this.result;
+    }, false);
+}

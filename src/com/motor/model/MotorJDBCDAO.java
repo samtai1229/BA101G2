@@ -10,17 +10,20 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+
+import com.motor.controller.jdbcUtil_CompositeQuery_Motor;
 
 public class MotorJDBCDAO implements MotorDAO_interface {
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "ba101g2";
-	String passwd = "ba101g2";
+	String userid = "servlet";
+	String passwd = "123456";
 
 	private static final String INSERT_STMT = "INSERT INTO MOTOR (motno, modtype, plateno,"
-			+ " engno, manudate, mile, locno, status, note"
-			+ ") VALUES ('M'||LPAD(TO_CHAR(motno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?, ?, ?, ?, ?)";
+			+ " engno, manudate, mile, note"
+			+ ") VALUES ('M'||LPAD(TO_CHAR(motno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?, ?, ?)";
 
 	private static final String UPDATE = "UPDATE MOTOR set modtype=?, plateno=?,"
 			+ " engno=?, manudate=?, mile=?, locno=?," + "status=?, note=? where motno = ?";
@@ -492,6 +495,68 @@ public class MotorJDBCDAO implements MotorDAO_interface {
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	public List<MotorVO> getAll(Map<String, String[]> map) {
+			List<MotorVO> list = new ArrayList<MotorVO>();
+			MotorVO motorVO = null;
+		
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+		
+			try {
+				con = DriverManager.getConnection(url, userid, passwd);
+				String finalSQL = "select * from motor "
+			          + jdbcUtil_CompositeQuery_Motor.get_WhereCondition(map)
+			          + "order by motno";
+				pstmt = con.prepareStatement(finalSQL);
+				System.out.println("●●finalSQL(by DAO) = "+finalSQL);
+				rs = pstmt.executeQuery();
+		
+				while (rs.next()) {
+					motorVO = new MotorVO();
+					motorVO.setMotno(rs.getString("motno"));
+					motorVO.setModtype(rs.getString("modtype"));
+					motorVO.setPlateno(rs.getString("plateno"));
+					motorVO.setEngno(rs.getString("engno"));						
+					motorVO.setManudate(rs.getTimestamp("manudate"));			
+					motorVO.setMile(rs.getInt("mile"));
+					motorVO.setLocno(rs.getString("locno"));
+					motorVO.setStatus(rs.getString("status"));
+					motorVO.setNote(rs.getString("note"));
+					list.add(motorVO); // Store the row in the List
+				}
+		
+				// Handle any SQL errors
+			} catch (SQLException se) {
+				throw new RuntimeException("A database error occured. "
+						+ se.getMessage());
+			} finally {
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}
+			}
+			return list;
+		}
 
 	public static void main(String[] args) {
 

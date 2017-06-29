@@ -12,7 +12,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<title>機車資料修改 - updateMotorInput.jsp</title>
+<title>新增車輛 - addMotor.jsp</title>
 
 <meta name="keywords" content="">
 <!-- CSS -->
@@ -21,7 +21,7 @@
 <link rel="stylesheet"
 	href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/backend/motor/js/updateMotorInput_css.css">
+	href="${pageContext.request.contextPath}/backend/motor/js/addMotor_css.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/backend/motor/js/bootstrap-datetimepicker.min.css">
 
@@ -32,14 +32,11 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script
-	src="${pageContext.request.contextPath}/backend/motor/js/updateMotorInput_js.js"></script>
+	src="${pageContext.request.contextPath}/backend/motor/js/motorMgmtHqSelectPage_js.js"></script>
 <script
 	src="${pageContext.request.contextPath}/backend/motor/js/bootstrap-datetimepicker.js"></script>
 
 </head>
-
-
-
 
 <body>
 	<nav class="navbar navbar-default" role="navigation">
@@ -70,13 +67,12 @@
 		<button class="accordion accordionMenu">總部管理系統</button>
 		<div class="btn-group-vertical">
 			<a class="btn btn-default"
-				href="${pageContext.request.contextPath}/backend/motor/motorMgmtHqSelectPage.jsp"
-				role="button">車輛管理</a> <a class="btn btn-default" href="#"
-				role="button">車輛調度</a> <a class="btn btn-default" href="#"
-				role="button">租賃單管理</a> <a class="btn btn-default" href="#"
-				role="button">裝備管理</a> <a class="btn btn-default" href="#"
-				role="button">裝備調度</a> <a class="btn btn-default" href="#"
-				role="button">據點管理</a>
+				href="${pageContext.request.contextPath}/backend/motor/motorMgmtHqSelectPage.jsp" role="button">車輛管理</a> 
+			<a class="btn btn-default" href="#" role="button">車輛調度</a> 
+			<a class="btn btn-default" href="#" role="button">租賃單管理</a> 
+			<a class="btn btn-default" href="#" role="button">裝備管理</a> 
+			<a class="btn btn-default" href="#" role="button">裝備調度</a>
+			<a class="btn btn-default" href="#" role="button">據點管理</a>
 		</div>
 		<button class="accordion accordionMenu">據點管理系統</button>
 		<div class="btn-group-vertical">
@@ -116,7 +112,7 @@
 		</div>
 
 
-
+		
 		<%-- 錯誤表列 --%>
 		<c:if test="${not empty errorMsgs}">
 			<font color='red'>請修正以下錯誤:
@@ -128,64 +124,8 @@
 			</font>
 		</c:if>
 		<div class="container">
-			<FORM METHOD="post" ACTION="motor4H.do" name="formUpdate"
+			<FORM METHOD="post" ACTION="motor4H.do" name="formAdd"
 				class="form-horizontal">
-				<div class="form-group">
-					<label class="control-label col-sm-2" for="motno">車輛編號：</label>
-					<div class="col-sm-10">
-						<p class="form-control">${motorVO.motno}</p>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="control-label col-sm-2" for="plateno">車牌號碼：</label>
-					<div class="col-sm-10">
-						<input type="text" class="form-control" id="plateno"
-							name="plateno" value="<%=motorVO.getPlateno()%>" />
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="control-label col-sm-2" for="engno">引擎編號：</label>
-					<div class="col-sm-10">
-						<input type="text" class="form-control" id="engno" name="engno"
-							value="<%=motorVO.getEngno()%>" />
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="control-label col-sm-2" for="manudate">出廠日期：</label>
-					<div id="datetimepicker1" class="col-sm-10 input-append">
-						<input readonly data-format="yyyy-MM-dd HH:mm:ss" type="text"
-							class="form-control" name="manudate"
-							value="<%=motorVO.getManudate()%>" /> <span class="add-on">
-							<i data-time-icon="icon-time" data-date-icon="icon-calendar">
-						</i>
-						</span>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="control-label col-sm-2" for="mile">里程數：</label>
-					<div class="col-sm-10">
-						<input type="text" class="form-control" id="mile" name="mile"
-							value="<%=motorVO.getMile()%>" />
-					</div>
-				</div>
-
-				<jsp:useBean id="locationSvc" scope="page"
-					class="com.location.model.LocationService" />
-				<div class="form-group">
-					<label class="control-label col-sm-2" for="locno">所在地：</label>
-					<div class="col-sm-10">
-						<select name="locno" class="form-control">
-							<c:forEach var="locationVO" items="${locationSvc.all}">
-								<option value="${locationVO.locno}"
-									${(motorVO.locno==locationVO.locno)?'selected':'' }>${locationVO.locname}
-							</c:forEach>
-						</select>
-					</div>
-				</div>
 
 				<jsp:useBean id="motorModelSvc" scope="page"
 					class="com.motor_model.model.MotorModelService" />
@@ -201,42 +141,52 @@
 						</select>
 					</div>
 				</div>
-
-				<jsp:useBean id="motorSvc" scope="page"
-					class="com.motor.model.MotorService" />
+				
 				<div class="form-group">
-					<label class="control-label col-sm-2" for="status">狀態：</label>
+					<label class="control-label col-sm-2" for="plateno">車牌號碼：</label>
 					<div class="col-sm-10">
-						<select name="status" class="form-control" id="status">
-							<option selected value="${motorVO.status}">${motorVO.status}
-								<c:forEach var="s" items="${statusArray}">
-									<c:if test="${motorVO.status!=s}">
-										<option value="${s}">${s}
-									</c:if>
-								</c:forEach>
-						</select>
+						<input type="text" class="form-control" id="plateno"
+							name="plateno" value="" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="engno">引擎編號：</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="engno" name="engno"
+							value="" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="manudate">出廠日期：</label>
+						<div id="datetimepicker1" class="col-sm-10 input-append">
+							<input readonly data-format="yyyy-MM-dd HH:mm:ss" type="text" class="form-control" name="manudate" value="" />
+							<span class="add-on"> <i data-time-icon="icon-time"
+								data-date-icon="icon-calendar"> </i>
+							</span>
+						</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="mile">里程數：</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control" id="mile" name="mile"
+							value="" />
 					</div>
 				</div>
 
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="note">備註：</label>
 					<div class="col-sm-10">
-						<textarea class="form-control" id="note" rows="5" cols="70"
-							name="note"><%=motorVO.getNote()%></textarea>
+					<textarea class="form-control" id="note" rows="5" cols="70" name="note"></textarea>
 					</div>
 				</div>
 
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-						<input type="submit" class="btn btn-default" value="送出修改">
-						<input type="hidden" name="action" value="update"> 
-						<input type="hidden" name="motno" value="<%=motorVO.getMotno()%>">
-						<input type="hidden" name="requestURL"
-							value="<%=request.getParameter("requestURL")%>">
-						<!--接收原送出修改的來源網頁路徑後,再送給Controller準備轉交之用-->
-						<input type="hidden" name="whichPage"
-							value="<%=request.getParameter("whichPage")%>">
-						<!--只用於:listAllMotor.jsp-->
+						<input type="hidden" name="action" value="insert">
+						<input type="submit" value="確認新增">
 					</div>
 				</div>
 			</FORM>
