@@ -34,7 +34,7 @@
 <title>所有二手車訂單資料 - listAllSecOrd.jsp</title>
 </head>
 <body bgcolor='white'>
-<table border='1' cellpadding='5' cellspacing='0' width='800'>
+<table border='1' cellpadding='5' cellspacing='0' width='1260'>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
 		<h3>所有二手車訂單資料 - ListAllSecOrds.jsp</h3>
@@ -67,7 +67,7 @@
        <input type="submit" value="送出">
        <input type="hidden" name="action" value="listSecOrd_ByStatus">
      </FORM>
-<table border='1' bordercolor='#CCCCFF' width='800'>
+<table border='1' bordercolor='#CCCCFF' width='1260'>
 	<tr>
 		<th>二手車訂單編號</th>
 		<th>會員名稱</th>
@@ -76,7 +76,7 @@
 		<th>訂單狀態</th>
 	</tr>
 <%-- 					begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" --%>
-	<c:forEach var="soVO" items="${list}"  >
+	<c:forEach var="soVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" >
 		<tr align='center' valign='middle'>
 			<td>${soVO.sono}</td>
 			<td>${soVO.memno}</td>
@@ -102,7 +102,7 @@
 		</tr>
 	</c:forEach>
 </table>
-<%-- <%@ include file="pages/page2.file" %> --%>
+<%@ include file="pages/page2.file" %>
 
 <br>本網頁的路徑:<br><b>
    <font color=blue>request.getServletPath():</font> <%= request.getServletPath()%><br>

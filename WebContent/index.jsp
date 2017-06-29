@@ -177,33 +177,35 @@ input[type=submit], [type=button] {
 		</div>
 	</div>
 	<!-- Navigation -->
-	<nav id="mainNav"
-		class="navbar navbar-default navbar-custom navbar-fixed-top">
-		<div class="container-fluid">
-			<!-- Brand and toggle get grouped for better mobile display -->
-		
-				<!-- <button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target="#bs-example-navbar-collapse-1">
-					<span class="sr-only">Toggle navigation</span> Menu
-				</button>
- -->
-<!-- 				<a class="navbar-brand page-scroll" href="#page-top">AutoBike</a> -->
-		
+	<nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                   <a class="navbar-brand page-scroll" href="#page-top">AutoBike</a>
+            </div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse "
-				id="bs-example-navbar-collapse-1">
+			 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+               
              
-                <a class="navbar-brand page-scroll" href="#page-top">AutoBike</a>
-                 <form  method="post" action="#" class="navbar-form navbar-left" role="search">
-	   				<div class="form-group">
-
-	   					 <input style="background-color: transparent;" class="form-control" type="date" name="start" placeholder="find something">
-				 		<input style="background-color: transparent;" class="form-control" type="date" name="end" placeholder="find something">
-	   				</div>
-	   				<input style="background-color: transparent;" type="submit" class="form-control" value="快速查詢">
-	   			</form>
-				<ul class="nav navbar-nav navbar-center">
+             
+                <li>
+                	 <form  method="post" action="#" class="navbar-form navbar-left" role="search">
+                		   				<div class="form-group">
+                	
+                		   					 <input style="background-color: transparent;" class="form-control" type="date" name="start" placeholder="find something">
+                					 		<input style="background-color: transparent;" class="form-control" type="date" name="end" placeholder="find something">
+                		   				</div>
+                		   				<input style="background-color: transparent;" type="submit" class="form-control" value="快速查詢">
+                		   			</form>
+                </li>
+				 <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
 				<li><a class="page-scroll" href="#"><i
 							class="glyphicon glyphicon-alert"></i>我要租車</a></li>
 					<li><a class="page-scroll" href="#news"><i
@@ -224,8 +226,7 @@ input[type=submit], [type=button] {
 						data-toggle="modal"><i class="glyphicon glyphicon-user"></i>會員登入</a>
 					</c:if>
  				  </li>	
- 				  <li><a href="<%=request.getContextPath()%>/backend/member/member.do"><i class="fa fa-shopping-cart"></i>二手車購買</a>
-					</li>
+ 				  
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
