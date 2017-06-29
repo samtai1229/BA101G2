@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 public class MesBoardVO implements java.io.Serializable{
 	private String mesno;
 	private String memno;
-	private Timestamp date;
+	private Timestamp mesdate;
 	private String cont;
 	private byte[] pic;
 	private String status;
@@ -24,11 +24,11 @@ public class MesBoardVO implements java.io.Serializable{
 	public void setMemno(String memno) {
 		this.memno = memno;
 	}
-	public Timestamp getDate() {
-		return date;
+	public Timestamp getMesdate() {
+		return mesdate;
 	}
-	public void setDate(Timestamp date) {
-		this.date = date;
+	public void setTimestamp(Timestamp mesdate) {
+		this.mesdate = mesdate;
 	}
 	public String getCont() {
 		return cont;
