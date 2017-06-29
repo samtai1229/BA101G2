@@ -55,6 +55,29 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js" integrity="sha384-ZoaMbDF+4LeFxg6WdScQ9nnR1QC2MIRxA1O9KWEXQwns1G8UNyIEZIQidzb0T1fo" crossorigin="anonymous"></script>
     <![endif]-->
 <style>
+/*input[type=date] {
+	box-sizing: border-box;
+	border: 2px solid #ccc;
+	border-radius: 16px;
+	font-size: 30px;
+	background-color: transparent;
+	text-align: center;
+	background-position: 10px 10px;
+	line-height: 48px;
+}
+
+input[type=submit], [type=button] {
+	background-color: transparent;
+	text-align: center;
+	box-sizing: border-box;
+	font-size: 30px;
+	border-radius: 16px;
+	line-height: 48px;
+	border: 2px solid #ccc;
+}
+*/
+
+
 
 </style>
 <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans:600'>
@@ -62,68 +85,15 @@
 </head>
 
 <body id="page-top" class="index">
-
-  <div class="modal fade" id="modal-out">
-		<div class="modal-dialog">
-			<div >
-			
-				<div class="modal-body">
-				   <button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					
-
-										<div class="login-wrap">
-        <div class="login-html" style="width:100% height:1000px">
-            <input id="tab-1" type="radio" name="tab" class="sign-in" checked>
-            <label for="tab-1" class="tab">登入</label>
-            
-            <div class="login-form">
-            <form action="<%=request.getContextPath()%>/backend/member/member.do">
-               
-				</form>
-                <form action="<%=request.getContextPath()%>/backend/member/member.do">
-                <div class="sign-up-htm">
-                    <div class="group">
-                        <label for="new_acc" class="label">帳號</label>
-                        <input name="new_acc" type="text" class="input">
-                    </div>
-                    <div class="group">
-                        <label for="new_pwd" class="label">密碼</label>
-                        <input name="new_pwd" type="password" class="input" data-type="password">
-                    </div>
-                    <div class="group">
-                        <label for="pass" class="label">確認密碼</label>
-                        <input name="pass" type="password" class="input" data-type="password">
-                    </div>
-                    <div class="group">
-                        <label for="mail" class="label">信箱</label>
-                        <input id="mail" name="mail" type="email" class="input">
-                    </div>
-                    <div class="group">
-                        <input type="submit" class="button" value="Sign Up">
-                        <input type="hidden" name="action" value="register">
-                    </div>
-                    <div class="hr"></div>
-                    <div class="foot-lnk">
-                        <label for="tab-1">已經是會員?</label>
-                    </div>
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
-					
-				</div>
-			</div>
-		</div>
-		</div>
-     
-
 	<!-- 會員登入燈箱 -->
 	<div class="modal fade" id="modal-id">
 		<div class="modal-dialog">
 			<div >
-			
+			<!-- 	<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title">登入會員</h4>
+				</div> -->
 				<div class="modal-body">
 				   <button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
@@ -192,6 +162,17 @@
             </div>
         </div>
     </div>
+
+						<!-- <div class="form-group">
+							<label for="acc">帳號</label> <input type="text" name="acc"
+								id="acc" placeholder="帳號" class="form-control"> <label
+								for="pwd">密碼</label> <input type="password" name="pwd" id="pwd"
+								placeholder="密碼" class="form-control"> <br /> <input
+								align="center" class="text-center" type="submit" value="送出">
+							<input onclick="javascript:location.href='#'" type="button"
+								value="註冊">
+							<input type="hidden" name="action" value="login">
+						</div> -->
 					
 				</div>
 			</div>
@@ -222,40 +203,43 @@
                 		   				</div>
                 		   				<input style="background-color: transparent;" type="submit" class="form-control" value="快速查詢">
                 		   			</form>
-                
-				 <ul class="nav navbar-nav navbar-right">
-                    <li class="hidden">
-                        <a href="#page-top"></a>
-                    </li>
-				<li><a class="page-scroll" href="#"><i
-							class="glyphicon glyphicon-alert"></i>我要租車</a></li>
-					<li><a class="page-scroll" href="#news"><i
-							class="glyphicon glyphicon-alert"></i>最新消息</a></li>
-					<li><a class="page-scroll" href="#board"><i
-							class="fa fa-comments-o"></i>留言板</a></li>
-					<li><a class="page-scroll" href="#loc"><i
-							class="fa fa-search"></i>服務據點</a></li>
-					<li><a href="<%=request.getContextPath()%>/backend/member/member.do"><i class="fa fa-shopping-cart"></i>二手車購買</a>
-					</li>
-					
-					<c:if test="${not empty memID}">			
-						<li><a href="#">歡迎，${memID}</a></li>
-								<li>
-									<a href="#modal-out"
-							data-toggle="modal"><i class="glyphicon glyphicon-user"></i>登出</a>
-								</li>
-					
-					</c:if>
-					
-					<c:if test="${ empty memID}">
-						<li>
-							<a href="#modal-id"
-							data-toggle="modal"><i class="glyphicon glyphicon-user"></i>會員登入</a>
-						</li>
-					</c:if>
- 				  	
- 				  
-				</ul>
+              <form id ="form1" name="form1" action="<%=request.getContextPath()%>/backend/member/member.do">
+              	  
+              					 <ul class="nav navbar-nav navbar-right">
+              	                    <li class="hidden">
+              	                        <a href="#page-top"></a>
+              	                    </li>
+              					<li><a class="page-scroll" href="#"><i
+              								class="glyphicon glyphicon-alert"></i>我要租車</a></li>
+              						<li><a class="page-scroll" href="#news"><i
+              								class="glyphicon glyphicon-alert"></i>最新消息</a></li>
+              						<li><a class="page-scroll" href="#board"><i
+              								class="fa fa-comments-o"></i>留言板</a></li>
+              						<li><a class="page-scroll" href="#loc"><i
+              								class="fa fa-search"></i>服務據點</a></li>
+              						<li><a href="<%=request.getContextPath()%>/backend/member/member.do"><i class="fa fa-shopping-cart"></i>二手車購買</a>
+              						</li>
+              						
+              						<c:if test="${not empty memID}">			
+              							<li><a href="#">歡迎，${memID}</a></li>
+              									<li>
+              										<a href="javascript:document.form1.submit()"
+              								data-toggle="modal"><i class="glyphicon glyphicon-user"></i>登出</a>
+              									</li>
+              						<input type="hidden" name="action" value="logout">			
+              						
+              						</c:if>
+              						
+              						<c:if test="${ empty memID}">
+              							<li>
+              								<a href="#modal-id"
+              								data-toggle="modal"><i class="glyphicon glyphicon-user"></i>會員登入</a>
+              							</li>
+              						</c:if>
+              	 				  	
+              	 				  
+              					</ul>
+              </form>
 			</div>
 			<!-- /.navbar-collapse -->
 		</div>
@@ -343,7 +327,7 @@
 							</div>
 						</div>
 						<div class="item"
-							style="background-image: url(<%=request.getContextPath()%>/img/newsSlide/s4.jpg)">
+							style="background-image: url(img/newsSlide/s4.jpg)">
 							<div class="fh5co-overlay"></div>
 							<div class="container">
 								<div class="row">
