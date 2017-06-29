@@ -11,12 +11,11 @@ public class NewsService {
 		dao = new NewsDAO();
 	}
 	
-	public NewsVO addNews(String admno, Timestamp date, String cont,byte[] pic, String title, String status) {
+	public NewsVO addNews(String admno, String cont,byte[] pic, String title, String status) {
 
 		NewsVO newsVO = new NewsVO();
 
 		newsVO.setAdmno(admno);
-		newsVO.setDate(date);
 		newsVO.setCont(cont);
 		newsVO.setPic(pic);
 		newsVO.setTitle(title);
@@ -26,12 +25,11 @@ public class NewsService {
 		return newsVO;
 	}
 	
-	public NewsVO updateNews(String newsno,String admno, Timestamp date, String cont,byte[] pic, String title, String status) {
+	public NewsVO updateNews(String newsno,String admno, String cont,byte[] pic, String title, String status) {
 
 		NewsVO newsVO = new NewsVO();
 		newsVO.setNewsno(newsno);
 		newsVO.setAdmno(admno);
-		newsVO.setDate(date);
 		newsVO.setCont(cont);
 		newsVO.setPic(pic);
 		newsVO.setTitle(title);
@@ -50,6 +48,7 @@ public class NewsService {
 	}
 
 	public List<NewsVO> getAll() {
+		System.out.println("123");
 		return dao.getAll();
 	}
 }

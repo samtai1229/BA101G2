@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 public class NewsVO implements java.io.Serializable{
 	private String newsno;
 	private String admno;
-	private Timestamp date;
+	private Timestamp newsdate;
 	private String cont;
 	private byte[] pic;
 	private String title;
@@ -27,11 +27,11 @@ public class NewsVO implements java.io.Serializable{
 	public void setAdmno(String admno) {
 		this.admno = admno;
 	}
-	public Timestamp getDate() {
-		return date;
+	public Timestamp getNewsdate() {
+		return newsdate;
 	}
-	public void setDate(Timestamp date) {
-		this.date = date;
+	public void setNewsdate(Timestamp newsdate) {
+		this.newsdate = newsdate;
 	}
 	public String getCont() {
 		return cont;
