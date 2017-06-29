@@ -174,7 +174,7 @@ public class NewsDAO implements NewsDAO_interface{
 				newsVO = new NewsVO();
 				newsVO.setNewsno(rs.getString("newsno"));
 				newsVO.setAdmno(rs.getString("admno"));
-				newsVO.setDate(rs.getTimestamp("date"));
+				newsVO.setNewsdate(rs.getTimestamp("newsdate"));
 				newsVO.setCont(rs.getString("cont"));
 				newsVO.setPic(rs.getBytes("pic"));
 				newsVO.setTitle(rs.getString("title"));
@@ -215,7 +215,7 @@ public class NewsDAO implements NewsDAO_interface{
 	@Override
 	public List<NewsVO> getAll() {
 		List<NewsVO> list = new ArrayList<NewsVO>();
-		NewsVO newsVO =null;
+		
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -226,12 +226,13 @@ public class NewsDAO implements NewsDAO_interface{
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
-
+			System.out.println("123");
 			while (rs.next()) {
+				NewsVO newsVO =new NewsVO();
 				// empVO �]�٬� Domain objects
 				newsVO.setNewsno(rs.getString("newsno"));
 				newsVO.setAdmno(rs.getString("admno"));
-				newsVO.setDate(rs.getTimestamp("date"));
+				newsVO.setNewsdate(rs.getTimestamp("newsdate"));
 				newsVO.setCont(rs.getString("cont"));
 				newsVO.setPic(rs.getBytes("pic"));
 				newsVO.setTitle(rs.getString("title"));
@@ -239,6 +240,9 @@ public class NewsDAO implements NewsDAO_interface{
 				list.add(newsVO); // Store the row in the list
 			}
 
+			for(NewsVO aaa:list){
+				System.out.println(aaa.getNewsno());
+			}
 			// Handle any driver errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "

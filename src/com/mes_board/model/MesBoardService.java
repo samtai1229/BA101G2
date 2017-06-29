@@ -11,12 +11,11 @@ public class MesBoardService {
 		dao = new MesBoardDAO();
 	}
 	
-	public MesBoardVO addMesBoard(String memno, Timestamp date, String cont,byte[] pic, String status) {
+	public MesBoardVO addMesBoard(String memno, String cont,byte[] pic, String status) {
 
 		MesBoardVO mesboardVO = new MesBoardVO();
 
 		mesboardVO.setMemno(memno);
-		mesboardVO.setDate(date);
 		mesboardVO.setCont(cont);
 		mesboardVO.setPic(pic);
 		mesboardVO.setStatus(status);
@@ -25,18 +24,22 @@ public class MesBoardService {
 		return mesboardVO;
 	}
 	
-	public MesBoardVO updateMesBoard(String mesno,String memno, Timestamp date, String cont,byte[] pic, String status) {
-
+	public MesBoardVO updateMesBoard(String mesno,String memno,  String cont,byte[] pic, String status) {
+System.out.println("SERVICE");
 		MesBoardVO mesboardVO = new MesBoardVO();
 
 		mesboardVO.setMesno(mesno);
+		System.out.println("mesno"+mesno);
 		mesboardVO.setMemno(memno);
-		mesboardVO.setDate(date);
+		System.out.println("memno"+memno);
 		mesboardVO.setCont(cont);
+		System.out.println("cont"+cont);
 		mesboardVO.setPic(pic);
+		System.out.println("pic"+pic);
 		mesboardVO.setStatus(status);
+		System.out.println("status"+status);
 		dao.update(mesboardVO);
-
+System.out.println("SERVVICE mesboardVO"+mesboardVO);
 		return mesboardVO;
 	}
 	public void deleteMesBoard(String mesno) {
@@ -44,6 +47,7 @@ public class MesBoardService {
 	}
 
 	public MesBoardVO getOneMesBoard(String mesno) {
+		System.out.println("!!!!!!!!!");
 		return dao.findByPrimaryKey(mesno);
 	}
 
