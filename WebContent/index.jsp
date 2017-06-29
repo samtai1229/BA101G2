@@ -85,6 +85,34 @@ input[type=submit], [type=button] {
 </head>
 
 <body id="page-top" class="index">
+
+
+
+  
+  
+   	<div class="modal fade" id="modal-out">
+   		<div class="modal-dialog">
+   		        <form name="form1" action="<%=request.getContextPath()%>/backend/member/member.do?action=logout">
+   			<div class="modal-content">
+   				<div class="modal-header">
+   					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+   					<h4 class="modal-title">確定登出?</h4>
+   				</div>
+   				<div class="modal-body">
+   					您確定要登出嗎?
+   				</div>
+   				<div class="modal-footer">
+   					<button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+   					<button  type="button"  name="submit_Btn"  id="submit_Btn" onClick="document.form1.submit()"></button>
+   				</div>
+   			</div>
+   			 </form>
+   		</div>
+   	</div>
+  
+
+
+
 	<!-- 會員登入燈箱 -->
 	<div class="modal fade" id="modal-id">
 		<div class="modal-dialog">
@@ -129,7 +157,11 @@ input[type=submit], [type=button] {
                     </div>
                    
                 </div>
+                </div>
+                </div>
+                </div>
 				</form>
+
                 <form action="<%=request.getContextPath()%>/backend/member/member.do">
                 <div class="sign-up-htm">
                     <div class="group">
@@ -154,28 +186,19 @@ input[type=submit], [type=button] {
                     </div>
                     <div class="hr"></div>
                     <div class="foot-lnk">
-                        <label for="tab-1">已經是會員?</a>
+                        <label for="tab-1">已經是會員?</label>
                     </div>
                 </div>
+                </form>
+                
             </div>
         </div>
     </div>
+				
+</div>
+		
 
-						<!-- <div class="form-group">
-							<label for="acc">帳號</label> <input type="text" name="acc"
-								id="acc" placeholder="帳號" class="form-control"> <label
-								for="pwd">密碼</label> <input type="password" name="pwd" id="pwd"
-								placeholder="密碼" class="form-control"> <br /> <input
-								align="center" class="text-center" type="submit" value="送出">
-							<input onclick="javascript:location.href='#'" type="button"
-								value="註冊">
-							<input type="hidden" name="action" value="login">
-						</div> -->
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+	
 	<!-- Navigation -->
 	<nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
         <div class="container-fluid">
@@ -189,10 +212,7 @@ input[type=submit], [type=button] {
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-               
-             
-             
-                <li>
+                
                 	 <form  method="post" action="#" class="navbar-form navbar-left" role="search">
                 		   				<div class="form-group">
                 	
@@ -201,7 +221,7 @@ input[type=submit], [type=button] {
                 		   				</div>
                 		   				<input style="background-color: transparent;" type="submit" class="form-control" value="快速查詢">
                 		   			</form>
-                </li>
+                
 				 <ul class="nav navbar-nav navbar-right">
                     <li class="hidden">
                         <a href="#page-top"></a>
@@ -214,22 +234,27 @@ input[type=submit], [type=button] {
 							class="fa fa-comments-o"></i>留言板</a></li>
 					<li><a class="page-scroll" href="#loc"><i
 							class="fa fa-search"></i>服務據點</a></li>
-					<li><a href="<%=request.getContextPath()%>/backend/member/member.do"><i class="fa fa-shopping-cart"></i>二手車購買</a>
+					<li><a href="#">二手車購買</a>
+					</li>
+					
+					<c:if test="${not empty memID}">			
+					 <li>
+					 		  <a href="javascript:document.form.submit()">歡迎,${memID}</a>
+					 		  
 					</li>
 					<li>
-					<c:if test="${not empty memID}">			
-						<a href="<%=request.getContextPath()%>/backend/member/member.do?memID=${memID}">歡迎，${memID}</a>
-						<form   name="form1"  method="post"  action="<%=request.getContextPath()%>/backend/member/member.do?action=logout" >  
-								<a href="javascript:document.form1.submit()">登出</a>
-                         </form>
-					
+							<a href="#modal-out"
+						data-toggle="modal"><i class="glyphicon glyphicon-user"></i>登出</a>
+						    
+					</li>
 					</c:if>
-					
 					<c:if test="${ empty memID}">
-						<a href="#modal-id"
+					<li>
+							<a href="#modal-id"
 						data-toggle="modal"><i class="glyphicon glyphicon-user"></i>會員登入</a>
+					</li>
 					</c:if>
- 				  </li>	
+ 				  
  				  
 				</ul>
 			</div>
@@ -249,7 +274,7 @@ input[type=submit], [type=button] {
 				<!-- 				<a href="rent.html" class="page-scroll btn btn-xl">點我租車</a> -->
 			</div>
 
-		
+		</div>
 	</header>
 	<!-- news Section -->
 	<section id="news">
@@ -385,7 +410,7 @@ input[type=submit], [type=button] {
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 text-center">
 					<h2 class="section-heading">留言板</h2>
-					<a href="#" id="general"><h4>Enter MESSAGE BOARD</h4></a>
+				<h4>	<a href="#" id="general">Enter MESSAGE BOARD</a></h4>
 
 
 				</div>
@@ -431,10 +456,9 @@ input[type=submit], [type=button] {
 				<br />
 				<div class="col-xs-12 col-sm-12 text-center">
 					<h2>我們的據點</h2>
-					<a href="leave_message_Page.html" id="general"><h3
-							style="color: blue" class="section-subheading">
-							See More
-							</h3></a>
+					<h3	style="color: blue" class="section-subheading">
+					<a href="leave_message_Page.html" id="general">See More</a>
+					</h3>
 				</div>
 			</div>
 		   	
@@ -456,7 +480,7 @@ input[type=submit], [type=button] {
                 <div class="col-lg-8 col-lg-offset-2 text-center">
                     <p class="large text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
                 </div>-->
-		</div>
+		
 	</aside>
 	<footer>
 		<div class="col-xs-12 col-sm-12">
