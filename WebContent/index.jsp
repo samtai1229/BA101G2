@@ -206,7 +206,7 @@ input[type=submit], [type=button] {
               	                    <li class="hidden">
               	                        <a href="#page-top"></a>
               	                    </li>
-              					<li><a class="page-scroll" href="#"><i class="glyphicon glyphicon-heart"></i>我要租車</a></li>
+              					<li><a class="page-scroll" href="<%=request.getContextPath()%>/frontend/rental_form/rental_category.jsp"><i class="glyphicon glyphicon-heart"></i>我要租車</a></li>
               						<li><a class="page-scroll" href="#news"><i
               								class="glyphicon glyphicon-alert"></i>最新消息</a></li>
               						<li><a class="page-scroll" href="#board"><i
@@ -268,14 +268,14 @@ input[type=submit], [type=button] {
 				</div>
 
 			</div>
-
+	
 
 
 			<div class=" row">
 				<div class="fh5co-slider">
 					<div class="owl-carousel owl-carousel-fullwidth ">
 						<div onclick="window.location='news.html';" class="item"
-							style="background-image: url(<%=request.getContextPath()%>/img/newsSlide/s1.jpg)">
+							style="background-image: url(<%=request.getContextPath()%>/img/newsSlide/s3.jpg)">
 							<div class="fh5co-overlay"></div>
 							<div class="container">
 								<div class="row">
