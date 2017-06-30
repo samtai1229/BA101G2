@@ -17,6 +17,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import com.equipment.model.EquipmentVO;
+import com.motor.model.MotorVO;
 
 public class RentOrdJNDIDAO implements RentOrdDAO_interface {
 	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
@@ -774,18 +775,6 @@ public class RentOrdJNDIDAO implements RentOrdDAO_interface {
 	}
 
 	@Override
-	public void updateEmtsAfterReturn(String emtno, String action) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateMotorAfterReturn(String motno, Integer mile, String action) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public String differDateCalculator(String rentno) {
 		// TODO Auto-generated method stub
 		return null;
@@ -839,5 +828,23 @@ public class RentOrdJNDIDAO implements RentOrdDAO_interface {
 			String rank, String note, String action) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void updateMotorAfterReturn(String motno, Integer mile, String rlocno, String action) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateEmtsAfterReturn(String emtno, String rlocno, String action) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<String> getMotnoInRentOrdByRentalPeriod(Timestamp start_time, Timestamp end_time) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
