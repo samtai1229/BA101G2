@@ -13,9 +13,9 @@ a{color:inherit;text-decoration:none}
 	width:100%;
 	margin:auto;
 	max-width:525px;
-	min-height:700px;
+	min-height:670px;
 	position:relative;
-	/*background:url(https://raw.githubusercontent.com/khadkamhn/day-01-login-form/master/img/bg.jpg) no-repeat center;*/
+	background:url(https://raw.githubusercontent.com/khadkamhn/day-01-login-form/master/img/bg.jpg) no-repeat center;
 	box-shadow:0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19);
 }
 .login-html{
@@ -63,7 +63,7 @@ a{color:inherit;text-decoration:none}
 	border-color:#1161ee;
 }
 .login-form{
-	min-height:500px;
+	min-height:345px;
 	position:relative;
 	-webkit-perspective:1000px;
 	        perspective:1000px;
@@ -73,7 +73,7 @@ a{color:inherit;text-decoration:none}
 .login-form .group{
 	margin-bottom:15px;
 }
-.login-form .group,
+.login-form .group .label,
 .login-form .group .input,
 .login-form .group .button{
 	width:100%;
