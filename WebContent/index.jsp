@@ -60,26 +60,6 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js" integrity="sha384-ZoaMbDF+4LeFxg6WdScQ9nnR1QC2MIRxA1O9KWEXQwns1G8UNyIEZIQidzb0T1fo" crossorigin="anonymous"></script>
     <![endif]-->
 <style>
-/*input[type=date] {
-	box-sizing: border-box;
-	border: 2px solid #ccc;
-	border-radius: 16px;
-	font-size: 30px;
-	background-color: transparent;
-	text-align: center;
-	background-position: 10px 10px;
-	line-height: 48px;
-}
-input[type=submit], [type=button] {
-	background-color: transparent;
-	text-align: center;
-	box-sizing: border-box;
-	font-size: 30px;
-	border-radius: 16px;
-	line-height: 48px;
-	border: 2px solid #ccc;
-}
-*/
 </style>
 <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans:600'>
  <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style_login.css">
@@ -164,17 +144,6 @@ input[type=submit], [type=button] {
         </div>
     </div>
 
-						<!-- <div class="form-group">
-							<label for="acc">±b¸¹</label> <input type="text" name="acc"
-								id="acc" placeholder="±b¸¹" class="form-control"> <label
-								for="pwd">±K½X</label> <input type="password" name="pwd" id="pwd"
-								placeholder="±K½X" class="form-control"> <br /> <input
-								align="center" class="text-center" type="submit" value="°e¥X">
-							<input onclick="javascript:location.href='#'" type="button"
-								value="µù¥U">
-							<input type="hidden" name="action" value="login">
-						</div> -->
-					
 				</div>
 			</div>
 		</div>

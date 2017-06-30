@@ -83,24 +83,23 @@
 			</td>
 		</tr>
 </table>
-<button type="button" onclick="loadDoc()" >按我測試</button>
+<button type="button" onclick="loadDoc()" >按我看我的訂單</button>
 <div id="demo"></div>
 
 
 </body>
-	<script src="https://code.jquery.com/jquery.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-		
-		<script type="text/javascript">
-        function loadDoc() {
-	  var xhttp = new XMLHttpRequest();
-	  xhttp.onreadystatechange = function() {
-	    if (this.readyState == 4 && this.status == 200) {
+<script src="https://code.jquery.com/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+ function loadDoc() {
+    var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+	if (this.readyState == 4 && this.status == 200) {
 	     document.getElementById("demo").innerHTML=this.responseText;
 	    }
-	  };
+	 };
 	  
-	  xhttp.open("GET","<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memVO.memno}", true);
+	  xhttp.open("GET","<%=request.getContextPath()%>/frontend/second_order/SecOrd.do?action=listSecOrd_ByStatus&status=all", true);
 	
 	  xhttp.send();
 	}
