@@ -52,6 +52,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
 <link href="<%=request.getContextPath()%>/css/agency.css" rel="stylesheet" />
 <link href="<%=request.getContextPath()%>/css/agency.min.css" rel="stylesheet" />
+<link href="<%=request.getContextPath()%>/css/daterangepicker.css" rel="stylesheet" />
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -69,7 +70,6 @@
 	background-position: 10px 10px;
 	line-height: 48px;
 }
-
 input[type=submit], [type=button] {
 	background-color: transparent;
 	text-align: center;
@@ -80,9 +80,6 @@ input[type=submit], [type=button] {
 	border: 2px solid #ccc;
 }
 */
-
-
-
 </style>
 <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans:600'>
  <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style_login.css">
@@ -197,16 +194,13 @@ input[type=submit], [type=button] {
 			 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                
              
-             
-             
-                	 <form  method="post" action="#" class="navbar-form navbar-left" role="search">
-                		   				<div class="form-group">
-                	
-                		   					 <input style="background-color: transparent;" class="form-control" type="date" name="start" placeholder="find something">
-                					 		<input style="background-color: transparent;" class="form-control" type="date" name="end" placeholder="find something">
-                		   				</div>
-                		   				<input style="background-color: transparent;" type="submit" class="form-control" value="快速查詢">
-                		   			</form>
+<!-- search bar  -->					
+						<form  method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do" class="navbar-form navbar-left" role="search">
+							<input id="demo" name="dayrange" class="form-control" type="text" style="background-color: transparent; color:#fff;" >							
+						<%-- 	<jsp:useBean id="locSvc" scope="page" class="com.location.model.LocationService"/> --%>
+							<input type="hidden" name="action" value="quick_search">
+							<input style="background-color: transparent; color:#fff;" type="submit" class="form-control" value="快速查詢">
+						</form>
 
               					 <ul class="nav navbar-nav navbar-right">
               	                    <li class="hidden">
@@ -508,6 +502,28 @@ input[type=submit], [type=button] {
 	<!-- Theme JavaScript -->
 	<script src="<%=request.getContextPath()%>/js/jquery.magnific-popup.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/agency.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/moment.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/daterangepicker.js"></script>
 </body>
+
+    <script>
+    $('#demo').daterangepicker({
+        "timePicker": true,
+        "timePicker24Hour": true,
+        "timePickerIncrement": 30,
+        "startDate": moment().add(3, 'days'),
+        "endDate": moment().add(6, 'days'),
+        "opens": "center",
+        "applyClass": "btn-success",
+        "cancelClass": "btn-primary",
+        "minDate": moment().add(2, 'days'),
+        "maxDate": moment().add(60, 'days'),
+        locale: {
+            format: 'MM/DD/YYYY H:mm'
+        }
+    }, function(start, end, label) {
+      console.log("New date range selected: ' + start.format('MM/DD/YYYY H:mm') + ' to ' + end.format('MM/DD/YYYY H:mm') + ' (predefined range: ' + label + ')");
+    });
+    </script>
 
 </html>
