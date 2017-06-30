@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Enumeration;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -14,7 +15,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.equipment.model.EquipmentService;
 import com.equipment.model.EquipmentVO;
 import com.location.model.LocationService;
 import com.location.model.LocationVO;
@@ -24,6 +24,7 @@ import com.motor.model.MotorService;
 import com.motor.model.MotorVO;
 import com.motor_model.model.MotorModelService;
 import com.motor_model.model.MotorModelVO;
+import com.rent_ord.model.MotorForRentOrdService;
 import com.rent_ord.model.RentOrdService;
 import com.rent_ord.model.RentOrdVO;
 
@@ -39,8 +40,168 @@ public class RentOrdServlet extends HttpServlet {
 		String action = req.getParameter("action");
 		System.out.println("RentOrdServlet in");
 		
+
+
+//quick_search_product
+	if ("quick_search_product".equals(action)) { 
+		System.out.println("quick_search_product in");
+		List<String> errorMsgs = new LinkedList<String>();
+		req.setAttribute("errorMsgs", errorMsgs);
+
+		try {
+			/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
+			String motno = req.getParameter("motno");
+			String start_time = req.getParameter("start_time");
+			String end_time = req.getParameter("end_time");
+			String dayrange = req.getParameter("dayrange");
+			
+			System.out.println("start_time:" + start_time);
+			System.out.println("end_time:" + end_time);
+			System.out.println("dayrange:" + dayrange);
+			
+			/***************************2.開始查詢資料*****************************************/
+			MotorService motorSvc = new MotorService();
+			MotorVO motorQueryVO = motorSvc.findByPK(motno);
+
+			
+			/***************************3.查詢完成,準備轉交(Send the Success view)*************/
+
+			req.setAttribute("motorQueryVO", motorQueryVO); // 資料庫取出的VO物件,存入req
+			System.out.println("motnoVO.motorQueryVO:"+motorQueryVO.getMotno());
+
+			
+			String url = "/frontend/rental_form/quick_search_product.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 Emp.jsp
+			successView.forward(req, res);
+
+			/***************************其他可能的錯誤處理*************************************/
+		} catch (Exception e) {
+			errorMsgs.add("無法取得資料:" + e.getMessage());
+			RequestDispatcher failureView = req
+					.getRequestDispatcher("/frontend/rental_form/quick_search_product.jsp");
+			failureView.forward(req, res);
+		}
+	} 
+	// quick_search_product end			
 		
-	
+		
+		
+		
+//quick_search
+		if ("quick_search".equals(action)) {
+			//取得日期區間內還可以租用的車輛VO
+
+			System.out.println("ro quick_search in");
+
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				/***************************
+				 * 1.接收請求參數
+				 **********************/
+				
+				String dayrange = req.getParameter("dayrange");
+				
+				String tokens[] = dayrange.split(" - ");
+				String start_time_str = tokens[0];
+				String end_time_str  = tokens[1];
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy H:mm");
+				java.util.Date date;
+				long longTime;
+
+				// 處理日期 start_time
+				java.sql.Timestamp start_time = null;
+				try {
+					date = (java.util.Date) sdf.parse(start_time_str);// String to Date
+																						
+					longTime = date.getTime(); // 取long
+					start_time = new java.sql.Timestamp(longTime); // 切為SQL專用格式
+					System.out.println("start_time (SQL) : "+ start_time);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
+
+				// 處理日期 end_time
+				java.sql.Timestamp end_time = null;
+				try {
+					date = (java.util.Date) sdf.parse(end_time_str);// String to Date
+																						
+					longTime = date.getTime(); // 取long
+					end_time = new java.sql.Timestamp(longTime); // 切為SQL專用格式
+					System.out.println("end_time (SQL) : "+ end_time);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}				
+				
+		
+				/*************************** 2.開始處理 *****************************************/
+				System.out.println("ro quick_search start");
+				
+				RentOrdService roSvc = new RentOrdService();
+				MotorService motorSvc = new MotorService();
+				Set<MotorVO> availableMotorVO= new LinkedHashSet<MotorVO>();
+				
+				List<MotorVO> allMotorList = motorSvc.getAll();
+				List<String> notAllowMotorList = roSvc.getMotnoInRentOrdByRentalPeriod(start_time, end_time);
+				
+				for(MotorVO mVO : allMotorList){
+					int count = 0;
+					//System.out.println("allMotorVO motno: " + mVO.getMotno());
+					for(String ngMotor : notAllowMotorList){
+						//System.out.println("ngMotor: " + ngMotor);
+						
+						if(ngMotor.equals(mVO.getMotno())){
+							count ++;
+							System.out.println("ngMotor caught! :" + ngMotor);
+							System.out.println("==========================count :"+ count);
+						}
+					}
+					if(count==0){
+						System.out.println("mVO.getMotno() IN COUNT AREA :"+ mVO.getMotno());
+						int count2 = 0;
+						for(MotorVO mVO2 : availableMotorVO){
+							if(mVO.getModtype().equals(mVO2.getModtype())){
+								count2++;
+							}
+						}
+						if(count2==0){
+							availableMotorVO.add(mVO);
+							System.out.println("mVO.getByMotno:"+mVO.getMotno());
+							System.out.println("availableMotorVO.add(mVO); mVO.type = "+mVO.getModtype());
+						}
+					}
+				}				
+			
+				System.out.println("notAllowMotorList count(出勤車次):" + notAllowMotorList.size());
+				System.out.println("allMotorList count:" + allMotorList.size());
+				System.out.println("availableMotorVO count:" + availableMotorVO.size());
+
+				/***************************
+				 * 3.處理完成,準備轉交(Send the Success view)
+				 *************/ // 資料庫取出的VO物件,存入req
+				
+				req.setAttribute("quick_search", availableMotorVO);
+				req.setAttribute("start_time", start_time_str);
+				req.setAttribute("end_time", end_time_str);
+
+				RequestDispatcher successView = req.getRequestDispatcher("/frontend/rental_form/quick_search.jsp"); // 成功轉交
+
+				successView.forward(req, res);
+
+				/*************************** 其他可能的錯誤處理 *************************************/
+			} catch (Exception e) {
+				System.out.println("RentOrdServlet exception=================");
+				errorMsgs.add("無法取得資料:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/rent_ord/quick_search.jsp");
+				failureView.forward(req, res);
+			}
+		} 
+		// quick_search end	
+		
+ 
 		
 //return_form_parameter_setting
 		if ("returnform_noreturn".equals(action) || 
@@ -232,6 +393,7 @@ public class RentOrdServlet extends HttpServlet {
 						String rank = req.getParameter("rank");
 						String motno = req.getParameter("motno");
 						String note = req.getParameter("note");
+						String rlocno = req.getParameter("rlocno");
 						
 						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 						java.util.Date date;
@@ -287,7 +449,7 @@ public class RentOrdServlet extends HttpServlet {
 							roSvc.updateRentOrdAfterOvertime(rentno, milend, returndate, fine, rank, note, action);
 						}
 						
-						roSvc.updateMotorAfterReturn(motno, milend, action);
+						roSvc.updateMotorAfterReturn(motno, milend, rlocno, action);
 						
 
 						Enumeration<String> enumber = req.getParameterNames();
@@ -304,7 +466,7 @@ public class RentOrdServlet extends HttpServlet {
 										if("emtno".equals(name.substring(0,5))){
 											System.out.println("emtno found! value = "+values[i]);
 											
-											roSvc.updateEmtsAfterReturn(values[i], action);
+											roSvc.updateEmtsAfterReturn(values[i], rlocno, action);
 										}
 									}	
 								}
