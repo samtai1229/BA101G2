@@ -99,7 +99,7 @@
 	    }
 	 };
 	  
-	  xhttp.open("GET","<%=request.getContextPath()%>/frontend/second_order/SecOrd.do?action=listSecOrd_ByStatus&status=all", true);
+	  xhttp.open("GET","<%=request.getContextPath()%>/frontend/second_order/SecOrd.do?action=getAll_For_Display_By_Memno&memno=${memVO.memno}", true);
 	
 	  xhttp.send();
 	}

@@ -8,23 +8,23 @@
 <%
 	SecOrdService soSvc = new SecOrdService();
     String status = request.getParameter("status");
-    String status2 = request.getParameter("status");
+    String memno =request.getParameter("memno");
     List<SecOrdVO> list = null;
+    List<SecOrdVO> list2 = new ArrayList<SecOrdVO>(); 
     if("all".equalsIgnoreCase(status) 
-      || "all".equalsIgnoreCase(status2)
-      || status==null
-      || status2==null)
-    	list = soSvc.getAll();  
+      || status==null)
+    	list =  (List<SecOrdVO>) request.getAttribute("list");  
     else	
     {
-    
-    	 list = soSvc.getAll(status);
-    	if(status!=null)
-			list = soSvc.getAll(status2);
+    	for(SecOrdVO ord :soSvc.getAll(status))
+    	{
+    		if(ord.getMemno().equals(memno))
+    			list2.add(ord);
+    	}
+    	 list = list2;
     	
     }
     System.out.println("眔把计status:"+status);
-    System.out.println("眔把计status2:"+status2);
 	pageContext.setAttribute("list",list);
 
 %>
@@ -37,8 +37,8 @@
 <table border='1' cellpadding='5' cellspacing='0' width='1260'>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
-		<h3>┮Τもó璹虫戈 - ListAllSecOrds.jsp</h3>
-		<a href="<%=request.getContextPath()%>/frontend/second_order/select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0"></a>
+		<h3>иもó璹虫戈 - ListAllSecOrds.jsp</h3>
+		<a href="<%=request.getContextPath()%>/index.jsp"><img src="images/back1.gif" width="100" height="32" border="0"></a>
 		</td>
 	</tr>
 </table>
@@ -65,7 +65,8 @@
       
        	</select></span>
        <input type="submit" value="癳">
-       <input type="hidden" name="action" value="listSecOrd_ByStatus">
+       <input type="hidden" name="action" value="getAll_For_Display_By_Memno_Status">
+       <input type="hidden" name="memno" value="<%=memno%>">
      </FORM>
 <table border='1' bordercolor='#CCCCFF' width='1260'>
 	<tr>

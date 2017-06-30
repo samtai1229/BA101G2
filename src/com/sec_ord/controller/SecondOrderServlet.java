@@ -2,6 +2,7 @@ package com.sec_ord.controller;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,6 +26,117 @@ public class SecondOrderServlet extends HttpServlet {
 
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
+		
+		
+		if ("getAll_For_Display_By_Memno_Status".equals(action)) { // 來自select_page.jsp的請求
+
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				/***************************
+				 * 1.接收請求參數 - 輸入格式的錯誤處理
+				 **********************/
+				String memno = req.getParameter("memno");
+				String status = req.getParameter("status");
+				List<SecOrdVO> list1 = null;
+				/*************************** 2.開始查詢資料 *****************************************/
+				SecOrdService soSvc = new SecOrdService();
+				if(status.equals("all"))
+				{
+			         list1 = soSvc.getAll();
+				}
+				else
+				{
+		          list1 = soSvc.getAll(status);
+				}
+				List<SecOrdVO> list2 = new ArrayList<SecOrdVO>();
+				for(SecOrdVO ord : list1)
+				{
+					if(ord.getMemno().equals(memno))
+					{
+						list2.add(ord);
+					}
+					
+				}
+			
+				
+				/***************************
+				 * 3.查詢完成,準備轉交(Send the Success view)
+				 *************/
+
+				req.setAttribute("list", list2); // 資料庫取出的empVO物件,存入req
+				req.setAttribute("status", status);
+				String url = "/frontend/second_order/listAllSecOrd.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
+				successView.forward(req, res);
+
+				/*************************** 其他可能的錯誤處理 *************************************/
+			} catch (Exception e) {
+				errorMsgs.add("無法取得資料:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/second_order/select_page.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		if ("getAll_For_Display_By_Memno".equals(action)) { // 來自select_page.jsp的請求
+
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				/***************************
+				 * 1.接收請求參數 - 輸入格式的錯誤處理
+				 **********************/
+				String memno = req.getParameter("memno");
+
+				/*************************** 2.開始查詢資料 *****************************************/
+				SecOrdService soSvc = new SecOrdService();
+				List<SecOrdVO> list1 = soSvc.getAll();
+				List<SecOrdVO> list2 = new ArrayList<SecOrdVO>();
+				for(SecOrdVO ord : list1)
+				{
+					if(ord.getMemno().equals(memno))
+					{
+						list2.add(ord);
+					}
+					
+				}
+			
+				
+				/***************************
+				 * 3.查詢完成,準備轉交(Send the Success view)
+				 *************/
+
+				req.setAttribute("list", list2); // 資料庫取出的empVO物件,存入req
+				req.setAttribute("status", "all");
+				String url = "/frontend/second_order/listAllSecOrd.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
+				successView.forward(req, res);
+
+				/*************************** 其他可能的錯誤處理 *************************************/
+			} catch (Exception e) {
+				errorMsgs.add("無法取得資料:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/second_order/select_page.jsp");
+				failureView.forward(req, res);
+			}
+		}
+		
+		
+		
+		
 
 		if ("getOne_For_Display".equals(action)) { // 來自select_page.jsp的請求
 
@@ -174,12 +286,13 @@ public class SecondOrderServlet extends HttpServlet {
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 
-			try {
+//			try {
 				/***********************
 				 * 1.接收請求參數 - 輸入格式的錯誤處理
 				 *************************/
 				String status = req.getParameter("status");
-				System.out.println("欲查詢狀態:"+status);
+				String memno = req.getParameter("memno");
+				System.out.println("欲查詢狀態:"+status+" 會員編號:"+memno);
 				
 
 				
@@ -188,17 +301,18 @@ public class SecondOrderServlet extends HttpServlet {
 				 * 3.查詢完成,準備轉交(Send the Success view)
 				 ***********/
 				req.setAttribute("status", status);
+				req.setAttribute("memno", memno);
 				String url = "/frontend/second_order/listAllSecOrd.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
 				successView.forward(req, res);
 				//
 				// /*************************** 其他可能的錯誤處理
 				// **********************************/
-			} catch (Exception e) {
-				errorMsgs.add(e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/second_order//frontend/second_order/listAllSecOrd.jsp");
-				failureView.forward(req, res);
-			}
+//			} catch (Exception e) {
+//				errorMsgs.add(e.getMessage());
+//				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/second_order/listAllSecOrd.jsp");
+//				failureView.forward(req, res);
+//			}
 		}
 		
 		if ("insert".equals(action)) { // 來自addSpot.jsp的請求
