@@ -145,16 +145,21 @@ public class RentOrdService {
 		dao.updateRentOrdAfterOvertime(rentno, milend, returndate, fine, rank, note, action);
 	};	
 	
-	public void updateMotorAfterReturn(String motno, Integer mile, String action) {
-		dao.updateMotorAfterReturn(motno, mile, action);
+	public void updateMotorAfterReturn(String motno, Integer mile,  String rlocno, String action) {
+		dao.updateMotorAfterReturn(motno, mile, rlocno, action);
 	}
 	
-	public void updateEmtsAfterReturn(String emtno, String action) {
-		dao.updateEmtsAfterReturn(emtno, action);
+	public void updateEmtsAfterReturn(String emtno, String rlocno, String action) {
+		dao.updateEmtsAfterReturn(emtno, rlocno, action);
 	}
 	
 	public String differDateCalculator(String rentno){
 		return dao.differDateCalculator(rentno);
 	};
+	
+	public List<String> getMotnoInRentOrdByRentalPeriod(Timestamp start_time, Timestamp end_time){
+		return dao.getMotnoInRentOrdByRentalPeriod(start_time, end_time);
+	}
+
 
 }

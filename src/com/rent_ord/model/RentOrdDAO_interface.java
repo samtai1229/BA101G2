@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.equipment.model.EquipmentVO;
+import com.motor.model.MotorVO;
 
 public interface RentOrdDAO_interface {
 	
@@ -36,6 +37,8 @@ public interface RentOrdDAO_interface {
 	
 	public Set<EquipmentVO> getEquipmentVOsByRentno(String rentno);
 	
+	public List<String> getMotnoInRentOrdByRentalPeriod(Timestamp start_time, Timestamp end_time);
+	
 	public void updateEmtsStatusAfterAvailable(String emtno, String action);
 	
 	public void updateEmtsStatusAfterNoshow(String emtno, String action);
@@ -54,8 +57,8 @@ public interface RentOrdDAO_interface {
 	public void updateRentOrdAfterOvertime(String rentno, Integer milend, Timestamp returndate, 
 			Integer fine, String rank, String note, String action);
 	
-	public void updateMotorAfterReturn(String motno, Integer mile, String action);
+	public void updateMotorAfterReturn(String motno, Integer mile, String rlocno, String action);
 	
-	public void updateEmtsAfterReturn(String emtno, String action);
+	public void updateEmtsAfterReturn(String emtno, String rlocno, String action);
 
 }

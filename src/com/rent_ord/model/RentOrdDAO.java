@@ -16,6 +16,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import com.equipment.model.EquipmentVO;
+import com.motor.model.MotorVO;
 
 public class RentOrdDAO implements RentOrdDAO_interface {
 	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
@@ -137,15 +138,82 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 			"UPDATE RENT_ORD set milend = ?, returndate = ?,"
 			+" fine = ?, status='abnormalclosed', rank = ?, note = ? where rentno = ? ";
 	private static final String UPDATE_EMT_STATUS_FROM_OCCUPIED_TO_UNLEASABLE = 
-			"UPDATE EQUIPMENT set status='unleasable' where emtno = ? ";
+			"UPDATE EQUIPMENT set status='unleasable', locno = ? where emtno = ? ";
 	private static final String UPDATE_MOTOR_STATUS_FROM_OCCUPIED_TO_UNLEASABLE = 
-			"UPDATE MOTOR set mile = ?, status='unleasable' where motno = ? ";
+			"UPDATE MOTOR set mile = ?, status='unleasable', locno = ? where motno = ? ";
+	
+	
+	//依使用者輸入的時段來找符合的車輛並回傳車輛VO.
+	private static final String  GET_MOTOR_VOs_BY_DATE_RANGE = 
+			  "SELECT motno, startdate, enddate FROM RENT_ORD where ( startdate > ? and startdate <? )"
+			  +" or  ( enddate > ? and enddate < ? ) order by startdate";
+	
+//	select rentno, startdate, enddate, motno from rent_ord where
+//	(startdate >'01-3月-2017' and startdate<'01-4月-2017')
+//	or (enddate >'01-3月-2017' and enddate < '01-4月-2017') order by startdate;
+	
+	
+	@Override
+	public List<String> getMotnoInRentOrdByRentalPeriod(Timestamp start_time, Timestamp end_time) {
 
-	
-	
-	
-	
-	
+		List<String> list = new ArrayList<String>();
+		String motno = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		System.out.println("start_time in RentOrdDAO : " + start_time);
+		System.out.println("end_time in RentOrdDAO : " + end_time);
+		
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_MOTOR_VOs_BY_DATE_RANGE);
+			pstmt.setTimestamp(1, start_time);
+			pstmt.setTimestamp(2, end_time);
+			pstmt.setTimestamp(3, start_time);
+			pstmt.setTimestamp(4, end_time);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				motno = rs.getString("motno");
+				rs.getTimestamp("startdate");
+				rs.getTimestamp("enddate");
+				System.out.print("motno = " + motno);
+				System.out.print("  startdate = " + rs.getTimestamp("startdate"));
+				System.out.println("  enddate = " + rs.getTimestamp("enddate"));
+				
+				list.add(motno); // Store the row in the vector
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+
+
 	@Override
 	public void updateRentOrdAfterOvertime(String rentno, Integer milend, Timestamp returndate, Integer fine,
 			String rank, String note, String action) {
@@ -346,7 +414,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 
 
 	@Override
-	public void updateMotorAfterReturn(String motno, Integer mile, String action) {
+	public void updateMotorAfterReturn(String motno, Integer mile, String rlocno, String action) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -357,7 +425,8 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 			pstmt = con.prepareStatement(UPDATE_MOTOR_STATUS_FROM_OCCUPIED_TO_UNLEASABLE);
 
 			pstmt.setInt(1, mile);
-			pstmt.setString(2, motno);
+			pstmt.setString(2, rlocno);
+			pstmt.setString(3, motno);
 			
 			pstmt.executeUpdate();
 	
@@ -420,7 +489,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 
 
 	@Override
-	public void updateEmtsAfterReturn(String emtno, String action) {
+	public void updateEmtsAfterReturn(String emtno, String rlocno, String action) {
 	
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -430,7 +499,8 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 			
 			pstmt = con.prepareStatement(UPDATE_EMT_STATUS_FROM_OCCUPIED_TO_UNLEASABLE);
 	
-			pstmt.setString(1, emtno);
+			pstmt.setString(1, rlocno);
+			pstmt.setString(2, emtno);
 			
 			pstmt.executeUpdate();
 	

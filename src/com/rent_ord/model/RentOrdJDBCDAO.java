@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.equipment.model.EquipmentVO;
+import com.motor.model.MotorVO;
 
 public class RentOrdJDBCDAO implements RentOrdDAO_interface {
 	String driver = "oracle.jdbc.driver.OracleDriver";
@@ -1005,18 +1006,6 @@ public class RentOrdJDBCDAO implements RentOrdDAO_interface {
 	}
 
 	@Override
-	public void updateMotorAfterReturn(String motno, Integer mile, String action) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateEmtsAfterReturn(String emtno, String action) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void updateEmtsStatusAfterAvailable(String emtno, String action) {
 		// TODO Auto-generated method stub
 		
@@ -1064,5 +1053,23 @@ public class RentOrdJDBCDAO implements RentOrdDAO_interface {
 			String rank, String note, String action) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void updateMotorAfterReturn(String motno, Integer mile, String rlocno, String action) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateEmtsAfterReturn(String emtno, String rlocno, String action) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<String> getMotnoInRentOrdByRentalPeriod(Timestamp start_time, Timestamp end_time) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
