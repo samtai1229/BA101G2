@@ -103,5 +103,24 @@
 	
 	  xhttp.send();
 	}
+ 
+ 
+ 
+ function toggle() {
+	    var xhttp = new XMLHttpRequest();
+	    var ss = document.getElementById("mystatus").value;
+		xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		     document.getElementById("demo").innerHTML=this.responseText;
+		    }
+		 };
+		  
+		  xhttp.open("GET","<%=request.getContextPath()%>/frontend/second_order/SecOrd.do?action=getAll_For_Display_By_Memno_Status&memno=${memVO.memno}&status="+ss, true);
+		
+		  xhttp.send();
+		} 
+ 
+ 
+ 
 </script>
 </html>

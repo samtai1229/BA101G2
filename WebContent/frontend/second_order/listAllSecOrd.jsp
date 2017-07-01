@@ -56,7 +56,7 @@
 <%@ include file="pages/page1.file" %> 
     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do" >
        <b><font color=orange>訂單狀態:</font></b>
-       <span><select size="1" name="status">
+       <span><select id="mystatus" onchange="toggle()" size="1" name="status">
      
        	   <option  ${status == 'all' ? 'selected="selected"' : ''}  value="all">全部
        	   <option ${status == 'unpaid' ? 'selected="selected"' : ''} value="unpaid">未付款
@@ -109,4 +109,8 @@
    <font color=blue>request.getServletPath():</font> <%= request.getServletPath()%><br>
    <font color=blue>request.getRequestURI(): </font> <%= request.getRequestURI()%> </b>
 </body>
+
+<script src="https://code.jquery.com/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 </html>
