@@ -20,8 +20,8 @@
 <title>會員資料 - listOneMember.jsp</title>
 </head>
 <body bgcolor='white'>
-<b><font color=red>此頁練習採用 Script 的寫法取值:</font></b>
-<table border='1' cellpadding='5' cellspacing='0' width='1600'>
+
+<table border='1' cellpadding='5' cellspacing='0' width='1550'>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
 		<h3>會員資料 - ListOneMember.jsp</h3>
@@ -30,7 +30,7 @@
 	</tr>
 </table>
 
-<table border='1' bordercolor='#CCCCFF' width='1600'>
+<table border='1' bordercolor='#CCCCFF' width='1550'>
 	<tr>
 		<th>會員編號</th>
 		<th width='100' >會員名稱</th>

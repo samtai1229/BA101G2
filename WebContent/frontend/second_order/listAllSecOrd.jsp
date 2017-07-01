@@ -54,9 +54,9 @@
 	</font>
 </c:if>
 <%@ include file="pages/page1.file" %> 
-    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do" >
+   
        <b><font color=orange>訂單狀態:</font></b>
-       <span><select size="1" name="status">
+       <span><select id="status" onchange="toggle()" size="1" name="status">
      
        	   <option  ${status == 'all' ? 'selected="selected"' : ''}  value="all">全部
        	   <option ${status == 'unpaid' ? 'selected="selected"' : ''} value="unpaid">未付款
@@ -64,10 +64,10 @@
        	   <option ${status == 'closed' ? 'selected="selected"' : ''} value="closed">已結單
       
        	</select></span>
-       <input type="submit" value="送出">
-       <input type="hidden" name="action" value="getAll_For_Display_By_Memno_Status">
-       <input type="hidden" name="memno" value="<%=memno%>">
-     </FORM>
+  
+  
+
+ <div id ="demo1"></div>    
 <table border='1' bordercolor='#CCCCFF' width='1260'>
 	<tr>
 		<th>二手車訂單編號</th>
@@ -109,4 +109,22 @@
    <font color=blue>request.getServletPath():</font> <%= request.getServletPath()%><br>
    <font color=blue>request.getRequestURI(): </font> <%= request.getRequestURI()%> </b>
 </body>
+<script src="https://code.jquery.com/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+ function toggle(){
+    var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+	if (this.readyState == 4 && this.status == 200) {
+	     document.getElementById("demo1").innerHTML=this.responseText;
+	    }
+	 };
+	  
+	 xhttp.open("GET","<%=request.getContextPath()%>/frontend/second_order/SecOrd.do?action=getAll_For_Display_By_Memno&memno=${memVO.memno}", true);
+	
+	  xhttp.send();
+	}
+</script>
+
+
 </html>
