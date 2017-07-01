@@ -19,7 +19,7 @@
 
 <body bgcolor='white'>
 
-<table border='1' cellpadding='5' cellspacing='0' width='1250'>
+<table border='1' cellpadding='5' cellspacing='0' width='1690'>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
 		<h3>會員資料修改 - update_member_input.jsp</h3>
@@ -110,7 +110,7 @@
 				
 					<c:forEach var="s" items="${statusArray}">
 					<c:if test="${memVO.status==s}">
-					<option readonly selected value="${s}">${s}
+					<option readonly value="${s}">${s}
 					</c:if>
 					<c:if test="${memVO.status!=s}">
 					<option value="${s}">${s}

@@ -69,7 +69,6 @@ public class SecondOrderServlet extends HttpServlet {
 
 				req.setAttribute("list", list2); // 資料庫取出的empVO物件,存入req
 				req.setAttribute("status", status);
-				req.setAttribute("memno", memno);
 				String url = "/frontend/second_order/listAllSecOrd.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
 				successView.forward(req, res);
