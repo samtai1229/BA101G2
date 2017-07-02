@@ -54,7 +54,7 @@
 	</font>
 </c:if>
 <%@ include file="pages/page1.file" %> 
-    <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do" >
+<%--     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do" > --%>
        <b><font color=orange>訂單狀態:</font></b>
        <span><select id="mystatus" onchange="toggle()" size="1" name="status">
      
@@ -64,10 +64,10 @@
        	   <option ${status == 'closed' ? 'selected="selected"' : ''} value="closed">已結單
       
        	</select></span>
-       <input type="submit" value="送出">
-       <input type="hidden" name="action" value="getAll_For_Display_By_Memno_Status">
-       <input type="hidden" name="memno" value="<%=memno%>">
-     </FORM>
+<!--        <input type="submit" value="送出"> -->
+<!--        <input type="hidden" name="action" value="getAll_For_Display_By_Memno_Status"> -->
+<%--        <input type="hidden" name="memno" value="<%=memno%>"> --%>
+<!--      </FORM> -->
 <table border='1' bordercolor='#CCCCFF' width='1260'>
 	<tr>
 		<th>二手車訂單編號</th>
