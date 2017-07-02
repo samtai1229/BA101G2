@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,7 +17,6 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import com.equipment.model.EquipmentVO;
-import com.motor.model.MotorVO;
 
 public class RentOrdDAO implements RentOrdDAO_interface {
 	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
@@ -38,10 +38,9 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	
 	//合理版本
     final String INSERT_STMT = "INSERT INTO RENT_ORD"
-	+ " (rentno, memno, motno, slocno, rlocno, milstart, "
-	+ " startdate, enddate, note"
+	+ " (rentno, memno, motno, slocno, rlocno, startdate, enddate, total, status "
 	+ " ) VALUES ('R'||LPAD(TO_CHAR(rentno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?,"
-	+ "  ?, ?, ?, ?)";
+	+ "  ?, ?, ?,?)";
 
 //	private static final String UPDATE = "UPDATE RENT_ORD set memno=?, motno=?,"
 //			+ " slocno=?, rlocno=?, milstart=?, milend=?, filldate=?, startdate=?, enddate=?,"
@@ -83,6 +82,9 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	private static final String GET_BY_ENDTIME_PEROID = selectFactor 
 			+ " From RENT_ORD  where enddate"
 			+ " between ? and ? order by enddate";
+	
+	private static final String GET_BY_MOTNO = selectFactor 
+			+ " From RENT_ORD  where motno = ?";
 	
 	private static final String GET_FOR_LEASE_VIEW = 
 			selectFactor + " FROM RENT_ORD where slocno=? "
@@ -148,11 +150,111 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 			  "SELECT motno, startdate, enddate FROM RENT_ORD where ( startdate > ? and startdate <? )"
 			  +" or  ( enddate > ? and enddate < ? ) order by startdate";
 	
-//	select rentno, startdate, enddate, motno from rent_ord where
-//	(startdate >'01-3月-2017' and startdate<'01-4月-2017')
-//	or (enddate >'01-3月-2017' and enddate < '01-4月-2017') order by startdate;
+	private static final String GET_RENTNO_BY_MEMNO_AND_STARTDATE = 
+			"SELECT rentno from RENT_ORD where memno =? and startdate = ?";
+	
+
 	
 	
+	@Override
+	public String findRentnoByMemnoAndStartdate(String memno, Timestamp start_time) {
+			String rentno ="";
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_RENTNO_BY_MEMNO_AND_STARTDATE);
+			pstmt.setString(1, memno);
+			pstmt.setTimestamp(2, start_time);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				rentno = rs.getString("rentno");
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return rentno;
+	}
+
+
+	@Override
+	public Set<RentOrdVO> getRentalOrdersBymotno(String motno) {
+		Set<RentOrdVO> set = new LinkedHashSet<RentOrdVO>();
+		RentOrdVO roVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_BY_MOTNO);
+			pstmt.setString(1, motno);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				roVO = new RentOrdVO();
+				setAllAttributeMethod(roVO, rs); // 拉出來寫成一個方法
+
+				set.add(roVO); // Store the row in the vector
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return set;
+	}
+
+
 	@Override
 	public List<String> getMotnoInRentOrdByRentalPeriod(Timestamp start_time, Timestamp end_time) {
 
@@ -162,8 +264,17 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
 		System.out.println("start_time in RentOrdDAO : " + start_time);
 		System.out.println("end_time in RentOrdDAO : " + end_time);
+		
+		resetDayMethod(start_time, false); //時分歸零
+		resetDayMethod(end_time, true);
+		
+		System.out.println("start_time reset : " + start_time);
+		System.out.println("end_time reset : " + end_time);
+
+
 		
 		try {
 			con = ds.getConnection();
@@ -211,6 +322,26 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 			}
 		}
 		return list;
+	}
+
+
+	private Timestamp resetDayMethod(Timestamp day, boolean isEndDay) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(day);		
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		
+		cal.set(Calendar.MILLISECOND, 0);
+		if(isEndDay){
+			cal.add(Calendar.DATE, 2);//+2天
+		}else{
+			cal.add(Calendar.DAY_OF_MONTH, -2);//-2天
+		}
+        	
+
+		day.setTime(cal.getTime().getTime());
+		return day;
 	}
 
 
@@ -715,22 +846,30 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 			 * "startdate, enddate, returndate, fine, total, rank, status, note"
 			 * +
 			 */
+			
+			//合理版本
+//		    final String INSERT_STMT = "INSERT INTO RENT_ORD"
+//			+ " (rentno, memno, motno, slocno, rlocno, startdate, enddate, total "
+//			+ " ) VALUES ('R'||LPAD(TO_CHAR(rentno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?,"
+//			+ "  ?, ?, ?)";
 
 			pstmt.setString(1, roVO.getMemno());
 			pstmt.setString(2, roVO.getMotno());
 			pstmt.setString(3, roVO.getSlocno());
 			pstmt.setString(4, roVO.getRlocno());
-			pstmt.setInt(5, roVO.getMilstart());
+			pstmt.setTimestamp(5, roVO.getStartdate());
+			pstmt.setTimestamp(6, roVO.getEnddate());
+			pstmt.setInt(7, roVO.getTotal());
+			pstmt.setString(8, roVO.getStatus());
+			
+//          pstmt.setTimestamp(4, roVO.getFilldate());
+//			pstmt.setInt(5, roVO.getMilstart());
 //			pstmt.setInt(6, roVO.getMilend());
-//			pstmt.setTimestamp(7, roVO.getFilldate());
-			pstmt.setTimestamp(6, roVO.getStartdate());
-			pstmt.setTimestamp(7, roVO.getEnddate());
 //			pstmt.setTimestamp(10, roVO.getReturndate());
 //			pstmt.setInt(11, roVO.getFine());
-//			pstmt.setInt(12, roVO.getTotal());
 //			pstmt.setString(13, roVO.getRank());
-//			pstmt.setString(14, roVO.getStatus());
-			pstmt.setString(8, roVO.getNote());
+			
+//			pstmt.setString(7, roVO.getNote());
 
 			pstmt.executeUpdate();
 

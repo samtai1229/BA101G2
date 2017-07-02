@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.equipment.model.EquipmentVO;
-import com.motor.model.MotorVO;
 
 public interface RentOrdDAO_interface {
 	
@@ -18,8 +17,12 @@ public interface RentOrdDAO_interface {
 	public void delete(String rentno);
 
 	public RentOrdVO findByPrimaryKey(String rentno);
+	
+	public String findRentnoByMemnoAndStartdate(String memno, Timestamp start_time);
 
 	public List<RentOrdVO> getAll();
+	
+	public Set<RentOrdVO> getRentalOrdersBymotno(String motno);
 
 	public Set<RentOrdVO> getRentalOrdersByStatus(String status);
 
