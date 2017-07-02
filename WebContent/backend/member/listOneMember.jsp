@@ -18,6 +18,22 @@
 <html>
 <head>
 <title>會員資料 - listOneMember.jsp</title>
+
+<style type="text/css">
+
+.custab{
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin: 5% 0;
+    box-shadow: 3px 3px 2px #ccc;
+    transition: 0.5s;
+    }
+.custab:hover{
+    box-shadow: 3px 3px 0px transparent;
+    transition: 0.5s;
+    }
+
+</style>
 </head>
 <body bgcolor='white'>
 <b><font color=red>此頁練習採用 Script 的寫法取值:</font></b>
@@ -30,8 +46,11 @@
 	</tr>
 </table>
 
-<table border='1' bordercolor='#CCCCFF' width='1600'>
-	<tr>
+<div class="container">
+    <div class="row col-md-6 col-md-offset-2 custyle">
+    <table class="table table-striped custab">
+    <thead>
+        <tr>
 		<th>會員編號</th>
 		<th width='100' >會員名稱</th>
 		<th width='50'>性別 </th>
@@ -47,8 +66,11 @@
 		<th>駕照</th>
 		<th  width='150'>加入時間</th>
 		<th>認證狀態</th>
+		<th colspan="2" align="center">操作</th>
+	
 	</tr>
-	<tr align='center' valign='middle'>
+    </thead>
+            <tr align='center' valign='middle'>
 			<td>${memVO.memno}</td>
 			<td width='100'>${memVO.memname}</td>
 			<td width='50'>${memVO.sex}</td>
@@ -66,23 +88,28 @@
 			<td><fmt:formatDate pattern = "yyyy年MM月dd號" 
          value = "${memVO.credate}" /></td>
 			<td>${memVO.status}</td>
-				
-			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/backend/member/member.do">
-			     <input type="submit" value="修改"> 
-			     <input type="hidden" name="memno" value="${memVO.memno}">
-			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--><!-- 目前尚未用到  -->
-			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
-			</td>
-			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/backend/member/member.do">
-			    <input type="submit" value="刪除">
-			    <input type="hidden" name="memno" value="${memVO.memno}">
-			    <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
-			    <input type="hidden" name="action"value="delete"></FORM>
-			</td>
+			<td class="text-center"><a class='btn btn-info btn-xs' href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Update&memno=${memVO.memno}&status=${memVO.memno}"><span class="glyphicon glyphicon-edit"></span> Edit</a></td>
+			<td class="text-center"><a href="<%=request.getContextPath()%>/backend/member/member.do?action=delete&memno=${memVO.memno}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>	
+
+
+<!-- 			<td> -->
+<%-- 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/backend/member/member.do"> --%>
+<!-- 			     <input type="submit" value="修改">  -->
+<%-- 			     <input type="hidden" name="memno" value="${memVO.memno}"> --%>
+<%-- 			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--><!-- 目前尚未用到  --> --%>
+<!-- 			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM> -->
+<!-- 			</td> -->
+<!-- 			<td> -->
+<%-- 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/backend/member/member.do"> --%>
+<!-- 			    <input type="submit" value="刪除"> -->
+<%-- 			    <input type="hidden" name="memno" value="${memVO.memno}"> --%>
+<%-- 			    <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--> --%>
+<!-- 			    <input type="hidden" name="action"value="delete"></FORM> -->
+<!-- 			</td> -->
 		</tr>
-</table>
+    </table>
+    </div>
+</div>
 <button type="button" onclick="loadDoc()" >按我看我的訂單</button>
 <div id="demo"></div>
 
