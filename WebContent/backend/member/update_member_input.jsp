@@ -110,7 +110,7 @@
 				
 					<c:forEach var="s" items="${statusArray}">
 					<c:if test="${memVO.status==s}">
-					<option readonly value="${s}">${s}
+					<option readonly selected value="${s}">${s}
 					</c:if>
 					<c:if test="${memVO.status!=s}">
 					<option value="${s}">${s}
