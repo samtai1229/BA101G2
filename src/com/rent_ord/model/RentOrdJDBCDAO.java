@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.equipment.model.EquipmentVO;
-import com.motor.model.MotorVO;
 
 public class RentOrdJDBCDAO implements RentOrdDAO_interface {
 	String driver = "oracle.jdbc.driver.OracleDriver";
@@ -836,7 +835,7 @@ public class RentOrdJDBCDAO implements RentOrdDAO_interface {
 
 	public static void main(String[] args) {
 
-		RentOrdJDBCDAO dao = new RentOrdJDBCDAO();
+//		RentOrdJDBCDAO dao = new RentOrdJDBCDAO();
 		// 新增
 
 		/*
@@ -971,26 +970,26 @@ public class RentOrdJDBCDAO implements RentOrdDAO_interface {
 		
 	}
 
-	private static void printMethod(RentOrdVO aRO) {
-		System.out.println("getRentno:" + aRO.getRentno() + ",");
-		System.out.println("getMemno:" + aRO.getMemno() + ",");
-		System.out.println("getMotno:" + aRO.getMotno() + ",");
-		System.out.println("getSlocno:" + aRO.getSlocno() + ",");
-		System.out.println("getRlocno:" + aRO.getRlocno() + ",");		
-		System.out.println("getMilstart:" + aRO.getMilstart() + ",");
-		System.out.println("getMilend:" + aRO.getMilend() + ",");
-		System.out.println("getFilldate:" + aRO.getFilldate() + ",");
-		System.out.println("getStartdate:" + aRO.getStartdate() + ",");
-		System.out.println("getEnddate:" + aRO.getEnddate() + ",");
-		System.out.println("getReturndate:" + aRO.getReturndate() + ",");
-		System.out.println("getFine:" + aRO.getFine() + ",");
-		System.out.println("getTotal:" + aRO.getTotal() + ",");
-		System.out.println("getRank:" + aRO.getRank() + ",");
-		System.out.println("getStatus:" + aRO.getStatus() + ",");
-		System.out.println("getNote:" + aRO.getNote() + ",");
-		System.out.println();
-		System.out.println();
-	}
+//	private static void printMethod(RentOrdVO aRO) {
+//		System.out.println("getRentno:" + aRO.getRentno() + ",");
+//		System.out.println("getMemno:" + aRO.getMemno() + ",");
+//		System.out.println("getMotno:" + aRO.getMotno() + ",");
+//		System.out.println("getSlocno:" + aRO.getSlocno() + ",");
+//		System.out.println("getRlocno:" + aRO.getRlocno() + ",");		
+//		System.out.println("getMilstart:" + aRO.getMilstart() + ",");
+//		System.out.println("getMilend:" + aRO.getMilend() + ",");
+//		System.out.println("getFilldate:" + aRO.getFilldate() + ",");
+//		System.out.println("getStartdate:" + aRO.getStartdate() + ",");
+//		System.out.println("getEnddate:" + aRO.getEnddate() + ",");
+//		System.out.println("getReturndate:" + aRO.getReturndate() + ",");
+//		System.out.println("getFine:" + aRO.getFine() + ",");
+//		System.out.println("getTotal:" + aRO.getTotal() + ",");
+//		System.out.println("getRank:" + aRO.getRank() + ",");
+//		System.out.println("getStatus:" + aRO.getStatus() + ",");
+//		System.out.println("getNote:" + aRO.getNote() + ",");
+//		System.out.println();
+//		System.out.println();
+//	}
 
 
 	@Override
@@ -1069,6 +1068,30 @@ public class RentOrdJDBCDAO implements RentOrdDAO_interface {
 
 	@Override
 	public List<String> getMotnoInRentOrdByRentalPeriod(Timestamp start_time, Timestamp end_time) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<RentOrdVO> getRentalOrdersBymotno(String motno) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getRentnoByMemnoAndStartdate(String memno, Timestamp start_time) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getRentnoByRentalPeriod(Timestamp start_time, Timestamp end_time) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getEmtnoByRentno(String rentno) {
 		// TODO Auto-generated method stub
 		return null;
 	}

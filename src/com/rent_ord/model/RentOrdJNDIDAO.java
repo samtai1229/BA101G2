@@ -1,7 +1,6 @@
 package com.rent_ord.model;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,14 +9,12 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import com.equipment.model.EquipmentVO;
-import com.motor.model.MotorVO;
 
 public class RentOrdJNDIDAO implements RentOrdDAO_interface {
 	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
@@ -844,6 +841,30 @@ public class RentOrdJNDIDAO implements RentOrdDAO_interface {
 
 	@Override
 	public List<String> getMotnoInRentOrdByRentalPeriod(Timestamp start_time, Timestamp end_time) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<RentOrdVO> getRentalOrdersBymotno(String motno) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getRentnoByMemnoAndStartdate(String memno, Timestamp start_time) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getRentnoByRentalPeriod(Timestamp start_time, Timestamp end_time) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getEmtnoByRentno(String rentno) {
 		// TODO Auto-generated method stub
 		return null;
 	}
