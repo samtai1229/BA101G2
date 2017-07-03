@@ -3,10 +3,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
 <%@ page import="com.location.model.*"%>
+<%@ page import="com.news.model.*"%>
 <%-- 此頁練習採用 EL 的寫法取值 --%>
 
 <%
 	LocationService locSvc = new LocationService();
+	NewsService newSvc = new NewsService();
+	List<NewsVO> newslist = newSvc.getAll();
 	List<LocationVO> list = locSvc.getAll();
 	String memno = (String)session.getAttribute("memno");
 	String memname = (String)session.getAttribute("memname");
@@ -15,6 +18,7 @@
 	pageContext.setAttribute("list",list);
 	pageContext.setAttribute("memno",memno);
 	pageContext.setAttribute("memname",memname);
+	pageContext.setAttribute("newslist", newslist);
 %>
 
 <!DOCTYPE html>
@@ -62,7 +66,7 @@
 <style>
 </style>
 <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans:600'>
- <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style_login.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style_login.css">
 </head>
 
 <body id="page-top" class="index">
@@ -243,8 +247,9 @@
 			<div class=" row">
 				<div class="fh5co-slider">
 					<div class="owl-carousel owl-carousel-fullwidth ">
+					<c:forEach var="newsVO" items="${newslist}" >
 						<div onclick="window.location='news.html';" class="item"
-							style="background-image: url(<%=request.getContextPath()%>/img/newsSlide/s3.jpg)">
+							style="background-image: url(<%=request.getContextPath()%>/backend/news/newsread.do?newsno=${newsVO.newsno})">
 							<div class="fh5co-overlay"></div>
 							<div class="container">
 								<div class="row">
@@ -259,54 +264,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="item"
-							style="background-image: url(<%=request.getContextPath()%>/img/newsSlide/s2.jpg)">
-							<div class="fh5co-overlay"></div>
-							<div class="container">
-								<div class="row">
-									<div class="col-md-8 col-md-offset-2">
-										<div class="fh5co-owl-text-wrap">
-											<div class="fh5co-owl-text text-center to-animate">
-												<!-- <h1 class="fh5co-lead">A Digital Studio</h1>
-                                            <h2 class="fh5co-sub-lead">Booster is a free responsive HTML5 template using bootstrap released under Creative Commons 3.0. Lovely crafted by <a href="#">FREEHTML5.co</a></h2> -->
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="item"
-							style="background-image: url(<%=request.getContextPath()%>/img/newsSlide/s3.jpg)">
-							<div class="fh5co-overlay"></div>
-							<div class="container">
-								<div class="row">
-									<div class="col-md-8 col-md-offset-2">
-										<div class="fh5co-owl-text-wrap">
-											<div class="fh5co-owl-text text-center to-animate">
-												<!--   <h1 class="fh5co-lead">Branding, UX under in one roof</h1>
-                                            <h2 class="fh5co-sub-lead">Booster is a free responsive HTML5 template using bootstrap released under Creative Commons 3.0. Lovely crafted by <a href="#">FREEHTML5.co</a></h2> -->
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="item"
-							style="background-image: url(img/newsSlide/s4.jpg)">
-							<div class="fh5co-overlay"></div>
-							<div class="container">
-								<div class="row">
-									<div class="col-md-8 col-md-offset-2">
-										<div class="fh5co-owl-text-wrap">
-											<div class="fh5co-owl-text text-center to-animate">
-												<!--  <h1 class="fh5co-lead">Creative Folks</h1>
-                                            <h2 class="fh5co-sub-lead">Booster is a free responsive HTML5 template using bootstrap released under Creative Commons 3.0. Lovely crafted by <a href="#">FREEHTML5.co</a></h2> -->
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+						</c:forEach>
 					</div>
 				</div>
 			</div>

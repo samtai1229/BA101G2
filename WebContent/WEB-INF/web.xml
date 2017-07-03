@@ -114,4 +114,16 @@
     <url-pattern>/backend/motor/motorModel4H.do</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  <servlet-name>NewsDBGifReader</servlet-name>
+  <servlet-class>com.news.controller.NewsDBGifReader</servlet-class>
+ </servlet>
+ <servlet-mapping>
+  <servlet-name>NewsDBGifReader</servlet-name>
+  <url-pattern>/backend/news/newsread.do</url-pattern>
+ </servlet-mapping>
+  
+  
+  
+  
 </web-app>

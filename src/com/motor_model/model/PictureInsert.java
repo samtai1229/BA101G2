@@ -12,8 +12,8 @@ import java.sql.SQLException;
 public class PictureInsert {
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "servlet";
-	String passwd = "123456";
+	String userid = "ba101g2";
+	String passwd = "ba101g2";
 
 	private static final String UPDATE = "UPDATE MOTOR_MODEL set " + "  motpic=? where modtype = ?";
 
@@ -70,7 +70,7 @@ public class PictureInsert {
 			byte[] pic;
 
 			try {
-				pic = getPictureByteArray("C://motor//M" + i + ".jpg");
+				pic = getPictureByteArray("C://motor//MM" + i + ".jpg");
 				mmVO1.setMotpic(pic);
 			} catch (IOException e) {
 				e.printStackTrace();
