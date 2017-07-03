@@ -1,8 +1,11 @@
 package com.rent_ord.controller;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -14,7 +17,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.emt_cate.model.EmtCateService;
+import com.emt_list.model.EmtListService;
 import com.equipment.model.EquipmentVO;
 import com.location.model.LocationService;
 import com.location.model.LocationVO;
@@ -24,7 +30,7 @@ import com.motor.model.MotorService;
 import com.motor.model.MotorVO;
 import com.motor_model.model.MotorModelService;
 import com.motor_model.model.MotorModelVO;
-import com.rent_ord.model.MotorForRentOrdService;
+import com.rent_ord.model.EquipmentForRentOrdService;
 import com.rent_ord.model.RentOrdService;
 import com.rent_ord.model.RentOrdVO;
 
@@ -39,7 +45,584 @@ public class RentOrdServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		System.out.println("RentOrdServlet in");
+
+	if ("redirect_to_login".equals(action)){
+		String url ="/Login.jsp";
+		req.getRequestDispatcher(url).forward(req, res); // 轉去登入畫面???
+	}
+
+
+
+	
+	
+//quick_search_credit_card	
+	if ("quick_search_credit_card".equals(action)||
+		"quick_search_money_transfer".equals(action)){ 
 		
+		List<String> errorMsgs = new LinkedList<String>();
+		req.setAttribute("errorMsgs", errorMsgs);
+		
+		System.out.println("quick_search_credit_card in");
+
+
+		try {
+			/***************************1.接收請求參數 **********************/
+			
+//		    final String INSERT_STMT = "INSERT INTO RENT_ORD"
+//			+ " (rentno, memno, motno, slocno, rlocno, startdate, enddate, total "
+//			+ " ) VALUES ('R'||LPAD(TO_CHAR(rentno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?,"
+//			+ "  ?, ?, ?)";			
+			
+			HttpSession session = req.getSession();
+			//session 有memno
+			String memno = (String) session.getAttribute("memno");
+			String motno = req.getParameter("motno");
+			String slocno = req.getParameter("slocno");
+			String rlocno = req.getParameter("rlocno");
+			String emtno_list_str = req.getParameter("emtno_list_str");
+			Integer total = Integer.parseInt(req.getParameter("total"));
+			String status = "";
+			
+			if("quick_search_credit_card".equals(action))
+				status = "unoccupied";
+			else
+				status = "unpaid";
+			
+			
+			// 處理日期
+			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy H:mm");
+			java.util.Date date;
+			long longTime;
+
+			// 處理日期 startdate
+			java.sql.Timestamp startdate = null;
+			try {
+				date = (java.util.Date) sdf.parse(req.getParameter("startdate"));;// String to Date
+				longTime = date.getTime(); // 取long
+				startdate = new java.sql.Timestamp(longTime); // 切為SQL專用格式
+				System.out.println("startdate"+startdate);
+			} catch (ParseException e) {
+				e.printStackTrace();
+				errorMsgs.add("請輸入起始日期!");
+			}
+
+			// 處理日期 enddate
+			java.sql.Timestamp enddate = null;
+			try {
+				date = (java.util.Date) sdf.parse(req.getParameter("enddate"));// String to Date
+				longTime = date.getTime(); // 取long
+				enddate = new java.sql.Timestamp(longTime); // 切為SQL專用格式
+				System.out.println("enddate"+enddate);
+			} catch (ParseException e) {
+				e.printStackTrace();
+				errorMsgs.add("請輸入結束日期!");
+			}
+			/***************************2.開始查詢資料*****************************************/
+			//要處理的有:
+			//1.處理emtno_list_str
+			//2.新增租賃單
+			//3.新增租賃單裝備明細
+
+			//1
+			String [] emtnos = emtno_list_str.split(" ");
+
+
+			//2.
+			RentOrdService roSvc = new RentOrdService();
+			roSvc.addRentOrd(memno, motno, slocno, rlocno, startdate, enddate, total, status);
+			
+			//3.
+			String rentno = roSvc.getRentnoByMemnoAndStartdate(memno, startdate);
+			System.out.println("rentno = " + rentno);
+			
+			EmtListService elSvc = new EmtListService();
+			
+			for(String emtno : emtnos){
+				elSvc.addEmtList(rentno, emtno);
+				System.out.println("rentno:"+rentno+" emtno:"+emtno+" add to emtlist");
+			}
+
+			/***************************3.查詢完成,準備轉交(Send the Success view)*************/
+
+			//req.setAttribute("motorQueryVO", motorQueryVO);
+//			req.setAttribute("startdate", startdate);
+//			req.setAttribute("enddate", enddate);
+//			req.setAttribute("totalday", totalday);
+//			req.setAttribute("slocno", slocno);
+//			req.setAttribute("rlocno", rlocno);
+//			req.setAttribute("motno", motno);
+//
+//			
+//			先回首頁
+			req.setAttribute("total", total);
+			String url = "/index.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 Emp.jsp
+			successView.forward(req, res);
+
+			/***************************其他可能的錯誤處理*************************************/
+		} catch (Exception e) {
+			errorMsgs.add("無法取得資料:" + e.getMessage());
+			RequestDispatcher failureView = req
+					.getRequestDispatcher("/frontend/rental_form/quick_search_product.jsp");
+			failureView.forward(req, res);
+		}
+	}	
+	
+
+	
+	
+	
+	
+//quick_search_product_3	
+	if ("quick_search_product_3".equals(action)){ 
+		
+		List<String> errorMsgs = new LinkedList<String>();
+		req.setAttribute("errorMsgs", errorMsgs);
+		
+		System.out.println("quick_search_product_3 in");
+
+
+		try {
+			/***************************1.接收請求參數 **********************/
+			String motno = req.getParameter("motno");
+			String startday = req.getParameter("startday");
+			String endday = req.getParameter("endday");
+			String slocno = req.getParameter("slocno");
+			String rlocno = req.getParameter("rlocno");					
+			Integer totalday = Integer.parseInt(req.getParameter("totalday"));
+			Integer ecno1 = Integer.parseInt(req.getParameter("ecno1"));
+			Integer ecno2 = Integer.parseInt(req.getParameter("ecno2"));
+			Integer ecno3 = Integer.parseInt(req.getParameter("ecno3"));
+			Integer ecno4 = Integer.parseInt(req.getParameter("ecno4"));
+
+			
+			/***************************2.開始查詢資料*****************************************/
+			//要處理的有:
+			//1.用選定的motno取得motorVO
+			//2.依裝備實際需求數量從DB取出leasable的裝備編號.
+			//3.total
+			
+			int total =0;
+
+			//1
+			MotorService motorSvc = new MotorService();
+			MotorVO motorQueryVO = motorSvc.findByPK(motno);
+			
+			MotorModelService mmSvc = new MotorModelService();
+			MotorModelVO mmVO = mmSvc.findByPK(motorQueryVO.getModtype());			
+			total += mmVO.getRenprice() * totalday;
+			
+			//2
+			EquipmentForRentOrdService efro = new EquipmentForRentOrdService();
+			List<EquipmentVO> templist = new ArrayList<EquipmentVO>();
+
+			
+			List<EquipmentVO> eVOList = new ArrayList<EquipmentVO>();
+			
+			List<EquipmentVO> ecno1_List = new ArrayList<EquipmentVO>();
+			List<EquipmentVO> ecno2_List = new ArrayList<EquipmentVO>();
+			List<EquipmentVO> ecno3_List = new ArrayList<EquipmentVO>();
+			List<EquipmentVO> ecno4_List = new ArrayList<EquipmentVO>();
+			
+			String emtno_list_str = "";
+			StringBuilder str= new StringBuilder();
+			
+			RentOrdService roSvc = new RentOrdService();
+
+			
+			
+			
+			
+			//下面處理的日期是要轉成timestamp後給sql指令用的.
+			
+			SimpleDateFormat sdf2 = new SimpleDateFormat("MM/dd/yyyy H:mm");
+			java.util.Date date;
+			long longTime;
+
+			// 處理日期 start_time
+			java.sql.Timestamp start_time2 = null;
+			try {
+				date = (java.util.Date) sdf2.parse(startday);// String to Date
+																					
+				longTime = date.getTime(); // 取long
+				start_time2 = new java.sql.Timestamp(longTime); // 切為SQL專用格式
+				System.out.println("start_time (SQL) : "+ start_time2);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
+
+			// 處理日期 end_time
+			java.sql.Timestamp end_time2 = null;
+			try {
+				date = (java.util.Date) sdf2.parse(endday);// String to Date
+																					
+				longTime = date.getTime(); // 取long
+				end_time2 = new java.sql.Timestamp(longTime); // 切為SQL專用格式
+				System.out.println("end_time (SQL) : "+ end_time2);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
+			
+			Set<EquipmentVO> offdutyEquipmentVOSet = new LinkedHashSet<EquipmentVO>();
+			List<String> rentnolist = roSvc.getRentnoByRentalPeriod(start_time2, end_time2);
+			Set<EquipmentVO> tempSet = new LinkedHashSet<EquipmentVO>();
+			
+			//找出所有時段內不可再租借的裝備   offdutyEquipmentVOSet
+			for(String rentno : rentnolist){
+				tempSet = roSvc.getEquipmentVOsByRentno(rentno);
+				for(EquipmentVO tempVO : tempSet){
+					int count =0;
+					for(EquipmentVO offeVO:offdutyEquipmentVOSet){
+						if(offeVO.getEmtno().equals(tempVO.getEmtno())){
+							count++;
+							break;
+						}
+					}
+					if(count==0){
+						//System.out.println("count ==0 in, emtno = "+tempVO.getEmtno());
+						offdutyEquipmentVOSet.add(tempVO);
+					}
+				}
+			}
+			System.out.println("offdutySet.size = "+offdutyEquipmentVOSet.size());
+			
+		
+			templist = efro.getEquipsByEcno("EC01");			
+			for(EquipmentVO tempVO: templist){
+				if(ecno1_List.size()<ecno1){
+					int count=0;
+					for(EquipmentVO t2VO : offdutyEquipmentVOSet){
+						if(t2VO.getEmtno().equals(tempVO.getEmtno())){
+							count++;
+							break;
+						}
+					}
+					if(count==0){
+						ecno1_List.add(tempVO);
+						eVOList.add(tempVO);
+						str.append(tempVO.getEmtno()+" ");
+					}
+				}
+			}
+			
+			templist = efro.getEquipsByEcno("EC02");			
+			for(EquipmentVO tempVO: templist){
+				if(ecno2_List.size()<ecno2){
+					int count=0;
+					for(EquipmentVO t2VO : offdutyEquipmentVOSet){
+						if(t2VO.getEmtno().equals(tempVO.getEmtno())){
+							count++;
+							break;
+						}
+					}
+					if(count==0){
+						ecno2_List.add(tempVO);
+						eVOList.add(tempVO);
+						str.append(tempVO.getEmtno()+" ");
+					}
+				}
+			}
+			
+			templist = efro.getEquipsByEcno("EC03");			
+			for(EquipmentVO tempVO: templist){
+				if(ecno3_List.size()<ecno3){
+					int count=0;
+					for(EquipmentVO t2VO : offdutyEquipmentVOSet){
+						if(t2VO.getEmtno().equals(tempVO.getEmtno())){
+							count++;
+							break;
+						}
+					}
+					if(count==0){
+						ecno3_List.add(tempVO);
+						eVOList.add(tempVO);
+						str.append(tempVO.getEmtno()+" ");
+					}
+				}
+			}
+			
+			templist = efro.getEquipsByEcno("EC04");			
+			for(EquipmentVO tempVO: templist){
+				if(ecno4_List.size()<ecno4){
+					int count=0;
+					for(EquipmentVO t2VO : offdutyEquipmentVOSet){
+						if(t2VO.getEmtno().equals(tempVO.getEmtno())){
+							count++;
+							break;
+						}
+					}
+					if(count==0){
+						ecno4_List.add(tempVO);
+						eVOList.add(tempVO);
+						str.append(tempVO.getEmtno()+" ");
+					}
+				}
+			}
+			
+			EmtCateService ecSvc = new EmtCateService();		
+			for(EquipmentVO eVO : eVOList){
+				total += ecSvc.getOneEmtCate(eVO.getEcno()).getPrice() * totalday;
+			}
+			
+			emtno_list_str = str.toString().trim();
+			
+			System.out.println("emtno_list_str: "+emtno_list_str);
+
+			/***************************3.查詢完成,準備轉交(Send the Success view)*************/
+
+			req.setAttribute("motorQueryVO", motorQueryVO);
+			req.setAttribute("startday", startday);
+			req.setAttribute("endday", endday);
+			req.setAttribute("totalday", totalday);
+			req.setAttribute("slocno", slocno);
+			req.setAttribute("rlocno", rlocno);
+			req.setAttribute("motno", motno);
+			req.setAttribute("ecno1_List", ecno1_List);
+			req.setAttribute("ecno2_List", ecno2_List);
+			req.setAttribute("ecno3_List", ecno3_List);
+			req.setAttribute("ecno4_List", ecno4_List);
+			req.setAttribute("ecno1_List_size", ecno1_List.size());
+			req.setAttribute("ecno2_List_size", ecno2_List.size());
+			req.setAttribute("ecno3_List_size", ecno3_List.size());
+			req.setAttribute("ecno4_List_size", ecno4_List.size());
+			req.setAttribute("emtno_list_str", emtno_list_str);
+			
+			req.setAttribute("eVOList", eVOList);			
+		
+			req.setAttribute("total", total);
+			String url = "/frontend/rental_form/quick_search_product3.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 Emp.jsp
+			successView.forward(req, res);
+
+			/***************************其他可能的錯誤處理*************************************/
+		} catch (Exception e) {
+			errorMsgs.add("無法取得資料:" + e.getMessage());
+			RequestDispatcher failureView = req
+					.getRequestDispatcher("/frontend/rental_form/quick_search_product.jsp");
+			failureView.forward(req, res);
+		}
+	}
+	
+	
+	
+//quick_search_product_2	
+	if ("quick_search_product_2".equals(action)){ 
+		
+		List<String> errorMsgs = new LinkedList<String>();
+		req.setAttribute("errorMsgs", errorMsgs);
+		
+		System.out.println("quick_search_product_2 in");
+
+
+		try {
+			/***************************1.接收請求參數 **********************/
+			String motno = req.getParameter("motno");
+			String dayrange = req.getParameter("confirmed_rentday");
+
+			
+			/***************************2.開始查詢資料*****************************************/
+			//要處理的有:
+			//1.用選定的motno取得motorVO
+			//2.把dayrange處理成startday / endday 兩個字串，順便算總天數totalday
+			//3.在DB裝備庫存內，從每種裝備調出兩筆可租用(leasable)裝備 ==>改成用租單來篩選可用裝備
+			//	目前裝備DB有四種裝備，先設四個list來裝，不夠的就顯示數量在下個頁面上。
+			
+
+			//1
+			MotorService motorSvc = new MotorService();
+			MotorVO motorQueryVO = motorSvc.findByPK(motno);
+			
+			//2
+			System.out.println("confirmed_rentday"+ dayrange);
+			String tokens[] = dayrange.split(" - ");
+			String startday = tokens[0];
+			String endday  = tokens[1];
+			
+			System.out.println("startday : "+startday +", endday: "+ endday);
+						
+//抓string date來換成Date	再來計算總天數		
+			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+
+			// 處理日期, 用來計算總天數用。
+			java.util.Date start_time = (java.util.Date) sdf.parse(startday);
+			java.util.Date end_time = (java.util.Date) sdf.parse(endday);
+			
+			long diff = end_time.getTime() - start_time.getTime();
+			int totalday = (int) (diff / (1000*60*60*24)) +1;
+			System.out.println("totalday :" +totalday+"days=================");
+			
+			
+			
+			//3. 下面處理的日期是要轉成timestamp後給sql指令用的.
+			
+			SimpleDateFormat sdf2 = new SimpleDateFormat("MM/dd/yyyy H:mm");
+			java.util.Date date;
+			long longTime;
+
+			// 處理日期 start_time
+			java.sql.Timestamp start_time2 = null;
+			try {
+				date = (java.util.Date) sdf2.parse(startday);// String to Date
+																					
+				longTime = date.getTime(); // 取long
+				start_time2 = new java.sql.Timestamp(longTime); // 切為SQL專用格式
+				System.out.println("start_time (SQL) : "+ start_time);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
+
+			// 處理日期 end_time
+			java.sql.Timestamp end_time2 = null;
+			try {
+				date = (java.util.Date) sdf2.parse(endday);// String to Date
+																					
+				longTime = date.getTime(); // 取long
+				end_time2 = new java.sql.Timestamp(longTime); // 切為SQL專用格式
+				System.out.println("end_time (SQL) : "+ end_time);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}	
+			
+			RentOrdService roSvc = new RentOrdService();
+			Set<EquipmentVO> tempSet = new LinkedHashSet<EquipmentVO>();
+			
+			
+			Set<EquipmentVO> offdutyEquipmentVOSet = new LinkedHashSet<EquipmentVO>();
+			List<String> rentnolist = roSvc.getRentnoByRentalPeriod(start_time2, end_time2);
+			
+			//找出所有時段內不可再租借的裝備   offdutyEquipmentVOSet
+			for(String rentno : rentnolist){
+				tempSet = roSvc.getEquipmentVOsByRentno(rentno);
+				for(EquipmentVO tempVO : tempSet){
+					int count =0;
+					for(EquipmentVO offeVO:offdutyEquipmentVOSet){
+						if(offeVO.getEmtno().equals(tempVO.getEmtno())){
+							count++;
+							break;
+						}
+					}
+					if(count==0){
+						//System.out.println("count ==0 in, emtno = "+tempVO.getEmtno());
+						offdutyEquipmentVOSet.add(tempVO);
+					}
+				}
+			}
+			System.out.println("offdutySet.size = "+offdutyEquipmentVOSet.size());
+
+			EquipmentForRentOrdService eSvc = new EquipmentForRentOrdService();
+			List<EquipmentVO> templist = new ArrayList<EquipmentVO>();
+			
+			List<EquipmentVO> ecno1_List = new ArrayList<EquipmentVO>();
+			List<EquipmentVO> ecno2_List = new ArrayList<EquipmentVO>();
+			List<EquipmentVO> ecno3_List = new ArrayList<EquipmentVO>();
+			List<EquipmentVO> ecno4_List = new ArrayList<EquipmentVO>();
+			StringBuilder str = new StringBuilder();
+			String availableEmtnoList = "";
+			
+		
+			templist = eSvc.getEquipsByEcno("EC01");			
+			for(EquipmentVO tempVO: templist){
+				if(ecno1_List.size()<2){
+					int count=0;
+					for(EquipmentVO t2VO : offdutyEquipmentVOSet){
+						if(t2VO.getEmtno().equals(tempVO.getEmtno())){
+							count++;
+							break;
+						}
+					}
+					if(count==0){
+						ecno1_List.add(tempVO);
+						str.append(tempVO.getEmtno()+" ");
+					}
+				}
+			}
+			
+			templist = eSvc.getEquipsByEcno("EC02");			
+			for(EquipmentVO tempVO: templist){
+				if(ecno2_List.size()<2){
+					int count=0;
+					for(EquipmentVO t2VO : offdutyEquipmentVOSet){
+						if(t2VO.getEmtno().equals(tempVO.getEmtno())){
+							count++;
+							break;
+						}
+					}
+					if(count==0){
+						ecno2_List.add(tempVO);
+						str.append(tempVO.getEmtno()+" ");
+					}
+				}
+			}
+			
+			templist = eSvc.getEquipsByEcno("EC03");			
+			for(EquipmentVO tempVO: templist){
+				if(ecno3_List.size()<2){
+					int count=0;
+					for(EquipmentVO t2VO : offdutyEquipmentVOSet){
+						if(t2VO.getEmtno().equals(tempVO.getEmtno())){
+							count++;
+							break;
+						}
+					}
+					if(count==0){
+						ecno3_List.add(tempVO);
+						str.append(tempVO.getEmtno()+" ");
+					}
+				}
+			}
+			
+			templist = eSvc.getEquipsByEcno("EC04");			
+			for(EquipmentVO tempVO: templist){
+				if(ecno4_List.size()<2){
+					int count=0;
+					for(EquipmentVO t2VO : offdutyEquipmentVOSet){
+						if(t2VO.getEmtno().equals(tempVO.getEmtno())){
+							count++;
+							break;
+						}
+					}
+					if(count==0){
+						ecno4_List.add(tempVO);
+						str.append(tempVO.getEmtno()+" ");
+					}
+				}
+			}
+			
+			availableEmtnoList = str.toString().trim();
+			
+			System.out.println("availableEmtnoList"+availableEmtnoList);
+
+
+			/***************************3.查詢完成,準備轉交(Send the Success view)*************/
+
+			req.setAttribute("motorQueryVO", motorQueryVO);
+			req.setAttribute("startday", startday);
+			req.setAttribute("endday", endday);
+			req.setAttribute("totalday", totalday);
+			req.setAttribute("ecno1_List_size", ecno1_List.size());
+			req.setAttribute("ecno2_List_size", ecno2_List.size());
+			req.setAttribute("ecno3_List_size", ecno3_List.size());
+			req.setAttribute("ecno4_List_size", ecno4_List.size());
+			req.setAttribute("availableEmtnoList", availableEmtnoList);
+		
+			String url = "/frontend/rental_form/quick_search_product2.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 Emp.jsp
+			successView.forward(req, res);
+
+			/***************************其他可能的錯誤處理*************************************/
+		} catch (Exception e) {
+			errorMsgs.add("無法取得資料:" + e.getMessage());
+			RequestDispatcher failureView = req
+					.getRequestDispatcher("/frontend/rental_form/quick_search_product.jsp");
+			failureView.forward(req, res);
+		}
+	}
+	
+	
+
 
 
 //quick_search_product
@@ -51,23 +634,58 @@ public class RentOrdServlet extends HttpServlet {
 		try {
 			/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
 			String motno = req.getParameter("motno");
-			String start_time = req.getParameter("start_time");
-			String end_time = req.getParameter("end_time");
 			String dayrange = req.getParameter("dayrange");
-			
-			System.out.println("start_time:" + start_time);
-			System.out.println("end_time:" + end_time);
+
 			System.out.println("dayrange:" + dayrange);
 			
 			/***************************2.開始查詢資料*****************************************/
 			MotorService motorSvc = new MotorService();
-			MotorVO motorQueryVO = motorSvc.findByPK(motno);
-
+			RentOrdService roSvc = new RentOrdService();
 			
+			MotorVO motorQueryVO = motorSvc.findByPK(motno);
+			Set<RentOrdVO> set = roSvc.getBymotno(motno);
+			
+			
+			Timestamp startday;
+			Timestamp endday;
+			String dayPicker = "";
+			List<String> dayPickerList = new ArrayList<String>();
+ 			for(RentOrdVO roVO: set){
+
+
+// 用 Calindar幫忙處理timestamp格式，加完時間後再丟回timestamp.
+				endday = roVO.getEnddate();
+				//endday = plusOneDayMethod(endday);
+				
+				startday = roVO.getStartdate();
+				dayPicker = startday.toString().substring(0, 10);
+				
+				dayPickerMethod(dayPicker, dayPickerList);
+				
+				while(startday.before(endday)){
+					
+					startday = plusOneDayMethod(startday);
+					dayPicker = startday.toString().substring(0, 10);
+					
+					dayPickerMethod(dayPicker, dayPickerList);
+				}
+				//System.out.println("dayPicker :"+dayPicker);
+			}
+ 			
+ 			
+ 			StringBuilder str= new StringBuilder();
+ 			for(String temp: dayPickerList){
+ 				//System.out.println("dayPickerlist:" + temp);
+ 				str.append(temp+" ");
+ 			}
+ 			dayPicker = str.toString().trim();
+
 			/***************************3.查詢完成,準備轉交(Send the Success view)*************/
 
-			req.setAttribute("motorQueryVO", motorQueryVO); // 資料庫取出的VO物件,存入req
+			req.setAttribute("motorQueryVO", motorQueryVO);
 			System.out.println("motnoVO.motorQueryVO:"+motorQueryVO.getMotno());
+			
+			req.setAttribute("dayPicker", dayPicker);
 
 			
 			String url = "/frontend/rental_form/quick_search_product.jsp";
@@ -155,12 +773,13 @@ public class RentOrdServlet extends HttpServlet {
 						
 						if(ngMotor.equals(mVO.getMotno())){
 							count ++;
-							System.out.println("ngMotor caught! :" + ngMotor);
-							System.out.println("==========================count :"+ count);
+							//System.out.println("ngMotor caught! :" + ngMotor);
+							//System.out.println("==========================count :"+ count);
+							break;
 						}
 					}
 					if(count==0){
-						System.out.println("mVO.getMotno() IN COUNT AREA :"+ mVO.getMotno());
+						//System.out.println("mVO.getMotno() IN COUNT AREA :"+ mVO.getMotno());
 						int count2 = 0;
 						for(MotorVO mVO2 : availableMotorVO){
 							if(mVO.getModtype().equals(mVO2.getModtype())){
@@ -169,13 +788,13 @@ public class RentOrdServlet extends HttpServlet {
 						}
 						if(count2==0){
 							availableMotorVO.add(mVO);
-							System.out.println("mVO.getByMotno:"+mVO.getMotno());
-							System.out.println("availableMotorVO.add(mVO); mVO.type = "+mVO.getModtype());
+							//System.out.println("mVO.getByMotno:"+mVO.getMotno());
+							//System.out.println("availableMotorVO.add(mVO); mVO.type = "+mVO.getModtype());
 						}
 					}
 				}				
 			
-				System.out.println("notAllowMotorList count(出勤車次):" + notAllowMotorList.size());
+				System.out.println("rent_ord count(s) during period(出勤車次):" + notAllowMotorList.size());
 				System.out.println("allMotorList count:" + allMotorList.size());
 				System.out.println("availableMotorVO count:" + availableMotorVO.size());
 
@@ -735,7 +1354,12 @@ public class RentOrdServlet extends HttpServlet {
 				String rlocno = req.getParameter("rlocno").trim();
 				String note = req.getParameter("note").trim();
 
-				String milstartStr = req.getParameter("milstart").trim();
+				String totalStr = req.getParameter("total").trim();
+				
+				String status = req.getParameter("status");
+				if(req.getParameter("status")==null){
+					status = "unpaid";
+				}
 
 				// 處理日期
 				SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
@@ -769,13 +1393,15 @@ public class RentOrdServlet extends HttpServlet {
 					e.printStackTrace();
 					errorMsgs.add("請輸入結束日期!");
 				}
+						
+				
 
-				// 處理integer milstart
-				Integer milstart = null;
+				// 處理integer total
+				Integer total = null;
 				try {
-					milstart = new Integer(milstartStr);
+					total = new Integer(totalStr);
 				} catch (NumberFormatException e) {
-					errorMsgs.add("起始里程數請寫數字");
+					errorMsgs.add("total請寫數字");
 				}
 
 				RentOrdVO roVO = new RentOrdVO();
@@ -783,10 +1409,13 @@ public class RentOrdServlet extends HttpServlet {
 				roVO.setMotno(motno);
 				roVO.setSlocno(slocno);
 				roVO.setRlocno(rlocno);
-				roVO.setMilstart(milstart);
+				roVO.setTotal(total);
 				roVO.setStartdate(startdate);
 				roVO.setEnddate(enddate);
-				roVO.setNote(note);
+				roVO.setStatus(status);
+				//roVO.setFilldate(filldate);
+				//讓oracle自動填預設日期
+				
 
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
@@ -798,7 +1427,7 @@ public class RentOrdServlet extends HttpServlet {
 
 				/*************************** 2.開始新增資料 ***************************************/
 				RentOrdService roSvc = new RentOrdService();
-				roVO = roSvc.addRentOrd(memno, motno, slocno, rlocno, milstart, startdate, enddate, note);
+				roVO = roSvc.addRentOrd(memno, motno, slocno, rlocno, startdate, enddate, total, status);
 
 				/***************************
 				 * 3.新增完成,準備轉交(Send the Success view)
@@ -1148,5 +1777,34 @@ public class RentOrdServlet extends HttpServlet {
 		
 
 
+	}
+
+	private Timestamp plusOneDayMethod(Timestamp day) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(day);		
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+        cal.add(Calendar.DATE, 1);//+1天
+
+        	
+		day.setTime(cal.getTime().getTime());
+		return day;
+		
+	}
+
+	private void dayPickerMethod(String dayPicker, List<String> dayPickerList) {
+
+		int count=0;
+		
+		for(String day: dayPickerList){
+			if(day.equals(dayPicker)){
+				count++;
+			}
+		}
+		if(count==0){
+			dayPickerList.add(dayPicker);
+		}
 	}
 }
