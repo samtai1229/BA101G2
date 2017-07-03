@@ -14,26 +14,30 @@ public class RentOrdService {
 	}
 
 	public RentOrdVO addRentOrd( String memno, String motno, String slocno, String rlocno,
-		   Integer milstart, Timestamp startdate, Timestamp enddate,
-		   String note) {
+		    Timestamp startdate, Timestamp enddate, Integer total, String status) {
 
+//	    final String INSERT_STMT = "INSERT INTO RENT_ORD"
+//		+ " (rentno, memno, motno, slocno, filldate, rlocno, startdate, enddate, total "
+//		+ " ) VALUES ('R'||LPAD(TO_CHAR(rentno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?,"
+//		+ "  ?, ?, ?, ?)";		
+		
 		RentOrdVO roVO = new RentOrdVO();
 //		roVO.setRentno(rentno);
 		roVO.setMemno(memno);
 		roVO.setMotno(motno);
 		roVO.setSlocno(slocno);
 		roVO.setRlocno(rlocno);
-		roVO.setMilstart(milstart);
+//		roVO.setMilstart(milstart);
 //		roVO.setMilend(milend);
 //		roVO.setFilldate(filldate);
 		roVO.setStartdate(startdate);
 		roVO.setEnddate(enddate);
 //		roVO.setReturndate(returndate);
 //		roVO.setFine(fine);
-//		roVO.setTotal(total);
+		roVO.setTotal(total);
 //		roVO.setRank(rank);
-//		roVO.setStatus(status);
-		roVO.setNote(note);
+		roVO.setStatus(status);
+//		roVO.setNote(note);
 		dao.insert(roVO);
 
 		return roVO;
@@ -75,6 +79,9 @@ public class RentOrdService {
 
 	public List<RentOrdVO> getAll() {
 		return dao.getAll();
+	}
+	public Set<RentOrdVO> getBymotno(String motno){
+		return dao.getRentalOrdersBymotno(motno);
 	}
 
 	public Set<RentOrdVO> getByStatus(String status) {
@@ -160,6 +167,16 @@ public class RentOrdService {
 	public List<String> getMotnoInRentOrdByRentalPeriod(Timestamp start_time, Timestamp end_time){
 		return dao.getMotnoInRentOrdByRentalPeriod(start_time, end_time);
 	}
-
-
+	
+	public List<String> getRentnoByRentalPeriod(Timestamp start_time, Timestamp end_time){
+		return dao.getRentnoByRentalPeriod(start_time, end_time);
+	}
+	
+	public String getRentnoByMemnoAndStartdate(String memno, Timestamp start_time){
+		return dao.getRentnoByMemnoAndStartdate(memno, start_time);
+	}
+	
+	public List<String> getEmtnoByRentno(String rentno){
+		return dao.getEmtnoByRentno(rentno);
+	};
 }
