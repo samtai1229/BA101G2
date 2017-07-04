@@ -55,8 +55,59 @@ public class MotorForRentOrdDAO implements MotorForRentOrdDAO_interface {
 	private static final String GET_ONE = "SELECT motno, modtype, plateno,"
 	+ " engno, to_char(manudate,'yyyy-mm-dd hh:mm:ss') manudate,"
 	+ " mile, locno, status, note FROM motor where motno = ?";
+	
+	private static final String GET_MOTNO_BY_MOTOR_TYPE = "SELECT motno "
+			+ " FROM motor where modtype = ?";
 
 	
+	@Override
+	public List<String> getMotnosByModelType(String modtype) {
+		List<String> list = new ArrayList<String>();
+		String str = "";
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_MOTNO_BY_MOTOR_TYPE);
+			pstmt.setString(1, modtype);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				str = rs.getString("motno");
+				list.add(str);
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+
 	@Override
 	public MotorVO findByPrimaryKey(String motno) {
 

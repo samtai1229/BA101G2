@@ -13,4 +13,8 @@ public class MotorForRentOrdService {
 		return dao.getMotnosByAllRentalStatus();
 	};
 	
+	public List<String> getMotnosByModelType(String modtype){
+		return dao.getMotnosByModelType(modtype);
+	}
+	
 }

@@ -160,6 +160,64 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	private static final String GET_EMTNO_FROM_EMT_LIST_BY_RENTNO = 
 			"SELECT emtno FROM EMT_LIST where rentno = ? ";
 	
+	private static final String GET_roVOs_BY_STARTDAY_ENDDAY_MONTO=
+			"SELECT * FROM RENT_ORD where  (( startdate > ? and startdate <? )"
+			  +" or  ( enddate > ? and enddate < ? )) and MOTNO = ? order by startdate";
+	
+
+	@Override
+	public Set<RentOrdVO> getRoVOsByDatePrioidAndMotno(Timestamp start_time, Timestamp end_time, String motno) {
+		Set<RentOrdVO> set = new LinkedHashSet<RentOrdVO>();
+		RentOrdVO roVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_roVOs_BY_STARTDAY_ENDDAY_MONTO);
+			pstmt.setTimestamp(1, start_time);
+			pstmt.setTimestamp(2, end_time);
+			pstmt.setTimestamp(3, start_time);
+			pstmt.setTimestamp(4, end_time);
+			pstmt.setString(5, motno);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				roVO = new RentOrdVO();
+				setAllAttributeMethod(roVO, rs); // 拉出來寫成一個方法
+
+				set.add(roVO); // Store the row in the vector
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return set;
+	}
 
 	@Override
 	public List<String> getEmtnoByRentno(String rentno) {
