@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -31,6 +32,7 @@ import com.motor.model.MotorVO;
 import com.motor_model.model.MotorModelService;
 import com.motor_model.model.MotorModelVO;
 import com.rent_ord.model.EquipmentForRentOrdService;
+import com.rent_ord.model.MotorForRentOrdService;
 import com.rent_ord.model.RentOrdService;
 import com.rent_ord.model.RentOrdVO;
 
@@ -51,7 +53,208 @@ public class RentOrdServlet extends HttpServlet {
 		req.getRequestDispatcher(url).forward(req, res); // 轉去登入畫面???
 	}
 
+	
 
+//query_product_info 從我要租車->選定某車款後進入。
+		if ("query_product_info".equals(action)) { 
+			System.out.println("quick_search_product in");
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
+				String modtype = req.getParameter("modtype");
+				
+				//??沒有dayrange
+
+
+				/***************************2.開始查詢資料*****************************************/
+				//找到這modtype接下來兩個月內空檔率最高的車的motno ->motorQueryVO
+				//用這VO反推一段有空的時間當做dayrange
+				//
+				
+				//找到3天後日期，再找60天後日期
+				java.util.Date du = new java.util.Date();
+				
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(du);		
+				
+				cal.set(Calendar.HOUR_OF_DAY, 0);
+				cal.set(Calendar.MINUTE, 0);
+				cal.set(Calendar.SECOND, 0);
+				cal.set(Calendar.MILLISECOND, 0);
+				cal.add(Calendar.DATE, 3);//+3天    
+				Date query_start_time = cal.getTime();
+				
+				cal.add(Calendar.DATE, 3);//+3天    
+				Date tempEnd = cal.getTime();
+				
+				cal.add(Calendar.DATE, 54);//+60天  
+				System.out.println("query_start_time: "+query_start_time);
+				Date query_end_time = cal.getTime();
+				System.out.println("query_end_time: "+query_end_time);
+
+				
+				
+				// 處理日期 startdate to SQL
+				java.sql.Timestamp startdate;
+				startdate = new java.sql.Timestamp(query_start_time.getTime());
+				System.out.println("startdate"+startdate);
+
+				// 處理日期 enddate to SQL
+				java.sql.Timestamp enddate;
+				enddate = new java.sql.Timestamp(query_end_time.getTime());
+				System.out.println("enddate"+enddate);
+				
+				//做一個集滿60天數的list =>dayPlayer 用來取得安全的預設天數
+				
+				String dayP = "";
+				List<String> dayPlayer = new ArrayList<String>();
+					dayP = startdate.toString().substring(0, 10);
+					
+					while(startdate.before(enddate)){
+						startdate = plusOneDayMethod(startdate);
+						dayP = startdate.toString().substring(0, 10);
+						dayPickerMethod(dayP, dayPlayer);
+					}
+					System.out.println("dayPlayer :"+dayPlayer);
+				
+
+
+				//1.用modtype找到所有的motno
+				MotorService motorSvc = new MotorService();
+				RentOrdService roSvc = new RentOrdService();
+				MotorForRentOrdService mfroSvc = new MotorForRentOrdService();
+				
+				Set<RentOrdVO> roVOset = new LinkedHashSet<RentOrdVO>();
+				Set<RentOrdVO> roVOtemp = new LinkedHashSet<RentOrdVO>();
+				
+				List<String> motnos = new ArrayList<String>();
+				motnos = mfroSvc.getMotnosByModelType(modtype);
+				System.out.println("motnos.size(): "+motnos.size());
+
+				//2.挑租單，,做個DAO把後兩個月內會遇到的租單都找出來。 條件為 motno , startday(+3), endday(+60)
+				//租單以租用天數累計，選最少的那一台車.
+
+				int minday =65;
+				String motno = "";
+				for(String motnoTemp: motnos){
+					int totalday =0;
+					roVOtemp = roSvc.getRoVOsByDatePrioidAndMotno(startdate, enddate, motnoTemp);
+					for(RentOrdVO tempVO :roVOtemp ){
+						if(startdate.getTime()>tempVO.getStartdate().getTime()){
+							totalday += (int) ((tempVO.getEnddate().getTime() - startdate.getTime())/(1000*60*60*24))+1;
+						}
+						else if(enddate.getTime()<tempVO.getEnddate().getTime()){
+							totalday += (int) ((enddate.getTime() - tempVO.getStartdate().getTime())/(1000*60*60*24))+1;
+						}
+						else{
+							totalday += (int) ((tempVO.getEnddate().getTime() - tempVO.getStartdate().getTime())/(1000*60*60*24))+1;
+						}
+					}
+					if(minday>totalday){
+						minday = totalday;
+						motno = motnoTemp;
+						roVOset = roVOtemp;
+						System.out.println("inter room, minday= "+ minday+" totalday: "+totalday+ " motno = "+motno);
+						System.out.println("in roVOset.size(): "+roVOset.size());
+						
+					}
+				}
+				System.out.println("out roVOset.size(): "+roVOset.size());
+				
+				System.out.println("minday: "+minday);
+				System.out.println("motno: "+motno);
+				
+
+				MotorVO motorQueryVO = motorSvc.findByPK(motno);
+				Set<RentOrdVO> set = roSvc.getBymotno(motno);
+				System.out.println("set: "+set.size());
+				
+				Timestamp startday;
+				Timestamp endday;
+				String dayPicker = "";
+				List<String> dayPickerList = new ArrayList<String>();
+	 			for(RentOrdVO roVO: set){
+
+	// 用 Calindar幫忙處理timestamp格式，加完時間後再丟回timestamp.
+					endday = roVO.getEnddate();
+					startday = roVO.getStartdate();
+					dayPicker = startday.toString().substring(0, 10);
+					System.out.println("dayPicker :"+dayPicker);
+					dayPickerMethod(dayPicker, dayPickerList);
+					
+					while(startday.before(endday)){
+						
+						startday = plusOneDayMethod(startday);
+						dayPicker = startday.toString().substring(0, 10);
+						
+						dayPickerMethod(dayPicker, dayPickerList);
+					}
+					//System.out.println("dayPicker :"+dayPicker);
+				}
+	 			
+	 			
+	 			StringBuilder str= new StringBuilder();
+	 			for(String temp: dayPickerList){
+	 				System.out.println("dayPickerlist:" + temp);
+	 				str.append(temp+" ");
+	 			}
+	 			dayPicker = str.toString().trim();
+	 			System.out.println("dayPicker"+ dayPicker);
+	 			
+	 			
+	 			String defday = "";
+	 			
+	 			for(String temp2: dayPlayer){
+	 				int count = 0;
+	 				for(String temp1: dayPickerList){
+		 				if(temp2.equals(temp1)){
+		 					count++;
+		 				}
+
+		 			}
+	 				if(count==0){
+	 					System.out.println("in count==0, defday= "+temp2);
+	 					defday=temp2;
+	 					break;
+	 				}
+	 				
+	 			}
+	 			System.out.println("1.defday= "+defday);
+	 			
+	 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	 			Date date = sdf.parse(defday);
+	 			System.out.println("2"+date);
+	 			
+	 			SimpleDateFormat sdf2 = new SimpleDateFormat("MM/dd/yyyy H:mm");
+	 			defday = sdf2.format(date);
+	 			System.out.println("3"+defday);
+	 			
+	 			System.out.println("==========");
+
+				/***************************3.查詢完成,準備轉交(Send the Success view)*************/
+
+				req.setAttribute("motorQueryVO", motorQueryVO);
+				System.out.println("motnoVO.motorQueryVO:"+motorQueryVO.getMotno());
+				
+				req.setAttribute("dayPicker", dayPicker);
+				req.setAttribute("defday", defday);
+				
+				
+				String url = "/frontend/rental_form/quick_search_product4.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 Emp.jsp
+				successView.forward(req, res);
+
+				/***************************其他可能的錯誤處理*************************************/
+			} catch (Exception e) {
+				errorMsgs.add("無法取得資料:" + e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/frontend/rental_form/quick_search_product4.jsp");
+				failureView.forward(req, res);
+			}
+		} 
+		// query_product_info end	
 
 	
 	
@@ -404,7 +607,7 @@ public class RentOrdServlet extends HttpServlet {
 			failureView.forward(req, res);
 		}
 	}
-	
+//end quick_search_credit_card	
 	
 	
 //quick_search_product_2	
