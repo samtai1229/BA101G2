@@ -22,8 +22,6 @@
 
 <style type="text/css">
 
-
-
 .gallery-title {
 	font-size: 36px;
 	color: #42B32F;
@@ -93,8 +91,6 @@
 
 </style>
 
-
-
 <body>
 
 <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
@@ -110,7 +106,6 @@
 				<button class="btn btn-default filter-button" data-filter="heavy">重機專區</button>
 				<button class="btn btn-default filter-button" data-filter="light">輕旅租車</button>
  				<button class="btn btn-default filter-button" data-filter="new" disabled>新車上架</button>
-<!--				<button class="btn btn-default filter-button" data-filter="irrigation">Irrigation Pipes</button> -->
 			</div>
 			<br />
 
@@ -132,13 +127,13 @@
 	                    <div class="caption">
 	                    	<h3>${mmVO.brand} ${mmVO.name}</h3>
 	                        <p>${mmVO.displacement}cc</p>
-		                        <p align="center">
-		                      		<form method="post" action="<%=request.getContextPath()%>/backend/motor_model/motorModel.do">
-		                      			<input type="hidden" name="modtype" value="${mmVO.modtype}">
-		                      			<input type="hidden" name="action" value="query_product_info">
-		                      			<button type="submit" class="btn btn-primary btn-block btn-lg">點我觀看</button>
-			                    	</form>
-		                        </p>
+	                        <p align="center"></p>
+	                      		<form method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do">
+	                      			<input type="hidden" name="modtype" value="${mmVO.modtype}">
+	                      			<input type="hidden" name="action" value="query_product_info">
+	                      			<button type="submit" class="btn btn-primary btn-block btn-lg">點我觀看</button>
+		                    	</form>
+	                        
 	                    </div>
 	                </div>					
 				</c:if>
@@ -150,18 +145,17 @@
 	                    <div class="caption">
 	                    	<h3>${mmVO.brand} ${mmVO.name}</h3>
 	                        <p><mark>${mmVO.displacement}cc</mark></p>
-		                        <p align="center">
-		                      		<form method="post" action="<%=request.getContextPath()%>/backend/motor_model/motorModel.do">
-		                      			<input type="hidden" name="modtype" value="${mmVO.modtype}">
-		                      			<input type="hidden" name="action" value="query_product_info">
-		                      			<button type="submit" class="btn btn-primary btn-block btn-lg">點我觀看</button>
-			                    	</form>
-		                        </p>
+	                        <p align="center"></p>
+	                      		<form method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do">
+	                      			<input type="hidden" name="modtype" value="${mmVO.modtype}">
+	                      			<input type="hidden" name="action" value="query_product_info">
+	                      			<button type="submit" class="btn btn-primary btn-block btn-lg">點我觀看</button>
+		                    	</form>
+	                        
 	                    </div>
 	                </div>
 				</c:if>
 			</c:forEach>
-
 		</div>
 	</div>
 
