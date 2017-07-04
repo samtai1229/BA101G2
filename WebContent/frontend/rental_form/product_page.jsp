@@ -173,7 +173,7 @@ MotorModelVO mmQueryVO = (MotorModelVO)request.getAttribute("mmQueryVO");
 							the ideal price/performance choice for mid-spec gaming PC</div>
 						<hr>
 						<div class="product-price">日租價:$NT ${mmQueryVO.renprice}</div>
-						<div class="product-stock">可出租</div>
+						<jsp:useBean id="roSvc" scope="page" class="com.rent_ord.model.RentOrdService"/>					          		
 						<hr>
 						<div class="btn-group cart">
 							<button type="button" class="btn btn-success btn-md">我要租車</button>

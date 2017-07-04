@@ -40,19 +40,14 @@
 
 <%
 MotorVO motorQueryVO = (MotorVO)request.getAttribute("motorQueryVO");
-String dayrange = request.getParameter("dayrange");
 String dayPicker = (String)request.getAttribute("dayPicker");
-
+String defday = (String)request.getAttribute("defday");
+pageContext.setAttribute("start_time", defday);
+pageContext.setAttribute("end_time", defday);
 String memno = (String)session.getAttribute("memno");
-pageContext.setAttribute("dayrange", dayrange);
-String tokens[] = dayrange.split(" - ");
-String start_time = tokens[0];
-String end_time = tokens[1];
-pageContext.setAttribute("start_time", start_time);
-pageContext.setAttribute("end_time", end_time);
 pageContext.setAttribute("memno",memno);
 %>
-
+page4.jsp
 memno:<c:out value="${memno}" default="no member login" /><br>
 start_time:<c:out value="${start_time}" default="no value"/><br>
 end_time:  <c:out value="${end_time}" default="no value"/><br>
