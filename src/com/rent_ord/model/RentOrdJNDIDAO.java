@@ -868,4 +868,10 @@ public class RentOrdJNDIDAO implements RentOrdDAO_interface {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Set<RentOrdVO> getRoVOsByDatePrioidAndMotno(Timestamp start_time, Timestamp end_time, String motno) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

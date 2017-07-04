@@ -179,4 +179,8 @@ public class RentOrdService {
 	public List<String> getEmtnoByRentno(String rentno){
 		return dao.getEmtnoByRentno(rentno);
 	};
+	
+	public Set<RentOrdVO> getRoVOsByDatePrioidAndMotno(Timestamp start_time, Timestamp end_time, String motno){
+		return dao.getRoVOsByDatePrioidAndMotno(start_time, end_time, motno);
+	};
 }

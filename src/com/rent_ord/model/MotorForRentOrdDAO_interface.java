@@ -9,6 +9,7 @@ import com.motor.model.MotorVO;
 public interface MotorForRentOrdDAO_interface {
 
 	public List<MotorVO> getAll();
+	public List<String> getMotnosByModelType(String modtype);
 	public Set<MotorVO> getMotorsByModelType(String modtype);
 	public Set<MotorVO> getMotorsByLocNo(String locno);
 	public Set<MotorVO> getMotorsByManuDate(Timestamp start_time, Timestamp end_time);

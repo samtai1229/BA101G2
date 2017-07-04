@@ -34,6 +34,8 @@ public interface RentOrdDAO_interface {
 
 	public Set<RentOrdVO> getRentalOrdersByEndDatePrioid(Timestamp start_time, Timestamp end_time);
 	
+	public Set<RentOrdVO> getRoVOsByDatePrioidAndMotno(Timestamp start_time, Timestamp end_time, String motno);
+	
 	public Set<RentOrdVO> getRentalOrdersForLeaseView(String slocno);
 	
 	public Set<RentOrdVO> getRentalOrdersForReturnView(String rlocno);
