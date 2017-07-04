@@ -12,4 +12,5 @@ public interface MemberDAO_interface {
 	public MemberVO findByAcc(String acc);
 	MemberVO findByPrimaryKeyById(String memid);
 
+
 }

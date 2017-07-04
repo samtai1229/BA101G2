@@ -36,7 +36,6 @@
 </style>
 </head>
 <body bgcolor='white'>
-<b><font color=red>此頁練習採用 Script 的寫法取值:</font></b>
 <table border='1' cellpadding='5' cellspacing='0' width='1600'>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
@@ -48,7 +47,7 @@
 
 <div class="container">
     <div class="row col-md-6 col-md-offset-2 custyle">
-    <table class="table table-striped custab">
+    <table border="1" class="table table-striped custab">
     <thead>
         <tr>
 		<th>會員編號</th>
@@ -110,8 +109,10 @@
     </table>
     </div>
 </div>
-<button type="button" onclick="loadDoc()" >按我看我的訂單</button>
+<button type="button" onclick="loadDoc()" >我的二手車訂單</button>
+<button type="button" onclick="loadOrder()" >我的租賃單</button>
 <div id="demo"></div>
+<div id="demo2"></div>
 
 
 </body>
@@ -130,6 +131,19 @@
 	
 	  xhttp.send();
 	}
+
+ function loadOrder() {
+    var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+	if (this.readyState == 4 && this.status == 200) {
+	     document.getElementById("demo").innerHTML=this.responseText;
+	    }
+	 };
+	  
+	  xhttp.open("GET","<%=request.getContextPath()%>/backend/member/member.do?action=getAllRentOrder&memno=${memVO.memno}", true);
+	
+	  xhttp.send();
+	}	
  
  
  

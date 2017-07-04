@@ -516,4 +516,7 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 			// TODO Auto-generated method stub
 			return null;
 		}
+
+	
+	
 }

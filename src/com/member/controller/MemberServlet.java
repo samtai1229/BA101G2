@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
+import com.rent_ord.model.RentOrdService;
+import com.rent_ord.model.RentOrdVO;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 public class MemberServlet extends HttpServlet {
@@ -40,6 +42,14 @@ public class MemberServlet extends HttpServlet {
 		return baos.toByteArray();
 
 	}
+	
+	
+	protected boolean allowUser(String account, String password) {
+	    if ("tomcat".equals(account) && "tomcat".equals(password))
+	      return true;
+	    else
+	      return false;
+	  }
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 
@@ -51,6 +61,56 @@ public class MemberServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		System.out.println("進來了 要做的是 " + action);
+		
+		
+		if ("getAllRentOrder".equals(action)) { // 來自select_page.jsp的請求
+
+			List<String> errorMsgs = new LinkedList<String>();
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				/***************************
+				 * 1.接收請求參數 - 輸入格式的錯誤處理
+				 **********************/
+				String memno = req.getParameter("memno");
+				System.out.println("幹"+memno);
+				
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/select_page.jsp");
+					failureView.forward(req, res);
+					return;// 程式中斷
+				}
+
+				
+
+				/*************************** 2.單純轉址 *****************************************/
+				
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/select_page.jsp");
+					failureView.forward(req, res);
+					return;// 程式中斷
+				}
+
+				
+				 // 3.查詢完成,準備轉交(Send the Success view)
+				req.setAttribute("memno", memno);
+				String url = "/frontend/member/listAllRentOrder.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
+				successView.forward(req, res);
+
+				/*************************** 其他可能的錯誤處理 *************************************/
+			} catch (Exception e) {
+				errorMsgs.add("無法取得資料:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/select_page.jsp");
+				failureView.forward(req, res);
+			}
+		}
+
+		
+		
+		
 		
 		
 		if ("getOne_For_Enter".equals(action)) { // 來自select_page.jsp的請求

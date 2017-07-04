@@ -31,7 +31,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<title>AutoBike Test Homepage</title>
+<title>AutoBike Homepage</title>
 <!-- Bootstrap Core CSS -->
 <link href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 <!-- Custom Fonts -->

@@ -36,6 +36,7 @@
 	<table
 		class="table table-hover table-condensed table-striped table-bordered">
 		<thead>
+		<tr>
 			<td>車輛編號</td>
 			<td>車輛型號</td>
 			<td>車輛名稱</td>
@@ -48,6 +49,7 @@
 			<td>所在據點</td>
 			<td>狀態</td>
 			<td>修改/刪除</td>
+		</tr>
 		</thead>
 		<c:forEach var="motorVO" items="${motorSvc.all}">
 

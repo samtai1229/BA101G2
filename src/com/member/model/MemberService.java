@@ -3,6 +3,8 @@ package com.member.model;
 import java.sql.Timestamp;
 import java.util.List;
 
+import com.rent_ord.model.*;
+
 public class MemberService {
 
 	private MemberDAO_interface dao;
@@ -84,4 +86,6 @@ public class MemberService {
 		
 		return dao.findByPrimaryKeyById(memid);
 	}
+	
+
 }
