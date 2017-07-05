@@ -18,6 +18,8 @@ import com.member.model.MemberVO;
 import com.rent_ord.model.RentOrdService;
 import com.rent_ord.model.RentOrdVO;
 
+import utility.MailService;
+
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 public class MemberServlet extends HttpServlet {
 
@@ -238,7 +240,7 @@ public class MemberServlet extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/index.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -246,7 +248,7 @@ public class MemberServlet extends HttpServlet {
 				/***************************
 				 * 3.查詢完成,準備轉交(Send the Success view) 轉交到會員專區的網頁
 				 *************/
-
+               new  MailService(memVO.getMail(),"註冊成功 請收密碼","密碼為111");
 				req.setAttribute("memVO", memVO); // 資料庫取出的empVO物件,存入req
 				String url = "/backend/member/listAllMember.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
@@ -283,7 +285,7 @@ public class MemberServlet extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/select_page.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/index.jsp#"+"tab-1");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}

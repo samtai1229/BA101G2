@@ -11,6 +11,13 @@ import javax.mail.internet.MimeMessage;
 
 public class MailService {
 	
+	
+	public MailService(String to, String subject, String messageText)
+	{
+		sendMail(to, subject, messageText);
+	}
+	
+	
 	// 設定傳送郵件:至收信人的Email信箱,Email主旨,Email內容
 	public void sendMail(String to, String subject, String messageText) {
 			
@@ -25,8 +32,8 @@ public class MailService {
 
        // ●設定 gmail 的帳號 & 密碼 (將藉由你的Gmail來傳送Email)
        // ●須將myGmail的【安全性較低的應用程式存取權】打開
-	     final String myGmail = "ixlogic.wu@gmail.com";
-	     final String myGmail_password = "AAA45678";
+	     final String myGmail = "samtai1229@gmail.com";
+	     final String myGmail_password = "106020717";
 		   Session session = Session.getInstance(props, new Authenticator() {
 			   protected PasswordAuthentication getPasswordAuthentication() {
 				   return new PasswordAuthentication(myGmail, myGmail_password);
@@ -50,20 +57,7 @@ public class MailService {
      }
    }
 	
-	 public static void main (String args[]){
-
-      String to = "ixlogic.wu@gmail.com";
-      
-      String subject = "大家加油~!";
-      
-      String ch_name = "peter1";
-      String passRandom = "111";
-      String messageText = "Hello! " + ch_name + " 請謹記此密碼: " + passRandom + "\n" +" (已經啟用)"; 
-       
-      MailService mailService = new MailService();
-      mailService.sendMail(to, subject, messageText);
-
-   }
+	 
 
 
 }
