@@ -1,27 +1,30 @@
 <%@page import="java.sql.Timestamp"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.motor.model.*"%>
 <!DOCTYPE html>
-<html lang="">
+<html>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 <title>Title Page</title>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" media="all"
-	href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" />
-<link rel="stylesheet" type="text/css" media="all"
-	href="<%=request.getContextPath()%>/frontend/rental_form/Modified/daterangepicker.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" />
+<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/daterangepicker.css" />
 
+<%-- basic --%>
+<link href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<link href="<%=request.getContextPath()%>/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css' />
+<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.min.css" rel="stylesheet" />
+<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.css" rel="stylesheet" />
+<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" rel="stylesheet" />
 
 </head>
 <style type="text/css">
@@ -57,27 +60,50 @@ input[type=checkbox]
 	margin-bottom:20px;
 }
 
-*{
-	font-size:20px;
-}
 .btn{
 	margin-right:5px;
 	margin-left:5px;
+}
+
+.t1{
+
+	margin-top:100px;
+
+}
+.t2{
+	margin-top:100px;
+}
+
+
+*{
+	font-size:18px;
+}
+
+#rent{
+	background-color:#ccc;
+
+}
+
+form{
+height: 500px;
+}
+
+.credittext{
+	font-size:16px;
+	color:#000;
 }
 
 </style>
 
 <body>
 <%-- 
-	å¾RentOrdServlet.javaéä¾†:
-	 é€²é€™jspçš„åƒæ•¸æœ‰  int totalday, String startdayã€ endday, slocno, rlocno
+	±qRentOrdServlet.java¹L¨Ó:
+	 ¶i³ojspªº°Ñ¼Æ¦³  int totalday, String startday¡B endday, slocno, rlocno
 	list eVOList, motno, (session)memno, total
-	
-
 
 --%>
 
-	<%
+ 	<%
 		MotorVO motorQueryVO = (MotorVO) request.getAttribute("motorQueryVO");
 		//String startday = (String)request.getAttribute("startday");
 		//String endday = (String)request.getAttribute("endday");
@@ -87,12 +113,12 @@ input[type=checkbox]
 		pageContext.setAttribute("memno", memno);
 	%>
 
-	é€™æ˜¯quick_search_product3.jsp
+<%--	³o¬Oquick_search_product3.jsp
 	<br> memno: <c:out value="${memno}" default="no member login" />
 	<br> start_time: <c:out value="${startday}" default="no value" />
 	<br> end_time: <c:out value="${endday}" default="no value" />
 	
-	<%-- æ¯ç¨®è£å‚™å…ˆéš¨ä¾¿é¸å…©å€‹ä¾†ï¼Œä¸å¤ å†é¡¯ç¤º  --%>
+	¨CºØ¸Ë³Æ¥ıÀH«K¿ï¨â­Ó¨Ó¡A¤£°÷¦AÅã¥Ü 
 	<br>required:ecno1_List_size: <c:out value="${ecno1_List_size}"  default="no value" />
 	<br>required:ecno2_List_size: <c:out value="${ecno2_List_size}"  default="no value" />
 	<br>required:ecno3_List_size: <c:out value="${ecno3_List_size}"  default="no value" />
@@ -103,136 +129,172 @@ input[type=checkbox]
 	<br>emtno_list_str: <c:out value="${emtno_list_str}"  default="no value" />
 	<c:forEach var="equipVO" items="${eVOList}">
 		<br>eq-emtno: <c:out value="${equipVO.emtno}"  default="no value" />
-	</c:forEach> 		
+	</c:forEach>  --%>		
 		
-	
-	<div class="container-fluid">
-		<div class="content-wrapper">	
-			<div class="container">
+	<!-- Navigation -->
+	<nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header page-scroll">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> Menu <i
+						class="fa fa-bars"></i>
+				</button>
+				<a class="navbar-brand page-scroll" href="#page-top">AutoBike</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					<li class="hidden"><a href="#page-top"></a></li>
+					<li><a class="page-scroll" href="<%=request.getContextPath()%>/frontend/rental_form/rental_category.jsp">
+					<i class="glyphicon glyphicon-heart"></i>§Ú­n¯²¨®</a></li>
+					<li><a class="page-scroll" href="#news">
+					<i class="glyphicon glyphicon-alert"></i>³Ì·s®ø®§</a></li>
+					<li><a class="page-scroll" href="#board">
+					<i class="fa fa-comments-o"></i>¯d¨¥ªO</a></li>
+					<li><a class="page-scroll" href="#loc">
+					<i class="fa fa-search"></i>ªA°È¾ÚÂI</a></li>
+					<li><a href="<%=request.getContextPath()%>/backend/member/member.do">
+					<i class="fa fa-shopping-cart"></i>¤G¤â¨®ÁÊ¶R</a></li>
+					<c:if test="${not empty memno}">
+						<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">Åwªï¡A${memname}</a></li>
+						<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout" data-toggle="modal">
+						<i class="glyphicon glyphicon-user"></i>µn¥X</a>
+						</li>
+					</c:if>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+	<!-- ¯²¨®¥D¶bHeader -->
+	<header id="rent">
+<%----------------------------------------------------VVVV building area VVVV-----------------------------------------------------------%>
+		<div class="row  col-sm-6 col-md-6 t1">
+	        <div class="receipt-main col-xs-10 col-sm-10 col-md-10 col-xs-offset-1 col-sm-offset-1 col-md-offset-1">
+	            <div class="row">
+	    			<div class="receipt-header">
+						<div class="col-xs-6 col-sm-6 col-md-6">
+							<div class="receipt-left">
+							</div>
+						</div>
+						<div class="col-xs-6 col-sm-6 col-md-6 text-right">
+							<div class="receipt-right">
+							</div>
+						</div>
+					</div>
+	            </div>
+				<jsp:useBean id="memSvc" scope="page" class="com.member.model.MemberService" />
 				<div class="row">
-			        <div class="receipt-main col-xs-10 col-sm-10 col-md-10 col-xs-offset-1 col-sm-offset-1 col-md-offset-1">
-			            <div class="row">
-			    			<div class="receipt-header">
-								<div class="col-xs-6 col-sm-6 col-md-6">
-									<div class="receipt-left">
-									</div>
-								</div>
-								<div class="col-xs-6 col-sm-6 col-md-6 text-right">
-									<div class="receipt-right">
-									</div>
-								</div>
+					<div class="receipt-header receipt-header-mid">
+						<div class="col-xs-10 col-sm-10 col-md-10 text-left">
+							<div class="receipt-right"><br>
+							<jsp:useBean id="locSvc" scope="page" class="com.location.model.LocationService" />
+								<div><b>·|­û©m¦W :&nbsp;</b>&nbsp;&nbsp;${memSvc.getOneMember(memno).memname}</div>
+								<div><b>¤â¾÷¸¹½X :&nbsp;</b>&nbsp;&nbsp;${memSvc.getOneMember(memno).phone}</div>
+								<div><b>¹q¤l«H½c :&nbsp;</b>&nbsp;&nbsp;${memSvc.getOneMember(memno).mail}</div>
+								<div><b>¯²¥Î®É¬q :&nbsp;</b>&nbsp;&nbsp;${startday} - ${endday}, ¦@­p${totalday}¤Ñ</div>
+								<div><b>¨ú¨®¦aÂI :&nbsp;</b>&nbsp;&nbsp;${locSvc.getOneLocation(slocno).locname}Àç·~©Ò
+								 - ${locSvc.getOneLocation(slocno).addr}</div>
+								<div><b>ÁÙ¨®¦aÂI :&nbsp;</b>&nbsp;&nbsp;${locSvc.getOneLocation(rlocno).locname}Àç·~©Ò
+								 - ${locSvc.getOneLocation(rlocno).addr}</div>
 							</div>
-			            </div>
-						<jsp:useBean id="memSvc" scope="page" class="com.member.model.MemberService" />
-						<div class="row">
-							<div class="receipt-header receipt-header-mid">
-								<div class="col-xs-9 col-sm-9 col-md-9 text-left">
-									<div class="receipt-right">
-									<jsp:useBean id="locSvc" scope="page" class="com.location.model.LocationService" />
-										<p><b>æœƒå“¡å§“å :&nbsp;</b>&nbsp;&nbsp;${memSvc.getOneMember(memno).memname}</p>
-										<p><b>æ‰‹æ©Ÿè™Ÿç¢¼ :&nbsp;</b>&nbsp;&nbsp;${memSvc.getOneMember(memno).phone}</p>
-										<p><b>é›»å­ä¿¡ç®± :&nbsp;</b>&nbsp;&nbsp;${memSvc.getOneMember(memno).mail}</p>
-										<p><b>ç§Ÿç”¨æ™‚æ®µ :&nbsp;</b>&nbsp;&nbsp;${startday} - ${endday}, å…±è¨ˆ${totalday}å¤©</p>
-										<p><b>å–è»Šåœ°é» :&nbsp;</b>&nbsp;&nbsp;${locSvc.getOneLocation(slocno).locname}ç‡Ÿæ¥­æ‰€
-										 - ${locSvc.getOneLocation(slocno).addr}</p>
-										<p><b>é‚„è»Šåœ°é» :&nbsp;</b>&nbsp;&nbsp;${locSvc.getOneLocation(rlocno).locname}ç‡Ÿæ¥­æ‰€
-										 - ${locSvc.getOneLocation(rlocno).addr}</p>
-									</div>
-								</div>
-								<div class="col-xs-3 col-sm-3 col-md-3">
-									<div class="receipt-left">
-										<h1>æ˜ç´°é è¦½</h1>
-									</div>
-								</div>
+						</div>
+						<div class="col-xs-2 col-sm-2 col-md-2">
+							<div class="receipt-left">
+								<h1>©ú²Ó</h1>
 							</div>
-			            </div>
-			            <jsp:useBean id="mmSvc" scope="page" class="com.motor_model.model.MotorModelService" />
-			            <jsp:useBean id="motorSvc" scope="page" class="com.motor.model.MotorService" />
-			            <jsp:useBean id="ecSvc" scope="page" class="com.emt_cate.model.EmtCateService"/>	
-						
-			            <div>
-			                <table class="table table-bordered">
-			                    <thead>
-			                        <tr>
-			                            <th>å•†å“åç¨±</th>
-			                            <th>å–®åƒ¹ * å¤©æ•¸</th>
-			                        </tr>
-			                    </thead>
-			                    <tbody>
-			                        <tr>
-			                            <td class="col-md-9">
-			                            	æ©Ÿè»Š${motorSvc.findByPK(motno).modtype} - 
-				                            ${mmSvc.findByPK(motorSvc.findByPK(motno).modtype).brand}&nbsp;
-				                            ${mmSvc.findByPK(motorSvc.findByPK(motno).modtype).name}&nbsp;
-				                            ${mmSvc.findByPK(motorSvc.findByPK(motno).modtype).displacement}c.c.
-			                            </td>
-			                            <td class="col-md-3"><i class="fa fa-inr"></i>
-			                           		 NT$ ${mmSvc.findByPK(motorSvc.findByPK(motno).modtype).renprice * totalday}
-			                           	</td>
-			                        </tr>
-			
-									<c:forEach var="equipVO" items="${eVOList}">
-									    <tr>
-									        <td class="col-md-9">è£å‚™${equipVO.ecno} - ${ecSvc.getOneEmtCate(equipVO.ecno).type}</td>
-									        <td class="col-md-3"><i class="fa fa-inr"></i>
-									        NT$ ${ecSvc.getOneEmtCate(equipVO.ecno).price * totalday}</td>
-									    </tr>
-									</c:forEach>                         
-			                        <tr>
-			                            <td class="text-right"><h2><strong>Total: </strong></h2></td>
-			                            <td class="text-left text-danger"><h2><strong><i class="fa fa-inr"></i>NT$&nbsp;${total}</strong></h2></td>
-			                        </tr>
-			                    </tbody>
-			                </table>
-			            </div>
-						
-						<div class="row">
-							<div class="receipt-header receipt-header-mid receipt-footer">
-								<div class="col-xs-8 col-sm-8 col-md-8 text-left">
-									<div class="receipt-right"><%java.util.Date da = new java.util.Date();%>
-										<p><b>å¡«è¡¨æ—¥æœŸ:&nbsp;</b>&nbsp;<%=da%></p>
-										<h5 style="color: rgb(140, 140, 140);">ç¢ºèªç„¡èª¤å¾Œï¼Œè«‹æ‚¨è‡³ç¶²é ä¸‹æ–¹é€²è¡Œçµå¸³æ‰‹çºŒ</h5>
-									</div>
-								</div>
-								<div class="col-xs-4 col-sm-4 col-md-4">
-								</div>
+						</div>
+					</div>
+	            </div>
+	            <jsp:useBean id="mmSvc" scope="page" class="com.motor_model.model.MotorModelService" />
+	            <jsp:useBean id="motorSvc" scope="page" class="com.motor.model.MotorService" />
+	            <jsp:useBean id="ecSvc" scope="page" class="com.emt_cate.model.EmtCateService"/>	
+				
+	            <div>
+	                <table class="table table-bordered">
+	                    <thead>
+	                        <tr>
+	                            <th>°Ó«~¦WºÙ</th>
+	                            <th>³æ»ù * ¤Ñ¼Æ</th>
+	                        </tr>
+	                    </thead>
+	                    <tbody>
+	                        <tr>
+	                            <td class="col-md-9">
+	                            	¾÷¨®${motorSvc.findByPK(motno).modtype} - 
+		                            ${mmSvc.findByPK(motorSvc.findByPK(motno).modtype).brand}&nbsp;
+		                            ${mmSvc.findByPK(motorSvc.findByPK(motno).modtype).name}&nbsp;
+		                            ${mmSvc.findByPK(motorSvc.findByPK(motno).modtype).displacement}c.c.
+	                            </td>
+	                            <td class="col-md-3">NT$ ${mmSvc.findByPK(motorSvc.findByPK(motno).modtype).renprice * totalday}
+	                           	</td>
+	                        </tr>
+	
+							<c:forEach var="equipVO" items="${eVOList}">
+							    <tr>
+							        <td class="col-md-9">¸Ë³Æ${equipVO.ecno} - ${ecSvc.getOneEmtCate(equipVO.ecno).type}</td>
+							        <td class="col-md-3">NT$  ${ecSvc.getOneEmtCate(equipVO.ecno).price * totalday}</td>
+							    </tr>
+							</c:forEach>                         
+	                        <tr>
+	                            <td class="text-right"><h2><strong>Total: </strong></h2></td>
+	                            <td class="text-left text-danger"><h2><strong><mark>NT$&nbsp;${total}</mark></strong></h2></td>
+	                        </tr>
+	                    </tbody>
+	                </table>
+	            </div>
+				
+				<div class="row">
+					<div class="receipt-header receipt-header-mid receipt-footer">
+						<div class="col-xs-8 col-sm-8 col-md-8 text-left">
+							<div class="receipt-right"><%java.util.Date da = new java.util.Date();%>
+								<h4><b>¶ñªí¤é´Á:&nbsp;</b>&nbsp;<%=da%></h4>
+								<h4>½T»{µL»~«á¡A½Ğ±z¦Ü¤U¥k¤è¶i¦æµ²±b¤âÄò</h4>
 							</div>
-			            </div>
-						
-			        </div>    
-				</div>
-			</div>	
-			<hr>
-			<div class="title nav nav-tabs col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">çµå¸³æ–¹å¼:</div>
+						</div>
+						<div class="col-xs-4 col-sm-4 col-md-4">
+						</div>
+					</div>
+	            </div>
+				
+	        </div>    
+		</div>
+	
+	
+		<div class="title nav nav-tabs col-sm-6 col-md-6 t2">
+			<div class="title nav nav-tabs col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">µ²±b¤è¦¡:</div>
 			<div role="tabpanel">
-	<!-- æ¨™ç±¤é¢æ¿ï¼šæ¨™ç±¤å€ -->
+	<!-- ¼ĞÅÒ­±ªO¡G¼ĞÅÒ°Ï -->
 			    <ul class="nav nav-tabs col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3" role="tablist">
 			        <li role="presentation" class="active">
-			       		<a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab"><label>ä¿¡ç”¨å¡</label></a>
+			       		<a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab"><label>«H¥Î¥d</label></a>
 			        </li>
 			        <li role="presentation">
-				    	<a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab"><label>éŠ€è¡ŒåŒ¯æ¬¾</label></a>
+				    	<a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab"><label>»È¦æ¶×´Ú</label></a>
 			        </li>
 			    </ul>
 			
-	<!-- æ¨™ç±¤é¢æ¿ï¼šå…§å®¹å€ -->
+	<!-- ¼ĞÅÒ­±ªO¡G¤º®e°Ï -->
 	
-			    <div class="tab-content col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-3">
+			    <div class="tab-content col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
 				    <div role="tabpanel" class="tab-pane active" id="tab1">
 					    <form METHOD="post" ACTION="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do">
 							<div class="container">
 								<div class="row">
 									<div class="col-sm-12 col-md-12">
-										<fieldset>
-											<legend>Payment</legend>
+										<fieldset><br>
 											<div class="form-group">
-												<label class="control-label">æŒå¡äººå§“å</label>
+												<label class="control-label">«ù¥d¤H©m¦W</label>
 												<div class="controls">
 													<input class="form-control" pattern="\w+ \w+.*" required="" title="Fill your first and last name" type="text">
 												</div>
 											</div>
 											<div class="form-group">
-												<label class="control-label">ä¿¡ç”¨å¡å¡è™Ÿ</label>
+												<label class="control-label">«H¥Î¥d¥d¸¹</label>
 												<div class="controls">
 													<div class="row">
 														<div class="col-sm-3 col-md-3">
@@ -251,10 +313,10 @@ input[type=checkbox]
 												</div>
 											</div>
 											<div class="form-group">
-												<label class="control-label">ä¿¡ç”¨å¡åˆ°æœŸ æœˆä»½/å¹´ä»½</label>
+												<label class="control-label">«H¥Î¥d¨ì´Á ¤ë¥÷  / ¦~¥÷</label>
 												<div class="controls">
 													<div class="row">
-														<div class="col-xs-8 col-sm-8 col-md-8">
+														<div class="col-xs-3 col-sm-3 col-md-3 credittext">
 															<select class="">
 																<option>January</option>
 																<option>February</option>
@@ -270,7 +332,7 @@ input[type=checkbox]
 																<option>December</option>	
 															</select>
 														</div>
-														<div class="col-xs-4 col-sm-4 col-md-4">
+														<div class="col-xs-3 col-sm-3 col-md-3 credittext">
 															<select class="">
 																<option>2017</option>
 																<option>2018</option>
@@ -282,11 +344,13 @@ input[type=checkbox]
 																<option>2024</option>
 															</select>
 														</div>
+														
+														
 													</div>
 												</div>
 											</div>
 											<div class="form-group">
-												<label class="control-label">é©—è­‰ç¢¼</label>
+												<label class="control-label">ÅçÃÒ½X</label>
 												<div class="controls">
 													<div class="row">
 														<div class="col-sm-4 col-md-4">
@@ -304,7 +368,6 @@ input[type=checkbox]
 							</div>
 				        	<p class="title text-center">
 								<c:if test="<%=memno == null%>">
-									<!-- è½‰åˆ°ç™»å…¥ç•«é¢????????????????????????????????????? -->
 									<input type="hidden" name="action" value="redirect_to_login">
 								</c:if>
 								<c:if test="<%=memno != null%>">
@@ -320,10 +383,10 @@ input[type=checkbox]
 									<input type="hidden" name="action"    value="quick_search_credit_card">
 								</c:if>
 								<button type="submit" class="btn btn-success btn-lg">
-									<i class="glyphicon glyphicon-ok"></i>åˆ·å¡çµå¸³
+									<i class="glyphicon glyphicon-ok"></i>¨ê¥dµ²±b
 								</button>
-									<a href="<%=request.getContextPath()%>/index.jsp" class="btn btn-danger btn-lg">
-									<i class="glyphicon glyphicon-remove"></i>è¿”å›é¦–é 
+								<a onclick="history.back()" class="btn btn-danger btn-lg">
+									<i class="glyphicon glyphicon-remove"></i>ªğ¦^«e­¶
 								</a>
 							</p>					
 						</form>	
@@ -333,14 +396,15 @@ input[type=checkbox]
 					
 			    	<div role="tabpanel" class="tab-pane" id="tab2">
 				        <form METHOD="post" ACTION="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do">	
-				        	<p>ä»¥ä¸‹ç‚ºåŒ¯æ¬¾å¸³æˆ¶ï¼Œè«‹æ‚¨æ–¼<mark>æˆç«‹è¨‚å–®å¾Œå…©å¤©å…§</mark>åŒ¯å…¥çµç®—é‡‘é¡</p>
-				        	<p>æˆ‘å€‘æœƒå…ˆç‚ºæ‚¨ä¿ç•™è»Šè¼›èˆ‡è£å‚™</p>
-				        	<p>æ„ˆæœŸåŒ¯æ¬¾æ™‚è¨‚å–®æœƒè‡ªå‹•å–æ¶ˆï¼Œè«‹ç›¡é€ŸåŒ¯æ¬¾</p>
-				        	<p>æ„Ÿè¬æ‚¨çš„é…åˆ</p><br>	
-				        	<p>åŒ¯æ¬¾å¸³æˆ¶: XXX-XXXXXX-XXXXXX æˆ¶å:XXX</p>
+				        	
+				        	<br><div>¥H¤U¬°¶×´Ú±b¤á¡A½Ğ±z©ó<mark>¦¨¥ß­q³æ«á¨â¤Ñ¤º</mark>¶×¤Jµ²ºâª÷ÃB</div>
+				        	<div>§Ú­Ì·|¥ı¬°±z«O¯d¨®½ø»P¸Ë³Æ</div>
+				        	<div>·U´Á¶×´Ú®É­q³æ·|¦Û°Ê¨ú®ø¡A½ĞºÉ³t¶×´Ú</div>
+				        	<div>·PÁÂ±zªº°t¦X</div><br>	
+				        	<div>¶×´Ú±b¤á: XXX-XXXXXX-XXXXXX ¤á¦W:XXX</div>
+				        	<br><br><br><br><br><br><br><br><br>
 				        	<p class="title text-center">
 								<c:if test="<%=memno == null%>">
-									<!-- è½‰åˆ°ç™»å…¥ç•«é¢????????????????????????????????????? -->
 									<input type="hidden" name="action" value="redirect_to_login">
 								</c:if>
 								<c:if test="<%=memno != null%>">
@@ -356,10 +420,10 @@ input[type=checkbox]
 									<input type="hidden" name="action"   value="quick_search_money_transfer">
 								</c:if>
 								<button type="submit" class="btn btn-success btn-lg">
-									<i class="glyphicon glyphicon-ok"></i>æˆç«‹è¨‚å–®
+									<i class="glyphicon glyphicon-ok"></i>¦¨¥ß­q³æ
 								</button>
-									<a href="<%=request.getContextPath()%>/index.jsp" class="btn btn-danger btn-lg">
-									<i class="glyphicon glyphicon-remove"></i>è¿”å›é¦–é 
+								<a onclick="history.back()" class="btn btn-danger btn-lg">
+									<i class="glyphicon glyphicon-remove"></i>ªğ¦^¤W­¶
 								</a>
 							</p>
 						</form>
@@ -367,13 +431,31 @@ input[type=checkbox]
 			    </div>
 			</div>
 		</div>
-	</div>
-	<br><br><br><br><br><br>
-	<script src="https://code.jquery.com/jquery.js"></script>
-	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-	<script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="https://raw.githack.com/JaapMoolenaar/bootstrap-daterangepicker/master/moment.js"></script>
-	<script type="text/javascript" src="https://raw.githack.com/JaapMoolenaar/bootstrap-daterangepicker/master/daterangepicker.js"></script>
+	<%----------------------------------------------------^^^^ building area ^^^^-----------------------------------------------------------%>		
+	</header>
+	<footer class="col-sm-12 col-md-12">
+		<div class="container-fluid">
+			<div class="col-xs-12 col-sm-4">
+				<span>¦a§}:®ç¶é¥«¥­Âí°Ï¤¤¥¡¸ô115¸¹</span>
+			</div>
+			<div class="col-xs-12 col-sm-4">
+				<span>EMAIL:taic@oregonstate.edu</span>
+			</div>
+			<div class="col-xs-12 col-sm-4">
+				<span>TEL:0900-000-000</span>
+			</div>
+		</div>
+	</footer>
 
+	<script src="https://code.jquery.com/jquery.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+		<!-- basic -->
+	
+	<script src="<%=request.getContextPath()%>/frontend/rental_form/Modified/quick_search_product.js"></script>
+	<script src="<%=request.getContextPath()%>/js/owl.carousel.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/jquery.magnific-popup.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/agency.min.js"></script>
+	
 </body>
 </html>
