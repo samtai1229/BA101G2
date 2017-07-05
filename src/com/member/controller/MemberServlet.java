@@ -283,8 +283,8 @@ public class MemberServlet extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/select_page.jsp");
-					failureView.forward(req, res);
+					
+					res.sendRedirect("/BA101G2/index.jsp#tab-1");
 					return;// 程式中斷
 				}
 
@@ -322,8 +322,8 @@ public class MemberServlet extends HttpServlet {
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
-				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/select_page.jsp");
+				errorMsgs.add("帳密錯誤:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher(req.getRequestURI()+"#tab-1");
 				failureView.forward(req, res);
 			}
 		}
