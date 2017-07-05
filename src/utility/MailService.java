@@ -11,11 +11,13 @@ import javax.mail.internet.MimeMessage;
 
 public class MailService {
 	
+
 	public MailService(String to, String subject, String messageText)
 	{
 		sendMail(to, subject, messageText);
 	}
 	
+
 	// 設定傳送郵件:至收信人的Email信箱,Email主旨,Email內容
 	public void sendMail(String to, String subject, String messageText) {
 			
@@ -55,6 +57,7 @@ public class MailService {
      }
    }
 	
+
 //	 public static void main (String args[]){
 //
 //      String to = "ixlogic.wu@gmail.com";

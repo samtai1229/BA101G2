@@ -189,8 +189,9 @@
               						<li><a href="<%=request.getContextPath()%>/backend/member/member.do"><i class="fa fa-shopping-cart"></i>二手車購買</a>
               						</li>
               						
-              						<c:if test="${not empty memno}">			
-              							<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">歡迎，${memname}</a></li>
+              						<c:if test="${not empty memno}">	
+              						<li><a href="#">歡迎，${memname}</a></li>		
+              							<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}"><b>會員專區</b></a></li>
               									<li>
               										<a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout"
               								data-toggle="modal"><i class="glyphicon glyphicon-user"></i>登出</a>
