@@ -64,6 +64,10 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js" integrity="sha384-ZoaMbDF+4LeFxg6WdScQ9nnR1QC2MIRxA1O9KWEXQwns1G8UNyIEZIQidzb0T1fo" crossorigin="anonymous"></script>
     <![endif]-->
 <style>
+ #demo{
+    width:270px;  
+}
+
 </style>
 <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans:600'>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style_login.css">
@@ -169,10 +173,12 @@
              
 <!-- search bar  -->					
 						<form  method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do" class="navbar-form navbar-left" role="search">
-							<input id="demo" name="dayrange" class="form-control" type="text" style="background-color: transparent; color:#fff;" >							
+						 <span>
+							<input  id="demo" name="dayrange" class="form-control" type="text" style="background-color: transparent; color:#fff;" >							
 						<%-- 	<jsp:useBean id="locSvc" scope="page" class="com.location.model.LocationService"/> --%>
+							<input id="lookup" style="background-color: transparent; color:#fff;" type="submit" class="form-control" value="快速查詢">
 							<input type="hidden" name="action" value="quick_search">
-							<input style="background-color: transparent; color:#fff;" type="submit" class="form-control" value="快速查詢">
+							</span>
 						</form>
 
               					 <ul class="nav navbar-nav navbar-right">
