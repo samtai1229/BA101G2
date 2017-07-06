@@ -100,11 +100,6 @@ thead {
     font-size: 24px;
 }
 
-h1 {
-    font-size: 50px;
-    font: bolder;
-}
-
 .pagination li a {
     margin: 6px;
     color: black;
@@ -121,7 +116,6 @@ h1 {
 }
 
 input[type="text"]{
-    height: 20px;
-    
+   height:35px;
 }
 

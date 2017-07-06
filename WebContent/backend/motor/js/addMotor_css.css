@@ -86,17 +86,6 @@ td {
     background-color: #84d8d1;
 }
 
-thead {
-    background-color: #719c92;
-    color: #edd14a;
-    font-size: 24px;
-}
-
-h1 {
-    font-size: 50px;
-    font: bolder;
-}
-
 .pagination li a {
     margin: 6px;
     color: black;

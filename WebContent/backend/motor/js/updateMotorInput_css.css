@@ -67,14 +67,6 @@ h1 {
     color: #edd14a;
 }
 
-tr {
-    text-align: center;
-}
-
-td {
-    padding: 5px;
-    white-space: nowrap;
-}
 
 .searchBar {
     text-align: center;
@@ -94,23 +86,6 @@ td {
     background-color: #84d8d1;
 }
 
-thead {
-    background-color: #719c92;
-    color: #edd14a;
-    font-size: 24px;
-}
-
-h1 {
-    font-size: 50px;
-    font: bolder;
-}
-
-.pagination li a {
-    margin: 6px;
-    color: black;
-    font-size: 18px;
-}
-
 .navbar {
     background-color: #719c92;
 }
@@ -120,5 +95,8 @@ h1 {
     font-size: 20px;
 }
 
+input[type="text"]{
+   height:35px;
+}
 
 
