@@ -15,23 +15,8 @@ function doFirst() {
                 $(this).css('background-color', '#ddd');
             }
         }
-    }
-
-    var adt = document.getElementsByClassName("accordionDispTable");
-    var j;
-
-    for (j = 0; j < adt.length; j++) {
-        adt[j].onclick = function() {
-            this.classList.toggle("active");
-            var panel = this.nextElementSibling;
-            if (panel.style.display === "block") {
-                panel.style.display = "none";
-            } else {
-                panel.style.display = "block";
-            }
-        }
-    }
-
+    } //end of for(i < acc.length)
+    
     //上傳圖片
     document.getElementById('filePic').onchange = fileChange;
 }

@@ -55,16 +55,18 @@
 	<div class="col-xs-12 col-sm-2 leftBar">
 		<img id="logo"
 			src="${pageContext.request.contextPath}/backend/images/logo.jpg">
-		<button class="accordion accordionMenu">總部管理系統</button>
-		<div class="btn-group-vertical">
+		<button class="accordion accordionMenu"
+			style="background-color: #ddd;">總部管理系統</button>
+		<div class="btn-group-vertical" style="display: block;">
 			<a class="btn btn-default"
 				href="${pageContext.request.contextPath}/backend/motor/motorMgmtHqSelectPage.jsp"
-				role="button">車輛管理</a> <a class="btn btn-default" href="#"
+				role="button"  style="background-color: #ddd;">車輛管理</a> <a class="btn btn-default" href="#"
 				role="button">車輛調度</a> <a class="btn btn-default" href="#"
-				role="button">租賃單管理</a> <a class="btn btn-default" href="#"
-				role="button">裝備管理</a> <a class="btn btn-default" href="#"
-				role="button">裝備調度</a> <a class="btn btn-default" href="#"
-				role="button">據點管理</a>
+				role="button">租賃單管理</a> <a class="btn btn-default"
+				href="${pageContext.request.contextPath}/backend/equipment/emtMgmtSelectPage.jsp"
+				role="button">裝備管理</a> <a
+				class="btn btn-default" href="#" role="button">裝備調度</a> <a
+				class="btn btn-default" href="#" role="button">據點管理</a>
 		</div>
 		<button class="accordion accordionMenu">據點管理系統</button>
 		<div class="btn-group-vertical">
@@ -96,7 +98,6 @@
 				class="btn btn-default" href="#" role="button">推薦景點管理</a> <a
 				class="btn btn-default" href="#" role="button">後端登入管理</a>
 		</div>
-		<div class="btn-group-vertical"></div>
 	</div><!--左邊選單BAR結束 -->
 	
 	<!--右邊整塊HTML區塊 -->
@@ -167,25 +168,31 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="motpic">更改圖片：</label>
 					<div class="col-sm-10">
-					<input type="file" id="filePic" name="motpic">
+					<input type="file" id="filePic" name="motpic" class="btn btn-default">
 					<p>
 					<img id="imgPic" src="<%=request.getContextPath()%>/backend/motor_model/mmReader.do?modtype=${mmVO.modtype}">
 					</p>
 					</div>
 				</div>
 
-				<div class="form-group">
-					<div class="col-sm-offset-2 col-sm-10">
+				<table>
+					<tr>
+						<td>
 						<input type="submit" class="btn btn-default" value="送出修改">
 						<input type="hidden" name="action" value="update"> 
 						<input type="hidden" name="modtype" value="<%=mmVO.getModtype()%>">
 						<input type="hidden" name="requestURL" value="<%=request.getParameter("requestURL")%>">
 						<!--接收原送出修改的來源網頁路徑後,再送給Controller準備轉交之用-->
 						<input type="hidden" name="whichPage" value="<%=request.getParameter("whichPage")%>">
-						<!--只用於:listAllMotor.jsp-->
-					</div>
-				</div>
 			</FORM>
+							<FORM METHOD="post"  style="display: inline;" ACTION="<%=request.getContextPath()%>/backend/motor_model/motorModel4H.do" >
+								<input type="submit" name="reset" value="重置" class="btn btn-default" role="button"><input type="hidden" name="modtype" value="${mmVO.modtype}">
+								<input type="hidden" name="action" value="getOne_For_Update">
+							</FORM>
+						</td>
+					</tr>
+				</table>
+			
 		</div><!--update區塊結束 -->
 	</div><!--右邊整塊HTML區塊結束 -->
 </body>
