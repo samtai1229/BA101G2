@@ -29,7 +29,7 @@ public class EmtCateDAO implements EmtCateDAO_interface{
 			}
 		}
 
-		private static final String INSERT_STMT = "INSERT INTO EMT_CATE (ECNO, TYPE, PIC, PRICE) VALUES ('EC'||lpad(to_char(ecno_seq.NEXTVAL),6,'0'), ?, ?, ?)";
+		private static final String INSERT_STMT = "INSERT INTO EMT_CATE (ECNO, TYPE, PIC, PRICE) VALUES ('EC'||lpad(to_char(ecno_seq.NEXTVAL),2,'0'), ?, ?, ?)";
 		private static final String GET_ALL_STMT = "SELECT * FROM EMT_CATE order by ECNO";
 		private static final String GET_ONE_STMT = "SELECT * FROM EMT_CATE where ECNO = ?";
 		private static final String GET_Eqpts_ByEcno_STMT = "SELECT * FROM EQUIPMENT where ECNO = ? order by emtno";

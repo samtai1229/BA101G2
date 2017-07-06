@@ -10,6 +10,7 @@ public class EquipmentVO {
 	private String status;
 	private String note;
 	
+	
 	public EquipmentVO() {
 		super();
 	}

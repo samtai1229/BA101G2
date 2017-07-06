@@ -2,12 +2,14 @@ package com.equipment.controller;
 
 import java.io.*;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 
 import com.equipment.model.*;
+import com.motor.model.MotorVO;
 
 public class EquipmentServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -18,6 +20,7 @@ public class EquipmentServlet extends HttpServlet {
 
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
+		System.out.println("action: " + action);
 
 // getOne_For_Display
 		if ("getOne_For_Display".equals(action)) { // 來自eqptMgmtSelectPage.jsp的請求
@@ -56,9 +59,9 @@ public class EquipmentServlet extends HttpServlet {
 				}
 
 				/*************************** 2.開始查詢資料 *****************************************/
-				EquipmentService eqptSvc = new EquipmentService();
-				EquipmentVO eqptVO = eqptSvc.getOneEquipment(emtno);
-				if (eqptVO == null) {
+				EquipmentService emtSvc = new EquipmentService();
+				EquipmentVO emtVO = emtSvc.getOneEquipment(emtno);
+				if (emtVO == null) {
 					errorMsgs.add("查無裝備資料");
 				}
 				// Send the use back to the form, if there were errors
@@ -69,7 +72,7 @@ public class EquipmentServlet extends HttpServlet {
 				}
 
 				/***************************** 3.查詢完成,準備轉交(Send the Success view)*************/
-				req.setAttribute("eqptVO", eqptVO); // 資料庫取出的eqptVO物件,存入req
+				req.setAttribute("emtVO", emtVO); // 資料庫取出的emtVO物件,存入req
 				RequestDispatcher successView = req.getRequestDispatcher("/backend/equipment/listOneEqpt.jsp");
 				successView.forward(req, res);
 
@@ -92,29 +95,30 @@ public class EquipmentServlet extends HttpServlet {
 			String requestURL = req.getParameter("requestURL");
 
 			try {
-				/*************************** 1.接收請求參數 ****************************************/
+				/*********** 1.接收請求參數 ********/
 				String emtno = req.getParameter("emtno");
 
-				/*************************** 2.開始查詢資料 ****************************************/
-				EquipmentService eqptSvc = new EquipmentService();
-				EquipmentVO eqptVO = eqptSvc.getOneEquipment(emtno);
+				/********* 2.開始查詢資料 ***************/
+				EquipmentService emtSvc = new EquipmentService();
+				EquipmentVO emtVO = emtSvc.getOneEquipment(emtno);
 
-				/****************************** 3.查詢完成,準備轉交(Send the Success view)************/
-				req.setAttribute("eqptVO", eqptVO); // 資料庫取出的eqptVO物件,存入req
-				RequestDispatcher successView = req.getRequestDispatcher(requestURL);
+				/********** 3.查詢完成,準備轉交(Send the Success view)************/
+				req.setAttribute("emtVO", emtVO); // 資料庫取出的emtVO物件,存入req
+				RequestDispatcher successView = req.getRequestDispatcher("/backend/equipment/updateEmtInput.jsp");
 				successView.forward(req, res);
+				System.out.println("getOne_For_Update 成功");
 
-				/*************************** 其他可能的錯誤處理 ************************************/
+				/********** 其他可能的錯誤處理 *******/
 			} catch (Exception e) {
 				errorMsgs.add("修改裝備資料(equipment)取出時失敗:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher(requestURL);
 				failureView.forward(req, res);
 			}
-		}
+		}//end of getOne_For_Update
 
 // update
-		if ("update".equals(action)) { // 來自update_ed_input.jsp的請求
-
+		if ("update".equals(action)) { 
+			System.out.println("開始 update");
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to send the
 			// ErrorPage view.
@@ -123,53 +127,55 @@ public class EquipmentServlet extends HttpServlet {
 			String requestURL = req.getParameter("requestURL");
 			String url = requestURL;
 			try {
-				/***************************** 1.接收請求參數 - 輸入格式的錯誤處理**********************/
-				String emtno = req.getParameter("emtno").trim();
-				String ecno = req.getParameter("ecno").trim();
-				String locno = req.getParameter("locno").trim();
-				String status = req.getParameter("status").trim();
-				String note = req.getParameter("note").trim();
+				/********** 1.接收請求參數 - 輸入格式的錯誤處理******/
+				String emtno = req.getParameter("emtno");
+				String ecno = req.getParameter("ecno");
+				String locno = req.getParameter("locno");
+				String status = req.getParameter("status");
+				String note = req.getParameter("note");
 
+				// 處理日期
 				Timestamp purchdate = null;
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 				try {
-					purchdate = Timestamp.valueOf(req.getParameter("purchdate").trim());
+					// getTime = long 老吳：取得long就取得全世界
+					// String 轉成 sdf(日期) 再轉成long
+					System.out.println(req.getParameter("purchdate"));
+					long purchdateTypeLong = (sdf.parse(req.getParameter("purchdate").trim())).getTime();
+					purchdate = new Timestamp(purchdateTypeLong);
 				} catch (IllegalArgumentException e) {
 					purchdate = new Timestamp(System.currentTimeMillis());
-					errorMsgs.add("請輸入日期!");
+					errorMsgs.add("請輸入日期");
 				}
-
-				EquipmentVO eqptVO = new EquipmentVO();
-				eqptVO.setEmtno(emtno);
-				eqptVO.setEcno(ecno);
-				eqptVO.setLocno(locno);
-				eqptVO.setStatus(status);
-				eqptVO.setNote(note);
-				eqptVO.setPurchdate(purchdate);
-
+				EquipmentVO emtVO = new EquipmentVO();
+				emtVO.setEmtno(emtno);
+				emtVO.setEcno(ecno);
+				emtVO.setLocno(locno);
+				emtVO.setStatus(status);
+				emtVO.setNote(note);
+				emtVO.setPurchdate(purchdate);
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					req.setAttribute("eqptVO", eqptVO); // 含有輸入格式錯誤的eqptVO物件,也存入req
+					req.setAttribute("emtVO", emtVO); // 含有輸入格式錯誤的emtVO物件,也存入req
 					RequestDispatcher failureView = req.getRequestDispatcher(url);
 					failureView.forward(req, res);
 					return; // 程式中斷
 				}
-
-				/*************************** 2.開始修改資料 *****************************************/
-				EquipmentService eqptSvc = new EquipmentService();
-				eqptVO = eqptSvc.updateEquipment(emtno, ecno, locno, purchdate, note, status);
-
-				/***************************** 3.修改完成,準備轉交(Send the Success view)*************/
-				// 暫時用不到
-				// if(requestURL.equals("/dept/listEmps_ByDeptno.jsp") ||
-				// requestURL.equals("/dept/listAllDept.jsp"))
-				// req.setAttribute("listEmps_ByDeptno",deptSvc.getEmpsByDeptno(deptno));
-				// 資料庫取出的list物件,存入request
-
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交回送出修改的來源網頁
+				
+				/********* 2.開始修改資料 *************/
+				EquipmentService emtSvc = new EquipmentService();
+				emtVO = emtSvc.updateEquipment(emtno, ecno, locno, purchdate, status, note);
+				
+				/**** 3.修改完成,準備轉交(Send the Success view)******/
+				RequestDispatcher successView = req.getRequestDispatcher("/backend/equipment/listAllEmts.jsp"); // 修改成功後,轉交回送出修改的來源網頁
 				successView.forward(req, res);
-
-				/*************************** 其他可能的錯誤處理 *************************************/
+				System.out.println("update 成功");
+				
+				/********* 其他可能的錯誤處理 ************/
 			} catch (Exception e) {
+				System.out.println("update 失敗");
+				e.printStackTrace();
 				errorMsgs.add("修改裝備調度單資料失敗:" + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher(url);
 				failureView.forward(req, res);
@@ -178,10 +184,8 @@ public class EquipmentServlet extends HttpServlet {
 
 // insert
 		if ("insert".equals(action)) { // 來自addEpuipment.jsp的請求
-
+			System.out.println("開始insert");
 			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to
-			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			String requestURL = req.getParameter("requestURL");
@@ -193,38 +197,46 @@ public class EquipmentServlet extends HttpServlet {
 				String ecno = req.getParameter("ecno").trim();
 				String note = req.getParameter("note").trim();
 
+				// 處理日期
 				Timestamp purchdate = null;
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 				try {
-					purchdate = Timestamp.valueOf(req.getParameter("purchdate").trim());
+					// getTime = long 老吳：取得long就取得全世界
+					// String 轉成 sdf(日期) 再轉成long
+					System.out.println(req.getParameter("purchdate"));
+					long purchdateTypeLong = (sdf.parse(req.getParameter("purchdate").trim())).getTime();
+					purchdate = new Timestamp(purchdateTypeLong);
 				} catch (IllegalArgumentException e) {
 					purchdate = new Timestamp(System.currentTimeMillis());
-					errorMsgs.add("請輸入日期!");
+					errorMsgs.add("請輸入日期");
 				}
 
-				EquipmentVO eqptVO = new EquipmentVO();
-				eqptVO.setEcno(ecno);
-				eqptVO.setNote(note);
-				eqptVO.setPurchdate(purchdate);
+				EquipmentVO emtVO = new EquipmentVO();
+				emtVO.setEcno(ecno);
+				emtVO.setNote(note);
+				emtVO.setPurchdate(purchdate);
 
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					req.setAttribute("eqptVO", eqptVO); // 含有輸入格式錯誤的eqptVO物件,也存入req
+					req.setAttribute("emtVO", emtVO); // 含有輸入格式錯誤的emtVO物件,也存入req
 					RequestDispatcher failureView = req.getRequestDispatcher(url);
 					failureView.forward(req, res);
 					return;
 				}
 
 				/*************************** 2.開始新增資料 ***************************************/
-				EquipmentService eqptSvc = new EquipmentService();
-				eqptVO = eqptSvc.addEquipment(ecno, purchdate, note);
+				EquipmentService emtSvc = new EquipmentService();
+				emtVO = emtSvc.addEquipment(ecno, purchdate, note);
 
 				/***************************** 3.新增完成,準備轉交(Send the Success view)***********/
 
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEqpt.jsp
+				RequestDispatcher successView = req.getRequestDispatcher("/backend/equipment/listAllEmts.jsp"); // 新增成功後轉交listAllEqpt.jsp
 				successView.forward(req, res);
-
+				System.out.println("insert 成功");
 				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
+				System.out.println("insert 失敗");
 				errorMsgs.add("靠，你媽知道你廢到連新增裝備(equipment)都會出錯嗎問號問號= = " + e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher(url);
 				failureView.forward(req, res);
@@ -232,7 +244,7 @@ public class EquipmentServlet extends HttpServlet {
 		}
 
 // delete
-		if ("delete_Epqt".equals(action)) { // 來自listAllEqpts.jsp的請求
+		if ("delete".equals(action)) { // 來自listAllEqpts.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);

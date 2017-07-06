@@ -25,7 +25,8 @@ public class EquipmentService {
 	public EquipmentVO updateEquipment(String emtno, String ecno, String locno, Timestamp purchdate, String status, String note) {
 
 		EquipmentVO equipmentVO = new EquipmentVO();
-
+		
+		
 		equipmentVO.setEmtno(emtno);
 		equipmentVO.setEcno(ecno);
 		equipmentVO.setLocno(locno);
