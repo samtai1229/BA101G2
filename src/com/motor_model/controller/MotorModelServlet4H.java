@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import com.motor.model.MotorService;
-import com.motor.model.MotorVO;
 import com.motor_model.model.MotorModelService;
 import com.motor_model.model.MotorModelVO;
 
@@ -33,7 +31,7 @@ public class MotorModelServlet4H extends HttpServlet {
 		System.out.println("MotorModelServlet in");
 		System.out.println("action: " + action);
 
-		// insert
+// insert
 		if ("insert".equals(action)) {
 			System.out.println("MotorModelServlet in insert-action");
 			List<String> errorMsgs = new LinkedList<String>();
@@ -139,7 +137,7 @@ public class MotorModelServlet4H extends HttpServlet {
 			}
 		} // end of getOne_For_Update
 
-		// update
+// update
 		if ("update".equals(action)) { // 來自motor backendIndex.jsp的請求
 			System.out.println("MotorServlet in update-action");
 			List<String> errorMsgs = new LinkedList<String>();
@@ -202,6 +200,7 @@ public class MotorModelServlet4H extends HttpServlet {
 				/*************************** 2.開始新增資料 ***************************************/
 				MotorModelService mmSvc = new MotorModelService();
 				MotorModelVO mmVO2 = mmSvc.findByPK(modtype);
+				
 				byte[] defaultPic = mmVO2.getMotpic();
 				System.out.println("part = " + GetPictureByteArrayFromWeb.getFileNameFromPart(part) != null);
 				
