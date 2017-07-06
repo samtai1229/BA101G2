@@ -1,0 +1,53 @@
+servlet>
+    <servlet-name>MotorServlet4H</servlet-name>
+    <servlet-class>com.motor.controller.MotorServlet4H</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MotorServlet4H</servlet-name>
+    <url-pattern>/backend/motor/motor4H.do</url-pattern>
+  </servlet-mapping>
+
+<servlet>
+    <servlet-name>MotorModelServlet4H</servlet-name>
+    <servlet-class>com.motor_model.controller.MotorModelServlet4H</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MotorModelServlet4H</servlet-name>
+    <url-pattern>/backend/motor_model/motorModel4H.do</url-pattern>
+  </servlet-mapping>
+
+<servlet>
+    <servlet-name>MotorDispatchServlet</servlet-name>
+    <servlet-class>com.motor_dispatch.controller.MotorDispatchServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MotorDispatchServlet</servlet-name>
+    <url-pattern>/backend/motor_dispatch/md.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>EmtCateDBGifReader</servlet-name>
+    <servlet-class>com.emt_cate.controller.EmtCateDBGifReader</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EmtCateDBGifReader</servlet-name>
+    <url-pattern>/backend/emt_cate/ecReader.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>EmtCateServlet</servlet-name>
+    <servlet-class>com.emt_cate.controller.EmtCateServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EmtCateServlet</servlet-name>
+    <url-pattern>/backend/emt_cate/ec.do</url-pattern>
+  </servlet-mapping>
+
+<servlet>
+    <servlet-name>EquipmentServlet</servlet-name>
+    <servlet-class>com.equipment.controller.EquipmentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EquipmentServlet</servlet-name>
+    <url-pattern>/backend/equipment/emt.do</url-pattern>
+  </servlet-mapping>
