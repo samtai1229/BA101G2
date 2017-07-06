@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.motor.model.MotorService;
 import com.motor.model.MotorVO;
+import com.motor_model.model.MotorModelService;
+import com.motor_model.model.MotorModelVO;
 
 public class MotorServlet4H extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -33,7 +35,7 @@ public class MotorServlet4H extends HttpServlet {
 		String action = req.getParameter("action");
 		System.out.println("MotorServlet in");
 		System.out.println("action: " + action);
-		
+
 // insert
 		if ("insert".equals(action)) {
 			System.out.println("MotorServlet in insert-action");
@@ -41,8 +43,8 @@ public class MotorServlet4H extends HttpServlet {
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
-			String requestURL = req.getParameter("requestURL");	
-			
+			String requestURL = req.getParameter("requestURL");
+
 			try {
 				/********** 1.接收請求參數 - 輸入格式的錯誤處理 ***************/
 				String modtype = req.getParameter("modtype").trim();
@@ -53,10 +55,10 @@ public class MotorServlet4H extends HttpServlet {
 				// 處理日期
 				Timestamp manudate = null;
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				
+
 				try {
-					//getTime = long 老吳：取得long就取得全世界
-					//String 轉成 sdf(日期) 再轉成long
+					// getTime = long 老吳：取得long就取得全世界
+					// String 轉成 sdf(日期) 再轉成long
 					System.out.println(req.getParameter("manudate"));
 					long manudateTypeLong = (sdf.parse(req.getParameter("manudate").trim())).getTime();
 					manudate = new Timestamp(manudateTypeLong);
@@ -91,9 +93,9 @@ public class MotorServlet4H extends HttpServlet {
 				/************ 2.開始新增資料 ****************/
 				MotorService motorSvc = new MotorService();
 				motorVO = motorSvc.addMotor(modtype, plateno, engno, manudate, mile, note);
-				
-				/************** 3.新增完成,準備轉交(Send the Success view)***********/
-				String url = "/backend/motor/motorMgmtHqSelectPage.jsp";
+
+				/************** 3.新增完成,準備轉交(Send the Success view) ***********/
+				String url = "/backend/motor/listAllMotor.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交?.jsp
 				successView.forward(req, res);
 				System.out.println("insert成功");
@@ -110,12 +112,13 @@ public class MotorServlet4H extends HttpServlet {
 		if ("update".equals(action)) {
 			System.out.println("MotorServlet in update-action");
 			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to send the ErrorPage view.
+			// Store this set in the request scope, in case we need to send the
+			// ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
-			String requestURL = req.getParameter("requestURL");	
-			System.out.println("requestURL :  "+requestURL);
+			String requestURL = req.getParameter("requestURL");
+			System.out.println("requestURL :  " + requestURL);
 			try {
-				/************* 1.接收請求參數 - 輸入格式的錯誤處理**************/
+				/************* 1.接收請求參數 - 輸入格式的錯誤處理 **************/
 				String modtype = req.getParameter("modtype").trim();
 				String plateno = req.getParameter("plateno").trim();
 				String engno = req.getParameter("engno").trim();
@@ -123,14 +126,14 @@ public class MotorServlet4H extends HttpServlet {
 				String status = req.getParameter("status").trim();
 				String note = req.getParameter("note").trim();
 				String motno = req.getParameter("motno").trim();
-				
+
 				// 處理日期
 				Timestamp manudate = null;
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				
+
 				try {
-					//getTime = long 老吳：取得long就取得全世界
-					//String 轉成 sdf(日期) 再轉成long
+					// getTime = long 老吳：取得long就取得全世界
+					// String 轉成 sdf(日期) 再轉成long
 					System.out.println(req.getParameter("manudate"));
 					long manudateTypeLong = (sdf.parse(req.getParameter("manudate").trim())).getTime();
 					manudate = new Timestamp(manudateTypeLong);
@@ -146,7 +149,7 @@ public class MotorServlet4H extends HttpServlet {
 					System.out.println("err mile in");
 					errorMsgs.add("里程數請寫數字");
 				}
-				
+
 				MotorVO motorVO = new MotorVO();
 				motorVO.setMotno(motno);
 				motorVO.setModtype(modtype);
@@ -170,13 +173,12 @@ public class MotorServlet4H extends HttpServlet {
 				MotorService motorSvc = new MotorService();
 				motorVO = motorSvc.updateMotor(motno, modtype, plateno, engno, manudate, mile, locno, status, note);
 				System.out.println("motorVO: " + motorVO);
-				/*************** 3.新增完成,準備轉交(Send the Success view)***********/
+				/*************** 3.新增完成,準備轉交(Send the Success view) ***********/
 				List<MotorVO> list = motorSvc.getAll();
 				req.setAttribute("listAllMotor", list);
-				
-				String url = requestURL;
-				RequestDispatcher successView = req.getRequestDispatcher("/backend/motor/motorMgmtHqSelectPage.jsp"); 
-//				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交?.jsp
+				RequestDispatcher successView = req.getRequestDispatcher("/backend/motor/listAllMotor.jsp");
+				// RequestDispatcher successView =
+				// req.getRequestDispatcher(url); // 新增成功後轉交?.jsp
 				successView.forward(req, res);
 				System.out.println("update 成功");
 
@@ -189,39 +191,41 @@ public class MotorServlet4H extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		} // update 'if' end
-		
-//getOne_For_Update
+
+		// getOne_For_Update
 		if ("getOne_For_Update".equals(action)) {
 
 			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to send the ErrorPage view.
+			// Store this set in the request scope, in case we need to send the
+			// ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
-			
-			String requestURL = req.getParameter("requestURL");		
-			
+
+			String requestURL = req.getParameter("requestURL");
+
 			try {
-				/***************************1.接收請求參數****************************************/
+				/*************************** 1.接收請求參數 ****************************************/
 				String motno = req.getParameter("motno").trim();
 				System.out.println("motno" + motno);
-				/***************************2.開始查詢資料****************************************/
+				/*************************** 2.開始查詢資料 ****************************************/
 				MotorService motorSvc = new MotorService();
 				MotorVO motorVO = motorSvc.findByPK(motno);
-								
-				/***************************3.查詢完成,準備轉交(Send the Success view)************/
+
+				/***************************
+				 * 3.查詢完成,準備轉交(Send the Success view)
+				 ************/
 				req.setAttribute("motorVO", motorVO); // 資料庫取出的motorVO物件,存入req
 				String url = "/backend/motor/updateMotorInput.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交updateMotorInput.jsp
 				successView.forward(req, res);
 				System.out.println("getOne_For_Update成功");
-				/***************************其他可能的錯誤處理************************************/
+				/*************************** 其他可能的錯誤處理 ************************************/
 			} catch (Exception e) {
-				errorMsgs.add("修改車輛資料取出時失敗:"+e.getMessage());
-				RequestDispatcher failureView = req
-						.getRequestDispatcher(requestURL);
+				errorMsgs.add("修改車輛資料取出時失敗:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher(requestURL);
 				failureView.forward(req, res);
 				System.out.println("getOne_For_Update失敗");
 			}
-		}//end of getOne_For_Update
+		} // end of getOne_For_Update
 
 // delete
 		if ("delete".equals(action)) {
@@ -233,7 +237,7 @@ public class MotorServlet4H extends HttpServlet {
 			String requestURL = req.getParameter("requestURL");
 
 			try {
-				/************ 1.接收請求參數 - 輸入格式的錯誤處理**************/
+				/************ 1.接收請求參數 - 輸入格式的錯誤處理 **************/
 				String motno = req.getParameter("motno");
 				System.out.println(motno);
 
@@ -259,7 +263,7 @@ public class MotorServlet4H extends HttpServlet {
 				MotorService motorSvc = new MotorService();
 				motorSvc.deleteMotor(motno);
 
-				/********** 3.更改完成,準備轉交(Send the Success view)*******/
+				/********** 3.更改完成,準備轉交(Send the Success view) *******/
 				if (requestURL.equals("/backend/motor/motorMgmtHqSelectPage.jsp")) {
 					List<MotorVO> list = motorSvc.getAll();
 					req.setAttribute("listAllMotor", list);
@@ -338,7 +342,7 @@ public class MotorServlet4H extends HttpServlet {
 			}
 		} // delete 'if' end
 
-		// getOne_For_Display??
+// getOne_For_Display??
 		if ("getOne_For_Display".equals(action)) {
 
 			List<String> errorMsgs = new LinkedList<String>();
@@ -408,7 +412,7 @@ public class MotorServlet4H extends HttpServlet {
 			System.out.println("action = " + action);
 
 			try {
-				/*************** 1.接收請求參數 - 輸入格式的錯誤處理**********/
+				/*************** 1.接收請求參數 - 輸入格式的錯誤處理 **********/
 				String modtype = req.getParameter("modtype");
 				System.out.println(modtype);
 				if (modtype == null || (modtype.trim()).length() == 0) {
@@ -454,69 +458,90 @@ public class MotorServlet4H extends HttpServlet {
 			}
 		} // get_motors_by_modtype 'if' end
 
-//include listAllMotor.jsp
-		// 來自MotorMgmtHqSelectPage.jsp的請求 // 來自 motor/listAllMotor.jsp的請求
-		if ("listAllMotor_A".equals(action) || "listAllMotor_B".equals(action)) {
-
+// listMotors_ByCompositeQuery
+		if ("listMotors_ByCompositeQuery".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
-
 			try {
-				/*************************** 1.接收請求參數 ****************************************/
-				// String motno = new String(req.getParameter("motno"));
 
-				/*************************** 2.開始查詢資料 ****************************************/
+				/************* 1.將輸入資料轉為Map ********************/
+				// 採用Map<String,String[]> getParameterMap()的方法
+				// 注意:an immutable java.util.Map
+				Map<String, String[]> map = req.getParameterMap();
+
+				/**************** 2.開始複合查詢 *********************/
 				MotorService motorSvc = new MotorService();
-				List<MotorVO> list = motorSvc.getAll();
-
-				/*********** 3.查詢完成,準備轉交(Send the Success view)**/
-
-				req.setAttribute("listAllMotor", list); // 資料庫取出的list物件,存入request
-
-				String url = null;
-				if ("listAllMotor_A".equals(action))
-					url = "/backend/motor/listAllMotor.jsp";
-				else if ("listAllMotor_B".equals(action))
-					url = "/backend/motor/motorMgmtHqSelectPage.jsp";
-
-				RequestDispatcher successView = req.getRequestDispatcher(url);
+				MotorModelService mmSvc = new MotorModelService();
+				List<MotorVO> list = motorSvc.getAll(map);
+				
+				/************* 3.查詢完成,準備轉交(Send the Success view) ************/
+				req.setAttribute("listMotors_ByCompositeQuery", list); // 資料庫取出的list物件,存入request
+				RequestDispatcher successView = req
+						.getRequestDispatcher("/backend/motor/listMotors_ByCompositeQuery.jsp");
 				successView.forward(req, res);
 
-				/************** 其他可能的錯誤處理 *********************/
+				/************** 其他可能的錯誤處理 ************/
 			} catch (Exception e) {
-				throw new ServletException(e);
+				errorMsgs.add(e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/backend/motor/listMotors_ByCompositeQuery.jsp");
+				failureView.forward(req, res);
 			}
 		}
 
-//listMotors_ByCompositeQuery
-		if ("listMotors_ByCompositeQuery".equals(action)) { 
+// fuzzyGetAll
+		if ("fuzzyGetAll".equals(action)) {
+
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
-			try {
-				
-				/*************1.將輸入資料轉為Map********************/ 
-				//採用Map<String,String[]> getParameterMap()的方法 
-				//注意:an immutable java.util.Map 
-				Map<String, String[]> map = req.getParameterMap();
-				
-				/****************2.開始複合查詢*********************/
-				MotorService motorSvc = new MotorService();
-				List<MotorVO> list  = motorSvc.getAll(map);
-System.out.println("list = " + list);
-				/*************3.查詢完成,準備轉交(Send the Success view)************/
-				req.setAttribute("listMotors_ByCompositeQuery", list); // 資料庫取出的list物件,存入request
-				RequestDispatcher successView = req.getRequestDispatcher("/backend/motor/listMotors_ByCompositeQuery.jsp"); 
-				successView.forward(req, res);
+			String url = "/backend/motor/listMotorsByFuzzySearch.jsp";
 
-				
-				/**************其他可能的錯誤處理************/
+			try {
+				/********* 1.接收請求參數 - 輸入格式的錯誤處理 ***********/
+				String fuzzyValue = req.getParameter("fuzzyValue");
+				System.out.println("fuzzyValue: " + fuzzyValue);
+
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher(url);
+					failureView.forward(req, res);
+					return;// 程式中斷
+				}
+
+				/************* 2.開始查詢資料 *******************/
+				System.out.println("開始 fuzzyGetAll");
+				MotorService motorSvc = new MotorService();
+				MotorModelService mmSvc = new MotorModelService();
+				List<MotorVO> list = motorSvc.fuzzyGetAll(fuzzyValue);
+				List<MotorModelVO> mmList = mmSvc.fuzzyGetAll(fuzzyValue);
+System.out.println("MMservletList: " + mmList);
+						
+				if (list == null && mmList == null) {
+					errorMsgs.add("查無資料");
+				}
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher(url);
+					failureView.forward(req, res);
+					return;// 程式中斷
+				}
+
+				/********* 3.查詢完成,準備轉交(Send the Success view) *******/
+
+				req.setAttribute("fuzzyGetAll", list); // 資料庫取出的list物件,存入req
+				req.setAttribute("mmFuzzyGetAll", mmList);
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+				System.out.println("fuzzyGetAll 成功");
+				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
-				errorMsgs.add(e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/motor/listMotors_ByCompositeQuery.jsp");
+				System.out.println("fuzzyGetAll 失敗");
+				errorMsgs.add("無法取得資料:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher(url);
 				failureView.forward(req, res);
 			}
-		}		
+		} // end of fuzzyGetAll
 	}
 }
