@@ -285,13 +285,12 @@ public class MemberServlet extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-<<<<<<< HEAD
-					
-					res.sendRedirect("/BA101G2/index.jsp#tab-1");
-=======
-					RequestDispatcher failureView = req.getRequestDispatcher("/index.jsp#"+"tab-1");
-					failureView.forward(req, res);
->>>>>>> 0706Test
+				
+					res.sendRedirect("/BA101G2/index.jsp");
+
+//					RequestDispatcher failureView = req.getRequestDispatcher("/index.jsp#"+"tab-1");
+//					failureView.forward(req, res);
+
 					return;// 程式中斷
 				}
 
