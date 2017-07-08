@@ -20,6 +20,14 @@
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css" >
 
+	<%-- basic --%>
+	<link href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="<%=request.getContextPath()%>/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+	<link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css' />
+	<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.min.css" rel="stylesheet" />
+	<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.css" rel="stylesheet" />
+	<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" rel="stylesheet" />
+
 <style type="text/css">
 
 .gallery-title {
@@ -89,23 +97,90 @@
   background-color: #555;
 }
 
+.topdiv{
+
+	margin-top:100px;
+	color:#eee;
+
+}
+
+body {
+       background: url(/BA101G2/img/header1.jpg) no-repeat center center fixed; 
+	    -webkit-background-size: cover;
+	    -moz-background-size: cover;
+	    -o-background-size: cover;
+	    background-size: cover;
+}
+
 </style>
 
 <body>
+
+
+<!-- Navigation -->
+	<nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header page-scroll">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> Menu <i
+						class="fa fa-bars"></i>
+				</button>
+				<a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/index.jsp">AutoBike</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					<li class="hidden"><a href="#page-top"></a></li>
+					<li><a class="page-scroll" href="<%=request.getContextPath()%>/frontend/rental_form/rental_category.jsp">
+					<i class="glyphicon glyphicon-heart"></i>我要租車</a></li>
+					<li><a class="page-scroll" href="#news">
+					<i class="glyphicon glyphicon-alert"></i>最新消息</a></li>
+					<li><a class="page-scroll" href="#board">
+					<i class="fa fa-comments-o"></i>留言板</a></li>
+					<li><a class="page-scroll" href="#loc">
+					<i class="fa fa-search"></i>服務據點</a></li>
+					<li><a href="<%=request.getContextPath()%>/backend/member/member.do">
+					<i class="fa fa-shopping-cart"></i>二手車購買</a></li>
+					<c:if test="${not empty memno}">
+						<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">歡迎，${memname}</a></li>
+						<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout" data-toggle="modal">
+						<i class="glyphicon glyphicon-user"></i>登出</a>
+						</li>
+					</c:if>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+	
+	<div id="blocker"></div>
+
+
+	<!-- 租車主軸Header -->
+
+<%----------------------------------------------------VVVV building area VVVV-----------------------------------------------------------%>
+	
+
+
+
 
 <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 
 	<div class="container">
 		<div class="row">
-			<div class="gallery col-lg-12 col-md-12 col-sm-12 col-xs-12">
-				<h1 class="gallery-title">AutoBike - 租車</h1>
-			</div>
+<!-- 			<div class="gallery col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<h1 class="gallery-title topdiv">AutoBike - 租車</h1>
+			</div> -->
 
-			<div align="center">
+			<div align="center" class="topdiv">
 				<button class="btn btn-default filter-button" data-filter="all">全部車種</button>
-				<button class="btn btn-default filter-button" data-filter="heavy">重機專區</button>
 				<button class="btn btn-default filter-button" data-filter="light">輕旅租車</button>
- 				<button class="btn btn-default filter-button" data-filter="new" disabled>新車上架</button>
+				<button class="btn btn-default filter-button" data-filter="heavy">重機專區</button>
+ 				<!-- <button class="btn btn-default filter-button" data-filter="new" disabled>新車上架</button> -->
 			</div>
 			<br />
 
@@ -158,6 +233,27 @@
 			</c:forEach>
 		</div>
 	</div>
+	
+	
+	
+		<%----------------------------------------------------^^^^ building area ^^^^-----------------------------------------------------------%>		
+
+	<footer>
+		<div class="container-fluid topdiv">
+			<div class="col-xs-12 col-sm-4">
+				<span>地址:桃園市平鎮區中央路115號</span>
+			</div>
+			<div class="col-xs-12 col-sm-4">
+				<span>EMAIL:taic@oregonstate.edu</span>
+			</div>
+			<div class="col-xs-12 col-sm-4">
+				<span>TEL:0900-000-000</span>
+			</div>
+		</div>
+	</footer>
+	
+	
+	
 
 	
 	<script type="text/javascript">
@@ -210,6 +306,20 @@
 		}
 //end 回到上頁功能		
 	</script>
+	
+	
+	<script src="https://code.jquery.com/jquery.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://raw.githack.com/JaapMoolenaar/bootstrap-daterangepicker/master/moment.js"></script>
+    <script type="text/javascript" src="https://raw.githack.com/JaapMoolenaar/bootstrap-daterangepicker/master/daterangepicker.js"></script>
+
+		<!-- basic -->
+
+	<script src="<%=request.getContextPath()%>/js/owl.carousel.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/jquery.magnific-popup.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/agency.min.js"></script>
+	
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="<%=request.getContextPath()%>/backend/motor_model/Modified/paging_for_mm.js"></script>
