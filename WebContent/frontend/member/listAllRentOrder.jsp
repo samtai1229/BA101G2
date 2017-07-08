@@ -56,6 +56,9 @@
 		<th>FINE</th>
 		<th>TOTAL</th>
 		<th>RANK</th>
+		<th>Status</th>
+		<th>Note</th>
+		<th colspan="2">¾Þ§@</th>
 	</tr>
 <%-- 	begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" --%>
 	<c:forEach var="roVO" items="${list}" >
@@ -79,8 +82,9 @@
          value = "${roVO.returndate}" /></td>				
 <td>${roVO.fine}</td>
 			<td>${roVO.total}</td>
-				<td>${roVO.rank}</td>
-				
+			<td>${roVO.rank}</td>
+			<td>${roVO.status}</td>
+			<td>${roVO.note}</td>	
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/backend/member/member.do">
 			     <input type="submit" value="­×§ï"> 

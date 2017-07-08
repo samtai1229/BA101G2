@@ -6,7 +6,6 @@
 	MemberVO memVO = (MemberVO) request.getAttribute("memVO"); //EmpServlet.java (Concroller), 存入req的empVO物件 (包括幫忙取出的empVO, 也包括輸入資料錯誤時的empVO物件)
 	String[] statusArray = {"unconfirmed","confirmed"};
 	String[] gender = {"Girl","Boy"};
-
     pageContext.setAttribute("statusArray", statusArray);
 	pageContext.setAttribute("gender", gender);
 %>
@@ -23,7 +22,7 @@
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
 		<h3>會員資料修改 - update_member_input.jsp</h3>
-		<a href="<%=request.getContextPath()%>/backend/member/select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a></td>
+		<a href="<%=request.getContextPath()%>/index.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a></td>
 	</tr>
 </table>
 
@@ -92,11 +91,13 @@
 		<!-- 正面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=license' width='120' height='100'></td>
 	</tr>
 	<tr>
+	    <td>加入日期:</td>
 		<td>
 		<fmt:formatDate pattern = "yyyy年MM月dd號" value = "${memVO.credate}"/>
 		</td>
     </tr>
     <tr>
+        <td>實名認證:</td>
 		<td>${memVO.status}</td>
 	</tr>
 </table>
