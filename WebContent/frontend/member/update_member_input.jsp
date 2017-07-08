@@ -23,7 +23,7 @@
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
 		<h3>會員資料修改 - update_member_input.jsp</h3>
-		<a href="<%=request.getContextPath()%>/index.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a></td>
+		<a href="<%=request.getContextPath()%>/backend/member/select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a></td>
 	</tr>
 </table>
 
@@ -48,8 +48,7 @@
 	</tr>
 	<tr>
 		<td>性別:</td>
-		<td>${memVO.sex}
-				
+		<td>${memVO.sex}</td>
 	</tr>	
 	<tr>
 		<td>生日:</td>
@@ -98,25 +97,13 @@
 		</td>
     </tr>
     <tr>
-		<td><select name="status">
-				
-					<c:forEach var="s" items="${statusArray}">
-					<c:if test="${memVO.status==s}">
-					<option readonly selected value="${s}">${s}
-					</c:if>
-					<c:if test="${memVO.status!=s}">
-					<option value="${s}">${s}
-					</c:if>
-					</c:forEach>
-			
-			
-			
-			</select></td>
+		<td>${memVO.status}</td>
 	</tr>
 </table>
 <br/>
 <input type="hidden" name="action" value="update">
 <input type="hidden" name="memno" value="<%=memVO.getMemno()%>">
+<input type="hidden" name="status" value="<%=memVO.getStatus()%>">
 <input type="hidden" name="sex" value="<%=memVO.getSex()%>">
 <input type="hidden" name="birth" value="<fmt:formatDate pattern = "yyyy-MM-dd HH:mm:ss"         value = "${memVO.birth}" />">
 <input type="hidden" name="credate" value="<fmt:formatDate pattern = "yyyy-MM-dd HH:mm:ss" 

@@ -423,7 +423,7 @@ public class MemberServlet extends HttpServlet {
 				 ************/
 				System.out.println("我拿到了VO 準備轉交");
 				req.setAttribute("memVO", memVO); // 資料庫取出的empVO物件,存入req
-				String url = "/backend/member/update_member_input.jsp";
+				String url = "/frontend/member/update_member_input.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交update_emp_input.jsp
 				successView.forward(req, res);
 

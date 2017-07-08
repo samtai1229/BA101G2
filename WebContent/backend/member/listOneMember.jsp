@@ -87,7 +87,7 @@
 			<td><fmt:formatDate pattern = "yyyy¦~MM¤ëdd¸¹" 
          value = "${memVO.credate}" /></td>
 			<td>${memVO.status}</td>
-			<td class="text-center"><a class='btn btn-info btn-xs' href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Update&memno=${memVO.memno}&status=${memVO.memno}"><span class="glyphicon glyphicon-edit"></span> Edit</a></td>
+			<td class="text-center"><a class='btn btn-info btn-xs' href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Update&memno=${memVO.memno}"><span class="glyphicon glyphicon-edit"></span> Edit</a></td>
 			<td class="text-center"><a href="<%=request.getContextPath()%>/backend/member/member.do?action=delete&memno=${memVO.memno}" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>	
 
 

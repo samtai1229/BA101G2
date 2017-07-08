@@ -7,6 +7,7 @@
 	SecOrdVO soVO = (SecOrdVO) request.getAttribute("soVO"); //EmpServlet.java (Concroller), 存入req的empVO物件 (包括幫忙取出的empVO, 也包括輸入資料錯誤時的empVO物件)
 	String[] statusArray = {"paid","unpaid","closed","other"};
 	request.setAttribute("statusArray", statusArray);
+	session.setAttribute("soVO", soVO);
 %>
 <html>
 <head>
@@ -45,12 +46,12 @@
 	</tr>
 	<tr>
 		<td>會員編號:</td>
-		<td><input type="TEXT" name="memno" size="45" value="${soVO.memno}" /></td>
+		<td>${soVO.memno}</td>
 	</tr>
 	
 	<tr>
 		<td>車輛編號:</td>
-		<td><input type="TEXT" name="motno" size="45" value="${soVO.motorno}" /></td>
+		<td>${soVO.motorno}</td>
 	</tr>
 	
 	<tr>
@@ -59,19 +60,8 @@
          value = "${soVO.buildtime}" /></td>
 	</tr>
 	<tr>
-
-	
 		<td>訂單狀態:</td>
-		<td><select size="1" name="status">
-			<option disabled selected value="${soVO.status}">${soVO.status}
-			<c:forEach var="s" items="${statusArray}">
-			<c:if test="${soVO.status!=s}">
-			<option  value="${s}">${s}
-			</c:if>
-			 
-			</c:forEach>
-       	  
-		</select></td>
+		<td>${soVO.status}</td>
 	</tr>
 	
 

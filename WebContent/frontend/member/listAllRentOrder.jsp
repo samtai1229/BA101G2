@@ -59,6 +59,7 @@
 	</tr>
 <%-- 	begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" --%>
 	<c:forEach var="roVO" items="${list}" >
+	 <c:if test="${memno==roVO.memno}">
 		<tr align='center' valign='middle'>
 			<td>${roVO.rentno}</td>
 			<td>${roVO.memno}</td>
@@ -95,6 +96,7 @@
 			    <input type="hidden" name="action"value="delete"></FORM>
 			</td>
 		</tr>
+		</c:if>
 	</c:forEach>
 </table>
 <%-- <%@ include file="pages/page2.file" %> --%>

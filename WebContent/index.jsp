@@ -32,6 +32,7 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>AutoBike Homepage</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 <!-- Bootstrap Core CSS -->
 <link href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 <!-- Custom Fonts -->
@@ -63,10 +64,17 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js" integrity="sha384-0s5Pv64cNZJieYFkXYOTId2HMA2Lfb6q2nAcx2n0RTLUnCAoTTsS0nKEO27XyKcY" crossorigin="anonymous"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js" integrity="sha384-ZoaMbDF+4LeFxg6WdScQ9nnR1QC2MIRxA1O9KWEXQwns1G8UNyIEZIQidzb0T1fo" crossorigin="anonymous"></script>
     <![endif]-->
-<style>
-</style>
+
+
 <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans:600'>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style_login.css">
+
+<style>
+
+ #demo{
+ width:277px;
+ }
+ </style>
 </head>
 
 <body id="page-top" class="index">
@@ -206,8 +214,6 @@
               								data-toggle="modal"><i class="glyphicon glyphicon-user"></i>·|­ûµn¤J</a>
               							</li>
               						</c:if>
-              	 				  	
-              	 				  
               					</ul>
             
 			</div>
@@ -452,6 +458,10 @@
     }, function(start, end, label) {
       console.log("New date range selected: ' + start.format('MM/DD/YYYY H:mm') + ' to ' + end.format('MM/DD/YYYY H:mm') + ' (predefined range: ' + label + ')");
     });
+    
+    
+    
+  
     </script>
 
 </html>

@@ -15,7 +15,7 @@
 
 body {
     overflow-x: hidden;
-    font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif;
+/*     font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif; */
     webkit-tap-highlight-color: #fed136
 }
 
@@ -183,7 +183,7 @@ fieldset[disabled] .btn-xl:hover {
 
 .navbar-custom .nav li a,
 .navbar-custom .navbar-toggle {
-    font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: Microsoft JhengHei , Montserrat, Helvetica Neue, Helvetica, Arial, sans-serif;
     color: #fff;
     text-transform: uppercase
 }
