@@ -69,5 +69,7 @@ public interface RentOrdDAO_interface {
 	public void updateMotorAfterReturn(String motno, Integer mile, String rlocno, String action);
 	
 	public void updateEmtsAfterReturn(String emtno, String rlocno, String action);
+	
+	public void updateStatusByRentno(String status, String rentno);
 
 }
