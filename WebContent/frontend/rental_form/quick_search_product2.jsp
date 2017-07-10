@@ -1,27 +1,29 @@
 <%@page import="java.sql.Timestamp"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.motor.model.*"%>
 <!DOCTYPE html>
-<html lang="">
+<html>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 <title>Title Page</title>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" media="all"
-	href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" />
-<link rel="stylesheet" type="text/css" media="all"
-	href="<%=request.getContextPath()%>/frontend/rental_form/Modified/daterangepicker.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" />
+<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/daterangepicker.css" />
 
+<%-- basic --%>
+<link href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<link href="<%=request.getContextPath()%>/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css' />
+<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.min.css" rel="stylesheet" />
+<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.css" rel="stylesheet" />
+<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" rel="stylesheet" />
 
 </head>
 <style type="text/css">
@@ -39,124 +41,174 @@ select {
   line-height: 60px;
 }
 
-input[type=checkbox]
-{
-  /* Double-sized Checkboxes */
-  -ms-transform: scale(1); /* IE */
-  -moz-transform: scale(1); /* FF */
-  -webkit-transform: scale(1); /* Safari and Chrome */
-  -o-transform: scale(1); /* Opera */
-      margin-left:20px;
-}
 .media-object{
 	margin-left:20px;
 }
 
 .btn{
-	margin-right:5px;
-	margin-left:5px;
+	margin-top:5px;
+	margin-right:10px;
+	margin-left:10px;
+	
+}
+
+.t1{
+
+margin-top:100px;
+
+}
+
+p{
+	height:20px;
+}
+
+.list-group-item, .InputForm{
+	color:#000;
 }
 
 </style>
-
 <body>
 <%-- 
-	å¾RentOrdServlet.javaéä¾†:
-	 é€²é€™jspçš„åƒæ•¸æœ‰  int totalday, String startdayã€ endday,
+	±qRentOrdServlet.java¹L¨Ó:
+	 ¶i³ojspªº°Ñ¼Æ¦³  int totalday, String startday¡B endday,
 	list ecno1~ecno4, int ecno1~4.size, motno, (session)memno
 	
-	æ‡‰è©²è¦å¾é€™å€‹é é¢é€å‡ºå»çš„è³‡æ–™æœ‰(next -> servlet -> çµç®— + ä»˜æ¬¾.jsp)
+	À³¸Ó­n±q³o­Ó­¶­±°e¥X¥hªº¸ê®Æ¦³(next -> servlet -> µ²ºâ + ¥I´Ú.jsp)
 	memno, equip count(each), slocno, rlocno, startday, endday, totalday
 --%>
 
 	<%
 		MotorVO motorQueryVO = (MotorVO) request.getAttribute("motorQueryVO");
-		//String startday = (String)request.getAttribute("startday");
-		//String endday = (String)request.getAttribute("endday");
 		String dayPicker = (String) request.getAttribute("dayPicker");
-
+		String confirmed_rentday = (String)request.getAttribute("confirmed_rentday");
+		
 		String memno = (String) session.getAttribute("memno");
 		pageContext.setAttribute("memno", memno);
 	%>
-
-	é€™æ˜¯quick_search_product2.jsp
+<%--
+	³o¬Oquick_search_product2.jsp
 	<br> memno: <c:out value="${memno}" default="no member login" />
 	<br> start_time: <c:out value="${startday}" default="no value" />
 	<br> end_time: <c:out value="${endday}" default="no value" />
 	<br> availableEmtnoList: <c:out value="${availableEmtnoList}" default="no value" />
-	
-	<%-- æ¯ç¨®è£å‚™å…ˆéš¨ä¾¿é¸å…©å€‹ä¾†ï¼Œä¸å¤ å†é¡¯ç¤º  --%>
+	<br> confirmed_rentday: <c:out value="${confirmed_rentday}" default="no value" />--%>	
+	<%-- ¨CºØ¸Ë³Æ¥ıÀH«K¿ï¨â­Ó¨Ó¡A¤£°÷¦AÅã¥Ü  --%>
+<%--	
 	<br>available ecno1_List_size: <c:out value="${ecno1_List_size}"  default="no value" />
 	<br>available ecno2_List_size: <c:out value="${ecno2_List_size}"  default="no value" />
 	<br>available ecno3_List_size: <c:out value="${ecno3_List_size}"  default="no value" />
 	<br>available ecno4_List_size: <c:out value="${ecno4_List_size}"  default="no value" />
+
+--%>	
 	<jsp:useBean id="mmSvc" scope="page" class="com.motor_model.model.MotorModelService" />
-	
-	
-	<div class="container-fluid">
-		<div class="content-wrapper">
-			<form METHOD="post"
-				ACTION="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do">
-				<div class="item-container">
+	<!-- Navigation -->
+	<nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header page-scroll">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> Menu <i
+						class="fa fa-bars"></i>
+				</button>
+				<a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/index.jsp">AutoBike</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					<li class="hidden"><a href="#page-top"></a></li>
+					<li><a class="page-scroll" href="<%=request.getContextPath()%>/frontend/rental_form/rental_category.jsp">
+					<i class="glyphicon glyphicon-heart"></i>§Ú­n¯²¨®</a></li>
+					<li><a class="page-scroll" href="#news">
+					<i class="glyphicon glyphicon-alert"></i>³Ì·s®ø®§</a></li>
+					<li><a class="page-scroll" href="#board">
+					<i class="fa fa-comments-o"></i>¯d¨¥ªO</a></li>
+					<li><a class="page-scroll" href="#loc">
+					<i class="fa fa-search"></i>ªA°È¾ÚÂI</a></li>
+					<li><a href="<%=request.getContextPath()%>/backend/member/member.do">
+					<i class="fa fa-shopping-cart"></i>¤G¤â¨®ÁÊ¶R</a></li>
+					<c:if test="${not empty memno}">
+						<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">Åwªï¡A${memname}</a></li>
+						<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout" data-toggle="modal">
+						<i class="glyphicon glyphicon-user"></i>µn¥X</a>
+						</li>
+					</c:if>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+
+
+	<!-- ¯²¨®¥D¶bHeader -->
+	<header id="rent">
+		
+<%----------------------------------------------------VVVV building area VVVV-----------------------------------------------------------%>
+
+		<div class="container">
+			<form METHOD="post" ACTION="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do" id="myForm">
+				
 					<div class="container">
-						<div class="col-md-offset-1 col-md-5">
+						<div class="col-md-offset-1 col-md-5 t1">
 							<img id="item-display"
 								src="<%=request.getContextPath()%>/backend/motor_model/mmReader.do?modtype=${motorQueryVO.modtype}"
 								alt=""></img>
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-6 t1">
 							<div class="product-title">
 								<div>${mmSvc.findByPK(motorQueryVO.modtype).brand}
 									${mmSvc.findByPK(motorQueryVO.modtype).name}</div>
 								<c:if
 									test="${mmSvc.findByPK(motorQueryVO.modtype).displacement > 150}">
-									<div>é‡æ©Ÿå°ˆå€</div>
+									<div>­«¾÷±M°Ï</div>
 								</c:if>
 								<div class="dynamic-text">${mmSvc.findByPK(motorQueryVO.modtype).displacement}c.c.</div>
 							</div>
 							<div class="product-desc">The Corsair Gaming Series GS600
 								is the ideal price/performance choice for mid-spec gaming PC</div>
 							<hr>
-							<div class="product-price">æ—¥ç§Ÿåƒ¹  NT$${mmSvc.findByPK(motorQueryVO.modtype).renprice}</div>
-							<div class="dynamic-text">è»Šè¼›ç·¨è™Ÿ : ${motorQueryVO.motno}</div>
-							<div class="dynamic-text">èµ·å§‹æ™‚é–“ : <mark>${startday}</mark></div>
-							<div class="dynamic-text">çµæŸæ™‚é–“ : <mark>${endday}</mark></div>
-							<div class="dynamic-text">ç§Ÿé‡‘çµ±è¨ˆ : <mark>${totalday}å¤© *  ${mmSvc.findByPK(motorQueryVO.modtype).renprice} NT$/å¤©
+							<div class="product-price">¤é¯²»ù  NT$${mmSvc.findByPK(motorQueryVO.modtype).renprice}</div>
+							<div class="dynamic-text">¨®½ø½s¸¹ : ${motorQueryVO.motno}</div>
+							<div class="dynamic-text">°_©l®É¶¡ : <mark>${startday}</mark></div>
+							<div class="dynamic-text">µ²§ô®É¶¡ : <mark>${endday}</mark></div>
+							<div class="dynamic-text">¯²ª÷²Î­p : <mark>${totalday}¤Ñ *  ${mmSvc.findByPK(motorQueryVO.modtype).renprice} NT$/¤Ñ
 							= NT$ ${mmSvc.findByPK(motorQueryVO.modtype).renprice * totalday}</mark></div>
 							<hr>
 
 							<jsp:useBean id="locSvc" scope="page" class="com.location.model.LocationService" />
 							<div class="InputForm">
-								<label class="title">è«‹é¸æ“‡<mark>å–è»Šåœ°é»</mark>:</label> 
-								<select name="slocno" onchange="queryRentOrdBySlocno(this.value)">
+								<label class="title"><mark>½Ğ¿ï¾Ü¨ú¨®¦aÂI</mark>:</label><label id="slocnoAnchor" style="color:red; background-color:white"></label>
+								<select name="slocno" id="slocno">
 									<option value="">---------------</option>
 		 							<c:forEach var="locVO" items="${locSvc.all}">
 		 							<c:if test="${locVO.locno != 'TPE00'}"> 
-										<option value="${locVO.locno}">${locVO.locname}ç‡Ÿæ¥­æ‰€: ${locVO.addr}</option>
+										<option value="${locVO.locno}">${locVO.locname}Àç·~©Ò: ${locVO.addr}</option>
 									</c:if>	
 									</c:forEach> 															
 								</select><br/>
 							</div>
 							<div class="InputForm">
-								<label class="title">è«‹é¸æ“‡<mark>é‚„è»Šåœ°é»</mark>:</label> 
-								<select name="rlocno" onchange="queryRentOrdBySlocno(this.value)">
+								<label class="title"><mark>½Ğ¿ï¾ÜÁÙ¨®¦aÂI</mark>:</label><label id="rlocnoAnchor"  style="color:red; background-color:white""></label>
+								<select name="rlocno" id="rlocno">
 									<option value="">---------------</option>
 		 							<c:forEach var="locVO" items="${locSvc.all}">
 		 							<c:if test="${locVO.locno != 'TPE00'}"> 
-										<option value="${locVO.locno}">${locVO.locname}ç‡Ÿæ¥­æ‰€: ${locVO.addr}</option>
+										<option value="${locVO.locno}">${locVO.locname}Àç·~©Ò: ${locVO.addr}</option>
 									</c:if>	
 									</c:forEach> 															
 								</select><br/>
 							</div>	 
 						</div>
 					</div>
-				</div>
-				<div class="container-fluid">
-					<div class="col-md-12 product-info">
+				
+			
+					
 					<jsp:useBean id="ecSvc" scope="page" class="com.emt_cate.model.EmtCateService"/>						
-					<div class="product-title">å¯ç§Ÿç”¨å•†å“:</div>
+				
 					<hr>
-						<div class="list-group">
+					
 							<div class="list-group-item"> 
 								<label for="check_1">
 										<div class="media" class="btn">
@@ -174,15 +226,16 @@ input[type=checkbox]
 											</c:if>
 											</div>
 											<c:if test="${ecno1_List_size==0}">
-												<div class="pull-right">ç›®å‰ç„¡åº«å­˜</div>
+												<div class="pull-right">¥Ø«eµL®w¦s</div>
 												<input type="hidden" name="ecno1" value="0">
 											</c:if>
 											<c:if test="${ecno1_List_size!=0}">
-												<div class="pull-right">æ—¥ç§Ÿåƒ¹: NT$${ecSvc.getOneEmtCate("EC01").price}
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;æ•¸é‡:</div>
+												<div class="pull-right">¤é¯²»ù: NT$${ecSvc.getOneEmtCate("EC01").price}
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;¼Æ¶q:</div>
 											</c:if>
 											<div class="pull-left">
-												<img alt="Image" class="media-object" src="http://placehold.it/100x70">
+												<img alt="Image" class="media-object" 
+												src="http://placehold.it/100x70">
 											</div>
 											<div class="media-body">
 												<h4 class="media-heading">${ecSvc.getOneEmtCate("EC01").type}</h4>
@@ -209,12 +262,12 @@ input[type=checkbox]
 											</c:if>
 											</div>
 											<c:if test="${ecno2_List_size==0}">
-												<div class="pull-right">ç›®å‰ç„¡åº«å­˜</div>
+												<div class="pull-right">¥Ø«eµL®w¦s</div>
 												<input type="hidden" name="ecno2" value="0">
 											</c:if>
 											<c:if test="${ecno2_List_size!=0}">
-												<div class="pull-right">æ—¥ç§Ÿåƒ¹: NT$${ecSvc.getOneEmtCate("EC02").price}
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;æ•¸é‡:</div>
+												<div class="pull-right">¤é¯²»ù: NT$${ecSvc.getOneEmtCate("EC02").price}
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;¼Æ¶q:</div>
 											</c:if>
 											<div class="pull-left">
 												<img alt="Image" class="media-object" src="http://placehold.it/100x70">
@@ -243,12 +296,12 @@ input[type=checkbox]
 											</c:if>
 											</div>
 											<c:if test="${ecno3_List_size==0}">
-												<div class="pull-right">ç›®å‰ç„¡åº«å­˜</div>
+												<div class="pull-right">¥Ø«eµL®w¦s</div>
 												<input type="hidden" name="ecno3" value="0">
 											</c:if>
 											<c:if test="${ecno3_List_size!=0}">
-												<div class="pull-right">æ—¥ç§Ÿåƒ¹: NT$${ecSvc.getOneEmtCate("EC03").price}
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;æ•¸é‡:</div>
+												<div class="pull-right">¤é¯²»ù: NT$${ecSvc.getOneEmtCate("EC03").price}
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;¼Æ¶q:</div>
 											</c:if>
 											<div class="pull-left">
 												<img alt="Image" class="media-object" src="http://placehold.it/100x70">
@@ -277,12 +330,12 @@ input[type=checkbox]
 											</c:if>
 											</div>
 											<c:if test="${ecno4_List_size==0}">
-												<div class="pull-right">ç›®å‰ç„¡åº«å­˜</div>
+												<div class="pull-right">¥Ø«eµL®w¦s</div>
 												<input type="hidden" name="ecno4" value="0">
 											</c:if>
 											<c:if test="${ecno4_List_size!=0}">
-												<div class="pull-right">æ—¥ç§Ÿåƒ¹: NT$${ecSvc.getOneEmtCate("EC04").price}
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;æ•¸é‡:</div>
+												<div class="pull-right">¤é¯²»ù: NT$${ecSvc.getOneEmtCate("EC04").price}
+												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;¼Æ¶q:</div>
 											</c:if>
 											<div class="pull-left">
 												<img alt="Image" class="media-object" src="http://placehold.it/100x70">
@@ -294,12 +347,11 @@ input[type=checkbox]
 										</div>
 								</label>
 							</div>
-						</div>
-					</div>
-				</div>
+						
+					
+				
 				<p class="text-center">
 					<c:if test="<%=memno == null%>">
-						<!-- è½‰åˆ°ç™»å…¥ç•«é¢????????????????????????????????????? -->
 						<input type="hidden" name="action" value="redirect_to_login">
 					</c:if>
 					<c:if test="<%=memno != null%>">
@@ -309,24 +361,41 @@ input[type=checkbox]
 						<input type="hidden" name="totalday" value="${totalday}">
 						<input type="hidden" name="motno" value="${motorQueryVO.motno}">
 					</c:if>
-					<button type="submit" class="btn btn-success btn-lg">
-						<i class="glyphicon glyphicon-ok"></i>ç¢ºèªå®šå–®
+					<button type="submit" class="btn btn-success btn-lg" id="submitButton">
+						<i class="glyphicon glyphicon-ok"></i>½T»{©w³æ
 					</button>
-							<a href="<%=request.getContextPath()%>/index.jsp" class="btn btn-danger btn-lg">
-						<i class="glyphicon glyphicon-remove"></i>è¿”å›é¦–é 
+					<a onclick="history.back()" class="btn btn-danger btn-lg">
+						<i class="glyphicon glyphicon-remove"></i>ªğ¦^«e­¶
 					</a>
 				</p>
 			</form>
 		</div>
-	</div><br><br><br><br><br><br>
-	<script src="https://code.jquery.com/jquery.js"></script>
-	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-	<script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="https://raw.githack.com/JaapMoolenaar/bootstrap-daterangepicker/master/moment.js"></script>
-	<script type="text/javascript" src="https://raw.githack.com/JaapMoolenaar/bootstrap-daterangepicker/master/daterangepicker.js"></script>
+	<br><br><br><br><br><br>
+	
+	<%----------------------------------------------------^^^^ building area ^^^^-----------------------------------------------------------%>		
+	</header>
+	<footer>
+		<div class="container-fluid">
+			<div class="col-xs-12 col-sm-4">
+				<span>¦a§}:®ç¶é¥«¥­Âí°Ï¤¤¥¡¸ô115¸¹</span>
+			</div>
+			<div class="col-xs-12 col-sm-4">
+				<span>EMAIL:taic@oregonstate.edu</span>
+			</div>
+			<div class="col-xs-12 col-sm-4">
+				<span>TEL:0900-000-000</span>
+			</div>
+		</div>
+	</footer>
 
-	<script type="text/javascript">
-		
-	</script>
+	<script src="https://code.jquery.com/jquery.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+		<!-- basic -->
+	
+	<script src="<%=request.getContextPath()%>/frontend/rental_form/Modified/quick_search_product.js"></script>
+	<script src="<%=request.getContextPath()%>/js/owl.carousel.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/jquery.magnific-popup.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/agency.min.js"></script>
 </body>
 </html>
