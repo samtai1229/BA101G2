@@ -282,9 +282,15 @@ public class RentOrdServlet extends HttpServlet {
 			String motno = req.getParameter("motno");
 			String slocno = req.getParameter("slocno");
 			String rlocno = req.getParameter("rlocno");
+			String totalday = req.getParameter("totaldate");
 			String emtno_list_str = req.getParameter("emtno_list_str");
 			Integer total = Integer.parseInt(req.getParameter("total"));
 			String status = "";
+			
+			System.out.println("end emtno_list_str: "+emtno_list_str);
+			
+			System.out.println("getParam==> memno: "+memno+" motno: "+motno+" slocno: "+slocno+
+					" rlocno: "+rlocno+" emtno_list_str: "+emtno_list_str);
 			
 			if("quick_search_credit_card".equals(action))
 				status = "unoccupied";
@@ -297,10 +303,11 @@ public class RentOrdServlet extends HttpServlet {
 			java.util.Date date;
 			long longTime;
 
+			String startdateStr = req.getParameter("startdate");
 			// 處理日期 startdate
 			java.sql.Timestamp startdate = null;
 			try {
-				date = (java.util.Date) sdf.parse(req.getParameter("startdate"));;// String to Date
+				date = (java.util.Date) sdf.parse(startdateStr);;// String to Date
 				longTime = date.getTime(); // 取long
 				startdate = new java.sql.Timestamp(longTime); // 切為SQL專用格式
 				System.out.println("startdate"+startdate);
@@ -309,10 +316,11 @@ public class RentOrdServlet extends HttpServlet {
 				errorMsgs.add("請輸入起始日期!");
 			}
 
+			String enddateStr = req.getParameter("enddate");
 			// 處理日期 enddate
 			java.sql.Timestamp enddate = null;
 			try {
-				date = (java.util.Date) sdf.parse(req.getParameter("enddate"));// String to Date
+				date = (java.util.Date) sdf.parse(enddateStr);// String to Date
 				longTime = date.getTime(); // 取long
 				enddate = new java.sql.Timestamp(longTime); // 切為SQL專用格式
 				System.out.println("enddate"+enddate);
@@ -327,38 +335,63 @@ public class RentOrdServlet extends HttpServlet {
 			//3.新增租賃單裝備明細
 
 			//1
-			String [] emtnos = emtno_list_str.split(" ");
-
+			String [] emtnos = {""};
+			
+			if(emtno_list_str!=""){
+				emtnos = emtno_list_str.split(" ");
+			}
+			
+			List<String> emtnoList = java.util.Arrays.asList(emtnos);
+			for(String emtno : emtnoList)
+				System.out.println("emtno:" + emtno);
 
 			//2.
 			RentOrdService roSvc = new RentOrdService();
 			roSvc.addRentOrd(memno, motno, slocno, rlocno, startdate, enddate, total, status);
 			
+			
+			
 			//3.
+			
+			//反查RENTNO =>可改用自增主鍵?
 			String rentno = roSvc.getRentnoByMemnoAndStartdate(memno, startdate);
 			System.out.println("rentno = " + rentno);
+			if(emtno_list_str!=""){
+				EmtListService elSvc = new EmtListService();
 			
-			EmtListService elSvc = new EmtListService();
-			
-			for(String emtno : emtnos){
-				elSvc.addEmtList(rentno, emtno);
-				System.out.println("rentno:"+rentno+" emtno:"+emtno+" add to emtlist");
+				for(String emtno : emtnos){
+					elSvc.addEmtList(rentno, emtno);
+					System.out.println("rentno:"+rentno+" emtno:"+emtno+" add to emtlist");
+				}
 			}
+			
+			RentOrdVO roQueryVO = roSvc.findByPK(rentno);
 
 			/***************************3.查詢完成,準備轉交(Send the Success view)*************/
+			
+			System.out.println("end totalday"+totalday);
+			System.out.println("startdateStr"+startdateStr);
+			System.out.println("enddateStr"+enddateStr);
 
-			//req.setAttribute("motorQueryVO", motorQueryVO);
-//			req.setAttribute("startdate", startdate);
-//			req.setAttribute("enddate", enddate);
-//			req.setAttribute("totalday", totalday);
-//			req.setAttribute("slocno", slocno);
-//			req.setAttribute("rlocno", rlocno);
-//			req.setAttribute("motno", motno);
-//
-//			
+			req.setAttribute("roQueryVO", roQueryVO);
+			req.setAttribute("emtno_list_str", emtno_list_str);
+			req.setAttribute("startday", startdateStr);
+			req.setAttribute("endday", enddateStr);
+			req.setAttribute("totalday", totalday);
+			req.setAttribute("emtnoList", emtnoList);
+			req.setAttribute("slocno", slocno);
+			req.setAttribute("rlocno", rlocno);
+			req.setAttribute("motno", motno);
+
+			if ("quick_search_credit_card".equals(action)){
+				req.setAttribute("action", "quick_search_credit_card");
+			}else if("quick_search_money_transfer".equals(action)){
+				req.setAttribute("action", "quick_search_money_transfer");
+			}
+			
 //			先回首頁
 			req.setAttribute("total", total);
-			String url = "/index.jsp";
+			String url = "/frontend/rental_form/quick_search_product_end.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交 Emp.jsp
 			successView.forward(req, res);
 
@@ -391,7 +424,8 @@ public class RentOrdServlet extends HttpServlet {
 			String startday = req.getParameter("startday");
 			String endday = req.getParameter("endday");
 			String slocno = req.getParameter("slocno");
-			String rlocno = req.getParameter("rlocno");					
+			String rlocno = req.getParameter("rlocno");	
+			
 			Integer totalday = Integer.parseInt(req.getParameter("totalday"));
 			Integer ecno1 = Integer.parseInt(req.getParameter("ecno1"));
 			Integer ecno2 = Integer.parseInt(req.getParameter("ecno2"));
@@ -399,6 +433,14 @@ public class RentOrdServlet extends HttpServlet {
 			Integer ecno4 = Integer.parseInt(req.getParameter("ecno4"));
 
 			
+			
+			//防js沒檔住:
+			if(slocno.isEmpty())
+					slocno = "TPE01";
+			
+			if(rlocno.isEmpty())
+					rlocno = "KHH01";			
+		
 			/***************************2.開始查詢資料*****************************************/
 			//要處理的有:
 			//1.用選定的motno取得motorVO
@@ -923,6 +965,8 @@ public class RentOrdServlet extends HttpServlet {
 				 **********************/
 				
 				String dayrange = req.getParameter("dayrange");
+				
+				System.out.println("dayrange" + dayrange);
 				
 				String tokens[] = dayrange.split(" - ");
 				String start_time_str = tokens[0];
@@ -1474,7 +1518,7 @@ public class RentOrdServlet extends HttpServlet {
 		
 
 		// query
-		if ("query".equals(action) || "lease_ord_form".equals(action)) {
+		if ("query".equals(action) || "lease_ord_form".equals(action)||"query_for_update".equals(action)) {
 
 			System.out.println("ro query in");
 			List<String> errorMsgs = new LinkedList<String>();
@@ -1485,6 +1529,7 @@ public class RentOrdServlet extends HttpServlet {
 				/***************************
 				 * 1.接收請求參數 - 輸入格式的錯誤處理
 				 **********************/
+				System.out.println("query in");
 				String rentno = req.getParameter("rentno");
 				System.out.println("rentno:" + rentno);
 
@@ -1522,12 +1567,13 @@ public class RentOrdServlet extends HttpServlet {
 				System.out.println("roQueryVO.getRentno:" + roQueryVO.getRentno());
 				System.out.println("action=" + action);
 				if ("query".equals(action)) {
-					RequestDispatcher successView = req
-							.getRequestDispatcher("/backend/rent_ord/get_rent_ord_by_pk.jsp");
-
+					RequestDispatcher successView = req.getRequestDispatcher("/backend/rent_ord/get_rent_ord_by_pk.jsp");
 					successView.forward(req, res);
 				} else if ("lease_ord_form".equals(action)) {
 					RequestDispatcher successView = req.getRequestDispatcher("/backend/rent_ord/lease_ord_form.jsp");
+					successView.forward(req, res);
+				}else if ("query_for_update".equals(action)){
+					RequestDispatcher successView = req.getRequestDispatcher("/backend/rent_ord/rent_ord_update_form.jsp");
 					successView.forward(req, res);
 				}
 
@@ -1649,7 +1695,7 @@ public class RentOrdServlet extends HttpServlet {
 		} // insert 'if' end
 
 		// update
-		if ("update".equals(action)) {
+		if ("update".equals(action) ||"update_and_close".equals(action)) {
 			System.out.println("RentOrdServlet in update-action");
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
@@ -1704,7 +1750,7 @@ public class RentOrdServlet extends HttpServlet {
 				java.sql.Timestamp returndate = null;
 				// 處理日期 logic: returndate日期可以暫時空白不填，但是要填的話就要填正確
 				String returndateStr = req.getParameter("returndate").trim();
-				if (returndateStr != null) {
+				if (returndateStr != null&& !returndateStr.isEmpty()) {
 					try {
 						date = (java.util.Date) sdf.parse(returndateStr);// String
 																			// to
@@ -1791,9 +1837,14 @@ public class RentOrdServlet extends HttpServlet {
 				/***************************
 				 * 3.新增完成,準備轉交(Send the Success view)
 				 ***********/
-				String url = "/backend/rent_ord/backendRentOrd.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交?.jsp
-				successView.forward(req, res);
+				
+				String url="";
+				if("update".equals(action))
+					url = "/backend/rent_ord/backendRentOrd.jsp";
+				if("update_and_close".equals(action))
+					url = "/frontend/rental_form/close.jsp";
+				
+				req.getRequestDispatcher(url).forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
