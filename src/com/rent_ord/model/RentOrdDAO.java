@@ -164,6 +164,53 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 			"SELECT * FROM RENT_ORD where  (( startdate > ? and startdate <? )"
 			  +" or  ( enddate > ? and enddate < ? )) and MOTNO = ? order by startdate";
 	
+	private static final String UPDATE_STATUS_BY_RENTNO = 
+			"UPDATE RENT_ORD set status = ? where rentno = ? ";
+	
+
+	@Override
+	public void updateStatusByRentno(String status, String rentno) {
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_STATUS_BY_RENTNO);
+
+			pstmt.setString(1, status);
+			pstmt.setString(2, rentno);
+
+			rs = pstmt.executeQuery();
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	}
 
 	@Override
 	public Set<RentOrdVO> getRoVOsByDatePrioidAndMotno(Timestamp start_time, Timestamp end_time, String motno) {
