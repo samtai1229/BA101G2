@@ -155,7 +155,7 @@ public class MemberServlet extends HttpServlet {
 				 *************/
 
 				req.setAttribute("memVO", memVO); // 資料庫取出的empVO物件,存入req
-				String url = "/backend/member/listOneMember.jsp";
+				String url = "/frontend/member/listOneMember.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
 				successView.forward(req, res);
 

@@ -17,9 +17,10 @@
 <html>
 <head>
 <title>我的訂單資料</title>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body bgcolor='white'>
+<div class="col-xs-12 col-sm-12">
 <table border='1' cellpadding='5' cellspacing='0' width='1550'>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
@@ -28,7 +29,7 @@
 		</td>
 	</tr>
 </table>
-
+</div>
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
 	<font color='red'>請修正以下錯誤:
@@ -40,11 +41,14 @@
 	</font>
 </c:if>
 <%-- <%@ include file="pages/page1.file" %>  --%>
-<table border='1' bordercolor='#CCCCFF' width='1600'>
-	<tr>
+<div class="row col-xs-12 col-sm-12">
+<table border='1' bordercolor='#CCCCFF'>
+	<thead>
+	<tr align='center'>
+	
 		<th>租賃單編號</th>
-		<th width='70'>會員編號</th>
-		<th width='50'>車輛型號</th>
+		<th>會員編號</th>
+		<th>車輛型號</th>
 		<th>取車據點</th>
 		<th>還車據點</th>
 		<th>起始里程</th>
@@ -58,8 +62,9 @@
 		<th>RANK</th>
 		<th>Status</th>
 		<th>Note</th>
-		<th colspan="2">操作</th>
+	
 	</tr>
+	</thead>
 <%-- 	begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" --%>
 	<c:forEach var="roVO" items="${list}" >
 	 <c:if test="${memno==roVO.memno}">
@@ -85,28 +90,32 @@
 			<td>${roVO.rank}</td>
 			<td>${roVO.status}</td>
 			<td>${roVO.note}</td>	
-			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/backend/member/member.do">
-			     <input type="submit" value="修改"> 
-			     <input type="hidden" name="memno" value="${roVO.memno}">
-			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--><!-- 目前尚未用到  -->
-			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
-			</td>
-			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/backend/member/member.do">
-			    <input type="submit" value="刪除">
-			    <input type="hidden" name="memno" value="${memVO.memno}">
-			    <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
-			    <input type="hidden" name="action"value="delete"></FORM>
-			</td>
+<!-- 			<td> -->
+<%-- 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/backend/member/member.do"> --%>
+<!-- 			     <input type="submit" value="修改">  -->
+<%-- 			     <input type="hidden" name="memno" value="${roVO.memno}"> --%>
+<%-- 			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--><!-- 目前尚未用到  --> --%>
+<!-- 			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM> -->
+<!-- 			</td> -->
+<!-- 			<td> -->
+<%-- 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/backend/member/member.do"> --%>
+<!-- 			    <input type="submit" value="刪除"> -->
+<%-- 			    <input type="hidden" name="memno" value="${memVO.memno}"> --%>
+<%-- 			    <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--> --%>
+<!-- 			    <input type="hidden" name="action"value="delete"></FORM> -->
+<!-- 			</td> -->
 		</tr>
 		</c:if>
 	</c:forEach>
 </table>
-<%-- <%@ include file="pages/page2.file" %> --%>
-
 <br>本網頁的路徑:<br><b>
    <font color=blue>request.getServletPath():</font> <%= request.getServletPath()%><br>
    <font color=blue>request.getRequestURI(): </font> <%= request.getRequestURI()%> </b>
+</div>
+<%-- <%@ include file="pages/page2.file" %> --%>
+
+
 </body>
+<script src="https://code.jquery.com/jquery.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </html>

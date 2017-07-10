@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.motor.model.MotorService;
+import com.motor.model.MotorVO;
 import com.sec_ord.model.*;
 
 public class SecondOrderServlet extends HttpServlet {
@@ -27,6 +29,52 @@ public class SecondOrderServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		
+		
+		if("getOneMotor_OnOffSale".equals(action))
+		{
+			
+			
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+
+			try {
+				/***************************
+				 * 1.接收請求參數 - 輸入格式的錯誤處理
+				 **********************/
+				String motno = req.getParameter("motno");
+				System.out.println("車輛編號是"+motno);
+				/*************************** 2.開始查詢資料 *****************************************/
+				MotorService motSvc = new MotorService();
+				
+				MotorVO motorVO = motSvc.findByPK(motno);
+			    motorVO.setStatus(motorVO.getStatus().equals("secpause")? "seconsale" : "secpause");			
+			   motorVO= motSvc.updateMotor(motorVO.getMotno(), motorVO.getModtype(), motorVO.getPlateno(), motorVO.getEngno(), motorVO.getManudate(), motorVO.getMile(), motorVO.getLocno(), motorVO.getStatus(), motorVO.getNote());
+				/***************************
+				 * 3.查詢完成,準備轉交(Send the Success view)
+				 *************/
+
+				req.setAttribute("motorVO", motorVO); // 資料庫取出的empVO物件,存入req
+				String url = "/backend/second_order/SaleOnOff.jsp";
+				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
+				successView.forward(req, res);
+
+				/*************************** 其他可能的錯誤處理 *************************************/
+			} catch (Exception e) {
+				errorMsgs.add("無法取得資料:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/second_order/select_page.jsp");
+				failureView.forward(req, res);
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+		}
 		
 		if ("getAll_For_Display_By_Memno_Status".equals(action)) { // 來自select_page.jsp的請求
 

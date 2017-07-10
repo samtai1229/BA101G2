@@ -194,7 +194,7 @@
               								class="fa fa-comments-o"></i>留言板</a></li>
               						<li><a class="page-scroll" href="#loc"><i
               								class="fa fa-search"></i>服務據點</a></li>
-              						<li><a href="<%=request.getContextPath()%>/backend/member/member.do"><i class="fa fa-shopping-cart"></i>二手車購買</a>
+              						<li><a href="<%=request.getContextPath()%>/frontend/second_order/listAllSecond.jsp"><i class="fa fa-shopping-cart"></i>二手車購買</a>
               						</li>
               						
               						<c:if test="${not empty memno}">	
