@@ -1,9 +1,8 @@
 package com.motor.model;
 
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.*;
 
 public class MotorService {
 
@@ -59,9 +58,16 @@ public class MotorService {
 	public List<MotorVO> getAll() {
 		return dao.getAll();
 	}
+	
+	public List<MotorVO> fuzzyGetAll(String fuzzyValue) {
+		return dao.fuzzyGetAll(fuzzyValue);
+	}
 
 	public Set<MotorVO> getMotorsByModelType(String modtype) {
 		return dao.getMotorsByModelType(modtype);
+	}
+	public List<MotorVO> getMotorsByModtypeAndLocno(String modtype, String locno) {
+		return dao.getMotorsByModtypeAndLocno(modtype, locno);
 	}
 
 	public Set<MotorVO> getMotorsByLocNo(String locno) {
@@ -75,4 +81,10 @@ public class MotorService {
 	public List<MotorVO> getAll(Map<String, String[]> map) {
 		return dao.getAll(map);
 	}
+
+	public HashSet<MotorVO> getModtypeByLocNo(String locno) {
+		return dao.getModtypeByLocNo(locno);
+	}
+	
+	
 }
