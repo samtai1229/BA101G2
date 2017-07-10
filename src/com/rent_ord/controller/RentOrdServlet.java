@@ -286,6 +286,9 @@ public class RentOrdServlet extends HttpServlet {
 			Integer total = Integer.parseInt(req.getParameter("total"));
 			String status = "";
 			
+			System.out.println("getParam==> memno: "+memno+" motno: "+motno+" slocno: "+slocno+
+					" rlocno: "+rlocno+" emtno_list_str: "+emtno_list_str);
+			
 			if("quick_search_credit_card".equals(action))
 				status = "unoccupied";
 			else
@@ -327,7 +330,9 @@ public class RentOrdServlet extends HttpServlet {
 			//3.新增租賃單裝備明細
 
 			//1
-			String [] emtnos = emtno_list_str.split(" ");
+			String [] emtnos = {""};
+			if(emtno_list_str!="")
+				emtnos = emtno_list_str.split(" ");
 
 
 			//2.
@@ -335,14 +340,18 @@ public class RentOrdServlet extends HttpServlet {
 			roSvc.addRentOrd(memno, motno, slocno, rlocno, startdate, enddate, total, status);
 			
 			//3.
-			String rentno = roSvc.getRentnoByMemnoAndStartdate(memno, startdate);
-			System.out.println("rentno = " + rentno);
+			if(emtno_list_str!=""){
+				
+				//反查RENTNO =>可改用自增主鍵?
+				String rentno = roSvc.getRentnoByMemnoAndStartdate(memno, startdate);
+				System.out.println("rentno = " + rentno);
 			
-			EmtListService elSvc = new EmtListService();
+				EmtListService elSvc = new EmtListService();
 			
-			for(String emtno : emtnos){
-				elSvc.addEmtList(rentno, emtno);
-				System.out.println("rentno:"+rentno+" emtno:"+emtno+" add to emtlist");
+				for(String emtno : emtnos){
+					elSvc.addEmtList(rentno, emtno);
+					System.out.println("rentno:"+rentno+" emtno:"+emtno+" add to emtlist");
+				}
 			}
 
 			/***************************3.查詢完成,準備轉交(Send the Success view)*************/
@@ -391,7 +400,11 @@ public class RentOrdServlet extends HttpServlet {
 			String startday = req.getParameter("startday");
 			String endday = req.getParameter("endday");
 			String slocno = req.getParameter("slocno");
-			String rlocno = req.getParameter("rlocno");					
+
+				
+			String rlocno = req.getParameter("rlocno");	
+
+			
 			Integer totalday = Integer.parseInt(req.getParameter("totalday"));
 			Integer ecno1 = Integer.parseInt(req.getParameter("ecno1"));
 			Integer ecno2 = Integer.parseInt(req.getParameter("ecno2"));
@@ -399,6 +412,14 @@ public class RentOrdServlet extends HttpServlet {
 			Integer ecno4 = Integer.parseInt(req.getParameter("ecno4"));
 
 			
+			
+			//防js沒檔住:
+			if(slocno.isEmpty())
+					slocno = "TPE01";
+			
+			if(rlocno.isEmpty())
+					rlocno = "KHH01";			
+		
 			/***************************2.開始查詢資料*****************************************/
 			//要處理的有:
 			//1.用選定的motno取得motorVO
