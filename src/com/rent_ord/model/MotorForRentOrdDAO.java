@@ -58,8 +58,111 @@ public class MotorForRentOrdDAO implements MotorForRentOrdDAO_interface {
 	
 	private static final String GET_MOTNO_BY_MOTOR_TYPE = "SELECT motno "
 			+ " FROM motor where modtype = ?";
+	
+	private static final String GET_motorVO_BY_RENTAL_SIDE = "SELECT motno, modtype, plateno,"
+			+ " engno, manudate, mile, locno, status, note FROM motor where status = 'unleasable' or "
+			+ " status='leasable' or status='reserved' or status='occupied' order by motno";
 
 	
+	@Override
+	public List<MotorVO> getMotorsByRentalSide() {
+		List<MotorVO> list = new ArrayList<MotorVO>();
+		MotorVO motorVO = null;
+	
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+	
+		try {
+	
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_motorVO_BY_RENTAL_SIDE);
+			rs = pstmt.executeQuery();
+	
+			while (rs.next()) {
+				motorVO = new MotorVO();
+				setAttirbute(motorVO, rs); // 拉出來寫成一個方法
+				list.add(motorVO); // Store the row in the vector
+			}
+	
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public Set<MotorVO> getMotorsByModelType(String modtype) {
+		Set<MotorVO> set = new LinkedHashSet<MotorVO>();
+		MotorVO motorVO = null;
+	
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+	
+		try {
+	
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_BY_MOTOR_TYPE);
+			pstmt.setString(1, modtype);
+			rs = pstmt.executeQuery();
+	
+			while (rs.next()) {
+				motorVO = new MotorVO();
+				setAttirbute(motorVO, rs); // 拉出來寫成一個方法
+				set.add(motorVO); // Store the row in the vector
+			}
+	
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return set;
+	}
+
 	@Override
 	public List<String> getMotnosByModelType(String modtype) {
 		List<String> list = new ArrayList<String>();
@@ -257,56 +360,6 @@ public class MotorForRentOrdDAO implements MotorForRentOrdDAO_interface {
 			}
 		}
 		return list;
-	}
-
-	@Override
-	public Set<MotorVO> getMotorsByModelType(String modtype) {
-		Set<MotorVO> set = new LinkedHashSet<MotorVO>();
-		MotorVO motorVO = null;
-
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		try {
-
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_BY_MOTOR_TYPE);
-			pstmt.setString(1, modtype);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				motorVO = new MotorVO();
-				setAttirbute(motorVO, rs); // 拉出來寫成一個方法
-				set.add(motorVO); // Store the row in the vector
-			}
-
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
-		}
-		return set;
 	}
 
 	@Override

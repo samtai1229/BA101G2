@@ -54,10 +54,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	private static final String DELETE = "DELETE FROM RENT_ORD where rentno = ?";
 
 	private static final String selectFactor = "SELECT rentno, memno, motno, slocno, rlocno,"
-			+ " milstart, milend, to_char(filldate,'yyyy-mm-dd hh:mm:ss') filldate, "
-			+ " to_char(startdate,'yyyy-mm-dd hh:mm:ss') startdate, "
-			+ " to_char(enddate,'yyyy-mm-dd hh:mm:ss') enddate, "
-			+ " to_char(returndate,'yyyy-mm-dd hh:mm:ss') returndate, fine, total," 
+			+ " milstart, milend,  filldate, startdate, enddate, returndate, fine, total, " 
 			+ " rank, status, note ";	
 	
 	private static final String GET_ALL = selectFactor 
@@ -103,7 +100,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 			" SELECT emtno FROM EMT_LIST where rentno = ? ";
 	
 	private static final String GET_EMPVOs_BY_EMTNOs_IN_EQUIPMENT=
-			"SELECT emtno, ecno, locno, to_char(purchdate,'yyyy-mm-dd hh:mm:ss') purchdate,"
+			"SELECT emtno, ecno, locno, to_char(purchdate,'yyyy-mm-dd HH:mm:ss') purchdate,"
 			+" status, note from EQUIPMENT where emtno = ? ";
 
 	//DIFFER_DATE_CALCULATOR
@@ -164,6 +161,53 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 			"SELECT * FROM RENT_ORD where  (( startdate > ? and startdate <? )"
 			  +" or  ( enddate > ? and enddate < ? )) and MOTNO = ? order by startdate";
 	
+	private static final String UPDATE_STATUS_BY_RENTNO = 
+			"UPDATE RENT_ORD set status = ? where rentno = ? ";
+	
+
+	@Override
+	public void updateStatusByRentno(String status, String rentno) {
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(UPDATE_STATUS_BY_RENTNO);
+
+			pstmt.setString(1, status);
+			pstmt.setString(2, rentno);
+
+			rs = pstmt.executeQuery();
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+	}
 
 	@Override
 	public Set<RentOrdVO> getRoVOsByDatePrioidAndMotno(Timestamp start_time, Timestamp end_time, String motno) {
