@@ -350,7 +350,7 @@ public class SecondOrderServlet extends HttpServlet {
 				 ***********/
 				req.setAttribute("status", status);
 				req.setAttribute("memno", memno);
-				String url = "/frontend/second_order/listAllSecOrd.jsp";
+				String url = "/backend/second_order/listAllSecOrd.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
 				successView.forward(req, res);
 				//

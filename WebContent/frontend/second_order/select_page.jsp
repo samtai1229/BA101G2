@@ -25,7 +25,7 @@
 </c:if>
 
 <ul>
-  <li><a href='<%=request.getContextPath()%>/frontend/second_order/listAllSecOrd.jsp'>List</a>全部二手車訂單 </li> <br>
+  <li><a href='<%=request.getContextPath()%>/backend/second_order/listAllSecOrd.jsp'>List</a>全部二手車訂單 </li> <br>
   
   <li>
     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do" >

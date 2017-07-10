@@ -99,7 +99,7 @@
             <input id="tab-2" type="radio" name="tab" class="sign-up">
             <label for="tab-2" class="tab">µù¥U</label>
             <div class="login-form">
-            <form action="<%=request.getContextPath()%>/backend/member/member.do">
+            <form method="post" action="<%=request.getContextPath()%>/backend/member/member.do">
                 <div class="sign-in-htm">
                     <div class="group">
                         <label for="acc" class="label">±b¸¹</label>
@@ -124,7 +124,7 @@
                    
                 </div>
 				</form>
-                <form action="<%=request.getContextPath()%>/backend/member/member.do">
+                <form method="post" action="<%=request.getContextPath()%>/backend/member/member.do">
                 <div class="sign-up-htm">
                     <div class="group">
                         <label for="new_acc" class="label">±b¸¹</label>

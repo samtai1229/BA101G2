@@ -1,5 +1,4 @@
 package com.member.controller;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -237,6 +236,10 @@ public class MemberServlet extends HttpServlet {
 				{
 				  System.out.println("馬的BBBBBBB都是NULL");
 				   memVO = memSvc.insert("未填", "未填", new Timestamp(System.currentTimeMillis()), mail, "未填", "未填", new_acc, new_pwd, null, null, null);
+				   req.setAttribute("memVO", memVO);
+				   RequestDispatcher failureView = req.getRequestDispatcher("/frontend/member/verified.jsp");
+					failureView.forward(req, res);
+					return;// 程式中斷
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
@@ -318,11 +321,20 @@ public class MemberServlet extends HttpServlet {
 
 				// req.getSession().setAttribute("acc", acc);
 				// req.getSession().setAttribute("pwd", pwd);
-			//	req.setAttribute("memVO", memVO); // 資料庫取出的empVO物件,存入req
+				req.setAttribute("memVO", memVO); // 資料庫取出的empVO物件,存入req
 				req.getSession().setAttribute("memno", memVO.getMemno());
 				req.getSession().setAttribute("memname", memVO.getMemname());
-//				String url = "/backend/member/listOneMember.jsp";
-				String url = "/index.jsp";
+				String url = null;
+				if(memVO.getStatus().equals("confirmed"))
+				{
+					url = "/index.jsp";
+					
+				}
+				else
+				{
+					 url = "/frontend/member/verified.jsp";
+				}
+
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
 				successView.forward(req, res);
 

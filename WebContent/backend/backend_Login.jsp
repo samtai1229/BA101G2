@@ -26,8 +26,8 @@
 		 <div class="page-container">
             <h1>Login</h1>
             <form action="<%=request.getContextPath()%>/admins.do" method="post">
-                <input type="text" name="username" class="username" placeholder="Username">
-                <input type="password" name="password" class="password" placeholder="Password">
+                <input type="text" name="acc" class="username" placeholder="Username">
+                <input type="password" name="pwd" class="password" placeholder="Password">
                 <button type="submit">Sign me in</button>
                 <div class="error"><span>+</span></div>
             </form>
