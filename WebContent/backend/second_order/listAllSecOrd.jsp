@@ -67,6 +67,24 @@
        <input type="submit" value="送出">
        <input type="hidden" name="action" value="listSecOrd_ByStatus">
      </FORM>
+      <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do" >
+       <b><font color=orange>會員編號:</font></b>
+       <input type="text" name="memno" placeholder="會員編號">
+       <input type="submit" value="送出">
+       <input type="hidden" name="action" value="getAll_For_Display_By_Memno">
+     </FORM>
+      <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do" >
+       <b><font color=orange>會員姓名:</font></b>
+       <input type="text" name="memname" placeholder="會員姓名">
+       <input type="submit" value="送出">
+       <input type="hidden" name="action" value="getAll_For_Display_By_Memname">
+     </FORM>
+     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do" >
+       <b><font color=orange>訂單編號:</font></b>
+       <input type="text" name="memname" placeholder="訂單編號">
+       <input type="submit" value="送出">
+       <input type="hidden" name="action" value="getAll_For_Display_By_Sono">
+     </FORM>
 <table border='1' bordercolor='#CCCCFF' width='1260'>
 	<tr>
 		<th>二手車訂單編號</th>
