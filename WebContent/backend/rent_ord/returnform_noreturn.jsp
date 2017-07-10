@@ -89,6 +89,8 @@ action: <c:out value="${action}" default="no value"/><br>
 
 <%
 fineDays   = Integer.parseInt(String.valueOf(pageContext.getAttribute("differDateStr")));
+if(fineDays<0)
+	fineDays = 0;
 motorPrice = Integer.parseInt(String.valueOf(pageContext.getAttribute("motorPrice")));
 rentPerDay = motorPrice + equipsPrice;
 %>
@@ -143,7 +145,7 @@ rentPerDay = motorPrice + equipsPrice;
 							交車據點:
 						</label>
 						<div class="col-xs-12 col-sm-8 innerDiv">
-							<input type="text" name="slocno" value="${slocQueryVO.locname}營業所" 
+							<input type="text" name="slocname" value="${slocQueryVO.locname}營業所" 
 							class="form-control" readonly>
 						</div>
 					</div>
@@ -164,7 +166,7 @@ rentPerDay = motorPrice + equipsPrice;
 							還車據點:
 						</label>
 						<div class="col-xs-12 col-sm-8 innerDiv">
-							<input type="text" name="rlocno" value="${rlocQueryVO.locname}營業所" 
+							<input type="text" name="rlocname" value="${rlocQueryVO.locname}營業所" 
 							class="form-control" readonly>
 						</div>
 					</div>
@@ -502,6 +504,7 @@ rentPerDay = motorPrice + equipsPrice;
 
 					<hr>
 					<p class="text-center">
+						<input type="hidden" name="rlocno" value="${roQueryVO.rlocno}">
 					    <input type="hidden" name="action" value="after_noreturn_form">
 	    					<button type="submit" class="btn btn-success btn-lg">
 								<i class="glyphicon glyphicon-ok"></i>完成還車

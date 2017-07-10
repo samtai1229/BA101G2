@@ -121,76 +121,68 @@
 					              <a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">查詢</a>
 					          </li>
 					          <li role="presentation">
-					              <a href="#tab5" aria-controls="tab3" role="tab" data-toggle="tab">還車</a>
+					              <a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">租賃單狀態說明</a>
 					          </li>
-					          <li role="presentation">
-					              <a href="#tab6" aria-controls="tab4" role="tab" data-toggle="tab">還車</a>
-					          </li>
-<!-- 標籤面板：標籤區結束 -->	  </ul>				  
-
+<!-- 					          <li role="presentation">
+					              <a href="#tab3" aria-controls="tab3" role="tab" data-toggle="tab">還車</a>
+					          </li>	 -->				          
+<!-- 標籤面板：標籤區結束 -->	  </ul>
+			
+<jsp:useBean id="locSvc" scope="page" class="com.location.model.LocationService"/>
 <!-- 標籤面板：內容區開始 -->     <div class="tab-content">
 							  <div role="tabpanel" class="tab-pane active" id="tab1">
-					          		
-					          		
-					          		<fieldset>
-
-<jsp:useBean id="locSvc" scope="page" class="com.location.model.LocationService"/>
-					          		<legend>租賃單查詢</legend>
-	<!--form功能 依據點查詢  -->
+<!--form功能 依據點查詢  -->					<fieldset>
+					          			<legend>租賃單查詢</legend>
 										<div class="InputForm">
 											<label class="title">據點查詢</label> 
-												<select name="rlocno" onchange="queryRentOrdByRlocno(this.value)">
-						 							<c:forEach var="locVO" items="${locSvc.all}">
+											<select name="rlocno" onchange="queryRentOrdByRlocno(this.value)">
+					 							<option value="">==請選擇==</option>
+					 							<c:forEach var="locVO" items="${locSvc.all}">
 						 							<c:if test="${locVO.locno != 'TPE00'}"> 
 														<option value="${locVO.locno}">${locVO.locname}營業所</option>
 													</c:if>	
-													</c:forEach> 													
-												</select><br />
+												</c:forEach> 													
+											</select><br />
 										</div>
-
-<jsp:useBean id="roSvc" scope="page" class="com.rent_ord.model.RentOrdService"/>					          		
-		<!--form功能 單一查詢  -->
-									<form method="get" action="rentOrd.do">
+									
+<jsp:useBean id="roSvc" scope="page" class="com.rent_ord.model.RentOrdService"/>
+<!--form功能 單一查詢  -->				
 										<div class="InputForm">
 											<label class="title">單一查詢</label> 
-												<select name="rentno" onchange="queryRentOrdByRentOrdPK(this.value)">
-						 							<c:forEach var="roVO" items="${roSvc.all}">
-														<option value="${roVO.rentno}">
-															${roVO.rentno}
-														</option>
-													</c:forEach> 
-												</select><br />
+											<select name="rentno" onchange="queryRentOrdByRentOrdPK(this.value)">
+					 							<c:forEach var="roVO" items="${roSvc.all}">
+													<option value="${roVO.rentno}">
+														${roVO.rentno}
+													</option>
+												</c:forEach> 
+											</select><br/>
 										</div>
-									</form>
-									
 <!--錨點div:單筆顯示   showSingleQueryResult  --> 
 									<div id="showSingleQueryResult"></div>
-									
 									</fieldset>
+									
 							  </div>
-
 							  <div role="tabpanel" class="tab-pane" id="tab2">
 					          		<fieldset>
-					          		<legend>依??查詢</legend>
-		<!--form功能 ??  -->
-									<form method="post" action="rentOrd.do">
-										<div class="InputForm">
-											<label class="title">???</label> 										
-										</div>
-									</form>
+						          		<legend>租賃單狀態說明</legend>
+						          		<input type="submit" value="逾期未還" class="btn btn-danger btn-lg"/>
+						          		<blockquote>已過客戶還車時間，請還車據點人員主動與客戶連繫並採取應對措施。</blockquote>
+						          		<input type="submit" value="等待還車" class="btn btn-warning btn-lg"/>
+						          		<blockquote>客戶已自取車據點取車，請還車據點人員注意。</blockquote>
 									</fieldset>
 							  </div>
-							  <div role="tabpanel" class="tab-pane" id="tab3">
+<!-- 						  <div role="tabpanel" class="tab-pane" id="tab3">
 					          		<fieldset>
-					          		<legend>依??查詢</legend>
-		<!--form功能 ?? -->
-									<form method="post" action="rentOrd.do">
-										<div class="InputForm">
-											<label class="title">???</label> 										
-										</div>
-									</form>
+		 			        		<legend>依??查詢</legend>
+										<form method="post" action="rentOrd.do">
+											<div class="InputForm">
+												<label class="title">???</label> 										
+											</div>
+										</form>
 									</fieldset>
-							  </div>
+							  </div>							  
+ -->							  
+							  
 <!--標籤面板 內容區結束 -->      </div>
 <!--標籤面板 結束 -->		   </div>
 <!--end block1 --> </div>	

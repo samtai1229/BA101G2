@@ -17,18 +17,78 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">     
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css" >
+	<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+	<script type="text/javascript" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 
    <title>租賃單管理-AutoBike</title>
 </head>
 
 <style>
+/* Center the loader */
+#loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 0.5s linear infinite;
+  animation: spin 0.5s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+/* Add animation to "page content" */
+.animate-bottom {
+  position: relative;
+  -webkit-animation-name: animatebottom;
+  -webkit-animation-duration: 1s;
+  animation-name: animatebottom;
+  animation-duration: 1s
+}
+@-webkit-keyframes animatebottom {
+  from { bottom:-100px; opacity:0 } 
+  to { bottom:0px; opacity:1 }
+}
+
+@keyframes animatebottom { 
+  from{ bottom:-100px; opacity:0 } 
+  to{ bottom:0; opacity:1 }
+}
+
+#myDiv {
+  display: none;
+  text-align: center;
+}
+
+th,td{
+	height:20px;
+
+}
+
+/*自定*/
 	 th, tr{
 		/*死都不換行*/
 		white-space:nowrap;
 	} 
 </style>
 
-<body>
+<body onload="myFunction()" style="margin:0;">
+
+<div id="loader"></div>
 
     <nav class="navbar navbar-default" role="navigation">
         <!-- logo區 -->
@@ -96,268 +156,28 @@
 		<div class="topTitle">
             <h1>租賃單管理系統</h1>
         </div>
-        
          		<div class="container-fluid">       
 <jsp:useBean id="roSvc" scope="page" class="com.rent_ord.model.RentOrdService"/>
 <jsp:useBean id="locSvc" scope="page" class="com.location.model.LocationService"/>
 <jsp:useBean id="motorSvc" scope="page" class="com.motor.model.MotorService"/>
-
-<!--block1 --><div id="block1" class="col-xs-12 col-sm-3">
-				
-<%-- 錯誤表列 --%>
-					<c:if test="${not empty errorMsgs}">
-						<font color='red'>請修正以下錯誤:
-						<ul>
-							<c:forEach var="message" items="${errorMsgs}">
-								<li>${message}</li>
-							</c:forEach>
-						</ul>
-						</font>
-					</c:if>
-					
-<!-- 標籤面板：開始 -->					
-<!-- 標籤面板：標籤區開始 --><div role="tabpanel">
-					      <ul class="nav nav-tabs" role="tablist">
-					          <li role="presentation" class="active">
-					              <a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">查詢</a>
-					          </li>
-					          <li role="presentation">
-					              <a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">新增</a>
-					          </li>
-					          <li role="presentation">
-					              <a href="#tab3" aria-controls="tab3" role="tab" data-toggle="tab">修改</a>
-					          </li>
-					          <li role="presentation">
-					              <a href="#tab4" aria-controls="tab4" role="tab" data-toggle="tab">刪除</a>
-					          </li>
-					          <li role="presentation">
-					              <a href="#tab5" aria-controls="tab3" role="tab" data-toggle="tab">?</a>
-					          </li>
-					          <li role="presentation">
-					              <a href="#tab6" aria-controls="tab4" role="tab" data-toggle="tab">?</a>
-					          </li>
-<!-- 標籤面板：標籤區結束 -->	  </ul>				  
-
-<!-- 標籤面板：內容區開始 -->     <div class="tab-content">
-							  <div role="tabpanel" class="tab-pane active" id="tab1">
-					          		<fieldset>
-					          		<legend>租賃單查詢</legend>
-		<!--form功能 單一查詢  -->
-									<form method="get" action="rentOrd.do">
-										<div class="InputForm">
-											<label class="title">查詢</label> 
-												<select name="rentno" onchange="queryRentOrdByRentOrdPK(this.value)">
-						 							<c:forEach var="roVO" items="${roSvc.all}">
-														<option value="${roVO.rentno}">
-															${roVO.rentno}
-														</option>
-													</c:forEach> 
-												</select><br />
-										</div>
-									</form>
-									
-<!--錨點div:單筆顯示   showSingleQueryResult  --> 
-
-									<div id="showSingleQueryResult"></div>
-																
-									</fieldset>
-							  </div>
-					          <div role="tabpanel" class="tab-pane" id="tab2">
-		<!--form功能 新增  -->
-							     	<fieldset>
-								    <legend>租賃單新增</legend>
-									<form method="post" action="rentOrd.do">
-									
-										<div class="InputForm">
-											<label class="title">會員編號</label><input type="text" name="memno" maxlength="10" /><br>
-										</div>
-										<div class="InputForm">
-											<label class="title">車輛編號</label><input type="text" name="motno" maxlength="10" /><br>
-										</div>
-										<div class="InputForm">
-											<label class="title">取車地點</label><input type="text" name="slocno" maxlength="10" /><br>
-										</div>
-										<div class="InputForm">
-										    <label class="title">還車地點</label><input type="text" name="rlocno" maxlength="10" /><br>
-										</div>
-										<div class="InputForm">
-											<label class="title">起始里程</label><input type="text" name="milstart"/><br>
-										</div>
-										<div class="InputForm">
-											<label class="title">取車日期</label><input type="text" name="startdate"
-												class="from" /><br>
-										</div>										
-										<div class="InputForm">
-											<label class="title">還車日期</label><input type="text" name="enddate"
-												class="to" /><br>
-										</div>	
-										<div class="InputForm">
-											<label class="title">備註</label>
-											<textarea name="note" rows="1" cols="20" placeholder="請在這裡輸入"></textarea>
-											<br />
-										</div>
-										<div class="InputForm">
-											<input type="hidden" name="action" value="insert">
-											<input type="submit" value="submit" class="click" /> 
-											<input type="reset" name="reset" value="reset" class="click" />
-										</div>
-									</form>
-									</fieldset>
-									<!--end: form功能 新增 -->
-							  </div><!--tab1 -->
-							  
-					          <div role="tabpanel" class="tab-pane" id="tab3">
-		<!--form功能 修改  -->
-					                <fieldset>
-							  	    <legend>租賃單修改</legend>
-									<form method="get" action="rentOrd.do">
-									
-										<div class="InputForm">
-											<label class="title">租賃單號</label> 
-											<select name="rentno">
-					 							<c:forEach var="roVO" items="${roSvc.all}">
-													<option value="${roVO.rentno}">
-														${roVO.rentno}
-													</option>
-												</c:forEach> 
-											</select><br />
-										</div>								
-										<div class="InputForm">
-											<label class="title">車輛編號</label>
-											<input type="text" name="motno" maxlength="10" /><br>
-										</div>
-										<div class="InputForm">									
-											<label class="title">取車地點</label>
-											<select name="slocno">
-					 							<c:forEach var="locVO" items="${locSvc.all}">
-													<option value="${locVO.locno}">
-														${locVO.locname}營業所
-													</option>
-												</c:forEach> 
-											</select><br/>
-										</div>
-										<div class="InputForm">
-										    <label class="title">還車地點</label>
-										    <select name="rlocno">
-					 							<c:forEach var="locVO" items="${locSvc.all}">
-													<option value="${locVO.locno}">
-														${locVO.locname}營業所
-													</option>
-												</c:forEach> 
-											</select><br/>
-										</div>
-										<div class="InputForm">
-											<label class="title">起始里程</label>
-											<input type="text" name="milstart" value=""/><br>
-										</div>
-										<div class="InputForm">
-											<label class="title">結束里程</label>
-											<input type="text" name="milend"/><br>
-										</div>
-										<div class="InputForm">
-											<label class="title">起始時間</label>
-											<input type="text" name="startdate"class="from" /><br>
-										</div>										
-										<div class="InputForm">
-											<label class="title">結束時間</label>
-											<input type="text" name="enddate" class="to" /><br>
-										</div>
-										<div class="InputForm">
-											<label class="title">還車時間</label>
-											<input type="text" name="returndate" class="to" /><br>
-										</div>
-										<div class="InputForm">
-											<label class="title">罰金</label>
-											<input type="text" name="fine" /><br>
-										</div>
-										<div class="InputForm">
-											<label class="title">總金額</label>
-											<input type="text" name="total" /><br>
-										</div>																				
-										<!-- <div class="InputForm">
-											<label class="title">評價</label>
-											<input type="text" name="rank" /><br>
-										</div> -->										
-										<div class="InputForm">
-											<label class="title">狀態</label> 
-												<select name="status">
-													<option value="unpaid">待繳費
-													<option value="unoccupied">未交車
-													<option value="available">待取車
-													<option value="canceled">取消定單
-													<option value="noshow">逾期未交
-													<option value="noreturn">未還車
-													<option value="overtime">逾期末還
-													<option value="abnormalclosed">異常結案
-													<option value="closed">正常結案
-													<option value="other">其它
-												</select><br />
-										</div>											
-										<div class="InputForm">
-											<label class="title">備註</label>
-											<textarea name="note" rows="1" cols="20" placeholder="請在這裡輸入"></textarea>
-											<br />
-										</div>
-										<div class="InputForm">
-											<input type="hidden" name="action" value="update">
-											<input type="submit" value="submit" class="click" /> 
-											<input type="reset" name="reset" value="reset" class="click" />
-										</div>
-									</form>
-									</fieldset>
-									<!--end: form功能 修改 -->
-							  
-							  </div>
-					          <div role="tabpanel" class="tab-pane" id="tab4">
-					          		<fieldset>
-					          		<legend>租賃單刪除</legend>
-		<!--form功能 刪除  -->
-									<form method="post" action="rentOrd.do">
-										<div class="InputForm">
-											<label class="title">待刪租賃單</label> 
-												<select name="rentno">
-						 							<c:forEach var="roVO" items="${roSvc.all}">
-														<option value="${roVO.rentno}">
-															${roVO.rentno}
-														</option>
-													</c:forEach> 
-												</select><br />
-										</div>
-										<div class="InputForm">
-											<input type="hidden" name="action" value="delete">
-											<input type="submit" value="delete" class="click" /> 
-										</div>	
-									</form>
-									</fieldset>
-							  </div>
-							  <div role="tabpanel" class="tab-pane" id="tab5">
-					          		<fieldset>
-					          		<legend>依??查詢</legend>
-		<!--form功能 ??  -->
-									<form method="post" action="rentOrd.do">
-										<div class="InputForm">
-											<label class="title">???</label> 										
-										</div>
-									</form>
-									</fieldset>
-							  </div>
-							  <div role="tabpanel" class="tab-pane" id="tab6">
-					          		<fieldset>
-					          		<legend>依??查詢</legend>
-		<!--form功能 ?? -->
-									<form method="post" action="rentOrd.do">
-										<div class="InputForm">
-											<label class="title">???</label> 										
-										</div>
-									</form>
-									</fieldset>
-							  </div>
-<!--標籤面板 內容區結束 -->      </div>
-<!--標籤面板 結束 -->		   </div>
-<!--end block1 --> </div>	
-
-<!-- block3 表格 --> <div id="block3" class="col-xs-12 col-sm-9">
-						<table id="QueryTable"  class="table table-bordred table-striped  table-hover">
+						<div style="padding:5px; padding-left:0px">
+							<b>Show / Hide Columns: </b>
+							<a class="showHideColumn" data-columnindex="0">租賃單號</a> -
+							<a class="showHideColumn" data-columnindex="1">會員編號</a> -
+							<a class="showHideColumn" data-columnindex="2">車輛編號</a> -
+							<a class="showHideColumn" data-columnindex="3">交車據點</a> -
+							<a class="showHideColumn" data-columnindex="4">還車據點</a> -
+							<a class="showHideColumn" data-columnindex="5">年份</a> -
+							<a class="showHideColumn" data-columnindex="6">填表日</a> -
+							<a class="showHideColumn" data-columnindex="7">起始日</a> -
+							<a class="showHideColumn" data-columnindex="8">結束日</a> -
+							<a class="showHideColumn" data-columnindex="9">還車日</a> -
+							<a class="showHideColumn" data-columnindex="10">罰金</a> -
+							<a class="showHideColumn" data-columnindex="11">總金額</a> -
+							<a class="showHideColumn" data-columnindex="12">評價</a> -
+							<a class="showHideColumn" data-columnindex="13">狀態</a> -
+						</div>	
+						<table id="dataTable" class="stripe hover" width="80%" cellspacing="0">
 							  <thead>	
 									<tr class="QueryTable_TR">
 										<th>租賃單號</th>
@@ -375,65 +195,93 @@
 										<th>評價</th>
 										<th>狀態</th>	
 										<th>修改</th>	
-										
+										<th>刪除</th>	
 										<!--
 										<th>里程數起始</th>
 										<th>里程數結束</th> 
 										<th>備註</th> 
-										<th>刪除</th>	 
 										-->	
-																											
 									</tr>
-								  </thead>
-								  <tbody>				  		
-							 		<c:forEach var="roVO" items="${roSvc.all}">
-										<tr class="QueryTable_TR">
-											<td>${roVO.rentno}</td>
-											<td>${roVO.memno}</td>
-											<td>${roVO.motno}</td>	
-											<td>${roVO.slocno}</td>
-											<td>${roVO.rlocno}</td>
- 											<td><fmt:formatDate pattern = "yyyy" value = "${roVO.filldate}" /></td>
-											<td><fmt:formatDate pattern = "MM/dd" value = "${roVO.filldate}" /></td>
-											<td><fmt:formatDate pattern = "MM/dd" value = "${roVO.startdate}" /></td>									
-											<td><fmt:formatDate pattern = "MM/dd" value = "${roVO.enddate}" /></td>
-											<td><fmt:formatDate pattern = "MM/dd" value = "${roVO.returndate}" /></td>
-											<td>${roVO.fine}</td>
-											<td>${roVO.total}</td>
-											<td>${roVO.rank}</td>
-											<td>${roVO.status}</td>	
-											<td>
-											<input type="hidden" name="action" value="update">
-											<input type="submit" value="Update" class="click2" /> 
-											</td>
-											
-											<!-- 
-											<td>${roVO.milstart}</td>
-											<td>${roVO.milend}</td>
-											<td>${roVO.note}</td>
-											<td>
-											<input type="hidden" name="action" value="delete">
-											<input type="submit" value="Delete" class="click2" /> 
-											</td> 
-											-->								
-										</tr>
-									</c:forEach>							
-							  </tbody>	 	  								
+							  </thead>
+							  <tbody>				  		
+						 		<c:forEach var="roVO" items="${roSvc.all}">
+									<tr class="QueryTable_TR">
+										<td>${roVO.rentno}</td>
+										<td>${roVO.memno}</td>
+										<td>${roVO.motno}</td>	
+										<td>${locSvc.getOneLocation(roVO.slocno).locname}</td>
+										<td>${locSvc.getOneLocation(roVO.rlocno).locname}</td>
+											<td><fmt:formatDate pattern = "yyyy" value = "${roVO.filldate}" /></td>
+										<td><fmt:formatDate pattern = "MM/dd" value = "${roVO.filldate}" /></td>
+										<td><fmt:formatDate pattern = "MM/dd" value = "${roVO.startdate}" /></td>									
+										<td><fmt:formatDate pattern = "MM/dd" value = "${roVO.enddate}" /></td>
+										<td><fmt:formatDate pattern = "MM/dd" value = "${roVO.returndate}" /></td>
+										<td>${roVO.fine}</td>
+										<td>${roVO.total}</td>
+										<td>${roVO.rank}</td>
+										<td>${roVO.status}</td>	
+										<td>
+											<form method="POST" target="print_popup" 
+					      				  		  action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do" 
+					       						  onsubmit="window.open('about:blank','print_popup','width=1000,height=900');">
+												<input type="hidden" name="rentno" value="${roVO.rentno}">
+												<input type="hidden" name="action" value="query_for_update">
+												<input type="submit" class="btn btn-default" value="修改">
+											</form>	
+										</td>
+										<!-- 
+										<td>${roVO.milstart}</td>
+										<td>${roVO.milend}</td>
+										<td>${roVO.note}</td>-->	
+										<td>
+											<form method="POST" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do">
+												<input type="hidden" name="action" value="delete">
+												<input type="hidden" name="rentno" value="${roVO.rentno}">
+												<input type="submit" value="刪除" class="btn btn-danger" disabled/>
+											</form> 
+										</td> 
+																	
+									</tr>
+								</c:forEach>							
+						  </tbody>	 	  								
 						</table>
-					 		
 					</div>
 <!--end: block3 --> 	
 <!--container--></div>	
+<script>
+//table
+$(document).ready(function(){
+	var datatableInstance = $('#dataTable').DataTable({
+		
+	});
+	
 
-    </div><!-- sm-10 rightHTML  -->
-    
-    
+	$('.showHideColumn').on('click',function(){
+		var tableColumn = datatableInstance.column($(this).attr('data-columnindex'));
+		tableColumn.visible(!tableColumn.visible());
+	})
+});
+
+
+//loader
+var myVar;
+
+function myFunction() {
+    myVar = setTimeout(showPage, 50);
+}
+
+function showPage() {
+  document.getElementById("loader").style.display = "none";
+  document.getElementById("myDiv").style.display = "block";
+}
+
+</script>  
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/rentOrdNew.js"></script>
     <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/motorKanli_for_ro.js"></script>
     <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/datepicker_for_ro.js"></script>
- 	<script src="<%=request.getContextPath()%>/backend/Modified/paging.js"></script>
 </body>
 </html>
 
