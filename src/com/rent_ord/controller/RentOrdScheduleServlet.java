@@ -68,6 +68,7 @@ public class RentOrdScheduleServlet extends HttpServlet {
 						roSvc.updateStatusByRentno("canceled", tempVO.getRentno());
 						System.out.println("update!");
 						System.out.println("======nupaidVOs======");
+						
 					}
 				}
 				
@@ -130,9 +131,6 @@ public class RentOrdScheduleServlet extends HttpServlet {
 						
 					}
 				}	
-				
-				
-
 			}
 		};
 
