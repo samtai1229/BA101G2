@@ -73,7 +73,11 @@ tr {
 }
 
 td {
-	vertical-align:middle;
+	padding: 5px;
+    white-space: nowrap;
+    font: normal 18px 微軟正黑體;
+    text-align: center;
+    margin-bottom: -30px;
 }
 
 .searchBar {
@@ -83,7 +87,7 @@ td {
 .table {
     border-width: 3px;
     border-color: black;
-    margin-left: -70px;
+    margin-left: -200px;
 }
 
 .table-striped tbody tr:nth-of-type(even) {
@@ -97,13 +101,15 @@ td {
 thead {
     background-color: #719c92;
     color: #edd14a;
-    font-size: 24px;
 }
 
-h1 {
-    font-size: 50px;
-    font: bolder;
+th{
+    padding: 5px;
+    white-space: nowrap;
+    font: normal 24px 微軟正黑體;
+    text-align: center;
 }
+
 
 .pagination li a {
     margin: 6px;
@@ -121,8 +127,7 @@ h1 {
 }
 
 input[type="text"]{
-    height: 20px;
-    
+   height:35px;
 }
 
 #motpic{

@@ -1,22 +1,32 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="com.motor_model.model.*"%>
+<%@ page import="com.equipment.model.*"%>
 <%
-	MotorModelVO mmVO = (MotorModelVO) request.getAttribute("mmVO");
+	EquipmentVO emtVO = (EquipmentVO) request.getAttribute("emtVO");
+	String[] statusArray = { "unleasable", "leasable", "reserved", "occupied", "dispatching", "other" };
+	request.setAttribute("statusArray", statusArray);
 %>
+<jsp:useBean id="ecSvc" scope="page" class="com.emt_cate.model.EmtCateService" />
+<jsp:useBean id="locSvc" scope="page" class="com.location.model.LocationService" />
+
 <!DOCTYPE>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<title>機車資料修改 - updateMotorInput.jsp</title>
+<title>裝備資料修改 - updateEmtInput.jsp</title>
 
 <meta name="keywords" content="">
 <!-- CSS -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet"
+	href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css">
+<link rel="stylesheet"
 	href="${pageContext.request.contextPath}/backend/motor/js/updateMotorInput_css.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/backend/motor/js/bootstrap-datetimepicker.min.css">
+
 
 <!-- Javascript -->
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
@@ -24,7 +34,9 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script
-	src="${pageContext.request.contextPath}/backend/motor_model/js/addMotorModel_js.js"></script>
+	src="${pageContext.request.contextPath}/backend/motor/js/updateMotorInput_js.js"></script>
+<script
+	src="${pageContext.request.contextPath}/backend/motor/js/bootstrap-datetimepicker.js"></script>
 
 </head>
 
@@ -60,11 +72,11 @@
 		<div class="btn-group-vertical" style="display: block;">
 			<a class="btn btn-default"
 				href="${pageContext.request.contextPath}/backend/motor/motorMgmtHqSelectPage.jsp"
-				role="button"  style="background-color: #ddd;">車輛管理</a> <a class="btn btn-default" href="#"
+				role="button">車輛管理</a> <a class="btn btn-default" href="#"
 				role="button">車輛調度</a> <a class="btn btn-default" href="#"
 				role="button">租賃單管理</a> <a class="btn btn-default"
 				href="${pageContext.request.contextPath}/backend/equipment/emtMgmtSelectPage.jsp"
-				role="button">裝備管理</a> <a
+				role="button" style="background-color: #ddd;">裝備管理</a> <a
 				class="btn btn-default" href="#" role="button">裝備調度</a> <a
 				class="btn btn-default" href="#" role="button">據點管理</a>
 		</div>
@@ -103,7 +115,7 @@
 	<!--右邊整塊HTML區塊 -->
 	<div class="col-xs-12 col-sm-10 rightHTML">
 		<div class="topTitle">
-			<h1>車輛資料管理</h1>
+			<h1>裝備資料管理</h1>
 		</div>
 		<%-- 錯誤表列 --%>
 		<c:if test="${not empty errorMsgs}">
@@ -117,82 +129,91 @@
 		</c:if>
 		<!--update區塊 -->
 		<div class="container">
-			<FORM METHOD="post" ACTION="motorModel4H.do" name="formUpdate" class="form-horizontal"  enctype="multipart/form-data">
-
+			<FORM METHOD="post" ACTION="emt.do" name="formUpdate" class="form-horizontal">
 				<div class="form-group">
-					<label class="control-label col-sm-2" for="modtype">車型編號：</label>
+					<label class="control-label col-sm-2" for="emtno">裝備編號：</label>
 					<div class="col-sm-10">
-						<p class="form-control">${mmVO.modtype}</p>
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<label class="control-label col-sm-2" for="brand">廠牌名稱：</label>
-					<div class="col-sm-10">
-						<input type="text" class="form-control" id="brand" name="brand" value="<%=mmVO.getBrand()%>" />
+						<p class="form-control">${emtVO.emtno}</p>
 					</div>
 				</div>
 
 				<div class="form-group">
-					<label class="control-label col-sm-2" for="displacement">排氣量：</label>
+					<label class="control-label col-sm-2" for=ecno>裝備類別：</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="displacement" name="displacement"
-							value="<%=mmVO.getDisplacement()%>" />
+						<select name="ecno" class="form-control">
+							<c:forEach var="ecVO" items="${ecSvc.all}">
+								<option value="${ecVO.ecno}"
+									${(emtVO.ecno==ecVO.ecno)?'selected':'' }>${ecVO.type}
+							</c:forEach>
+						</select>
 					</div>
 				</div>
 
 				<div class="form-group">
-					<label class="control-label col-sm-2" for="name">車型名稱：</label>
+					<label class="control-label col-sm-2" for="locno">所在地：</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="name" name="name"
-							value="<%=mmVO.getName()%>" />
+						<select name="locno" class="form-control">
+							<c:forEach var="locVO" items="${locSvc.all}">
+								<option value="${locVO.locno}"
+									${(emtVO.locno==locVO.locno)?'selected':'' }>${locVO.locname}
+							</c:forEach>
+						</select>
 					</div>
 				</div>
 
 				<div class="form-group">
-					<label class="control-label col-sm-2" for="renprice">租賃價格：</label>
-					<div class="col-sm-10">
-						<input type="text" class="form-control" id="renprice" name="renprice"
-							value="<%=mmVO.getRenprice()%>" />
+					<label class="control-label col-sm-2" for="purchdate">購入日期：</label>
+					<div id="datetimepicker1" class="col-sm-10 input-append">
+						<input readonly data-format="yyyy-MM-dd HH:mm:ss" type="text"
+							class="form-control" name="purchdate"
+							value="${emtVO.purchdate}" /> <span class="add-on">
+							<i data-time-icon="icon-time" data-date-icon="icon-calendar">
+						</i>
+						</span>
 					</div>
 				</div>
 
 				<div class="form-group">
-					<label class="control-label col-sm-2" for="saleprice">出售價格：</label>
+					<label class="control-label col-sm-2" for="status">狀態：</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="saleprice" name="saleprice"
-							value="<%=mmVO.getSaleprice()%>" />
+						<select name="status" class="form-control" id="status">
+							<option selected value="${emtVO.status}">${emtVO.status}
+								<c:forEach var="s" items="${statusArray}">
+									<c:if test="${emtVO.status!=s}">
+										<option value="${s}">${s}
+									</c:if>
+								</c:forEach>
+						</select>
 					</div>
 				</div>
 
 				<div class="form-group">
-					<label class="control-label col-sm-2" for="motpic">更改圖片：</label>
+					<label class="control-label col-sm-2" for="note">備註：</label>
 					<div class="col-sm-10">
-					<input type="file" id="filePic" name="motpic" class="btn btn-default">
-					<p>
-					<img id="imgPic" src="<%=request.getContextPath()%>/backend/motor_model/mmReader.do?modtype=${mmVO.modtype}">
-					</p>
+						<textarea class="form-control" id="note" rows="5" cols="70"
+							name="note">${(emtVO.note == null) ? '' : emtVO.getNote()}</textarea>
 					</div>
 				</div>
 
-				<table>
-					<tr>
-						<td>
+				<div class="form-group">
+					<div class="col-sm-2"></div>
+					<div class="col-sm-10">
+					
 						<input type="submit" class="btn btn-default" value="送出修改">
 						<input type="hidden" name="action" value="update"> 
-						<input type="hidden" name="modtype" value="<%=mmVO.getModtype()%>">
+						<input type="hidden" name="emtno" value="${emtVO.emtno}">
 						<input type="hidden" name="requestURL" value="<%=request.getParameter("requestURL")%>">
-						<!--接收原送出修改的來源網頁路徑後,再送給Controller準備轉交之用-->
 						<input type="hidden" name="whichPage" value="<%=request.getParameter("whichPage")%>">
 			</FORM>
-							<FORM METHOD="post"  style="display: inline;" ACTION="<%=request.getContextPath()%>/backend/motor_model/motorModel4H.do" >
-								<input type="submit" name="reset" value="重置" class="btn btn-default" role="button"><input type="hidden" name="modtype" value="${mmVO.modtype}">
-								<input type="hidden" name="action" value="getOne_For_Update">
-							</FORM>
-						</td>
-					</tr>
-				</table>
-			
+					<FORM METHOD="post" style="display: inline;" ACTION="emt.do" >
+						<input type="submit" name="reset" value="重置" class="btn btn-default" role="button">
+						<input type="hidden" name="emtno" value="${emtVO.emtno}">
+						<input type="hidden" name="action" value="getOne_For_Update">
+					</FORM>
+					
+					</div>
+				</div>
+
 		</div><!--update區塊結束 -->
 	</div><!--右邊整塊HTML區塊結束 -->
 </body>

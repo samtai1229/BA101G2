@@ -26,7 +26,7 @@ public class EquipmentDAO implements EquipmentDAO_interface {
 			e.printStackTrace();
 		}
 	}
-	private static final String INSERT_STMT = "INSERT INTO EQUIPMENT (EMTNO, ECNO, LOCNO, PURCHDATE, STATUS, NOTE) VALUES ('E'||lpad(to_char(ecno_seq.NEXTVAL),6,'0'), ?, ?, ?, ?, ?)";
+	private static final String INSERT_STMT = "INSERT INTO EQUIPMENT (EMTNO, ECNO, LOCNO, PURCHDATE, NOTE) VALUES ('E'||lpad(to_char(ecno_seq.NEXTVAL),6,'0'), ?, 'TPE00', ?, ?)";
 	private static final String GET_ALL_STMT = "SELECT * FROM EQUIPMENT order by EMTNO";
 	private static final String GET_ONE_STMT = "SELECT * FROM EQUIPMENT where EMTNO = ?";
 	private static final String DELETE = "DELETE FROM EQUIPMENT where EMTNO = ?";
@@ -44,10 +44,8 @@ public class EquipmentDAO implements EquipmentDAO_interface {
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setString(1, equipmentVO.getEcno());
-			pstmt.setString(2, equipmentVO.getLocno());
-			pstmt.setTimestamp(3, equipmentVO.getPurchdate());
-			pstmt.setString(4, equipmentVO.getStatus());
-			pstmt.setString(5, equipmentVO.getNote());
+			pstmt.setTimestamp(2, equipmentVO.getPurchdate());
+			pstmt.setString(3, equipmentVO.getNote());
 
 			pstmt.executeUpdate();
 
@@ -84,16 +82,14 @@ public class EquipmentDAO implements EquipmentDAO_interface {
 
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
-
 			pstmt.setString(1, equipmentVO.getEcno());
 			pstmt.setString(2, equipmentVO.getLocno());
 			pstmt.setTimestamp(3, equipmentVO.getPurchdate());
 			pstmt.setString(4, equipmentVO.getStatus());
 			pstmt.setString(5, equipmentVO.getNote());
 			pstmt.setString(6, equipmentVO.getEmtno());
-
 			pstmt.executeUpdate();
-
+			
 			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());

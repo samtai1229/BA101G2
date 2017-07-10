@@ -9,7 +9,7 @@
 %>
 
 <%  
-    rowNumber=list.size();
+    rowNumber=listMotors_ByCompositeQuery.size();
     if (rowNumber%rowsPerPage !=0)
      pageNumber=rowNumber/rowsPerPage +1;
     else pageNumber=rowNumber/rowsPerPage;    

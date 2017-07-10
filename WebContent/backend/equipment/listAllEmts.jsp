@@ -1,45 +1,43 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
-<%@ page import="com.motor.model.*"%>
-<%@ page import="com.motor_model.model.*"%>
+<%@ page import="com.equipment.model.*"%>
+<%-- 此頁練習採用 EL 的寫法取值 --%>
+
+<%
+	EquipmentService emtSvc = new EquipmentService();
+	List<EquipmentVO> list = emtSvc.getAll();
+	pageContext.setAttribute("list", list);
+%>
+
+<jsp:useBean id="now" scope="page" class="java.util.Date" />  
 
 <!DOCTYPE html>
-<%-- 此頁練習採用 EL 的寫法取值 --%>
-<%
-	// EmpService empSvc = new EmpService();
-	// List<EmpVO> list = empSvc.getAll();
-	// pageContext.setAttribute("list",list);
-%>
-<jsp:useBean id="motorSvc" scope="page"
-	class="com.motor.model.MotorService" />
-<jsp:useBean id="motorModelSvc" scope="page"
-	class="com.motor_model.model.MotorModelService" />
-<html>
-
+<html lang="">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>所有機車查詢 - MotorMgmtHqSelectPage.jsp</title>
-<meta name="description" content="">
-<meta name="keywords" content="">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+<title>所有裝備資料- listAllEmts.jsp</title>
 
 <!-- CSS -->
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/backend/motor/js/motorMgmtHqSelectPage_css.css">
-	
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/backend/motor_model/js/listAllMotorModel_css.css">
+<style type="text/css">
+#pageDiv {
+	margin-left: 300px;
+}
+</style>
+
 <!-- JS -->
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="https://code.jquery.com/jquery.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script
-	src="${pageContext.request.contextPath}/backend/motor/js/motorMgmtHqSelectPage_js.js"></script>
-	
-</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/backend/motor/js/motorMgmtHqSelectPage_js.js"></script>
 
+</head>
 <body>
 	<nav class="navbar navbar-default" role="navigation">
 		<!-- logo區 -->
@@ -71,11 +69,11 @@
 		<div class="btn-group-vertical" style="display: block;">
 			<a class="btn btn-default"
 				href="${pageContext.request.contextPath}/backend/motor/motorMgmtHqSelectPage.jsp"
-				role="button"  style="background-color: #ddd;">車輛管理</a> <a class="btn btn-default" href="#"
+				role="button">車輛管理</a> <a class="btn btn-default" href="#"
 				role="button">車輛調度</a> <a class="btn btn-default" href="#"
 				role="button">租賃單管理</a> <a class="btn btn-default"
 				href="${pageContext.request.contextPath}/backend/equipment/emtMgmtSelectPage.jsp"
-				role="button">裝備管理</a> <a
+				role="button" style="background-color: #ddd;">裝備管理</a> <a
 				class="btn btn-default" href="#" role="button">裝備調度</a> <a
 				class="btn btn-default" href="#" role="button">據點管理</a>
 		</div>
@@ -113,7 +111,7 @@
 
 	<div class="col-xs-12 col-sm-10 rightHTML">
 		<div class="topTitle">
-			<h1>車輛資料管理</h1>
+			<h1>裝備資料管理</h1>
 		</div>
 		<div class="container">
 			<%-- 錯誤表列 --%>
@@ -131,39 +129,101 @@
 					<tr>
 						<td>
 							<FORM METHOD="post"
-								ACTION="<%=request.getContextPath()%>/backend/motor/motor4H.do" name="formSearch">
+								ACTION="<%=request.getContextPath()%>/backend/equipment/emt.do"
+								name="formSearch">
 								<input type="text" name="fuzzyValue" id="searchText" value="" placeholder="輸入關鍵字搜尋">
-								<input type="submit" id="searchBtn" class="btn btn-default" value="搜尋" >
-								<input type="hidden" name="action" value=fuzzyGetAll>
+								<input type="submit" id="searchBtn" class="btn btn-default"
+									value="搜尋"> <input type="hidden" name="action"
+									value=fuzzyGetAll>
 							</Form>
-							
+
 						</td>
 
 						<td><FORM METHOD="post"
-								ACTION="<%=request.getContextPath()%>/backend/motor/listAllMotor.jsp">
-								<input type="submit" name="serchAllMotor" value="蒐尋全部車輛"
+								ACTION="<%=request.getContextPath()%>/backend/equipment/listAllEmts.jsp">
+								<input type="submit" name="serchAllEmts" value="蒐尋全部裝備"
 									class="btn btn-default" role="button">
 							</FORM></td>
 
-						<td><input type="button" name="insert" id="addMotor"
+						<td><input type="button" name="insert" id="addEmt"
 							class="btn btn-default" role="button"
-							onclick="location.href='${pageContext.request.contextPath}/backend/motor/addMotor.jsp';"
-							value="新增車輛"></td>
+							onclick="location.href='${pageContext.request.contextPath}/backend/equipment/addEmt.jsp';"
+							value="新增裝備"></td>
 						<td><FORM METHOD="post"
-								ACTION="<%=request.getContextPath()%>/backend/motor_model/listAllMotorModel.jsp">
-								<input type="submit" name="serchAllMotorModel" value="蒐尋全部車型"
+								ACTION="<%=request.getContextPath()%>/backend/emt_cate/listAllEcs.jsp">
+								<input type="submit" name="serchAllEcs" value="蒐尋全部裝備類別"
 									class="btn btn-default" role="button"> <input
-									type="hidden" name="action" value="listAllMotorModel">
+									type="hidden" name="action" value="listAllEcs">
 							</FORM></td>
-						<td><input type="button" name="insert" id="addModel"
+						<td><input type="button" name="insert" id="addEc"
 							class="btn btn-default" role="button"
-							onclick="location.href='${pageContext.request.contextPath}/backend/motor_model/addMotorModel.jsp';"
-							value="新增車型"></td>
+							onclick="location.href='${pageContext.request.contextPath}/backend/emt_cate/addEc.jsp';"
+							value="新增裝備類別"></td>
 					</tr>
 				</table>
+				<br>
+
 			</div>
+			<br>
+
+			<table
+				class="table table-hover table-condensed table-striped table-bordered">
+				<thead>
+					<th>裝備編號</th>
+					<th>裝備類別編號</th>
+					<th>所在地</th>
+					<th>購入日期</th>
+					<th>狀態</th>
+					<th>備註</th>
+					<th>修改/刪除</th>
+				</thead>
+				<%@ include file="pages/page1.file"%>
+				<c:forEach var="emtVO" items="${list}" begin="<%=pageIndex%>"
+					end="<%=pageIndex+rowsPerPage-1%>">
+
+					<tr ${(emtVO.emtno == param.emtno) ? 'style="background-color:#84d8d1;"':''}>
+						<jsp:useBean id="ecSvc" scope="page" class="com.emt_cate.model.EmtCateService" />
+						<td>${emtVO.emtno}</td>
+						<td>
+							<c:forEach var="ecVO" items="${ecSvc.all}">
+									<c:if test="${emtVO.ecno==ecVO.ecno}">${ecVO.ecno}─${ecVO.type}</c:if>
+							</c:forEach>
+						</td>
+						<td>${emtVO.locno}</td>
+						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${emtVO.purchdate}"/></td>
+						<td>${emtVO.status}</td>
+						<td>${emtVO.note}</td>
+						<td>
+							<FORM METHOD="post" style="display: inline;"
+								ACTION="emt.do">
+								<input type="submit" name="fix" value="修改"
+									class="btn btn-default" role="button"> <input
+									type="hidden" name="emtno" value="${emtVO.emtno}"> <input
+									type="hidden" name="requestURL"
+									value="<%=request.getServletPath()%>"> <input
+									type="hidden" name="whichPage" value="<%=whichPage%>">
+								<input type="hidden" name="action" value="getOne_For_Update">
+							</FORM>
+
+							<FORM METHOD="post" style="display: inline;"
+								ACTION="emt.do">
+								<input type="submit" name="del" value="刪除"
+									class="btn btn-default" role="button"> <input
+									type="hidden" name="emtno" value="${emtVO.emtno}"> <input
+									type="hidden" name="requestURL"
+									value="<%=request.getServletPath()%>">
+								<input type="hidden" name="whichPage" value="<%=whichPage%>">
+								<input type="hidden" name="action" value="delete">
+							</FORM>
+						</td>
+					</tr>
+				</c:forEach>
+
+			</table>
+
+			<%@ include file="pages/page2.file"%>
+
 		</div>
 	</div>
 </body>
-
 </html>

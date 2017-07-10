@@ -1,35 +1,44 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
 <%@ page import="com.motor.model.*"%>
-<%@ page import="com.motor_model.model.*"%>
 
-<!DOCTYPE html>
-<%-- 此頁練習採用 EL 的寫法取值 --%>
-<%
-	// EmpService empSvc = new EmpService();
-	// List<EmpVO> list = empSvc.getAll();
-	// pageContext.setAttribute("list",list);
-%>
+
+<%-- 萬用複合查詢-可由客戶端select_page.jsp隨意增減任何想查詢的欄位 --%>
+<%-- 此頁只作為複合查詢時之結果練習，可視需要再增加分頁、送出修改、刪除之功能--%>
+
 <jsp:useBean id="motorSvc" scope="page"
 	class="com.motor.model.MotorService" />
-<jsp:useBean id="motorModelSvc" scope="page"
+<jsp:useBean id="mmSvc" scope="page"
 	class="com.motor_model.model.MotorModelService" />
-<html>
+<jsp:useBean id="now" scope="page" class="java.util.Date" />        
 
+
+ 
+
+
+<html>
+<!DOCTYPE html>
+<html lang="">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>所有機車查詢 - MotorMgmtHqSelectPage.jsp</title>
-<meta name="description" content="">
-<meta name="keywords" content="">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+<title>複合查詢 - listMotorsByFuzzySearch.jsp</title>
 
 <!-- CSS -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/backend/motor/js/motorMgmtHqSelectPage_css.css">
-	
+	href="${pageContext.request.contextPath}/backend/motor_model/js/listAllMotorModel_css.css">
+<style type="text/css">
+#pageDiv {
+	margin-left: 300px;
+}
+</style>
+
 <!-- JS -->
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="https://code.jquery.com/jquery.js"></script>
@@ -37,24 +46,23 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script
 	src="${pageContext.request.contextPath}/backend/motor/js/motorMgmtHqSelectPage_js.js"></script>
-	
-</head>
 
+</head>
 <body>
 	<nav class="navbar navbar-default" role="navigation">
-		<!-- logo區 -->
+		<!-- navlogo區 -->
 		<a class="navbar-brand" href="#" id="navA">AUTOBIKE</a>
-		<!-- 左選單 -->
+		<!-- nav左選單 -->
 		<ul class="nav navbar-nav">
 			<li><a href="#" id="navA">後端管理系統</a></li>
-			<!-- 時鐘 -->
+			<!-- nav時鐘 -->
 			<iframe scrolling="no" frameborder="no" clocktype="html5"
 				style="overflow: hidden; border: 0; margin: 0; padding: 0; width: 120px; height: 40px;"
 				src="http://www.clocklink.com/html5embed.php?clock=004&timezone=CCT&color=yellow&size=120&Title=&Message=&Target=&From=2017,1,1,0,0,0&Color=yellow">
 			</iframe>
 
 		</ul>
-		<!-- 右選單 -->
+		<!-- nav右選單 -->
 		<ul class="nav navbar-nav navbar-right">
 			<li><a href="#" id="navA">HI EMT9413 歡迎回來為公司奉獻</a></li>
 			<li><a href="#" id="navA"><i
@@ -110,7 +118,6 @@
 				class="btn btn-default" href="#" role="button">後端登入管理</a>
 		</div>
 	</div>
-
 	<div class="col-xs-12 col-sm-10 rightHTML">
 		<div class="topTitle">
 			<h1>車輛資料管理</h1>
@@ -131,12 +138,13 @@
 					<tr>
 						<td>
 							<FORM METHOD="post"
-								ACTION="<%=request.getContextPath()%>/backend/motor/motor4H.do" name="formSearch">
-								<input type="text" name="fuzzyValue" id="searchText" value="" placeholder="輸入關鍵字搜尋">
-								<input type="submit" id="searchBtn" class="btn btn-default" value="搜尋" >
-								<input type="hidden" name="action" value=fuzzyGetAll>
+								ACTION="<%=request.getContextPath()%>/backend/motor/motor4H.do"
+								name="formSearch">
+								<input type="text" name="fuzzyValue" id="searchText" value="">
+								<input type="submit" id="searchBtn" class="btn btn-default"
+									value="搜尋"> <input type="hidden" name="action"
+									value="fuzzyGetAll">
 							</Form>
-							
 						</td>
 
 						<td><FORM METHOD="post"
@@ -161,9 +169,97 @@
 							value="新增車型"></td>
 					</tr>
 				</table>
+				<br>
+
 			</div>
+			<br>
+
+			<table
+				class="table table-hover table-condensed table-striped table-bordered">
+				<thead>
+					<th>車輛編號</th>
+					<th>車輛型號</th>
+					<th>車輛廠牌</th>
+					<th>車輛名稱</th>
+					<th>排氣量</th>
+					<th>租賃價格</th>
+					<th>車牌號碼</th>
+					<th>里程數</th>
+					<th>所在據點</th>
+					<th>引擎號碼</th>
+					<th>出廠日期</th>
+					<th>出售價格</th>
+					<th>狀態</th>
+					<th>修改/刪除</th>
+				</thead>
+<!-- 			警告：必須MOTOR及MOTOR_MODEL兩個table都找得到的關鍵字才會正常顯示.... -->
+				<c:forEach var="motorVO" items="${fuzzyGetAll}">
+					<tr>
+						<td>${motorVO.motno}
+<%-- 							<c:choose> --%>
+<%--   								<c:when test="${motorVO != null}"> --%>
+<%--     								${motorVO.motno} --%>
+<%--   								</c:when> --%>
+<%--   								<c:when test="${motorVO == null && mmVO != null}"> --%>
+<%--   									<c:forEach var="mtVO" items="${fuzzyGetAll}"> --%>
+<%--     									${motorSvc.getMotorsByModelType(mmVO.modtype).motno} --%>
+<%--     								</c:forEach>	 --%>
+<%--   								</c:when> --%>
+<%--   								<c:otherwise> --%>
+<%--   								</c:otherwise> --%>
+<%-- 							</c:choose>	 --%>
+						</td>
+						<td>${motorVO.modtype}</td>
+						<td>
+							<c:forEach var="mmVO" items="${mmFuzzyGetAll}">
+							<c:if test="${motorVO.modtype==mmVO.modtype}">${mmVO.brand}</c:if>
+							</c:forEach>
+						</td>
+						<td>
+							<c:forEach var="mmVO" items="${mmFuzzyGetAll}">
+							<c:if test="${motorVO.modtype==mmVO.modtype}">${mmVO.name}</c:if>
+							</c:forEach>
+						</td>
+						<td>
+							<c:forEach var="mmVO" items="${mmFuzzyGetAll}">
+							<c:if test="${motorVO.modtype==mmVO.modtype}">${mmVO.displacement}</c:if>
+							</c:forEach></td>
+						<td>
+							<c:forEach var="mmVO" items="${mmFuzzyGetAll}">
+							<c:if test="${motorVO.modtype==mmVO.modtype}">${mmVO.renprice}元/日</c:if>
+							</c:forEach>
+						</td>
+						<td>${motorVO.plateno}</td>
+						<td>${motorVO.mile}</td>
+						<td>${motorVO.locno}</td>
+						<td>${motorVO.engno}</td>
+						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${motorVO.manudate}"/></td>
+						<td>
+							<c:forEach var="mmVO" items="${mmFuzzyGetAll}">
+							<c:if test="${motorVO.modtype==mmVO.modtype}">${mmVO.saleprice}元</c:if>
+							</c:forEach>
+						</td>
+						<td>${motorVO.status}</td>
+
+						<td>
+							<FORM METHOD="post" style="display: inline;" ACTION="<%=request.getContextPath()%>/backend/motor/motor4H.do">
+								<input type="submit" name="fix" value="修改" class="btn btn-default" role="button"> 
+								<input type="hidden" name="motno" value="${motorVO.motno}"> 
+								<input type="hidden" name="requestURL" value="<%=request.getServletPath()%>"> 
+								<input type="hidden" name="action" value="getOne_For_Update">
+							</FORM>
+
+							<FORM METHOD="post" style="display: inline;" ACTION="<%=request.getContextPath()%>/backend/motor/motor4H.do">
+								<input type="submit" name="del" value="刪除" class="btn btn-default" role="button"> 
+								<input type="hidden" name="motno" value="${motorVO.motno}"> 
+								<input type="hidden" name="requestURL" value="<%=request.getServletPath()%>">
+								<input type="hidden" name="action" value="delete">
+							</FORM>
+						</td>
+					</tr>
+				</c:forEach>
+			</table>
 		</div>
 	</div>
 </body>
-
 </html>
