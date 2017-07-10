@@ -1,129 +1,143 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
-  <display-name>BA101G2</display-name>
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
-  </welcome-file-list>
-  <resource-ref>
-    <description>DB Connection</description>
-    <res-ref-name>jdbc/G2DB</res-ref-name>
-    <res-type>javax.sql.DataSource</res-type>
-    <res-auth>Container</res-auth>
-  </resource-ref>
-  <servlet>
-    <servlet-name>MotorServlet</servlet-name>
-    <servlet-class>com.motor.controller.MotorServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>MotorServlet</servlet-name>
-    <url-pattern>/backend/motor/motor.do</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <servlet-name>MotorModelServlet</servlet-name>
-    <servlet-class>com.motor_model.controller.MotorModelServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>MotorModelServlet</servlet-name>
-    <url-pattern>/backend/motor_model/motorModel.do</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <servlet-name>RentOrdServlet</servlet-name>
-    <servlet-class>com.rent_ord.controller.RentOrdServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>RentOrdServlet</servlet-name>
-    <url-pattern>/backend/rent_ord/rentOrd.do</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <servlet-name>MotorDispatchServlet</servlet-name>
-    <servlet-class>com.motor_dispatch.controller.MotorDispatchServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>MotorDispatchServlet</servlet-name>
-    <url-pattern>/backend/motor_dispatch/motorDispatch.do</url-pattern>
-  </servlet-mapping>
-  
-    <servlet>
-    <servlet-name>MotorModelDBGifReader</servlet-name>
-    <servlet-class>com.motor_model.controller.MotorModelDBGifReader</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>MotorModelDBGifReader</servlet-name>
-    <url-pattern>/backend/motor_model/mmReader.do</url-pattern>
-  </servlet-mapping>
-  
-  <servlet>
-    <servlet-name>LocationDBGifReader</servlet-name>
-    <servlet-class>com.location.controller.LocationDBGifReader</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>LocationDBGifReader</servlet-name>
-    <url-pattern>/frontend/location/locReader.do</url-pattern>
-  </servlet-mapping>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="WebApp_ID" version="3.0">
+	<display-name>BA101G2</display-name>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+	<resource-ref>
+		<description>DB Connection</description>
+		<res-ref-name>jdbc/G2DB</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+	<servlet>
+		<servlet-name>MotorServlet</servlet-name>
+		<servlet-class>com.motor.controller.MotorServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MotorServlet</servlet-name>
+		<url-pattern>/backend/motor/motor.do</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>MotorModelServlet</servlet-name>
+		<servlet-class>com.motor_model.controller.MotorModelServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MotorModelServlet</servlet-name>
+		<url-pattern>/backend/motor_model/motorModel.do</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>RentOrdServlet</servlet-name>
+		<servlet-class>com.rent_ord.controller.RentOrdServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RentOrdServlet</servlet-name>
+		<url-pattern>/backend/rent_ord/rentOrd.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>RentOrdScheduleServlet</servlet-name>
+		<servlet-class>com.rent_ord.controller.RentOrdScheduleServlet</servlet-class>
+		<load-on-startup>10</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RentOrdScheduleServlet</servlet-name>
+		<url-pattern>/RentOrdScheduleServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>MotorDispatchServlet</servlet-name>
+		<servlet-class>com.motor_dispatch.controller.MotorDispatchServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MotorDispatchServlet</servlet-name>
+		<url-pattern>/backend/motor_dispatch/motorDispatch.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>MotorModelDBGifReader</servlet-name>
+		<servlet-class>com.motor_model.controller.MotorModelDBGifReader</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MotorModelDBGifReader</servlet-name>
+		<url-pattern>/backend/motor_model/mmReader.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>LocationDBGifReader</servlet-name>
+		<servlet-class>com.location.controller.LocationDBGifReader</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LocationDBGifReader</servlet-name>
+		<url-pattern>/frontend/location/locReader.do</url-pattern>
+	</servlet-mapping>
 
 
-<servlet>
-    <servlet-name>SecondOrderServlet</servlet-name>
-    <servlet-class>com.sec_ord.controller.SecondOrderServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>SecondOrderServlet</servlet-name>
-    <url-pattern>/frontend/second_order/SecOrd.do</url-pattern>
-  </servlet-mapping>
+	<servlet>
+		<servlet-name>SecondOrderServlet</servlet-name>
+		<servlet-class>com.sec_ord.controller.SecondOrderServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SecondOrderServlet</servlet-name>
+		<url-pattern>/frontend/second_order/SecOrd.do</url-pattern>
+	</servlet-mapping>
 
-  
-    <servlet>
-    <servlet-name>MemberServlet</servlet-name>
-    <servlet-class>com.member.controller.MemberServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>MemberServlet</servlet-name>
-    <url-pattern>/backend/member/member.do</url-pattern>
-  </servlet-mapping>
-  
-  <servlet>
-    <servlet-name>MemberDBGifReader</servlet-name>
-    <servlet-class>com.member.controller.MemberDBGifReader</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>MemberDBGifReader</servlet-name>
-    <url-pattern>/backend/member/memReader.do</url-pattern>
-  </servlet-mapping>
-  
-  <servlet>
-    <servlet-name>MotorServlet4H</servlet-name>
-    <servlet-class>com.motor.controller.MotorServlet4H</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>MotorServlet4H</servlet-name>
-    <url-pattern>/backend/motor/motor4H.do</url-pattern>
-  </servlet-mapping>
-  
- 
-  <servlet>
-    <servlet-name>MotorModelServlet4H</servlet-name>
-    <servlet-class>com.motor_model.controller.MotorModelServlet4H</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>MotorModelServlet4H</servlet-name>
-    <url-pattern>/backend/motor/motorModel4H.do</url-pattern>
-  </servlet-mapping>
-  
-  <servlet>
-  <servlet-name>NewsDBGifReader</servlet-name>
-  <servlet-class>com.news.controller.NewsDBGifReader</servlet-class>
- </servlet>
- <servlet-mapping>
-  <servlet-name>NewsDBGifReader</servlet-name>
-  <url-pattern>/backend/news/newsread.do</url-pattern>
- </servlet-mapping>
-  
-  
-  
-  
+
+	<servlet>
+		<servlet-name>MemberServlet</servlet-name>
+		<servlet-class>com.member.controller.MemberServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MemberServlet</servlet-name>
+		<url-pattern>/backend/member/member.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>MemberDBGifReader</servlet-name>
+		<servlet-class>com.member.controller.MemberDBGifReader</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MemberDBGifReader</servlet-name>
+		<url-pattern>/backend/member/memReader.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>MotorServlet4H</servlet-name>
+		<servlet-class>com.motor.controller.MotorServlet4H</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MotorServlet4H</servlet-name>
+		<url-pattern>/backend/motor/motor4H.do</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>MotorModelServlet4H</servlet-name>
+		<servlet-class>com.motor_model.controller.MotorModelServlet4H</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MotorModelServlet4H</servlet-name>
+		<url-pattern>/backend/motor/motorModel4H.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>NewsDBGifReader</servlet-name>
+		<servlet-class>com.news.controller.NewsDBGifReader</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>NewsDBGifReader</servlet-name>
+		<url-pattern>/backend/news/newsread.do</url-pattern>
+	</servlet-mapping>
+
+
+
+
 </web-app>
