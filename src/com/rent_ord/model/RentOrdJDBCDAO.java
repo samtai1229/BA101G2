@@ -1101,4 +1101,10 @@ public class RentOrdJDBCDAO implements RentOrdDAO_interface {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void updateStatusByRentno(String status, String rentno) {
+		// TODO Auto-generated method stub
+		
+	}
 }
