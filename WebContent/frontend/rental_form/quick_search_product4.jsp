@@ -7,7 +7,7 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.motor.model.*"%>
 <!DOCTYPE html>
-<html lang="">
+<html>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -17,6 +17,14 @@
 <link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" />
 <link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/daterangepicker.css" />
 
+<%-- basic --%>
+<link href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<link href="<%=request.getContextPath()%>/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css' />
+<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.min.css" rel="stylesheet" />
+<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.css" rel="stylesheet" />
+<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" rel="stylesheet" />
+
 
 </head>
 <style type="text/css">
@@ -25,6 +33,13 @@
 	margin-right:5px;
 	margin-left:5px;
 }
+
+.t1{
+
+margin-top:100px;
+
+}
+
 
 </style>
 
@@ -47,23 +62,71 @@ pageContext.setAttribute("end_time", defday);
 String memno = (String)session.getAttribute("memno");
 pageContext.setAttribute("memno",memno);
 %>
-page4.jsp
+<%-- page4.jsp
 memno:<c:out value="${memno}" default="no member login" /><br>
 start_time:<c:out value="${start_time}" default="no value"/><br>
 end_time:  <c:out value="${end_time}" default="no value"/><br>
-dayPicker <c:out value="${dayPicker}" default="no value"></c:out>
+dayPicker <c:out value="${dayPicker}" default="no value"></c:out> --%>
+
+
+
+
+<!-- Navigation -->
+	<nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header page-scroll">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> Menu <i
+						class="fa fa-bars"></i>
+				</button>
+				<a class="navbar-brand page-scroll" href="#page-top">AutoBike</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					<li class="hidden"><a href="#page-top"></a></li>
+					<li><a class="page-scroll" href="<%=request.getContextPath()%>/frontend/rental_form/rental_category.jsp">
+					<i class="glyphicon glyphicon-heart"></i>我要租車</a></li>
+					<li><a class="page-scroll" href="#news">
+					<i class="glyphicon glyphicon-alert"></i>最新消息</a></li>
+					<li><a class="page-scroll" href="#board">
+					<i class="fa fa-comments-o"></i>留言板</a></li>
+					<li><a class="page-scroll" href="#loc">
+					<i class="fa fa-search"></i>服務據點</a></li>
+					<li><a href="<%=request.getContextPath()%>/backend/member/member.do">
+					<i class="fa fa-shopping-cart"></i>二手車購買</a></li>
+					<c:if test="${not empty memno}">
+						<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">歡迎，${memname}</a></li>
+						<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout" data-toggle="modal">
+						<i class="glyphicon glyphicon-user"></i>登出</a>
+						</li>
+					</c:if>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+	
+	<div id="blocker"></div>
+
+
+	<!-- 租車主軸Header -->
+	<header id="rent">
+
 
 <jsp:useBean id="mmSvc" scope="page" class="com.motor_model.model.MotorModelService"/>
-	<div class="container-fluid">
-		<div class="content-wrapper">
-			<div class="item-container">
+
 				<div class="container">
-					<div class="col-md-offset-1 col-md-5">
+					<div class="col-md-offset-1 col-md-5 t1">
 						<img id="item-display"
 							src="<%=request.getContextPath()%>/backend/motor_model/mmReader.do?modtype=${motorQueryVO.modtype}"
 							alt=""></img>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-5 t1">
 						<div class="product-title">
 							<div>${mmSvc.findByPK(motorQueryVO.modtype).brand} ${mmSvc.findByPK(motorQueryVO.modtype).name}</div>
 							<c:if test="${mmSvc.findByPK(motorQueryVO.modtype).displacement > 150}">
@@ -80,7 +143,7 @@ dayPicker <c:out value="${dayPicker}" default="no value"></c:out>
 						<div class="dynamic-text">車輛編號 : ${motorQueryVO.motno}</div>
 						<div class="product-stock">可出租</div>
 						<hr>
-						<div class="dynamic-text InputForm">租用日期:</div><li id="rentaled">紅色標記為當日出租中</li>
+						<div class="dynamic-text InputForm">租用日期:</div><li id="rentaled">紅色標記為當日不可出租</li>
 							
 							<div class="input-group">
 		                        <input type="text" id="invalidtodaynextweek" class="form-control" name="confirmed_rentday">
@@ -91,7 +154,7 @@ dayPicker <c:out value="${dayPicker}" default="no value"></c:out>
 						
 								
 							<p class="text-center">
-								<c:if test="<%=memno==null%>"> <!-- 轉到登入畫面????????????????????????????????????? -->
+								<c:if test="<%=memno==null%>">
 							    	<input type="hidden" name="action" value="redirect_to_login">
 							    </c:if>
 								<c:if test="<%=memno!=null%>">
@@ -109,7 +172,7 @@ dayPicker <c:out value="${dayPicker}" default="no value"></c:out>
 						</form>
 					</div>
 				</div>
-			</div>
+			
 			<div class="container-fluid">
 				<div class="col-md-12 product-info">
 					<ul id="myTab" class="nav nav-tabs nav_tabs">
@@ -120,7 +183,7 @@ dayPicker <c:out value="${dayPicker}" default="no value"></c:out>
 					<div id="myTabContent" class="tab-content">
 						<div class="tab-pane fade in active" id="service-one">
 
-							<section class="container product-info">
+						
 								The Corsair Gaming Series GS600 power supply is the ideal
 								price-performance solution for building or upgrading a Gaming
 								PC. A single +12V rail provides up to 48A of reliable,
@@ -154,8 +217,7 @@ dayPicker <c:out value="${dayPicker}" default="no value"></c:out>
 								<li>MTBF: 100,000 hours</li>
 								<li>Safety Approvals: UL, CUL, CE, CB, FCC Class B, TÜV,
 									CCC, C-tick</li>
-							</section>
-
+						
 						</div>
 						<div class="tab-pane fade" id="service-two">
 
@@ -169,12 +231,33 @@ dayPicker <c:out value="${dayPicker}" default="no value"></c:out>
 			</div>
 		</div>
 	</div>
+	</header>
+	<footer>
+		<div class="container-fluid">
+			<div class="col-xs-12 col-sm-4">
+				<span>地址:桃園市平鎮區中央路115號</span>
+			</div>
+			<div class="col-xs-12 col-sm-4">
+				<span>EMAIL:taic@oregonstate.edu</span>
+			</div>
+			<div class="col-xs-12 col-sm-4">
+				<span>TEL:0900-000-000</span>
+			</div>
+		</div>
+	</footer>
+	
+	
 	<script src="https://code.jquery.com/jquery.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://raw.githack.com/JaapMoolenaar/bootstrap-daterangepicker/master/moment.js"></script>
     <script type="text/javascript" src="https://raw.githack.com/JaapMoolenaar/bootstrap-daterangepicker/master/daterangepicker.js"></script>
 
+		<!-- basic -->
+
+	<script src="<%=request.getContextPath()%>/js/owl.carousel.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/jquery.magnific-popup.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/agency.min.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function() {
