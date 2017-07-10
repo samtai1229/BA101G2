@@ -11,7 +11,6 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
-
  	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
  	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script> 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
@@ -29,7 +28,6 @@
 		white-space:nowrap;
 	} 
 </style>
-
 <body>
 	<table id="QueryTable" class="table table-bordred table-striped table-hover">
 		<thead>
@@ -105,20 +103,23 @@
 							</form>					
 						</td>					 
 					</c:if>
-
+					<jsp:useBean id="locSvc" scope="page" class="com.location.model.LocationService"/>
 					<td><c:out value="${roVO.rentno}" default="無資料" /></td>
-					<td><c:out value="${roVO.slocno}" default="無資料" /></td>
+					<td><c:out value="${locSvc.getOneLocation(roVO.slocno).locname}" default="無資料" /></td>
 					<td><fmt:formatDate pattern="yyyy-MM-dd" value="${roVO.startdate}" /></td>
 					<td><c:out value="${roVO.memno}" default="無資料" /></td>
 					<td><c:out value="${roVO.motno}" default="無資料" /></td>
-					<td><c:out value="${roVO.rlocno}" default="無資料" /></td>
+					<td><c:out value="${locSvc.getOneLocation(roVO.rlocno).locname}" default="無資料" /></td>
 					<td><fmt:formatDate pattern="yyyy-MM-dd" value="${roVO.enddate}" /></td>
 					<td><c:out value="${roVO.note}" default="無資料" /></td>
 					<td>
-						<form method="post" action="NewFile.jsp">	
+						<form method="POST" target="print_popup" 
+      				  		  action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do" 
+       						  onsubmit="window.open('about:blank','print_popup','width=1000,height=900');">
 							<input type="hidden" name="rentno" value="${roVO.rentno}">
-							<input type="submit" value="修改" class="btn btn-default"/>
-						</form>						
+							<input type="hidden" name="action" value="query_for_update">
+							<input type="submit" class="btn btn-default" value="修改">
+						</form>	
 					</td>
 				</tr>
 			</c:forEach>

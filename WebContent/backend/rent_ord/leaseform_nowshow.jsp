@@ -104,7 +104,7 @@ action: <c:out value="${action}" default="no value"/><br>
 								交車據點:
 							</label>
 							<div class="col-xs-12 col-sm-8 innerDiv">
-								<input type="text" name="slocno" value="${slocQueryVO.locname}營業所" 
+								<input type="text" name="slocname" value="${slocQueryVO.locname}營業所" 
 								class="form-control" readonly>
 							</div>
 						</div>
@@ -125,7 +125,7 @@ action: <c:out value="${action}" default="no value"/><br>
 								還車據點:
 							</label>
 							<div class="col-xs-12 col-sm-8 innerDiv">
-								<input type="text" name="rlocno" value="${rlocQueryVO.locname}營業所" 
+								<input type="text" name="rlocname" value="${rlocQueryVO.locname}營業所"  
 								class="form-control" readonly>
 							</div>
 						</div>
