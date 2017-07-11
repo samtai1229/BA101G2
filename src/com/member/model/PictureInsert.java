@@ -27,7 +27,7 @@ public class PictureInsert {
 
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
-	//		pstmt = con.prepareStatement(UPDATE_F); //正面
+//			pstmt = con.prepareStatement(UPDATE_F); //正面
 //			pstmt = con.prepareStatement(UPDATE_B); //背面		
             pstmt = con.prepareStatement(UPDATE_L);  //駕照
 			pstmt.setBytes(1, memVO.getLicense()); //拿到正背面 or 駕照

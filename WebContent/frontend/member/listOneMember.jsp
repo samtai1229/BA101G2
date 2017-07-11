@@ -37,7 +37,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body bgcolor='white'>
-<table border='1' cellpadding='5' cellspacing='0' width='1600'>
+<div  class="col-xs-12 col-sm-12">
+<table border='1' cellpadding='5' cellspacing='0' width=1690>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
 		<h3>會員專區 -MemberCenter</h3>
@@ -45,7 +46,7 @@
 		</td>
 	</tr>
 </table>
-
+</div>
 
     <div class="col-xs-12 col-sm-12">
     <table border="1" class="table table-striped custab">
@@ -108,10 +109,11 @@
 <!-- 			</td> -->
 		</tr>
     </table>
+    <button type="button" onclick="loadDoc()" >我的二手車訂單</button>
+	<button type="button" onclick="loadOrder()" >我的租賃單</button>
     </div>
 
-<button type="button" onclick="loadDoc()" >我的二手車訂單</button>
-<button type="button" onclick="loadOrder()" >我的租賃單</button>
+
 <div id="demo"></div>
 <div id="demo2"></div>
 

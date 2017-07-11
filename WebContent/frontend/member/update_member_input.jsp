@@ -47,12 +47,14 @@
 	</tr>
 	<tr>
 		<td>性別:</td>
-		<td>${memVO.sex}</td>
+		<td><select name='sex'>
+		<option value="boy">男
+		<option value="girl">女
+		</select></td>
 	</tr>	
 	<tr>
 		<td>生日:</td>
-		<td><fmt:formatDate pattern = "yyyy年MM月dd號" 
-         value = "${memVO.birth}" /></td>
+		<td><input type="date" name="birth"></td>
 	</tr>	
 	<tr>
 		<td>信箱:</td>
@@ -104,11 +106,6 @@
 <br/>
 <input type="hidden" name="action" value="update">
 <input type="hidden" name="memno" value="<%=memVO.getMemno()%>">
-<input type="hidden" name="status" value="<%=memVO.getStatus()%>">
-<input type="hidden" name="sex" value="<%=memVO.getSex()%>">
-<input type="hidden" name="birth" value="<fmt:formatDate pattern = "yyyy-MM-dd HH:mm:ss"         value = "${memVO.birth}" />">
-<input type="hidden" name="credate" value="<fmt:formatDate pattern = "yyyy-MM-dd HH:mm:ss" 
- value = "${memVO.credate}" />">
 <input type="submit" value="送出修改"></FORM>
 
 </body>

@@ -34,6 +34,7 @@
     }
 
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body bgcolor='white'>
 <table border='1' cellpadding='5' cellspacing='0' width='1600'>
@@ -45,8 +46,7 @@
 	</tr>
 </table>
 
-<div class="container">
-    <div class="row col-md-6 col-md-offset-2 custyle">
+     <div class="col-xs-12 col-sm-12">
     <table border="1" class="table table-striped custab">
     <thead>
         <tr>
@@ -108,7 +108,7 @@
 		</tr>
     </table>
     </div>
-</div>
+
 <button type="button" onclick="loadDoc()" >我的二手車訂單</button>
 <button type="button" onclick="loadOrder()" >我的租賃單</button>
 <div id="demo"></div>

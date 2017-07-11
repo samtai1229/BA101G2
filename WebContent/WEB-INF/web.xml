@@ -123,6 +123,32 @@
   <url-pattern>/backend/news/newsread.do</url-pattern>
  </servlet-mapping>
   
+  <servlet>
+    <servlet-name>EquipmentServlet</servlet-name>
+    <servlet-class>com.equipment.controller.EquipmentServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EquipmentServlet</servlet-name>
+    <url-pattern>/backend/equipment/emt.do</url-pattern>
+  </servlet-mapping>
+  
+    <servlet>
+    <servlet-name>EmtCateServlet</servlet-name>
+    <servlet-class>com.emt_cate.controller.EmtCateServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EmtCateServlet</servlet-name>
+    <url-pattern>/backend/emt_cate/ec.do</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+    <servlet-name>EmtCateDBGifReader</servlet-name>
+    <servlet-class>com.emt_cate.controller.EmtCateDBGifReader</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EmtCateDBGifReader</servlet-name>
+    <url-pattern>/backend/emt_cate/ecReader.do</url-pattern>
+  </servlet-mapping>
   
   
   

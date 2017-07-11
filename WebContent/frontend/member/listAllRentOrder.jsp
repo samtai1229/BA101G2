@@ -16,7 +16,7 @@
 
 <html>
 <head>
-<title>我的訂單資料</title>
+<title>我的租賃單資料</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body bgcolor='white'>

@@ -13,14 +13,14 @@
 
 <html>
 <head>
-<title>所有會員資料 - listAllMembers.jsp</title>
-
+<title>所有會員資料</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body bgcolor='white'>
 <table border='1' cellpadding='5' cellspacing='0' width='1600'>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
-		<h3>所有會員資料 - ListAllMembers.jsp</h3>
+		<h3>所有會員資料</h3>
 		<a href="<%=request.getContextPath()%>/backend/member/select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a>
 		</td>
 	</tr>
@@ -36,7 +36,9 @@
 	</ul>
 	</font>
 </c:if>
-<%-- <%@ include file="pages/page1.file" %>  --%>
+<%@ include file="pages/page1.file" %> 
+
+<div class="col-xs-12 col-sm-12">
 <table border='1' bordercolor='#CCCCFF' width='1600'>
 	<tr>
 		<th>會員編號</th>
@@ -55,7 +57,7 @@
 		<th>認證狀態</th>
 	</tr>
 <%-- 	begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" --%>
-	<c:forEach var="memVO" items="${list}" >
+	<c:forEach var="memVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 		<tr align='center' valign='middle'>
 			<td>${memVO.memno}</td>
 			<td>${memVO.memname}</td>
@@ -92,7 +94,8 @@
 		</tr>
 	</c:forEach>
 </table>
-<%-- <%@ include file="pages/page2.file" %> --%>
+</div>
+<%@ include file="pages/page2.file" %>
 
 <br>本網頁的路徑:<br><b>
    <font color=blue>request.getServletPath():</font> <%= request.getServletPath()%><br>

@@ -62,6 +62,8 @@ public class MemberServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		System.out.println("進來了 要做的是 " + action);
+		String location = req.getParameter("location");
+		System.out.println("我從"+location+"進來的");
 		
 		
 		if ("getAllRentOrder".equals(action)) { // 來自select_page.jsp的請求
@@ -235,8 +237,9 @@ public class MemberServlet extends HttpServlet {
 				else
 				{
 				  System.out.println("馬的BBBBBBB都是NULL");
-				   memVO = memSvc.insert("未填", "未填", new Timestamp(System.currentTimeMillis()), mail, "未填", "未填", new_acc, new_pwd, null, null, null);
-				   req.setAttribute("memVO", memVO);
+				   memSvc.insert("未填", "未填", new Timestamp(System.currentTimeMillis()), mail, "未填", "未填", new_acc, new_pwd, null, null, null);
+				   
+				   req.setAttribute("memVO", memSvc.getOneMemberByAcc(new_acc));
 				   RequestDispatcher failureView = req.getRequestDispatcher("/frontend/member/verified.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
@@ -251,7 +254,7 @@ public class MemberServlet extends HttpServlet {
 				/***************************
 				 * 3.查詢完成,準備轉交(Send the Success view) 轉交到會員專區的網頁
 				 *************/
-               new  MailService(memVO.getMail(),"註冊成功 請收密碼","密碼為111");
+                new  MailService(memVO.getMail(),"註冊成功 ","歡迎您成為會員");
 				req.setAttribute("memVO", memVO); // 資料庫取出的empVO物件,存入req
 				String url = "/backend/member/listAllMember.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
@@ -325,10 +328,11 @@ public class MemberServlet extends HttpServlet {
 				req.getSession().setAttribute("memno", memVO.getMemno());
 				req.getSession().setAttribute("memname", memVO.getMemname());
 				String url = null;
-				if(memVO.getStatus().equals("confirmed"))
+				if(memVO.getStatus().equals("completed")||memVO.getStatus().equals("confirmed") || memVO.getStatus().equals("unconfirmed"))
 				{
-					url = "/index.jsp";
 					
+					url = location;
+					System.out.println(url);
 				}
 				else
 				{
@@ -452,7 +456,7 @@ public class MemberServlet extends HttpServlet {
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 
-			try {
+//			try {
 				/***************************
 				 * 1.接收請求參數 - 輸入格式的錯誤處理
 				 **********************/
@@ -472,7 +476,7 @@ public class MemberServlet extends HttpServlet {
 				System.out.println("拿到" + phone);
 				String mail = req.getParameter("mail");
 				System.out.println("拿到" + mail);
-				Timestamp birth = Timestamp.valueOf(req.getParameter("birth"));
+				Timestamp birth = Timestamp.valueOf(req.getParameter("birth")+" 00:00:00");
 				System.out.println("拿到" + birth);
 				Part idcard1 = req.getPart("idcard1");
 				System.out.println("拿到idcard1:大小" + idcard1.getSize());
@@ -503,6 +507,8 @@ public class MemberServlet extends HttpServlet {
 				memVO.setSex(sex);
 				Timestamp credate = Timestamp.valueOf(req.getParameter("credate"));
 				memVO.setCredate(credate);
+				if( memname.length()!=0 && birth!=null && phone.length()!=0
+						&& addr.length()!=0 && sex.length()!=0)status="completed";
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("memVO", memVO); // 含有輸入格式錯誤的empVO物件,也存入req
@@ -526,17 +532,17 @@ public class MemberServlet extends HttpServlet {
 				 *************/
 				req.setAttribute("memVO", memVO); // 資料庫update成功後,正確的的empVO物件,存入req
 				System.out.println("準備轉交");
-				String url = "/backend/member/listOneMember.jsp";
+				String url = "/frontend/member/listOneMember.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
-			} catch (Exception e) {
-				errorMsgs.add("修改資料失敗:" + e.getMessage());
-				System.out.println("GGGGGGGGGGGGGGGGGGGGGGG");
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/listOneMember.jsp");
-				failureView.forward(req, res);
-			}
+//			} catch (Exception e) {
+//				errorMsgs.add("修改資料失敗:" + e.getMessage());
+//				System.out.println("GGGGGGGGGGGGGGGGGGGGGGG");
+//				RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/listOneMember.jsp");
+//				failureView.forward(req, res);
+//			}
 		}
 
 		if ("insert".equals(action)) { // 來自addSpot.jsp的請求

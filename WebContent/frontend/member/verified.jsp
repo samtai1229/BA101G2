@@ -47,12 +47,14 @@
 	</tr>
 	<tr>
 		<td>性別:<font color='red'>*</font></td>
-		<td>${memVO.sex}</td>
+		<td><select name='sex'>
+		<option value="Boy">男
+		<option value="Girl">女
+		</select></td>
 	</tr>	
 	<tr>
 		<td>生日:<font color='red'>*</font></td>
-		<td><fmt:formatDate pattern = "yyyy年MM月dd號" 
-         value = "${memVO.birth}" /></td>
+		<td><input type="date" name="birth"></td>
 	</tr>	
 	<tr>
 		<td>信箱:</td>
@@ -60,11 +62,11 @@
 	</tr>	
 	<tr>
 		<td>電話:<font color='red'>*</font></td>
-		<td><input value="<%=memVO.getPhone() %>" type="tel" name="phone" size="45"/></td>
+		<td><input  type="tel" name="phone" size="45"/></td>
 	</tr>
 	<tr>
 		<td>地址:<font color='red'>*</font></td>
-		<td><input  value="<%=memVO.getAddr() %>" type="text" name="address" size="45"/></td>
+		<td><input  type="text" name="address" size="45"/></td>
 	</tr>
 	<tr>
 		<td>帳號:</td>
@@ -72,36 +74,35 @@
 	</tr>
 	<tr>
 		<td>密碼:</td>
-		<td><input value="<%=memVO.getPwd() %>" type="password" name="pwd" size="45"/></td>
+		<td><input readonly value="<%=memVO.getPwd() %>" type="password" name="pwd" size="45"/></td>
 	</tr>
 	<tr>
-		<td>身分證(正面)<font color='red'>*</font>:</td>
+		<td>身分證(正面):</td>
 		<td><input type="file" name="idcard1" size="45"/></td>
 		<!-- 正面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard1' width='120' height='100'></td>	
 	   
 	</tr>
 	<tr>
-		<td>身分證(反面)<font color='red'>*</font>:</td>
+		<td>身分證(反面):</td>
 		<td><input type="file" name="idcard2" size="45"/></td>
 		<!-- 反面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard2' width='120' height='100'></td>
 	</tr>
 	<tr>
-		<td>駕照:<font color='red'>*</font></td>
+		<td>駕照:</td>
 		<td><input type="file" name="license" size="45"/></td>
 		<!-- 正面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=license' width='120' height='100'></td>
 	</tr>
 	
+	
     <tr>
-        <td>實名認證:</td>
-		<td>${memVO.status}</td>
+        <td>實名認證狀態:</td>
+		<td><%=memVO.getStatus()%></td>
 	</tr>
 </table>
 <br/>
 <input type="hidden" name="action" value="update">
 <input type="hidden" name="memno" value="<%=memVO.getMemno()%>">
 <input type="hidden" name="status" value="<%=memVO.getStatus()%>">
-<input type="hidden" name="sex" value="<%=memVO.getSex()%>">
-<input type="hidden" name="birth" value="<fmt:formatDate pattern = "yyyy-MM-dd HH:mm:ss"         value = "${memVO.birth}" />">
 <input type="hidden" name="credate" value="<fmt:formatDate pattern = "yyyy-MM-dd HH:mm:ss" 
  value = "${memVO.credate}" />">
 <input type="submit" value="送出修改"></FORM>
