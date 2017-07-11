@@ -27,6 +27,7 @@ public class AdminisDAO implements AdminisDAO_interface{
 	private static final String GET_ONE_STMT = "SELECT admno,locno,authno,name,acc,pw FROM adminis where admno = ?";
 	private static final String DELETE = "DELETE FROM adminis where admno = ?";
 	private static final String UPDATE = "UPDATE adminis set locno=?, authno=?, name=?, acc=?, pw=? where admno = ?";
+	private static final String GET_BYACCOUNT = "SELECT * FROM adminis where acc=?";
 	@Override
 	public void insert(AdminisVO adminstratorVO) {
 		Connection con = null;
@@ -241,6 +242,58 @@ public class AdminisDAO implements AdminisDAO_interface{
 		}
 		return list;
 		
+	}
+	@Override
+	public AdminisVO findByAccount(String acc) {
+		AdminisVO adminisVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_BYACCOUNT);
+			
+			pstmt.setString(1, acc);
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()){
+				adminisVO = new AdminisVO();
+				adminisVO.setAdmno(rs.getString("admno"));
+				adminisVO.setLocno(rs.getString("locno"));
+				adminisVO.setAuthno(rs.getString("authno"));
+				adminisVO.setName(rs.getString("name"));
+				adminisVO.setAcc(rs.getString("acc"));
+				adminisVO.setPw(rs.getString("pw"));
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException("A database error occured. "
+					+ e.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return adminisVO;
 	}
 	
 	

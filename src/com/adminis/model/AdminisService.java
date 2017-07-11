@@ -40,6 +40,9 @@ public class AdminisService {
 	public AdminisVO getOneAdminis(String admno) {
 		return dao.findByPrimaryKey(admno);
 	}
+	public AdminisVO getOneAccount(String acc) {
+		return dao.findByAccount(acc);
+	}
 
 	public List<AdminisVO> getAll() {
 		return dao.getAll();

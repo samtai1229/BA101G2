@@ -25,11 +25,11 @@ public class NewsDAO implements NewsDAO_interface{
 	}
 	
 	private static final String INSERT_STMT = "INSERT INTO NEWS(newsno,admno,cont,pic,title,status) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),3,'0'),?,?, ?, ?, ?)";
-	private static final String GET_ALL_STMT ="SELECT * FROM news order by newsno";
+	private static final String GET_ALL_STMT ="SELECT * FROM news order by newsdate desc";
 	private static final String GET_ONE_STMT ="SELECT * FROM news where newsno = ?";
 	private static final String DELETE ="DELETE FROM news where newsno = ?";
 	private static final String UPDATE ="UPDATE news set admno=?, cont=?, pic=?, title=?, status=? where newsno = ?";
-	
+	private static final String GET_ALLBYSTATUS = " SELECT * FROM news where status = 'normal' order by newsdate desc";
 
 	@Override
 	public void insert(NewsVO newsvo) {
@@ -226,7 +226,6 @@ public class NewsDAO implements NewsDAO_interface{
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_STMT);
 			rs = pstmt.executeQuery();
-			System.out.println("123");
 			while (rs.next()) {
 				NewsVO newsVO =new NewsVO();
 				// empVO �]�٬� Domain objects
@@ -272,5 +271,65 @@ public class NewsDAO implements NewsDAO_interface{
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public List<NewsVO> getAllnormal() {
+		List<NewsVO> listnormal = new ArrayList<NewsVO>();
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_ALLBYSTATUS);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				NewsVO newsVO =new NewsVO();
+				// empVO �]�٬� Domain objects
+				newsVO.setNewsno(rs.getString("newsno"));
+				newsVO.setAdmno(rs.getString("admno"));
+				newsVO.setNewsdate(rs.getTimestamp("newsdate"));
+				newsVO.setCont(rs.getString("cont"));
+				newsVO.setPic(rs.getBytes("pic"));
+				newsVO.setTitle(rs.getString("title"));
+				newsVO.setStatus(rs.getString("status"));
+				listnormal.add(newsVO); // Store the row in the list
+			}
+
+			for(NewsVO aaa:listnormal){
+				System.out.println(aaa.getNewsno());
+			}
+			// Handle any driver errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. "
+					+ se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return listnormal;
 	}
 }

@@ -8,5 +8,6 @@ public interface NewsDAO_interface {
 	public void delete(String newsno);
 	public NewsVO findByPrimaryKey(String newsno);
 	public List<NewsVO> getAll();
+	public List<NewsVO> getAllnormal();
 
 }

@@ -8,4 +8,5 @@ public interface AdminisDAO_interface {
 	public void delete(String admno);
 	public AdminisVO findByPrimaryKey(String admno);
 	public List<AdminisVO> getAll();
+	public AdminisVO findByAccount(String acc);
 }

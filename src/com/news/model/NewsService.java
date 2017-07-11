@@ -48,8 +48,11 @@ public class NewsService {
 	}
 
 	public List<NewsVO> getAll() {
-		System.out.println("123");
 		return dao.getAll();
+	}
+	
+	public List<NewsVO> getAllnormal() {
+		return dao.getAllnormal();
 	}
 }
 

@@ -9,6 +9,7 @@
 <%
 	LocationService locSvc = new LocationService();
 	NewsService newSvc = new NewsService();
+	List<NewsVO> listnormal = newSvc.getAllnormal();
 	List<NewsVO> newslist = newSvc.getAll();
 	List<LocationVO> list = locSvc.getAll();
 	String memno = (String)session.getAttribute("memno");
@@ -21,7 +22,7 @@
 	pageContext.setAttribute("memname",memname);
 	pageContext.setAttribute("newslist", newslist);
 	pageContext.setAttribute("error", error);
-	
+	pageContext.setAttribute("listnormal",listnormal);
 	
 %>
 
@@ -36,6 +37,7 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>AutoBike Homepage</title>
+<link href="<%=request.getContextPath()%>/css/news.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 <!-- Bootstrap Core CSS -->
 <link href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
@@ -243,47 +245,102 @@
 	</header>
 	<!-- news Section -->
 	<section id="news">
-		<div class="container-fluid">
-			<div class="row ">
-				<div class="col-xs-12 col-sm-12 text-center">
-					<h2 class="section-heading">最新消息</h2>
-					<h3 class="section-subheading text-muted">
-						<a style="color: blue" href="news.html">點我看更多</a>
-					</h3>
+  <div class="container-fluid">
+   <div class="row ">
+    <div class="col-xs-12 col-sm-12 text-center">
+     <h2 class="section-heading">最新消息</h2>
 
-				</div>
+    </div>
 
-			</div>
-	
+   </div>
+ 
+<div style= margin-right:45px;>
+
+   <div class="container">
+  <div class="row">
+   <div class="col-xs-12 col-sm-4">
+    <div class="container">
+     <div class="row">
+      <div class="col-sm-4">
+       <div class="news">
+        <div class="img-figure">
+         <img src=<%=request.getContextPath()%>/backend/news/newsread.do?newsno=<%=listnormal.get(0).getNewsno()%>
+         class="img-responsive"  alt="Responsive image">
+        </div>
+
+        <div class="title">
+         <h1><%=listnormal.get(0).getTitle()%></h1>
+        </div>
+        <p class="description">
+         <%=listnormal.get(0).getCont()%>
+        </p>
+
+        <p class="more">
+         <a href="#">read more</a><i class="fa fa-angle-right"
+          aria-hidden="true"></i>
+        </p>
+       </div>
 
 
-			<div class=" row">
-				<div class="fh5co-slider">
-					<div class="owl-carousel owl-carousel-fullwidth ">
-					<c:forEach var="newsVO" items="${newslist}" >
-						<div onclick="window.location='news.html';" class="item"
-							style="background-image: url(<%=request.getContextPath()%>/backend/news/newsread.do?newsno=${newsVO.newsno})">
-							<div class="fh5co-overlay"></div>
-							<div class="container">
-								<div class="row">
-									<div class="col-md-8 col-md-offset-2">
-										<div class="fh5co-owl-text-wrap">
-											<div class="fh5co-owl-text text-center to-animate">
-												<!--  <h1 class="fh5co-lead">Booster Studio</h1>
-                                            <h2 class="fh5co-sub-lead">Booster is a free responsive HTML5 template using bootstrap released under Creative Commons 3.0. Lovely crafted by <a href="#">FREEHTML5.co</a></h2> -->
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						</c:forEach>
-					</div>
-				</div>
-			</div>
+      </div>
+     </div>
+    </div>
+   </div>
+   <div class="col-xs-12 col-sm-4">
+    <div class="container">
+     <div class="row">
+      <div class="col-sm-4">
+       <div class="news">
+        <div class="img-figure">
+         <img src=<%=request.getContextPath()%>/backend/news/newsread.do?newsno=<%=listnormal.get(1).getNewsno()%> class="img-responsive">
+        </div>
 
-		</div>
-	</section>
+        <div class="title">
+         <h1><%=listnormal.get(1).getTitle()%></h1>
+        </div>
+        <p class="description"><%=listnormal.get(1).getCont()%></p>
+
+        <p class="more">
+         <a href="#">read more</a><i class="fa fa-angle-right"
+          aria-hidden="true"></i>
+        </p>
+       </div>
+
+
+      </div>
+     </div>
+    </div>
+   </div>
+   <div class="col-xs-12 col-sm-4">
+    <div class="container">
+     <div class="row">
+      <div class="col-sm-4">
+       <div class="news">
+        <div class="img-figure">
+         <img src=<%=request.getContextPath()%>/backend/news/newsread.do?newsno=<%=listnormal.get(2).getNewsno()%> style= max-width:150px;max-height:150px;
+         class="img-responsive">
+        </div>
+
+        <div class="title">
+         <h1><%=listnormal.get(2).getTitle()%></h1>
+        </div>
+        <p class="description"><%=listnormal.get(2).getCont()%></p>
+
+        <p class="more">
+         <a href="#">read more</a><i class="fa fa-angle-right"
+          aria-hidden="true"></i>
+        </p>
+       </div>
+
+
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+ </div>
+ </section>
 	<!--  <section id="board" class="col-xs-12 col-sm-12">
       
             <div class="row">

@@ -19,7 +19,7 @@ public class AdminisJDBCDAO implements AdminisDAO_interface {
 	private static final String GET_ONE_STMT = "SELECT admno,locno,authno,name,acc,pw FROM adminis where admno = ?";
 	private static final String DELETE = "DELETE FROM adminis where admno = ?";
 	private static final String UPDATE = "UPDATE adminis set locno=?, authno=?, name=?, acc=?, pw=? where admno = ?";
-
+	private static final String GET_BYACCOUNT = "SELECT * FROM adminis where acc=?";
 	@Override
 	public void insert(AdminisVO adminisvo) {
 		Connection con = null;
@@ -288,4 +288,58 @@ public class AdminisJDBCDAO implements AdminisDAO_interface {
 		System.out.println();
 
 	}
+
+	@Override
+	public AdminisVO findByAccount(String acc) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		AdminisVO adminisvo = null;
+
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_BYACCOUNT);
+
+			pstmt.setString(1, acc);
+			rs = pstmt.executeQuery();
+			rs.next();
+			adminisvo = new AdminisVO();
+			adminisvo.setAdmno(rs.getString("admno"));
+			adminisvo.setLocno(rs.getString("locno"));
+			adminisvo.setAuthno(rs.getString("authno"));
+			adminisvo.setName(rs.getString("name"));
+			adminisvo.setAcc(rs.getString("acc"));
+			adminisvo.setPw(rs.getString("pw"));
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return adminisvo;
+	}
+
 }

@@ -159,5 +159,16 @@
 		<servlet-name>RentOrdScheduleServlet</servlet-name>
 		<url-pattern>/RentOrdScheduleServlet</url-pattern>
 	</servlet-mapping>
+	
+	
+	
+	<servlet>
+  <servlet-name>NewsServlet</servlet-name>
+  <servlet-class>com.news.controller.NewsServlet</servlet-class>
+ </servlet>
+ <servlet-mapping>
+  <servlet-name>NewsServlet</servlet-name>
+  <url-pattern>/backend/news/news.do</url-pattern>
+ </servlet-mapping>
   
 </web-app>

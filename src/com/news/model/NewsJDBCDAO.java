@@ -28,6 +28,7 @@ public class NewsJDBCDAO implements NewsDAO_interface{
 		private static final String GET_ONE_STMT ="SELECT * FROM news where newsno = ?";
 		private static final String DELETE ="DELETE FROM news where newsno = ?";
 		private static final String UPDATE ="UPDATE news set admno=?, cont=?, pic=?, title=?, status=? where newsno = ?";
+		private static final String GET_ALLBYSTATUS = " SELECT * FROM news where status = 'normal' order by newsdate desc";
 
 
 	@Override
@@ -251,6 +252,67 @@ public class NewsJDBCDAO implements NewsDAO_interface{
 		}
 		return list;
 	}
+	
+	@Override
+	public List<NewsVO> getAllnormal() {
+		List<NewsVO> listnormal = new ArrayList<NewsVO>();
+		NewsVO newsVO =null;
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_ALLBYSTATUS);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				newsVO = new NewsVO();
+				newsVO.setNewsno(rs.getString("newsno"));
+				newsVO.setAdmno(rs.getString("admno"));
+				newsVO.setNewsdate(rs.getTimestamp("newsdate"));
+				newsVO.setCont(rs.getString("cont"));
+				newsVO.setPic(rs.getBytes("pic"));
+				newsVO.setTitle(rs.getString("title"));
+				newsVO.setStatus(rs.getString("status"));
+				//newsVO.setShownewsdate(new SimpleDateFormat("yyyy/MM/dd").format(rs.getTimestamp("date")));
+				listnormal.add(newsVO);}
+		}catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return listnormal;
+	}
+		
+	
+	
 public static void main(String[] args) throws IOException {
 //		
 		NewsJDBCDAO news = new NewsJDBCDAO();
@@ -318,7 +380,8 @@ public static void main(String[] args) throws IOException {
 		System.out.println(newsvo2.getStatus() + ",");
 		System.out.println("OK");
 }
-		
+
+	
 //for(int i=1;i<7;i++){
 //			newsvo.setPic("MMH00"+i);
 //			newsvo.setAdmno("A000008");
