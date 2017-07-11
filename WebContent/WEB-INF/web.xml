@@ -150,6 +150,14 @@
     <url-pattern>/backend/emt_cate/ecReader.do</url-pattern>
   </servlet-mapping>
   
-  
+  	<servlet>
+		<servlet-name>RentOrdScheduleServlet</servlet-name>
+		<servlet-class>com.rent_ord.controller.RentOrdScheduleServlet</servlet-class>
+		<load-on-startup>10</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RentOrdScheduleServlet</servlet-name>
+		<url-pattern>/RentOrdScheduleServlet</url-pattern>
+	</servlet-mapping>
   
 </web-app>
