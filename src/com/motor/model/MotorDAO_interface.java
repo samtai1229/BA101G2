@@ -24,5 +24,7 @@ public interface MotorDAO_interface {
 	
 	public List<MotorVO> getAll(Map<String, String[]> map);
 //	public List<MotorVO> getMotorsByAllStatus();
+
+	
 	
 }

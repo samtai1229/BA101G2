@@ -13,12 +13,16 @@
 	List<LocationVO> list = locSvc.getAll();
 	String memno = (String)session.getAttribute("memno");
 	String memname = (String)session.getAttribute("memname");
+	String error = (String)request.getAttribute("error");
 	System.out.println(memno);
 	System.out.println(memname);
 	pageContext.setAttribute("list",list);
 	pageContext.setAttribute("memno",memno);
 	pageContext.setAttribute("memname",memname);
 	pageContext.setAttribute("newslist", newslist);
+	pageContext.setAttribute("error", error);
+	
+	
 %>
 
 <!DOCTYPE html>
@@ -465,5 +469,23 @@
     
   
     </script>
+    <script type="text/javascript">
+      
+
+    function doFirst()
+    {
+    	var error = "${error}";
+        console.log(error);
+    	if(error)
+    		alert(error+"，請重新登入");
+    	
+    }
+    window.addEventListener('load',doFirst,false);
+    
+    
+    
+    </script>
+    
+    
 
 </html>

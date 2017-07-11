@@ -8,6 +8,7 @@
 	String[] gender = {"Girl","Boy"};
     pageContext.setAttribute("statusArray", statusArray);
 	pageContext.setAttribute("gender", gender);
+	pageContext.setAttribute("memVO", memVO);
 %>
 <html>
 <head>
@@ -95,7 +96,7 @@
 	
 	
     <tr>
-        <td>實名認證狀態:</td>
+        <td>認證狀態:</td>
 		<td><%=memVO.getStatus()%></td>
 	</tr>
 </table>

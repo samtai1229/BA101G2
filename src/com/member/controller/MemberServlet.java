@@ -290,22 +290,22 @@ public class MemberServlet extends HttpServlet {
 					errorMsgs.add("帳號/密碼不可為空");
 				}
 				// Send the use back to the form, if there were errors
-				if (!errorMsgs.isEmpty()) {
-				
-					res.sendRedirect("/BA101G2/index.jsp");
-
-//					RequestDispatcher failureView = req.getRequestDispatcher("/index.jsp#"+"tab-1");
+//				if (!errorMsgs.isEmpty()) {
+//				
+////					res.sendRedirect("/BA101G2/index.jsp");
+//
+//					RequestDispatcher failureView = req.getRequestDispatcher("/index.jsp");
 //					failureView.forward(req, res);
-
-					return;// 程式中斷
-				}
+//
+//					return;// 程式中斷
+//				}
 
 				/*************************** 2.開始比對帳密會員資料 *****************************************/
 				MemberService memSvc = new MemberService();
 				MemberVO memVO = memSvc.getOneMemberByAccAndPwd(acc, pwd);
 
 				if (memVO == null) {
-					errorMsgs.add("查無資料");
+					errorMsgs.add("無此帳號");
 				} else {
 					if (!pwd.equals(memVO.getPwd())) {
 						errorMsgs.add("帳號/密碼錯誤");
@@ -313,7 +313,8 @@ public class MemberServlet extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/select_page.jsp");
+					req.setAttribute("error", errorMsgs.get(0));
+					RequestDispatcher failureView = req.getRequestDispatcher("/index.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -456,7 +457,7 @@ public class MemberServlet extends HttpServlet {
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 
-//			try {
+			try {
 				/***************************
 				 * 1.接收請求參數 - 輸入格式的錯誤處理
 				 **********************/
@@ -508,7 +509,7 @@ public class MemberServlet extends HttpServlet {
 				Timestamp credate = Timestamp.valueOf(req.getParameter("credate"));
 				memVO.setCredate(credate);
 				if( memname.length()!=0 && birth!=null && phone.length()!=0
-						&& addr.length()!=0 && sex.length()!=0)status="completed";
+						&& addr.length()!=0 && sex.length()!=0)status="unconfirmed";
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("memVO", memVO); // 含有輸入格式錯誤的empVO物件,也存入req
@@ -537,12 +538,12 @@ public class MemberServlet extends HttpServlet {
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
-//			} catch (Exception e) {
-//				errorMsgs.add("修改資料失敗:" + e.getMessage());
-//				System.out.println("GGGGGGGGGGGGGGGGGGGGGGG");
-//				RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/listOneMember.jsp");
-//				failureView.forward(req, res);
-//			}
+			} catch (Exception e) {
+				errorMsgs.add("修改資料失敗:" + e.getMessage());
+				System.out.println("GGGGGGGGGGGGGGGGGGGGGGG");
+				RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/listOneMember.jsp");
+				failureView.forward(req, res);
+			}
 		}
 
 		if ("insert".equals(action)) { // 來自addSpot.jsp的請求
