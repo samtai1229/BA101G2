@@ -480,7 +480,7 @@ public class MemberServlet extends HttpServlet {
 				System.out.println("拿到" + phone);
 				String mail = req.getParameter("mail");
 				System.out.println("拿到" + mail);
-				Timestamp birth = Timestamp.valueOf((req.getParameter("birth").isEmpty())? Timestamp.valueOf(LocalDateTime.now()).toString():req.getParameter("birth"));
+				Timestamp birth = Timestamp.valueOf((req.getParameter("birth").isEmpty())? Timestamp.valueOf(LocalDateTime.now()).toString():req.getParameter("birth").replace('/', '-')+" 00:00:00");
 				System.out.println("拿到" + birth);
 		
 				Part idcard1 = req.getPart("idcard1");
