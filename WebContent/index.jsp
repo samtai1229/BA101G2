@@ -249,23 +249,19 @@
    <div class="row ">
     <div class="col-xs-12 col-sm-12 text-center">
      <h2 class="section-heading">³Ì·s®ø®§</h2>
-
     </div>
-
+   </div>
    </div>
  
-<div style= margin-right:45px;>
+<div  style= margin-right:45px;>
 
-   <div class="container">
+   <div class="container-fluid">
   <div class="row">
    <div class="col-xs-12 col-sm-4">
-    <div class="container">
-     <div class="row">
-      <div class="col-sm-4">
        <div class="news">
         <div class="img-figure">
-         <img src=<%=request.getContextPath()%>/backend/news/newsread.do?newsno=<%=listnormal.get(0).getNewsno()%>
-         class="img-responsive"  alt="Responsive image">
+         <img style="width:200px" src="<%=request.getContextPath()%>/backend/news/newsread.do?newsno=<%=listnormal.get(0).getNewsno()%>
+         " class="img-responsive"  alt="Responsive image">
         </div>
 
         <div class="title">
@@ -282,17 +278,16 @@
        </div>
 
 
-      </div>
-     </div>
-    </div>
+  
+  
+  
    </div>
    <div class="col-xs-12 col-sm-4">
-    <div class="container">
-     <div class="row">
-      <div class="col-sm-4">
+
+   
        <div class="news">
         <div class="img-figure">
-         <img src=<%=request.getContextPath()%>/backend/news/newsread.do?newsno=<%=listnormal.get(1).getNewsno()%> class="img-responsive">
+         <img style= max-width:150px;max-height:150px; src="<%=request.getContextPath()%>/backend/news/newsread.do?newsno=<%=listnormal.get(1).getNewsno()%>" class="img-responsive">
         </div>
 
         <div class="title">
@@ -307,17 +302,14 @@
        </div>
 
 
-      </div>
-     </div>
-    </div>
+    
+  
+  
    </div>
    <div class="col-xs-12 col-sm-4">
-    <div class="container">
-     <div class="row">
-      <div class="col-sm-4">
        <div class="news">
         <div class="img-figure">
-         <img src=<%=request.getContextPath()%>/backend/news/newsread.do?newsno=<%=listnormal.get(2).getNewsno()%> style= max-width:150px;max-height:150px;
+         <img src="<%=request.getContextPath()%>/backend/news/newsread.do?newsno=<%=listnormal.get(2).getNewsno()%>" style= max-width:150px;max-height:150px;
          class="img-responsive">
         </div>
 
@@ -333,9 +325,9 @@
        </div>
 
 
-      </div>
-     </div>
-    </div>
+
+  
+ 
    </div>
   </div>
  </div>
@@ -392,7 +384,7 @@
 				</div>
 			</div>
 			<div class="row text-center">
-				<div class="col-md-4">
+				<div class="col-xs-12 col-sm-4">
 					<span class="fa-stack fa-4x"> <i
 						class="fa fa-circle fa-stack-2x text-primary"></i> <i
 						class="fa fa-shopping-cart fa-stack-1x fa-inverse"></i>
@@ -402,7 +394,7 @@
 						adipisicing elit. Minima maxime quam architecto quo inventore
 						harum ex magni, dicta impedit.</p>
 				</div>
-				<div class="col-md-4">
+				<div class="col-xs-12 col-sm-4">
 					<span class="fa-stack fa-4x"> <i
 						class="fa fa-circle fa-stack-2x text-primary"></i> <i
 						class="fa fa-laptop fa-stack-1x fa-inverse"></i>
@@ -412,7 +404,7 @@
 						adipisicing elit. Minima maxime quam architecto quo inventore
 						harum ex magni, dicta impedit.</p>
 				</div>
-				<div class="col-md-4">
+				<div class="col-xs-12 col-sm-4">
 					<span class="fa-stack fa-4x"> <i
 						class="fa fa-circle fa-stack-2x text-primary"></i> <i
 						class="fa fa-lock fa-stack-1x fa-inverse"></i>
