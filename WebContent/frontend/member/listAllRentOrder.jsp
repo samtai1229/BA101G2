@@ -17,11 +17,26 @@
 <html>
 <head>
 <title>我的租賃單資料</title>
+<style type="text/css">
+
+.custab{
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin: 5% 0;
+    box-shadow: 3px 3px 2px #ccc;
+    transition: 0.5s;
+    }
+.custab:hover{
+    box-shadow: 3px 3px 0px transparent;
+    transition: 0.5s;
+    }
+
+</style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body bgcolor='white'>
 <div class="col-xs-12 col-sm-12">
-<table border='1' cellpadding='5' cellspacing='0' width='1550'>
+<table border='1' cellpadding='5' cellspacing='0' width='1690'>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
 		<h3>我的訂單資料</h3>
@@ -29,7 +44,7 @@
 		</td>
 	</tr>
 </table>
-</div>
+
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
 	<font color='red'>請修正以下錯誤:
@@ -40,9 +55,10 @@
 	</ul>
 	</font>
 </c:if>
+<div class="col-xs-12 col-sm-12">
 <%-- <%@ include file="pages/page1.file" %>  --%>
-<div class="row col-xs-12 col-sm-12">
-<table border='1' bordercolor='#CCCCFF'>
+
+<table border='1' class="table table-striped custab">
 	<thead>
 	<tr align='center'>
 	
@@ -108,6 +124,7 @@
 		</c:if>
 	</c:forEach>
 </table>
+</div>
 <br>本網頁的路徑:<br><b>
    <font color=blue>request.getServletPath():</font> <%= request.getServletPath()%><br>
    <font color=blue>request.getRequestURI(): </font> <%= request.getRequestURI()%> </b>

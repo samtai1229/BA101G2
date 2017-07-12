@@ -15,7 +15,8 @@
 //  DeptService deptSvc = new DeptService();
 //  DeptVO deptVO = deptSvc.getOneDept(empVO.getDeptno());
 %>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <title>會員資料 - listOneMember.jsp</title>
 
@@ -38,7 +39,7 @@
 </head>
 <body bgcolor='white'>
 <div  class="col-xs-12 col-sm-12">
-<table border='1' cellpadding='5' cellspacing='0' width=1690>
+<table border='1' cellpadding='5' cellspacing='0' width='1690'>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
 		<h3>會員專區 -MemberCenter</h3>
@@ -114,7 +115,7 @@
     </div>
 
 
-<div id="demo"></div>
+<div class="col-xs-12 col-sm-12" id="demo"></div>
 <div id="demo2"></div>
 
 
