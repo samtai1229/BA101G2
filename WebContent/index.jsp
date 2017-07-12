@@ -534,7 +534,12 @@
     	var error = "${error}";
         console.log(error);
     	if(error)
+    	{
     		alert(error+"，請重新登入");
+    		$("#modal-id").modal();
+    	}
+    	
+    	
     	
     }
     window.addEventListener('load',doFirst,false);
