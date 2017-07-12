@@ -77,10 +77,6 @@ public class MotorService {
 	public Set<MotorVO> getMotorsByManuDate(Timestamp start_time, Timestamp end_time) {
 		return dao.getMotorsByManuDate(start_time, end_time);
 	}
-	
-	public List<MotorVO> getAll(Map<String, String[]> map) {
-		return dao.getAll(map);
-	}
 
 	public HashSet<MotorVO> getModtypeByLocNo(String locno) {
 		return dao.getModtypeByLocNo(locno);
