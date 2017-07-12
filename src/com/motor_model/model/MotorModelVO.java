@@ -11,6 +11,7 @@ public class MotorModelVO implements java.io.Serializable {
 	private Integer renprice;
 	private Integer saleprice;
 	private byte[] motpic;
+	private String intro;
 
 	public MotorModelVO() {
 
@@ -71,5 +72,14 @@ public class MotorModelVO implements java.io.Serializable {
 	public void setMotpic(byte[] motpic) {
 		this.motpic = motpic;
 	}
+	
+	public String getIntro() {
+		return intro;
+	}
+
+	public void setIntro(String intro) {
+		this.intro = intro;
+	}
+
 
 }
