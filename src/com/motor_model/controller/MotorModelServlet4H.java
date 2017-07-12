@@ -43,6 +43,7 @@ public class MotorModelServlet4H extends HttpServlet {
 				/******** 1.接收請求參數 - 輸入格式的錯誤處理 ***************/
 				String brand = req.getParameter("brand").trim();
 				String name = req.getParameter("name").trim();
+				String intro = req.getParameter("intro").trim();
 
 				Integer displacement = null;
 				try {
@@ -80,6 +81,7 @@ public class MotorModelServlet4H extends HttpServlet {
 				mmVO.setRenprice(renprice);
 				mmVO.setSaleprice(saleprice);
 				mmVO.setMotpic(motpic);
+				mmVO.setIntro(intro);
 
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
@@ -90,7 +92,7 @@ public class MotorModelServlet4H extends HttpServlet {
 
 				/**************** 2.開始新增資料 *************************/
 				MotorModelService mmSvc = new MotorModelService();
-				mmVO = mmSvc.addMotorModel(brand, displacement, name, renprice, saleprice, motpic);
+				mmVO = mmSvc.addMotorModel(brand, displacement, name, renprice, saleprice, motpic, intro);
 				/********** 3.新增完成,準備轉交(Send the Success view) *******/
 				RequestDispatcher successView = req.getRequestDispatcher("/backend/motor_model/listAllMotorModel.jsp"); // 新增成功後轉交?.jsp
 				successView.forward(req, res);
@@ -151,6 +153,7 @@ public class MotorModelServlet4H extends HttpServlet {
 				String modtype = req.getParameter("modtype").trim();
 				String brand = req.getParameter("brand").trim();
 				String name = req.getParameter("name").trim();
+				String intro = req.getParameter("intro").trim();
 
 				Integer displacement = null;
 				try {
@@ -189,6 +192,7 @@ public class MotorModelServlet4H extends HttpServlet {
 				mmVO.setRenprice(renprice);
 				mmVO.setSaleprice(saleprice);
 				mmVO.setMotpic(motpic);
+				mmVO.setIntro(intro);
 
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
@@ -205,9 +209,9 @@ public class MotorModelServlet4H extends HttpServlet {
 				System.out.println("part = " + GetPictureByteArrayFromWeb.getFileNameFromPart(part) != null);
 				
 				if(GetPictureByteArrayFromWeb.getFileNameFromPart(part) != null){
-					mmVO = mmSvc.updateMotorModel(modtype, brand, displacement, name, renprice, saleprice, motpic);
+					mmVO = mmSvc.updateMotorModel(modtype, brand, displacement, name, renprice, saleprice, motpic, intro);
 				}else 
-				mmVO = mmSvc.updateMotorModel(modtype, brand, displacement, name, renprice, saleprice, defaultPic);
+				mmVO = mmSvc.updateMotorModel(modtype, brand, displacement, name, renprice, saleprice, defaultPic , intro);
 
 				/********* 3.新增完成,準備轉交(Send the Success view) ***********/
 				RequestDispatcher successView = req.getRequestDispatcher("/backend/motor_model/listAllMotorModel.jsp"); // 新增成功後轉交?.jsp

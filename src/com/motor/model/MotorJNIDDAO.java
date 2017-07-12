@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -615,6 +616,24 @@ public class MotorJNIDDAO implements MotorDAO_interface {
 		System.out.println("getNote :" + aMotor.getNote() + ",");
 		System.out.println();
 
+	}
+
+	@Override
+	public List<MotorVO> getMotorsByModtypeAndLocno(String modtype, String locno) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<MotorVO> fuzzyGetAll(String fuzzyValue) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public HashSet<MotorVO> getModtypeByLocNo(String locno) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

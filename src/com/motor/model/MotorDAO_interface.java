@@ -1,6 +1,7 @@
 package com.motor.model;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -24,6 +25,12 @@ public interface MotorDAO_interface {
 	
 	public List<MotorVO> getAll(Map<String, String[]> map);
 //	public List<MotorVO> getMotorsByAllStatus();
+
+	List<MotorVO> getMotorsByModtypeAndLocno(String modtype, String locno);
+
+	List<MotorVO> fuzzyGetAll(String fuzzyValue);
+
+	HashSet<MotorVO> getModtypeByLocNo(String locno);
 
 	
 	

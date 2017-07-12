@@ -327,4 +327,10 @@ public class MotorModelJNDIDAO implements MotorModelDAO_interface {
 		return baos.toByteArray();
 	}
 
+	@Override
+	public List<MotorModelVO> fuzzyGetAll(String fuzzyValue) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

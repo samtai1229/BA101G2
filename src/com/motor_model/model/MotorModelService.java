@@ -11,7 +11,7 @@ public class MotorModelService {
 	}
 
 	public MotorModelVO addMotorModel(String brand, Integer displacement, String name, Integer renprice,
-			Integer saleprice, byte[] motpic) {
+			Integer saleprice, byte[] motpic, String intro) {
 
 		MotorModelVO mmVO = new MotorModelVO();
 		mmVO.setBrand(brand);
@@ -20,6 +20,7 @@ public class MotorModelService {
 		mmVO.setRenprice(renprice);
 		mmVO.setSaleprice(saleprice);
 		mmVO.setMotpic(motpic);
+		mmVO.setIntro(intro);
 
 		dao.insert(mmVO);
 
@@ -27,8 +28,9 @@ public class MotorModelService {
 
 	};
 
+
 	public MotorModelVO updateMotorModel(String modtype, String brand, Integer displacement, String name,
-			Integer renprice, Integer saleprice, byte[] motpic) {
+			Integer renprice, Integer saleprice, byte[] motpic, String intro) {
 
 		MotorModelVO mmVO = new MotorModelVO();
 		mmVO.setModtype(modtype);
@@ -38,6 +40,7 @@ public class MotorModelService {
 		mmVO.setRenprice(renprice);
 		mmVO.setSaleprice(saleprice);
 		mmVO.setMotpic(motpic);
+		mmVO.setIntro(intro);
 
 		dao.update(mmVO);
 
@@ -54,6 +57,10 @@ public class MotorModelService {
 
 	public List<MotorModelVO> getAll() {
 		return dao.getAll();
+	}
+
+	public List<MotorModelVO> fuzzyGetAll(String fuzzyValue) {
+		return dao.fuzzyGetAll(fuzzyValue);
 	}
 
 }

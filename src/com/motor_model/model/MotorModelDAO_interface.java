@@ -13,4 +13,6 @@ public interface MotorModelDAO_interface {
 
 	public List<MotorModelVO> getAll();
 
+	public List<MotorModelVO> fuzzyGetAll(String fuzzyValue);
+
 }
