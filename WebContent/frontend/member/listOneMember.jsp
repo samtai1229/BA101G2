@@ -66,7 +66,7 @@
 		<!-- <th>影片</th> -->
 		<th>身分證反面</th>
 		<th>駕照</th>
-		<th  width='150'>加入時間</th>
+		<th>加入時間</th>
 		<th>認證狀態</th>
 		<th colspan="2" align="center">操作</th>
 	

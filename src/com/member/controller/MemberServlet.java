@@ -3,6 +3,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -457,7 +459,7 @@ public class MemberServlet extends HttpServlet {
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 
-			try {
+//			try {
 				/***************************
 				 * 1.接收請求參數 - 輸入格式的錯誤處理
 				 **********************/
@@ -472,13 +474,15 @@ public class MemberServlet extends HttpServlet {
 				String pwd = req.getParameter("pwd");
 				System.out.println("拿到" + pwd);
 				String addr = req.getParameter("address");
-				System.out.println("拿到" + addr);
+			       addr = (addr.isEmpty())? "未填寫" : addr;
 				String phone = req.getParameter("phone");
+				       phone =(req.getParameter("phone").isEmpty())? "未填寫": req.getParameter("phone");
 				System.out.println("拿到" + phone);
 				String mail = req.getParameter("mail");
 				System.out.println("拿到" + mail);
-				Timestamp birth = Timestamp.valueOf(req.getParameter("birth")+" 00:00:00");
+				Timestamp birth = Timestamp.valueOf((req.getParameter("birth").isEmpty())? Timestamp.valueOf(LocalDateTime.now()).toString():req.getParameter("birth"));
 				System.out.println("拿到" + birth);
+		
 				Part idcard1 = req.getPart("idcard1");
 				System.out.println("拿到idcard1:大小" + idcard1.getSize());
 				Part idcard2 = req.getPart("idcard2");
@@ -531,19 +535,19 @@ public class MemberServlet extends HttpServlet {
 				/***************************
 				 * 3.修改完成,準備轉交(Send the Success view)
 				 *************/
-				req.setAttribute("memVO", memVO); // 資料庫update成功後,正確的的empVO物件,存入req
+				req.setAttribute("memVO", memSvc.getOneMemberByAcc(acc)); // 資料庫update成功後,正確的的empVO物件,存入req
 				System.out.println("準備轉交");
 				String url = "/frontend/member/listOneMember.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
-			} catch (Exception e) {
-				errorMsgs.add("修改資料失敗:" + e.getMessage());
-				System.out.println("GGGGGGGGGGGGGGGGGGGGGGG");
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/listOneMember.jsp");
-				failureView.forward(req, res);
-			}
+//			} catch (Exception e) {
+//				errorMsgs.add("修改資料失敗:" + e.getMessage());
+//				System.out.println("GGGGGGGGGGGGGGGGGGGGGGG");
+//				RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/listOneMember.jsp");
+//				failureView.forward(req, res);
+//			}
 		}
 
 		if ("insert".equals(action)) { // 來自addSpot.jsp的請求
@@ -562,9 +566,12 @@ public class MemberServlet extends HttpServlet {
 				String acc = req.getParameter("acc");
 				String pwd = req.getParameter("pwd");
 				String addr = req.getParameter("address");
+				       addr = (addr.isEmpty())? "未填寫" : addr;
 				String phone = req.getParameter("phone");
+			    phone =(req.getParameter("phone").isEmpty())? "0900000000": req.getParameter("phone");
 				String mail = req.getParameter("mail");
-				Timestamp birth = Timestamp.valueOf(req.getParameter("birth") + " 00:00:00");
+				Timestamp birth = Timestamp.valueOf((req.getParameter("birth").isEmpty())?"1999-01-01 00:00:00":req.getParameter("birth")+" 00:00:00");
+				System.out.println("拿到" + birth);
 				Part idcard1 = req.getPart("idcard1");
 				Part idcard2 = req.getPart("idcard2");
 				Part license = req.getPart("license");

@@ -57,7 +57,7 @@
 <div class="col-xs-12 col-sm-12">
 <%-- <%@ include file="pages/page1.file" %>  --%>
 
-<table border='1' class="table table-striped">
+<table border='1' class="table table-striped custab">
 	<thead>
 	<tr align='center'>
 	
