@@ -17,6 +17,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.motor.model.MotorVO;
+
 public class MotorModelDAO implements MotorModelDAO_interface {
 	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
 	private static DataSource ds = null;
@@ -30,19 +32,23 @@ public class MotorModelDAO implements MotorModelDAO_interface {
 	}
 
 	private static final String INSERT_STMT = "INSERT INTO MOTOR_MODEL"
-			+ " (modtype, brand, displacement, name, renprice, saleprice, motpic"
-			+ ") VALUES ('MM'||LPAD(TO_CHAR(modtype_seq.NEXTVAL), 3,'0'), ?, ?, ?, ?, ?,?)";
+			+ " (modtype, brand, displacement, name, renprice, saleprice, motpic, intro"
+			+ ") VALUES ('MM'||LPAD(TO_CHAR(modtype_seq.NEXTVAL), 3,'0'), ?, ?, ?, ?, ?,?,?)";
 
 	private static final String UPDATE = "UPDATE MOTOR_MODEL set brand=?,"
-			+ " displacement=?, name=?, renprice=?, saleprice=?, motpic=? where modtype = ?";
+			+ " displacement=?, name=?, renprice=?, saleprice=?, motpic=?, intro=? where modtype = ?";
 
 	private static final String DELETE = "DELETE FROM MOTOR_MODEL where modtype = ?";
 
 	private static final String GET_ONE = "SELECT modtype, brand, displacement,"
-			+ "  name, renprice, saleprice, motpic FROM MOTOR_MODEL where modtype = ?";
+			+ "  name, renprice, saleprice, motpic, intro FROM MOTOR_MODEL where modtype = ?";
 
 	private static final String GET_ALL = "SELECT modtype, brand, displacement,"
-			+ "  name, renprice, saleprice, motpic FROM MOTOR_MODEL";
+			+ "  name, renprice, saleprice, motpic, intro FROM MOTOR_MODEL";
+	
+	private static final String FUZZY_SEARCH = 
+			"SELECT * FROM MOTOR_MODEL where MODTYPE LIKE ? or BRAND LIKE ? or DISPLACEMENT LIKE ? or NAME LIKE ? or RENPRICE LIKE ? or SALEPRICE LIKE ? ORDER BY MODTYPE";
+	
 
 	@Override
 	public void insert(MotorModelVO mmVO) {
@@ -60,6 +66,8 @@ public class MotorModelDAO implements MotorModelDAO_interface {
 			pstmt.setInt(4, mmVO.getRenprice());
 			pstmt.setInt(5, mmVO.getSaleprice());
 			pstmt.setBytes(6, mmVO.getMotpic());
+			pstmt.setString(7, mmVO.getIntro());
+
 
 			pstmt.executeUpdate();
 
@@ -102,7 +110,9 @@ public class MotorModelDAO implements MotorModelDAO_interface {
 			pstmt.setInt(4, mmVO.getRenprice());
 			pstmt.setInt(5, mmVO.getSaleprice());
 			pstmt.setBytes(6, mmVO.getMotpic());
-			pstmt.setString(7, mmVO.getModtype());
+			pstmt.setString(7, mmVO.getIntro());
+			pstmt.setString(8, mmVO.getModtype());
+
 
 			pstmt.executeUpdate();
 
@@ -281,6 +291,71 @@ public class MotorModelDAO implements MotorModelDAO_interface {
 		}
 		return list;
 	}
+	
+	@Override
+	public List<MotorModelVO> fuzzyGetAll(String fuzzyValue) {
+		
+		List<MotorModelVO> list = new ArrayList<MotorModelVO>();
+		MotorModelVO mmVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(FUZZY_SEARCH);
+
+			pstmt.setString(1, "%"+fuzzyValue+"%");
+			pstmt.setString(2, "%"+fuzzyValue+"%");
+			pstmt.setString(3, "%"+fuzzyValue+"%");
+			pstmt.setString(4, "%"+fuzzyValue+"%");
+			pstmt.setString(5, "%"+fuzzyValue+"%");
+			pstmt.setString(6, "%"+fuzzyValue+"%");
+			rs = pstmt.executeQuery();
+			
+System.out.println("mmDAO: "+"'%" + fuzzyValue + "%'");		
+				
+			while (rs.next()) {
+				mmVO = new MotorModelVO();
+				mmVO.setModtype(rs.getString("modtype"));
+				mmVO.setBrand(rs.getString("brand"));
+				mmVO.setDisplacement(rs.getInt("displacement"));
+				mmVO.setName(rs.getString("name"));						
+				mmVO.setRenprice(rs.getInt("renprice"));			
+				mmVO.setSaleprice(rs.getInt("saleprice"));
+				list.add(mmVO); 
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("mmDAO : A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+System.out.println("mmDAOlist: " + list);
+		return list;
+	}
 
 	private void setAttribute(MotorModelVO mmVO, ResultSet rs) {
 		try {
@@ -291,6 +366,7 @@ public class MotorModelDAO implements MotorModelDAO_interface {
 			mmVO.setRenprice(rs.getInt("renprice"));
 			mmVO.setSaleprice(rs.getInt("saleprice"));
 			mmVO.setMotpic(rs.getBytes("motpic"));
+			mmVO.setIntro(rs.getString("intro"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
