@@ -31,28 +31,29 @@
 
 <html>
 <head>
-<title>所有二手車訂單資料 - listAllSecOrd.jsp</title>
+<title>我的二手車訂單- listAllSecOrd.jsp</title>
 </head>
 <body bgcolor='white'>
-<table border='1' cellpadding='5' cellspacing='0' width='1260'>
+<div  class="col-xs-12 col-sm-12">
+<table  border='1' cellpadding='5' cellspacing='0' width='100%'>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
-		<h3>我的二手車訂單資料 - ListAllSecOrds.jsp</h3>
-		<a href="<%=request.getContextPath()%>/index.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a>
-		</td>
+		<h3>我的二手車訂單 -ListAllSecOrd.jsp</h3>
+	</td>
 	</tr>
 </table>
-
+</div>
 <%-- 錯誤表列 --%>
-<c:if test="${not empty errorMsgs}">
-	<font color='red'>請修正以下錯誤:
-	<ul>
-		<c:forEach var="message" items="${errorMsgs}">
-			<li>${message}</li>
-		</c:forEach>
-	</ul>
-	</font>
-</c:if>
+<%-- <c:if test="${not empty errorMsgs}"> --%>
+<!-- 	<font color='red'>請修正以下錯誤: -->
+<!-- 	<ul> -->
+<%-- 		<c:forEach var="message" items="${errorMsgs}"> --%>
+<%-- 			<li>${message}</li> --%>
+<%-- 		</c:forEach> --%>
+<!-- 	</ul> -->
+<!-- 	</font> -->
+<%-- </c:if> --%>
+<div class="col-xs-12 col-sm-12">
 <%@ include file="pages/page1.file" %> 
 <%--     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do" > --%>
        <b><font color=orange>訂單狀態:</font></b>
@@ -68,7 +69,7 @@
 <!--        <input type="hidden" name="action" value="getAll_For_Display_By_Memno_Status"> -->
 <%--        <input type="hidden" name="memno" value="<%=memno%>"> --%>
 <!--      </FORM> -->
-<table border='1' bordercolor='#CCCCFF' width='1260'>
+<table class="table table-striped" border='1' bordercolor='#CCCCFF' width='1260'>
 	<tr>
 		<th>二手車訂單編號</th>
 		<th>會員名稱</th>
@@ -108,6 +109,7 @@
 <br>本網頁的路徑:<br><b>
    <font color=blue>request.getServletPath():</font> <%= request.getServletPath()%><br>
    <font color=blue>request.getRequestURI(): </font> <%= request.getRequestURI()%> </b>
+   </div>
 </body>
 
 <script src="https://code.jquery.com/jquery.js"></script>

@@ -50,6 +50,7 @@ public class MotorModelServlet extends HttpServlet {
 				String renpriceStr = req.getParameter("renprice");
 				String salepriceStr = req.getParameter("saleprice");	
 				byte[] motpic = getPictureByteArrayFromWeb(req.getPart("motpic"));
+				String intro = req.getParameter("intro");
 				//直接處理圖片motpic，下面有part轉byte[]程式
 
 				Integer displacement = null;
@@ -98,7 +99,7 @@ public class MotorModelServlet extends HttpServlet {
 				
 				/***************************2.開始新增資料***************************************/
 				MotorModelService mmSvc = new MotorModelService();
-				mmVO = mmSvc.addMotorModel(brand, displacement, name, renprice, saleprice, motpic);
+				mmVO = mmSvc.addMotorModel(brand, displacement, name, renprice, saleprice, motpic, intro);
 				
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
@@ -132,7 +133,8 @@ public class MotorModelServlet extends HttpServlet {
 				String displacementStr = req.getParameter("displacement");
 				String name = req.getParameter("name").trim();
 				String renpriceStr = req.getParameter("renprice");
-				String salepriceStr = req.getParameter("saleprice");	
+				String salepriceStr = req.getParameter("saleprice");
+				String intro = req.getParameter("intro");
 
 				byte[] motpic = getPictureByteArrayFromWeb(req.getPart("motpic"));
 				//直接處理圖片motpic，下面有part轉byte[]程式
@@ -182,7 +184,7 @@ public class MotorModelServlet extends HttpServlet {
 				System.out.println("update start");
 				/***************************2.開始新增資料***************************************/
 				MotorModelService mmSvc = new MotorModelService();
-				mmVO = mmSvc.updateMotorModel(modtype, brand, displacement, name, renprice, saleprice, motpic);
+				mmVO = mmSvc.updateMotorModel(modtype, brand, displacement, name, renprice, saleprice, motpic, intro);
 				
 				/***************************3.新增完成,準備轉交(Send the Success view)***********/
 				String url = "/backend/motor_model/backendMotorModel.jsp";

@@ -39,7 +39,7 @@
 </head>
 <body bgcolor='white'>
 <div  class="col-xs-12 col-sm-12">
-<table border='1' cellpadding='5' cellspacing='0' width='1690'>
+<table  border='1' cellpadding='5' cellspacing='0' width='100%'>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
 		<h3>會員專區 -MemberCenter</h3>
@@ -50,12 +50,12 @@
 </div>
 
     <div class="col-xs-12 col-sm-12">
-    <table border="1" class="table table-striped custab">
+    <table width='100%' border="1" class="table table-striped">
     <thead>
         <tr>
 		<th>會員編號</th>
-		<th width='100' >會員名稱</th>
-		<th width='50'>性別 </th>
+		<th>會員名稱</th>
+		<th>性別 </th>
 		<th>生日</th>
 		<th>Mail</th>
 		<th>電話</th>
@@ -114,9 +114,8 @@
 	<button type="button" onclick="loadOrder()" >我的租賃單</button>
     </div>
 
+<div id="demo"></div>
 
-<div class="col-xs-12 col-sm-12" id="demo"></div>
-<div id="demo2"></div>
 
 
 </body>
