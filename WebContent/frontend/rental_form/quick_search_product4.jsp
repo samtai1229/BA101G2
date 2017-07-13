@@ -5,7 +5,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
-<%@ page import="com.motor.model.*"%>
+<%@ page import="com.rent_ord.model.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,6 +38,14 @@
 
 margin-top:100px;
 
+}
+
+.margin-tag{
+	margin-top:5px;
+}
+
+.dynamic-text{
+	font-size:16px;
 }
 
 
@@ -127,21 +135,19 @@ dayPicker <c:out value="${dayPicker}" default="no value"></c:out> --%>
 							alt=""></img>
 					</div>
 					<div class="col-md-5 t1">
-						<div class="product-title">
-							<div>${mmSvc.findByPK(motorQueryVO.modtype).brand} ${mmSvc.findByPK(motorQueryVO.modtype).name}</div>
+						<div class="product-title margin-tag">
+							<div class="margin-tag">${mmSvc.findByPK(motorQueryVO.modtype).brand} ${mmSvc.findByPK(motorQueryVO.modtype).name}</div>
 							<c:if test="${mmSvc.findByPK(motorQueryVO.modtype).displacement > 150}">
-								<div><mark>重機專區</mark></div>
+								<div class="margin-tag"><mark>重機專區</mark></div>
 							</c:if>
-								<div class="dynamic-text">${mmSvc.findByPK(motorQueryVO.modtype).displacement}c.c.</div>						
+								<div class="dynamic-text margin-tag">${mmSvc.findByPK(motorQueryVO.modtype).displacement}c.c.</div>						
 							</div>
-						<div class="product-desc">The Corsair Gaming Series GS600 is
-							the ideal price/performance choice for mid-spec gaming PC</div>
 						<hr>
 						
 						<form METHOD="post" ACTION="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do">		
-						<div class="product-price">日租價    NT$${mmSvc.findByPK(motorQueryVO.modtype).renprice}</div>
-						<div class="dynamic-text">車輛編號 : ${motorQueryVO.motno}</div>
-						<div class="product-stock">可出租</div>
+						<div class="product-price margin-tag">日租價    NT$${mmSvc.findByPK(motorQueryVO.modtype).renprice}</div>
+						<div class="dynamic-text margin-tag">車輛編號 : ${motorQueryVO.motno}</div>
+						<div class="product-stock margin-tag">可出租</div>
 						<hr>
 						<div class="dynamic-text InputForm">租用日期:</div><li id="rentaled">紅色標記為當日不可出租</li>
 							
@@ -165,9 +171,9 @@ dayPicker <c:out value="${dayPicker}" default="no value"></c:out> --%>
 				   					<button type="submit" class="btn btn-success btn-lg">
 										<i class="glyphicon glyphicon-ok"></i>我要訂車
 									</button>
-									
-								<a href="<%=request.getContextPath()%>/index.jsp" class="btn btn-danger btn-lg">
-								<i class="glyphicon glyphicon-remove"></i>返回首頁</a>
+									<a onclick="history.back()" class="btn btn-danger btn-lg">
+										<i class="glyphicon glyphicon-remove"></i>返回前頁
+									</a>
 							</p>
 						</form>
 					</div>
@@ -177,48 +183,11 @@ dayPicker <c:out value="${dayPicker}" default="no value"></c:out> --%>
 				<div class="col-md-12 product-info">
 					<ul id="myTab" class="nav nav-tabs nav_tabs">
 						<li class="active"><a href="#service-one" data-toggle="tab">DESCRIPTION</a></li>
-						<li><a href="#service-two" data-toggle="tab">PRODUCT INFO</a></li>
-						<li><a href="#service-three" data-toggle="tab">REVIEWS</a></li>
 					</ul>
 					<div id="myTabContent" class="tab-content">
-						<div class="tab-pane fade in active" id="service-one">
-
-						
-								The Corsair Gaming Series GS600 power supply is the ideal
-								price-performance solution for building or upgrading a Gaming
-								PC. A single +12V rail provides up to 48A of reliable,
-								continuous power for multi-core gaming PCs with multiple
-								graphics cards. The ultra-quiet, dual ball-bearing fan
-								automatically adjusts its speed according to temperature, so it
-								will never intrude on your music and games. Blue LEDs bathe the
-								transparent fan blades in a cool glow. Not feeling blue? You can
-								turn off the lighting with the press of a button.
-
-								<h3>Corsair Gaming Series GS600 Features:</h3>
-								<li>It supports the latest ATX12V v2.3 standard and is
-									backward compatible with ATX12V 2.2 and ATX12V 2.01 systems</li>
-								<li>An ultra-quiet 140mm double ball-bearing fan delivers
-									great airflow at an very low noise level by varying fan speed
-									in response to temperature</li>
-								<li>80Plus certified to deliver 80% efficiency or higher at
-									normal load conditions (20% to 100% load)</li>
-								<li>0.99 Active Power Factor Correction provides clean and
-									reliable power</li>
-								<li>Universal AC input from 90~264V — no more hassle of
-									flipping that tiny red switch to select the voltage input!</li>
-								<li>Extra long fully-sleeved cables support full tower
-									chassis</li>
-								<li>A three year warranty and lifetime access to Corsair’s
-									legendary technical support and customer service</li>
-								<li>Over Current/Voltage/Power Protection, Under Voltage
-									Protection and Short Circuit Protection provide complete
-									component safety</li>
-								<li>Dimensions: 150mm(W) x 86mm(H) x 160mm(L)</li>
-								<li>MTBF: 100,000 hours</li>
-								<li>Safety Approvals: UL, CUL, CE, CB, FCC Class B, TÜV,
-									CCC, C-tick</li>
-						
-						</div>
+					<div class="tab-pane fade in active" id="service-one">
+						<blockquote>${mmSvc.findByPK(motorQueryVO.modtype).intro}</blockquote>
+					</div>
 						<div class="tab-pane fade" id="service-two">
 
 							<section class="container"></section>
