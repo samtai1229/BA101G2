@@ -37,7 +37,7 @@
 <body bgcolor='white'>
 <div  class="col-xs-12 col-sm-12">
 <table  border='1' cellpadding='5' cellspacing='0' width='100%'>
-	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
+	<tr  bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
 		<h3>我的訂單 </h3>
 	</td>
@@ -54,32 +54,31 @@
 <!-- 	</ul> -->
 <!-- 	</font> -->
 <%-- </c:if> --%>
-<div class="col-xs-12 col-sm-12">
 <%-- <%@ include file="pages/page1.file" %>  --%>
 
-<table border='1' class="table table-striped">
-	<thead>
-	<tr align='center'>
+<table border='1'  bordercolor='#CCCCFF' class="table table-striped">
 	
-		<th>租賃單編號</th>
-		<th>會員編號</th>
-		<th>車輛型號</th>
-		<th>取車據點</th>
-		<th>還車據點</th>
-		<th>起始里程</th>
-		<th>行駛里程</th>
-		<th>下單日期</th>
-		<th>訂單開始時間</th>
-		<th>訂單結束時間</th>
-		<th>還車時間</th>
-		<th>FINE</th>
-		<th>TOTAL</th>
-		<th>RANK</th>
-		<th>Status</th>
-		<th>Note</th>
+	<tr>
+	
+		<th style="text-align:center">租賃單編號</th>
+		<th style="text-align:center">會員編號</th>
+		<th style="text-align:center">車輛型號</th>
+		<th style="text-align:center">取車據點</th>
+		<th style="text-align:center">還車據點</th>
+		<th style="text-align:center">起始里程</th>
+		<th style="text-align:center">行駛里程</th>
+		<th style="text-align:center">下單日期</th>
+		<th style="text-align:center">訂單開始時間</th>
+		<th style="text-align:center">訂單結束時間</th>
+		<th style="text-align:center">還車時間</th>
+		<th style="text-align:center">FINE</th>
+		<th style="text-align:center">TOTAL</th>
+		<th style="text-align:center">RANK</th>
+		<th style="text-align:center">Status</th>
+		<th style="text-align:center">Note</th>
 	
 	</tr>
-	</thead>
+	
 <%-- 	begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" --%>
 	<c:forEach var="roVO" items="${list}" >
 	 <c:if test="${memno==roVO.memno}">
@@ -128,7 +127,7 @@
 <br>本網頁的路徑:<br><b>
    <font color=blue>request.getServletPath():</font> <%= request.getServletPath()%><br>
    <font color=blue>request.getRequestURI(): </font> <%= request.getRequestURI()%> </b>
-</div>
+
 
 
 

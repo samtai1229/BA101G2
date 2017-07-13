@@ -69,13 +69,14 @@
 <!--        <input type="hidden" name="action" value="getAll_For_Display_By_Memno_Status"> -->
 <%--        <input type="hidden" name="memno" value="<%=memno%>"> --%>
 <!--      </FORM> -->
-<table class="table table-striped" border='1' bordercolor='#CCCCFF' width='1260'>
+<table class="table table-striped" border='1' bordercolor='#CCCCFF' width='100%'>
 	<tr>
-		<th>二手車訂單編號</th>
-		<th>會員名稱</th>
-		<th>廠牌型號</th>
-		<th>訂單成立時間</th>
-		<th>訂單狀態</th>
+		<th style="text-align:center">二手車訂單編號</th>
+		<th style="text-align:center">會員名稱</th>
+		<th style="text-align:center">廠牌型號</th>
+		<th style="text-align:center">訂單成立時間</th>
+		<th style="text-align:center">訂單狀態</th>
+		<th colspan="2" style="text-align:center">操作</th>
 	</tr>
 <%-- 					begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" --%>
 	<c:forEach var="soVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" >

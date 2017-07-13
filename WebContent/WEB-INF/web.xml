@@ -170,5 +170,38 @@
   <servlet-name>NewsServlet</servlet-name>
   <url-pattern>/backend/news/news.do</url-pattern>
  </servlet-mapping>
+ 
+ 
+ <servlet>
+  <servlet-name>LoginHandler</servlet-name>
+  <servlet-class>com.adminis.controller.LoginHandler</servlet-class>
+ </servlet>
+ <servlet-mapping>
+  <servlet-name>LoginHandler</servlet-name>
+  <url-pattern>/loginhandler</url-pattern>
+ </servlet-mapping>
+  <filter>
+    <filter-name>LoginFilter</filter-name>
+    <filter-class>com.adminis.controller.LoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>LoginFilter</filter-name>
+ <url-pattern>/backend/index.jsp</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+    <dispatcher>INCLUDE</dispatcher>
+    <dispatcher>ERROR</dispatcher>
+    <dispatcher>ASYNC</dispatcher>
+  </filter-mapping>
+  <servlet>
+  <servlet-name>admin</servlet-name>
+  <servlet-class>com.adminis.controller.AdminisServlet</servlet-class>
+ </servlet>
+ <servlet-mapping>
+  <servlet-name>admin</servlet-name>
+  <url-pattern>/admin.do</url-pattern>
+ </servlet-mapping>
+ 
+ 
   
 </web-app>

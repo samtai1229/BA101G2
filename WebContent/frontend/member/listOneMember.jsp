@@ -38,7 +38,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body bgcolor='white'>
-<div  class="col-xs-12 col-sm-12">
+<div class="col-xs-12 col-sm-12">
 <table  border='1' cellpadding='5' cellspacing='0' width='100%'>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
@@ -48,30 +48,29 @@
 	</tr>
 </table>
 </div>
-
-    <div class="col-xs-12 col-sm-12">
-    <table width='100%' border="1" class="table table-striped">
-    <thead>
+<div class="col-xs-12 col-sm-12">
+    <table   border="1" class="table table-striped table-inverse" bordercolor='#CCCCFF' width='100%'>
+    
         <tr>
-		<th>會員編號</th>
-		<th>會員名稱</th>
-		<th>性別 </th>
-		<th>生日</th>
-		<th>Mail</th>
-		<th>電話</th>
-		<th>地址</th>
-		<th>帳號</th>
-		<th>密碼</th>
-		<th>身分證正面</th>
+		<th style="text-align:center">會員編號</th>
+		<th style="text-align:center">會員名稱</th>
+		<th style="text-align:center">性別 </th>
+		<th style="text-align:center">生日</th>
+		<th style="text-align:center">Mail</th>
+		<th style="text-align:center">電話</th>
+		<th style="text-align:center">地址</th>
+		<th style="text-align:center">帳號</th>
+		<th style="text-align:center">密碼</th>
+		<th style="text-align:center">身分證正面</th>
 		<!-- <th>影片</th> -->
-		<th>身分證反面</th>
-		<th>駕照</th>
-		<th>加入時間</th>
-		<th>認證狀態</th>
-		<th colspan="2" align="center">操作</th>
+		<th style="text-align:center">身分證反面</th>
+		<th style="text-align:center">駕照</th>
+		<th style="text-align:center">加入時間</th>
+		<th style="text-align:center">認證狀態</th>
+		<th style="text-align:center">操作</th>
 	
 	</tr>
-    </thead>
+    
             <tr align='center' valign='middle'>
 			<td>${memVO.memno}</td>
 			<td width='100'>${memVO.memname}</td>
@@ -110,11 +109,11 @@
 <!-- 			</td> -->
 		</tr>
     </table>
+    
     <button type="button" onclick="loadDoc()" >我的二手車訂單</button>
 	<button type="button" onclick="loadOrder()" >我的租賃單</button>
-    </div>
-
-<div id="demo"></div>
+   </div>
+<div class="col-xs-12 col-sm-12"  id="demo"></div>
 
 
 

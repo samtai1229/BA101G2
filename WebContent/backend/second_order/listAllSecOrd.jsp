@@ -34,7 +34,7 @@
 <title>所有二手車訂單資料 - listAllSecOrd.jsp</title>
 </head>
 <body bgcolor='white'>
-<table border='1' cellpadding='5' cellspacing='0' width='1260'>
+<table border='1' cellpadding='5' cellspacing='0' width='100%'>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
 		<h3>所有二手車訂單資料 - ListAllSecOrds.jsp</h3>
@@ -85,23 +85,31 @@
        <input type="submit" value="送出">
        <input type="hidden" name="action" value="getAll_For_Display_By_Sono">
      </FORM>
-<table border='1' bordercolor='#CCCCFF' width='1260'>
+<table  border="1" class="table table-striped table-inverse" bordercolor='#CCCCFF' width='100%'>
 	<tr>
 		<th>二手車訂單編號</th>
-		<th>會員名稱</th>
+		<th>會員編號</th>
+		<th>會員姓名</th>
 		<th>廠牌型號</th>
 		<th>訂單成立時間</th>
 		<th>訂單狀態</th>
+		<th colspan="2">操作</th>
 	</tr>
+	<jsp:useBean id="memSvc" scope="page" class="com.member.model.MemberService"></jsp:useBean>
 <%-- 					begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" --%>
 	<c:forEach var="soVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" >
 		<tr align='center' valign='middle'>
 			<td>${soVO.sono}</td>
 			<td>${soVO.memno}</td>
+		    <c:forEach var="memVO" items="${memSvc.all}">
+		       <c:if test="${memVO.memno==soVO.memno}">
+		        <td>${memVO.memname}</td>
+		       </c:if>
+		    </c:forEach>
 			<td>${soVO.motorno}</td>
 			<td><fmt:formatDate pattern = "yyyy-MM-dd hh:mm" 
          value = "${soVO.buildtime}" /></td>
-			<td>${soVO.status}</td>		
+			<td>${soVO.status}</td>		 
 			
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
