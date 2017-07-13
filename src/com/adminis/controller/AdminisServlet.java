@@ -242,7 +242,7 @@ public class AdminisServlet extends HttpServlet {
 	if (action.equals("logout")) {
 
 		HttpSession session = req.getSession();
-		session.removeAttribute("account");
+		session.removeAttribute("adminisVO");
 		res.sendRedirect("/BA101G2/backend/BackendLogin.jsp");
 
 	}

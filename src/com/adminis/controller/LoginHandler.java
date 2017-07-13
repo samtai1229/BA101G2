@@ -63,7 +63,6 @@ public class LoginHandler extends HttpServlet {
 		           return;
 		         }
 		       }catch (Exception ignored) { }
-		    	System.out.println("4");
 //		    	RequestDispatcher abc=req.getRequestDispatcher("/backend/index.jsp");
 //		    	abc.forward(req, res);
 		      res.sendRedirect(req.getContextPath()+"/backend/index.jsp");  //*工作3: (-->如無來源網頁:則重導至login_success.jsp)
