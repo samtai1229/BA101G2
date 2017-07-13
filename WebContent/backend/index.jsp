@@ -6,6 +6,12 @@
 <%@	page import="java.text.SimpleDateFormat"%>
 <%@	page import="java.text.DateFormat"%>
 <%@ page import="com.motor.model.*"%>
+<%@ page import="com.adminis.model.*"%>
+<%  AdminisService as = new AdminisService();
+	AdminisVO adminisVO= (AdminisVO)session.getAttribute("adminisVO");
+
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,6 +29,7 @@
 	<title>Backend HP</title>	
 </head>
 <body>
+
     <nav class="navbar navbar-default" role="navigation">
         <!-- logo區 -->
         <a class="navbar-brand" href="#" id="navA">AUTOBIKE</a>
@@ -36,13 +43,20 @@
         <!-- 右選單 -->
         <ul class="nav navbar-nav navbar-right">
         </ul>
+        <form method="post" action="<%=request.getContextPath()%>/admin.do?action=logout">
+        <input type="submit" value="登出" >
+<!--           <input type="hidden" name="action1" value="logout" > -->
+       </form>
+       <b><%= adminisVO.getName() %></b>
     </nav>
  <%--保留寫法     href="<%=request.getContextPath()%>/backend/backendRentOrd.jsp"  --%>
+
     <div class="col-xs-12 col-sm-2 leftBar">
+     	
         <img id="menuLogo" src="images/logo.jpg">
-        <button class="accordion accordionMenu accordion accordionMenuMenu">總部管理系統</button>
+        <button class="accordion accordionMenu accordion accordionMenuMenu">總部管理系統</button> 
         <div class="btn-group-vertical">
-                
+         <%if(adminisVO.getAuthno().equals("AC01")){%>     
             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/motor/backendMotor.jsp"  role="button">車輛資料管理</a>
             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/motor_model/backendMotorModel.jsp"  role="button">車輛型號管理</a>           
             <a class="btn btn-default" href="#" role="button">車輛調度</a>
@@ -50,9 +64,12 @@
             <a class="btn btn-default" href="#" role="button">裝備管理</a>
             <a class="btn btn-default" href="#" role="button">裝備調度</a>
             <a class="btn btn-default" href="#" role="button">據點管理</a>
+         <%} %>  
         </div>
+       
         <button class="accordion accordionMenu">據點管理系統</button>
         <div class="btn-group-vertical">
+        <%if(adminisVO.getAuthno().equals("AC02")){%> 
             <a class="btn btn-default" href="#" role="button">據點車輛管理</a>
             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/lease.jsp"  role="button">交車管理</a>
           	<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/return.jsp"  role="button">還車管理</a>
@@ -60,29 +77,40 @@
             <a class="btn btn-default" href="#" role="button">車輛保養/維修管理</a>
             <a class="btn btn-default" href="#" role="button">據點裝備管理</a>
             <a class="btn btn-default" href="#" role="button">裝備申請</a>
+         <%} %>
         </div>
+         
         <button class="accordion accordionMenu">二手車管理系統</button>
         <div class="btn-group-vertical">
+        <%if(adminisVO.getAuthno().equals("AC05")){%>
             <a class="btn btn-default" href="#" role="button">二手車輛管理</a>
             <a class="btn btn-default" href="#" role="button">二手車訂單管理</a>
             <a class="btn btn-default" href="#" role="button">二手車交易管理</a>
+         <%} %>
         </div>
-        <button class="accordion accordionMenu">會員管理系統</button>
+       <button class="accordion accordionMenu">會員管理系統</button>
         <div class="btn-group-vertical">
-            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/member/select_page.jsp" role="button">會員資料管理</a>
-            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/member/.jsp" role="button">實名認證管理</a>
+        <%if(adminisVO.getAuthno().equals("AC03")){%>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/member/listAllMember.jsp" role="button">會員管理</a>
+            <a class="btn btn-default" href="#" role="button">會員認證管理</a>
+            <a class="btn btn-default" href="#" role="button">會員</a>
+         <%} %>
         </div>
         <button class="accordion accordionMenu">活動企劃管理系統</button>
         <div class="btn-group-vertical">
+        <%if(adminisVO.getAuthno().equals("AC06")){%>
             <a class="btn btn-default" href="#" role="button">推播管理</a>
             <a class="btn btn-default" href="#" role="button">留言版管理</a>
             <a class="btn btn-default" href="#" role="button">最新消息管理</a>
+         <%} %>
         </div>
         <button class="accordion accordionMenu">後端管理系統</button>
         <div class="btn-group-vertical">
+        <%if(adminisVO.getAuthno().equals("AC04")){%>
             <a class="btn btn-default" href="#" role="button">後端權限管理</a>
             <a class="btn btn-default" href="#" role="button">推薦景點管理</a>
             <a class="btn btn-default" href="#" role="button">後端登入管理</a>
+         <%} %>
         </div>
         <div class="btn-group-vertical"></div>
     </div>
