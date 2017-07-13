@@ -208,7 +208,7 @@ th,td{
 									<tr class="QueryTable_TR">
 										<td>${roVO.rentno}</td>
 										<td>${roVO.memno}</td>
-										<td>${roVO.motno}</td>	
+										<td>${roVO.motorVO.motno}</td>	
 										<td>${locSvc.getOneLocation(roVO.slocno).locname}</td>
 										<td>${locSvc.getOneLocation(roVO.rlocno).locname}</td>
 											<td><fmt:formatDate pattern = "yyyy" value = "${roVO.filldate}" /></td>
