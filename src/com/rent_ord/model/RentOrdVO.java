@@ -1,13 +1,14 @@
 package com.rent_ord.model;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 public class RentOrdVO implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
 	private String rentno;
 	private String memno;
-	private String motno;
 	private String slocno;
 	private String rlocno;
 	private Integer milstart;
@@ -21,9 +22,20 @@ public class RentOrdVO implements java.io.Serializable {
 	private String rank;
 	private String status;
 	private String note;
+	private MotorVO motorVO;
+	private Set<EmtListVO> ro_emtlists = new HashSet<EmtListVO>();
+	
+	
+	public Set<EmtListVO> getRo_emtlists() {
+		return ro_emtlists;
+	}
+
+	public void setRo_emtlists(Set<EmtListVO> ro_emtlists) {
+		this.ro_emtlists = ro_emtlists;
+	}
 
 	public RentOrdVO() {
-
+		super();
 	}
 
 	public String getRentno() {
@@ -40,14 +52,6 @@ public class RentOrdVO implements java.io.Serializable {
 
 	public void setMemno(String memno) {
 		this.memno = memno;
-	}
-
-	public String getMotno() {
-		return motno;
-	}
-
-	public void setMotno(String motno) {
-		this.motno = motno;
 	}
 
 	public String getSlocno() {
@@ -154,4 +158,14 @@ public class RentOrdVO implements java.io.Serializable {
 		this.note = note;
 	}
 
+	public MotorVO getMotorVO() {
+		return motorVO;
+	}
+
+	public void setMotorVO(MotorVO motorVO) {
+		this.motorVO = motorVO;
+	}
+
+
+	
 }

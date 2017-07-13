@@ -1,7 +1,7 @@
 package com.rent_ord.model;
 import java.util.List;
 
-import com.equipment.model.EquipmentVO;
+import com.rent_ord.model.EquipmentVO;
 
 
 public class EquipmentForRentOrdService {

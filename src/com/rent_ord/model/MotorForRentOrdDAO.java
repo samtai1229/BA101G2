@@ -1,483 +1,275 @@
 package com.rent_ord.model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-
-import com.motor.model.MotorVO;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import com.rent_ord.model.MotorVO;
+import hibernate.util.HibernateUtil;
 
 public class MotorForRentOrdDAO implements MotorForRentOrdDAO_interface {
-	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
-	private static DataSource ds = null;
-	static {
-		try {
-			Context ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/G2DB");
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
-	}
-
-
-	private static final String GET_ALL = "SELECT motno, modtype, plateno,"
-			+ " engno, manudate, mile, locno, status, note FROM motor order by motno";
-
-
-	private static final String GET_BY_MOTOR_TYPE = "SELECT motno, modtype, plateno,"
-			+ " engno, to_char(manudate,'yyyy-mm-dd hh:mm:ss') manudate,"
-			+ " mile, locno, status, note FROM motor where modtype = ?";
-
-	private static final String GET_BY_LOC_NO = "SELECT motno, modtype, plateno,"
-			+ " engno, to_char(manudate,'yyyy-mm-dd hh:mm:ss') manudate,"
-			+ " mile, locno, status, note FROM motor where locno = ?";
-
-	private static final String GET_BY_MANUDATE = "SELECT motno, modtype, plateno,"
-			+ " engno, to_char(manudate,'yyyy-mm-dd hh:mm:ss') manudate,"
-			+ " mile, locno, status, note FROM motor  where manudate" + " between ? and ? order by manudate";
-
-
-	private static final String GET_MOTORs_BY_ALL_RENTAL_STATUS = "SELECT motno, modtype, plateno,"
-			+ " engno, manudate, mile, locno, status, note FROM motor where status = 'unleasable' or "
-			+ " status='leasable' or status='reserved' or status='occupied' order by motno";
-
-
-	private static final String GET_ONE = "SELECT motno, modtype, plateno,"
-	+ " engno, to_char(manudate,'yyyy-mm-dd hh:mm:ss') manudate,"
-	+ " mile, locno, status, note FROM motor where motno = ?";
-	
-	private static final String GET_MOTNO_BY_MOTOR_TYPE = "SELECT motno "
-			+ " FROM motor where modtype = ?";
-	
-	private static final String GET_motorVO_BY_RENTAL_SIDE = "SELECT motno, modtype, plateno,"
-			+ " engno, manudate, mile, locno, status, note FROM motor where status = 'unleasable' or "
-			+ " status='leasable' or status='reserved' or status='occupied' order by motno";
 
 	
 	@Override
-	public List<MotorVO> getMotorsByRentalSide() {
-		List<MotorVO> list = new ArrayList<MotorVO>();
-		MotorVO motorVO = null;
+	public MotorVO findByPrimaryKey(String motno) {
 	
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		MotorVO motorVO = null;
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+	
+		try {
+			session.beginTransaction();
+			motorVO = (MotorVO) session.get(MotorVO.class, motno);
+			session.getTransaction().commit();
+			System.out.println("in findByPK motor");
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
+		}
+		return motorVO;
+	}
+
+	@Override
+	public List<MotorVO> getAll() {
+		List<MotorVO> list = new ArrayList<MotorVO>();
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 	
 		try {
 	
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_motorVO_BY_RENTAL_SIDE);
-			rs = pstmt.executeQuery();
+			session.beginTransaction();
+			
+			Query query = session.createQuery("from MotorVO");
+			list = query.list();
+			session.getTransaction().commit();
 	
-			while (rs.next()) {
-				motorVO = new MotorVO();
-				setAttirbute(motorVO, rs); // 拉出來寫成一個方法
-				list.add(motorVO); // Store the row in the vector
-			}
 	
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
+		}
+		return list;
+	}
+
+	@Override
+	public List<MotorVO> getMotorsByRentalSide() {
+		List<MotorVO> list = new ArrayList<MotorVO>();
+
+		System.out.println("-------------------------------getMotorsByRentalSide in");
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		System.out.println("getMotorsByRentalSide in 2");
+		String str = "from MotorVO where status = 'unleasable' or "
+				+ " status='leasable' or status='reserved' or status='occupied' order by motno";
+	
+		try {
+	
+			session.beginTransaction();
+			Query query = session.createQuery(str);
+			list = query.list();
+			
+			session.getTransaction().commit();
+
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
+		}
+		return list;
+	}
+
+	@Override
+	public List<String> getMotnosByAllRentalStatus() {
+		List<String> list = null;
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try {
+	
+			session.beginTransaction();
+			
+			String str = "select motno from MotorVO where status = 'unleasable' or "
+					+ " status='leasable' or status='reserved' or status='occupied' order by motno";
+			
+			Query query = session.createQuery(str);
+	
+			list = query.list();
+			session.getTransaction().commit();
+	
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 		return list;
 	}
 
 	@Override
 	public Set<MotorVO> getMotorsByModelType(String modtype) {
-		Set<MotorVO> set = new LinkedHashSet<MotorVO>();
-		MotorVO motorVO = null;
+		Set<MotorVO> set = null;
 	
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 	
 		try {
+			session.beginTransaction();
+			
+			//FROM motor where modtype = ?
+			Query query = session.createQuery("from MotorVO where modtype = ?");
+			query.setParameter(0, modtype);
+			List list = query.list();
+			set = new LinkedHashSet<MotorVO>(list);
+			
+			session.getTransaction().commit();
 	
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_BY_MOTOR_TYPE);
-			pstmt.setString(1, modtype);
-			rs = pstmt.executeQuery();
-	
-			while (rs.next()) {
-				motorVO = new MotorVO();
-				setAttirbute(motorVO, rs); // 拉出來寫成一個方法
-				set.add(motorVO); // Store the row in the vector
-			}
-	
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
+		
 		return set;
 	}
 
 	@Override
 	public List<String> getMotnosByModelType(String modtype) {
 		List<String> list = new ArrayList<String>();
-		String str = "";
 
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_MOTNO_BY_MOTOR_TYPE);
-			pstmt.setString(1, modtype);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				str = rs.getString("motno");
-				list.add(str);
-			}
-
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
-		}
-		return list;
-	}
-
-	@Override
-	public MotorVO findByPrimaryKey(String motno) {
-
-		MotorVO motorVO = null;
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		try {
-
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_ONE);
-
-			pstmt.setString(1, motno);
-
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				// deptVO 也稱為 Domain objects
-				motorVO = new MotorVO();
-				setAttirbute(motorVO, rs); // 拉出來寫成一個方法
-			}
-
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-			// Clean up JDBC resources
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
-		}
-		return motorVO;
-	}
-
-	@Override
-	public List<String> getMotnosByAllRentalStatus() {
-		List<String> list = new ArrayList<String>();
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		
-		String motno = "";
-
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		try {
-
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_MOTORs_BY_ALL_RENTAL_STATUS);
-			rs = pstmt.executeQuery();
-
-			//motorVO.setMotno(rs.getString("motno"));
-			while (rs.next()) {
-				motno = rs.getString("motno");
-				list.add(motno); // Store the row in the list
-			}
-
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
-		}
-		return list;
-	}
-
-	@Override
-	public List<MotorVO> getAll() {
-		List<MotorVO> list = new ArrayList<MotorVO>();
-		MotorVO motorVO = null;
-
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		
+//		private static final String GET_MOTNO_BY_MOTOR_TYPE = "SELECT motno "
+//				+ " FROM motor where modtype = ?";
+		
 
 		try {
-
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_ALL);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				motorVO = new MotorVO();
-				setAttirbute(motorVO, rs); // 拉出來寫成一個方法
-				list.add(motorVO); // Store the row in the list
-			}
-
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			session.beginTransaction();
+			Query query = session.createQuery("select motno from MotorVO where modtype = ?");
+			query.setParameter(0, modtype);
+			list = query.list();
+			session.getTransaction().commit();
+			
+		} catch (RuntimeException ex) {
+			throw ex;
 		}
 		return list;
 	}
 
 	@Override
 	public Set<MotorVO> getMotorsByLocNo(String locno) {
-		Set<MotorVO> set = new LinkedHashSet<MotorVO>();
-		MotorVO motorVO = null;
-
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		Set<MotorVO> set = null;
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
 		try {
+			session.beginTransaction();
+			Query query = session.createQuery("from MotorVO where locno = ?");
+			query.setParameter(0, locno);
+			List list = query.list();
+			
+			set = new LinkedHashSet<MotorVO>(list);
+			session.getTransaction().commit();
+			
 
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_BY_LOC_NO);
-			pstmt.setString(1, locno);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				motorVO = new MotorVO();
-				setAttirbute(motorVO, rs); // 拉出來寫成一個方法
-				set.add(motorVO); // Store the row in the vector
-			}
-
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 		return set;
 	}
 
 	@Override
 	public Set<MotorVO> getMotorsByManuDate(Timestamp start_time, Timestamp end_time) {
-		Set<MotorVO> set = new LinkedHashSet<MotorVO>();
-		MotorVO motorVO = null;
+		Set<MotorVO> set = null;
 
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
 		try {
+			
+			session.beginTransaction();
+			
+			Query query = session.createQuery(" from MotorVO where manudate between ? and ? order by manudate");
+			query.setParameter(0, start_time);
+			query.setParameter(1, end_time);
+			List list = query.list();
+			set = new LinkedHashSet<MotorVO>(list);
+			
+			session.getTransaction().commit();
 
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_BY_MANUDATE);
-			pstmt.setTimestamp(1, start_time);
-			pstmt.setTimestamp(2, end_time);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				motorVO = new MotorVO();
-				setAttirbute(motorVO, rs); // 拉出來寫成一個方法
-				set.add(motorVO); // Store the row in the vector
-			}
-
-			// Handle any driver errors
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 		return set;
 	}
+	
+	
+	public static void main(String[] args) {
 
-	private void setAttirbute(MotorVO motorVO, ResultSet rs) {
-		try {
-			motorVO.setMotno(rs.getString("motno"));
-			motorVO.setModtype(rs.getString("modtype"));
-			motorVO.setPlateno(rs.getString("plateno"));
-			motorVO.setEngno(rs.getString("engno"));					
-			motorVO.setManudate(rs.getTimestamp("manudate"));			
-			motorVO.setMile(rs.getInt("mile"));
-			motorVO.setLocno(rs.getString("locno"));
-			motorVO.setStatus(rs.getString("status"));
-			motorVO.setNote(rs.getString("note"));
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		System.out.println("in MotorForRentOrdDAO main method");
+		MotorForRentOrdDAO dao = new MotorForRentOrdDAO();
+		
+//		 MotorVO motorVO3 = dao.findByPrimaryKey("M000088");
+//		 System.out.println(motorVO3.getMotno() +",");
+//		 System.out.println(motorVO3.getModtype() +",");
+//		 System.out.println(motorVO3.getPlateno() +",");
+//		 System.out.println(motorVO3.getEngno() +",");
+//		 System.out.println(motorVO3.getManudate() +",");
+//		 System.out.println(motorVO3.getMile() +",");
+//		 System.out.println(motorVO3.getLocno() +",");
+//		 System.out.println(motorVO3.getStatus() +",");
+//		 System.out.println(motorVO3.getNote() +",");
+//		 System.out.println("query ok");
+
+//		 List<MotorVO> list = dao.getAll();
+//		 for(MotorVO aMotor : list){
+//			 System.out.println("getMotno:" + aMotor.getMotno());
+//			 System.out.println("getManudate:" + aMotor.getManudate());
+//			 System.out.println("getModtype:" + aMotor.getModtype());
+//		 }
+//		 System.out.println("=======================================");
+		
+//		 List<MotorVO> list = dao.getMotorsByRentalSide();
+//		 for(MotorVO aMotor : list){
+//			 System.out.println("getMotno:" + aMotor.getMotno());
+//			 System.out.println("getManudate:" + aMotor.getManudate());
+//			 System.out.println("getModtype:" + aMotor.getModtype());
+//			 System.out.println("status:"+ aMotor.getStatus());
+//		 }
+//		 System.out.println("=======================================");		
+		
+
+//		 List<String> list = dao.getMotnosByAllRentalStatus();
+//		 for(String motno : list){
+//			 System.out.println("motno:" + motno);
+//		 }
+//		 System.out.println("=======================================");
+
+
+//		 List<String> list = dao.getMotnosByModelType("MM103");
+//		 for(String motno : list){
+//			 System.out.println("motno:" + motno);
+//		 }
+//		 System.out.println("=======================================");
+		
+		
+		
+//		 Set<MotorVO> set1 = dao.getMotorsByModelType("MM103");
+//		 System.out.println("=======================================");
+//		 for(MotorVO aMotor : set1){
+//			 System.out.println("getMotno:" + aMotor.getMotno());
+//			 System.out.println("getManudate:" + aMotor.getManudate());
+//			 System.out.println("getModtype:" + aMotor.getModtype());
+//		 }
+		
+//		 Set<MotorVO> set2 = dao.getMotorsByLocNo("TPE01");
+//		 System.out.println("=======================================");
+//		 for(MotorVO aMotor : set2){
+//			 System.out.println("getMotno:" + aMotor.getMotno());
+//			 System.out.println("getManudate:" + aMotor.getManudate());
+//			 System.out.println("getModtype:" + aMotor.getModtype());
+//		 }
+		
+//		Set<MotorVO> set3 = dao.getMotorsByManuDate(java.sql.Timestamp.valueOf("2017-01-01 00:00:01"),
+//				java.sql.Timestamp.valueOf("2017-09-30 23:59:59"));
+//		System.out.println("=======================================");
+//		 for(MotorVO aMotor : set3){
+//		 System.out.println("getMotno:" + aMotor.getMotno());
+//		 System.out.println("getManudate:" + aMotor.getManudate());
+//		 System.out.println("getModtype:" + aMotor.getModtype());
+//	 	}
 	}
-
 }

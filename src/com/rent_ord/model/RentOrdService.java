@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 
-import com.equipment.model.EquipmentVO;
+import com.rent_ord.model.EquipmentVO;
 
 public class RentOrdService {
 	private RentOrdDAO_interface dao;
@@ -24,7 +24,11 @@ public class RentOrdService {
 		RentOrdVO roVO = new RentOrdVO();
 //		roVO.setRentno(rentno);
 		roVO.setMemno(memno);
-		roVO.setMotno(motno);
+		
+		//roVO.setMotno(motno);
+		MotorForRentOrdService mSvc = new MotorForRentOrdService();
+		roVO.setMotorVO(mSvc.findByPK(motno));
+		
 		roVO.setSlocno(slocno);
 		roVO.setRlocno(rlocno);
 //		roVO.setMilstart(milstart);
@@ -43,14 +47,21 @@ public class RentOrdService {
 		return roVO;
 	}
 
-	public RentOrdVO updateRentOrd(String rentno,  String motno, String slocno, String rlocno,
-			Integer milstart, Integer milend, Timestamp enddate, Timestamp startdate ,
-			Timestamp returndate, Integer fine, Integer total, String rank, String status, String note) {
+	
+	public RentOrdVO updateRentOrd(String rentno,  String motno, String slocno, String rlocno, 
+			String rank, String status, String note, Timestamp startdate , Timestamp enddate,
+			Timestamp returndate,Integer milstart, Integer milend, Integer fine, Integer total) {
+		
+		System.out.println("Service updateRentOrd in");
 
 		RentOrdVO roVO = new RentOrdVO();
 		roVO.setRentno(rentno);
 		//roVO.setMemno(memno);
-		roVO.setMotno(motno);
+
+		//roVO.setMotno(motno);
+		MotorForRentOrdService mSvc = new MotorForRentOrdService();
+		roVO.setMotorVO(mSvc.findByPK(motno));
+		
 		roVO.setSlocno(slocno);
 		roVO.setRlocno(rlocno);
 		roVO.setMilstart(milstart);
@@ -59,6 +70,8 @@ public class RentOrdService {
 		roVO.setStartdate(startdate);
 		roVO.setEnddate(enddate);
 		roVO.setReturndate(returndate);
+		
+		System.out.println("returndate: (service)" + returndate);
 		roVO.setFine(fine);
 		roVO.setTotal(total);
 		roVO.setRank(rank);
@@ -164,7 +177,7 @@ public class RentOrdService {
 		return dao.differDateCalculator(rentno);
 	};
 	
-	public List<String> getMotnoInRentOrdByRentalPeriod(Timestamp start_time, Timestamp end_time){
+	public List<MotorVO> getMotnoInRentOrdByRentalPeriod(Timestamp start_time, Timestamp end_time){
 		return dao.getMotnoInRentOrdByRentalPeriod(start_time, end_time);
 	}
 	
@@ -176,7 +189,7 @@ public class RentOrdService {
 		return dao.getRentnoByMemnoAndStartdate(memno, start_time);
 	}
 	
-	public List<String> getEmtnoByRentno(String rentno){
+	public List<EquipmentVO> getEmtnoByRentno(String rentno){
 		return dao.getEmtnoByRentno(rentno);
 	};
 	

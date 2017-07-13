@@ -1,52 +1,28 @@
 package com.rent_ord.model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
-import com.equipment.model.EquipmentVO;
+import com.rent_ord.model.EquipmentVO;
+import com.rent_ord.model.MotorVO;
+
+import hibernate.util.HibernateUtil;
 
 public class RentOrdDAO implements RentOrdDAO_interface {
-	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
-	private static DataSource ds = null;
-	static {
-		try {
-			Context ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/G2DB");
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
-	}
 
-//	private static final String INSERT_STMT = "INSERT INTO RENT_ORD"
-//			+ " (rentno, memno, motno, slocno, rlocno, milstart, milend, filldate, "
-//			+ "startdate, enddate, returndate, fine, total, rank, status, note"
-//			+ ") VALUES ('R'||LPAD(TO_CHAR(rentno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?,"
-//			+ " ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	
-	//合理版本
     final String INSERT_STMT = "INSERT INTO RENT_ORD"
 	+ " (rentno, memno, motno, slocno, rlocno, startdate, enddate, total, status "
 	+ " ) VALUES ('R'||LPAD(TO_CHAR(rentno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?,"
 	+ "  ?, ?, ?,?)";
-
-//	private static final String UPDATE = "UPDATE RENT_ORD set memno=?, motno=?,"
-//			+ " slocno=?, rlocno=?, milstart=?, milend=?, filldate=?, startdate=?, enddate=?,"
-//			+ "returndate=?, fine=?, total=?, rank=?, status=?, note=? where rentno = ?";
 	
-    //合理版本: 去掉 filldate, memno
 	private static final String UPDATE = "UPDATE RENT_ORD set  motno=?,"
 			+ " slocno=?, rlocno=?, milstart=?, milend=?, startdate=?, enddate=?,"
 			+ " returndate=?, fine=?, total=?, rank=?, status=?, note=? where rentno = ?";
@@ -57,56 +33,49 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 			+ " milstart, milend,  filldate, startdate, enddate, returndate, fine, total, " 
 			+ " rank, status, note ";	
 	
-	private static final String GET_ALL = selectFactor 
-			+ " FROM RENT_ORD order by rentno desc";
+	private static final String GET_ALL = " select * FROM RENT_ORD";
 
 	private static final String GET_ONE = selectFactor 
 			+ " FROM RENT_ORD where rentno = ?";
 
-	private static final String GET_BY_START_LOC_NO = selectFactor 
-			+ " FROM RENT_ORD where slocno = ?  order by rentno desc";
+	private static final String GET_BY_START_LOC_NO = " from RentOrdVO where slocno = ?  order by rentno desc";
 
-	private static final String GET_BY_RETURN_LOC_NO = selectFactor 
-			+ " FROM RENT_ORD where rlocno = ?  order by rentno desc";
+	private static final String GET_BY_RETURN_LOC_NO = "from RentOrdVO where rlocno = ?  order by rentno desc";
 
-	private static final String GET_BY_STATUS = selectFactor 
-			+ " FROM RENT_ORD where status = ?";
+	private static final String GET_BY_STATUS = " from RentOrdVO where status = ?";
 
-	private static final String GET_BY_STARTTIME_PEROID = selectFactor 
-			+ " FROM RENT_ORD  where startdate"
-			+ " between ? and ? order by startdate";
+	private static final String GET_BY_STARTTIME_PEROID =
+			 " from RentOrdVO  where startdate  between ? and ? order by startdate";
 
-	private static final String GET_BY_ENDTIME_PEROID = selectFactor 
-			+ " From RENT_ORD  where enddate"
+	private static final String GET_BY_ENDTIME_PEROID = 
+			 " from RentOrdVO  where enddate"
 			+ " between ? and ? order by enddate";
 	
-	private static final String GET_BY_MOTNO = selectFactor 
-			+ " From RENT_ORD  where motno = ?";
+	private static final String GET_BY_MOTNO = " from RentOrdVO where motno = ?";
 	
 	private static final String GET_FOR_LEASE_VIEW = 
-			selectFactor + " FROM RENT_ORD where slocno=? "
+			"from RentOrdVO where slocno=? "
 			+" and (status = 'unpaid' or status = 'unoccupied' or"
 			+" status = 'noshow' or status = 'available' or status = 'canceled')"
 			+" order by DECODE(status,'noshow',1,'available',2), status, startdate";
 	
 	private static final String GET_FOR_RETURN_VIEW = 
-			selectFactor + " FROM RENT_ORD where rlocno=? "
+			"from RentOrdVO where rlocno=? "
 			+" and (status = 'noreturn' or status = 'overtime')"
 			+"order by DECODE(status,'overtime',1,'noreturn',2), enddate";
 	
 	
 	
 	private static final String GET_EMTNOs_BY_RENTNO_IN_EMT_LIST= 
-			" SELECT emtno FROM EMT_LIST where rentno = ? ";
+			" SELECT emtVO FROM EmtListVO where rentno = ? ";
 	
 	private static final String GET_EMPVOs_BY_EMTNOs_IN_EQUIPMENT=
-			"SELECT emtno, ecno, locno, to_char(purchdate,'yyyy-mm-dd HH:mm:ss') purchdate,"
-			+" status, note from EQUIPMENT where emtno = ? ";
+			" from EquipmentVO where emtno = ? ";
 
 	//DIFFER_DATE_CALCULATOR
 		private static final String DIFFER_DATE_CALCULATOR = 
 			"select to_char(SYSDATE - TO_DATE(to_char(ENDDATE, 'yyyy/mm/dd'),'yyyy/mm/dd')) DIFFDAY "
-			+"from rent_ord where rentno = ? ";
+			+" from RENT_ORD where rentno = ? ";
 	
 	//RENT_ORD from-status-changer: for available	
 	private static final String UPDATE_EMT_STATUS_FROM_RESERVE_TO_OCCUPIED = 
@@ -134,7 +103,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 			"UPDATE RENT_ORD set milend = ?, returndate = ?,"
 			+" fine = ?, status='closed', rank = ?, note = ? where rentno = ? ";
 	private static final String UPDATE_RENT_ORD_FROM_OVERTIME_TO_ABNORMALCLOSED = 
-			"UPDATE RENT_ORD set milend = ?, returndate = ?,"
+			"UPDATE RentOrdVO set milend = ?, returndate = ?,"
 			+" fine = ?, status='abnormalclosed', rank = ?, note = ? where rentno = ? ";
 	private static final String UPDATE_EMT_STATUS_FROM_OCCUPIED_TO_UNLEASABLE = 
 			"UPDATE EQUIPMENT set status='unleasable', locno = ? where emtno = ? ";
@@ -142,23 +111,23 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 			"UPDATE MOTOR set mile = ?, status='unleasable', locno = ? where motno = ? ";
 	
 	
-	//依使用者輸入的時段來找符合的車輛並回傳車輛VO.
-	private static final String  GET_MOTOR_VOs_BY_DATE_RANGE = 
-			  "SELECT motno, startdate, enddate FROM RENT_ORD where ( startdate > ? and startdate <? )"
+	//依使用者輸入的時段來找符合的車輛並回傳車輛編號.
+	private static final String  GET_MOTORs_BY_DATE_RANGE = 
+			  "SELECT motorVO from RentOrdVO where ( startdate > ? and startdate <? )"
 			  +" or  ( enddate > ? and enddate < ? ) order by startdate";
 	
 	private static final String GET_RENTNO_BY_MEMNO_AND_STARTDATE = 
-			"SELECT rentno from RENT_ORD where memno =? and startdate = ?";
+			"SELECT rentno from RentOrdVO where memno =? and startdate = ?";
 	
 	private static final String GET_RENTNO_BY_PY_DATE_RANGE = 
-			"SELECT rentno FROM RENT_ORD where ( startdate > ? and startdate <? )"
+			"SELECT rentno FROM RentOrdVO where ( startdate > ? and startdate <? )"
 			  +" or  ( enddate > ? and enddate < ? ) order by startdate";
 	
 	private static final String GET_EMTNO_FROM_EMT_LIST_BY_RENTNO = 
-			"SELECT emtno FROM EMT_LIST where rentno = ? ";
+			"SELECT emtVO FROM EmtListVO where rentno = ? ";
 	
 	private static final String GET_roVOs_BY_STARTDAY_ENDDAY_MONTO=
-			"SELECT * FROM RENT_ORD where  (( startdate > ? and startdate <? )"
+			"from RentOrdVO where  (( startdate > ? and startdate <? )"
 			  +" or  ( enddate > ? and enddate < ? )) and MOTNO = ? order by startdate";
 	
 	private static final String UPDATE_STATUS_BY_RENTNO = 
@@ -167,157 +136,72 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 
 	@Override
 	public void updateStatusByRentno(String status, String rentno) {
-
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(UPDATE_STATUS_BY_RENTNO);
+			session.beginTransaction();
+			RentOrdVO roVO = (RentOrdVO) session.get(RentOrdVO.class, rentno);
+			roVO.setStatus(status);
+			session.getTransaction().commit();
 
-			pstmt.setString(1, status);
-			pstmt.setString(2, rentno);
-
-			rs = pstmt.executeQuery();
-
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-			// Clean up JDBC resources
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 	}
 
 	@Override
 	public Set<RentOrdVO> getRoVOsByDatePrioidAndMotno(Timestamp start_time, Timestamp end_time, String motno) {
-		Set<RentOrdVO> set = new LinkedHashSet<RentOrdVO>();
-		RentOrdVO roVO = null;
-
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		Set<RentOrdVO> set =null;
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		
 		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_roVOs_BY_STARTDAY_ENDDAY_MONTO);
-			pstmt.setTimestamp(1, start_time);
-			pstmt.setTimestamp(2, end_time);
-			pstmt.setTimestamp(3, start_time);
-			pstmt.setTimestamp(4, end_time);
-			pstmt.setString(5, motno);
-			rs = pstmt.executeQuery();
+			session.beginTransaction();
+			Query query = session.createQuery(GET_roVOs_BY_STARTDAY_ENDDAY_MONTO);
+			query.setParameter(0, start_time);
+			query.setParameter(1, end_time);
+			query.setParameter(2, start_time);
+			query.setParameter(3, end_time);
+			query.setParameter(4, motno);
+			
+			List list = query.list();
+			
+			set = new LinkedHashSet<RentOrdVO>(list);
+			session.getTransaction().commit();
 
-			while (rs.next()) {
-				roVO = new RentOrdVO();
-				setAllAttributeMethod(roVO, rs); // 拉出來寫成一個方法
-
-				set.add(roVO); // Store the row in the vector
-			}
-
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 		return set;
 	}
 
 	@Override
-	public List<String> getEmtnoByRentno(String rentno) {
-		List<String> list = new ArrayList<String>();
+	public List<EquipmentVO> getEmtnoByRentno(String rentno) {
+		List<EquipmentVO> list = null;
 
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		
 		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_EMTNO_FROM_EMT_LIST_BY_RENTNO);
-			pstmt.setString(1, rentno);
-			rs = pstmt.executeQuery();
+			session.beginTransaction();
+			
+			Query query = session.createQuery(GET_EMTNO_FROM_EMT_LIST_BY_RENTNO);
+			query.setParameter(0, rentno);
+			list = query.list();
+			
+			session.getTransaction().commit();
 
-			while (rs.next()) {
-				list.add(rs.getString("emtno")); // Store the row in the vector
-			}
-
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 		return list;
 	}
 
 	@Override
 	public List<String> getRentnoByRentalPeriod(Timestamp start_time, Timestamp end_time) {
+		List<String> list = null;
 
-		List<String> list = new ArrayList<String>();
-		String rentno = null;
-
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		
 		System.out.println("start_time in RentOrdDAO : " + start_time);
 		System.out.println("end_time in RentOrdDAO : " + end_time);
@@ -329,49 +213,19 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 		System.out.println("end_time reset : " + end_time);
 
 		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_RENTNO_BY_PY_DATE_RANGE);
-			pstmt.setTimestamp(1, start_time);
-			pstmt.setTimestamp(2, end_time);
-			pstmt.setTimestamp(3, start_time);
-			pstmt.setTimestamp(4, end_time);
-			rs = pstmt.executeQuery();
+			session.beginTransaction();
+			Query query = session.createQuery(GET_RENTNO_BY_PY_DATE_RANGE);
+			query.setParameter(0, start_time);
+			query.setParameter(1, end_time);			
+			query.setParameter(2, start_time);			
+			query.setParameter(3, end_time);			
+			list = query.list();
 
-			while (rs.next()) {
-				rentno = rs.getString("rentno");
-				//rs.getTimestamp("startdate");
-				//rs.getTimestamp("enddate");
-				//System.out.print(" rentno = " + rentno);
-				//System.out.print("  startdate = " + rs.getTimestamp("startdate"));
-				//System.out.println("  enddate = " + rs.getTimestamp("enddate"));
-				
-				list.add(rentno); // Store the row in the vector
-			}
+			session.getTransaction().commit();
 
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 		return list;
 	}
@@ -379,47 +233,28 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 
 	@Override
 	public String getRentnoByMemnoAndStartdate(String memno, Timestamp start_time) {
-			String rentno ="";
+		String rentno="";
 
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
 		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_RENTNO_BY_MEMNO_AND_STARTDATE);
-			pstmt.setString(1, memno);
-			pstmt.setTimestamp(2, start_time);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				rentno = rs.getString("rentno");
+			session.beginTransaction();
+			Query query = session.createQuery(GET_RENTNO_BY_MEMNO_AND_STARTDATE);
+			
+			query.setParameter(0, memno);
+			query.setParameter(1, start_time);
+			
+			if(query.list().size()!=0){
+				rentno = (String) query.list().get(0);
+			}else{
+				rentno = "nodata";
 			}
 
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			session.getTransaction().commit();
+
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 		return rentno;
 	}
@@ -427,64 +262,30 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 
 	@Override
 	public Set<RentOrdVO> getRentalOrdersBymotno(String motno) {
-		Set<RentOrdVO> set = new LinkedHashSet<RentOrdVO>();
-		RentOrdVO roVO = null;
+		Set<RentOrdVO> set = null;
 
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		
 		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_BY_MOTNO);
-			pstmt.setString(1, motno);
-			rs = pstmt.executeQuery();
+			session.beginTransaction();
+			Query query = session.createQuery(GET_BY_MOTNO);
+			query.setParameter(0, motno);
+			List list = query.list();
+			set = new LinkedHashSet<RentOrdVO>(list);
 
-			while (rs.next()) {
-				roVO = new RentOrdVO();
-				setAllAttributeMethod(roVO, rs); // 拉出來寫成一個方法
-
-				set.add(roVO); // Store the row in the vector
-			}
-
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			session.getTransaction().commit();
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 		return set;
 	}
 
 
 	@Override
-	public List<String> getMotnoInRentOrdByRentalPeriod(Timestamp start_time, Timestamp end_time) {
+	public List<MotorVO> getMotnoInRentOrdByRentalPeriod(Timestamp start_time, Timestamp end_time) {
 
-		List<String> list = new ArrayList<String>();
-		String motno = null;
-
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		List<MotorVO> list = null;
 		
 		System.out.println("start_time in RentOrdDAO : " + start_time);
 		System.out.println("end_time in RentOrdDAO : " + end_time);
@@ -496,70 +297,41 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 		System.out.println("end_time reset : " + end_time);
 
 
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		
 		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_MOTOR_VOs_BY_DATE_RANGE);
-			pstmt.setTimestamp(1, start_time);
-			pstmt.setTimestamp(2, end_time);
-			pstmt.setTimestamp(3, start_time);
-			pstmt.setTimestamp(4, end_time);
-			rs = pstmt.executeQuery();
+			session.beginTransaction();
+			Query query = session.createQuery(GET_MOTORs_BY_DATE_RANGE);
+			query.setParameter(0, start_time);
+			query.setParameter(1, end_time);
+			query.setParameter(2, start_time);
+			query.setParameter(3, end_time);
 
-			while (rs.next()) {
-				motno = rs.getString("motno");
-				rs.getTimestamp("startdate");
-				rs.getTimestamp("enddate");
-				//System.out.print("motno = " + motno);
-				//System.out.print("  startdate = " + rs.getTimestamp("startdate"));
-				//System.out.println("  enddate = " + rs.getTimestamp("enddate"));
-				
-				list.add(motno); // Store the row in the vector
-			}
+			list = query.list();
+			System.out.println("after query.list");
 
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			session.getTransaction().commit();
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 		return list;
 	}
 
 
 	private Timestamp resetDayMethod(Timestamp day, boolean isEndDay) {
+		
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(day);		
 		cal.set(Calendar.HOUR_OF_DAY, 0);
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
-		
 		cal.set(Calendar.MILLISECOND, 0);
 		if(isEndDay){
 			cal.add(Calendar.DATE, 2);//+2天
 		}else{
 			cal.add(Calendar.DAY_OF_MONTH, -2);//-2天
 		}
-        	
 
 		day.setTime(cal.getTime().getTime());
 		return day;
@@ -570,41 +342,22 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	public void updateRentOrdAfterOvertime(String rentno, Integer milend, Timestamp returndate, Integer fine,
 			String rank, String note, String action) {
 	
-		Connection con = null;
-		PreparedStatement pstmt = null;
-	
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
-			con = ds.getConnection();
-			
-			pstmt = con.prepareStatement(UPDATE_RENT_ORD_FROM_OVERTIME_TO_ABNORMALCLOSED);
+			session.beginTransaction();
 
-			pstmt.setInt(1, milend);
-			pstmt.setTimestamp(2, returndate);
-			pstmt.setInt(3, fine);
-			pstmt.setString(4, rank);
-			pstmt.setString(5, note);
-			pstmt.setString(6, rentno);
+			RentOrdVO roVO = (RentOrdVO) session.get(RentOrdVO.class, rentno);
+			roVO.setMilend(milend);
+			roVO.setReturndate(returndate);
+			roVO.setFine(fine);
+			roVO.setRank(rank);
+			roVO.setNote(note);
+			roVO.setStatus("abnormalclosed");
 			
-			pstmt.executeUpdate();
-	
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-			// Clean up JDBC resources
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			session.getTransaction().commit();
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 	}
 
@@ -613,41 +366,22 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	public void updateRentOrdAfterNoreturn(String rentno, Integer milend, Timestamp returndate, Integer fine, String rank,
 			String note, String action) {
 	
-		Connection con = null;
-		PreparedStatement pstmt = null;
-	
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
-			con = ds.getConnection();
+			session.beginTransaction();
 			
-			pstmt = con.prepareStatement(UPDATE_RENT_ORD_FROM_NORETURN_TO_CLOSED);
+			RentOrdVO roVO = (RentOrdVO) session.get(RentOrdVO.class, rentno);
+			roVO.setMilend(milend);
+			roVO.setReturndate(returndate);
+			roVO.setFine(fine);
+			roVO.setRank(rank);
+			roVO.setNote(note);
+			roVO.setStatus("closed");
 			
-			pstmt.setInt(1, milend);
-			pstmt.setTimestamp(2, returndate);
-			pstmt.setInt(3, fine);
-			pstmt.setString(4, rank);
-			pstmt.setString(5, note);
-			pstmt.setString(6, rentno);
-			
-			pstmt.executeUpdate();
-	
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-			// Clean up JDBC resources
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			session.getTransaction().commit();
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 	}
 
@@ -655,151 +389,89 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	//overload for noshow
 	@Override
 	public void updateRentOrdStatusAfterAvailable(String rentno, String note, String action) {
-	
 		
-		Connection con = null;
-		PreparedStatement pstmt = null;
-	
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
-			con = ds.getConnection();
-
-			pstmt = con.prepareStatement(UPDATE_RENT_ORD_STATUS_FROM_UNOCCUPIED_TO_NORETURN);
+			session.beginTransaction();
 			
-			pstmt.setString(1, note);
-			pstmt.setString(2, rentno);
-			pstmt.executeUpdate();
-	
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-			// Clean up JDBC resources
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			RentOrdVO roVO = (RentOrdVO) session.get(RentOrdVO.class, rentno);
+			roVO.setStatus("noreturn");
+			roVO.setNote(note);
+
+			session.getTransaction().commit();
+			
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 	}
 
 
 	@Override
 	public void updateRentOrdStatusAfterNoshow(String rentno, String note, String action) {
-	
 		
-		Connection con = null;
-		PreparedStatement pstmt = null;
-	
+//		private static final String UPDATE_RENT_ORD_STATUS_FROM_UNOCCUPIED_TO_ABNORMALCLOSED = 
+//				"UPDATE RENT_ORD set status='abnormalclosed', note = ? where rentno = ? ";
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
-			con = ds.getConnection();
+			session.beginTransaction();
 			
-			pstmt = con.prepareStatement(UPDATE_RENT_ORD_STATUS_FROM_UNOCCUPIED_TO_ABNORMALCLOSED);
-				
-			pstmt.setString(1, note);
-			pstmt.setString(2, rentno);
-			pstmt.executeUpdate();
-	
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-			// Clean up JDBC resources
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			RentOrdVO roVO = (RentOrdVO) session.get(RentOrdVO.class, rentno);
+			roVO.setStatus("abnormalclosed");
+			roVO.setNote(note);
+
+			session.getTransaction().commit();
+			
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 	}
 
 
 	@Override
 	public void updateMotorStatusAfterNoshow(String motno, String action) {
+		
+//		private static final String UPDATE_MOTOR_STATUS_FROM_RESERVE_TO_UNLEASABLE = 
+//				"UPDATE MOTOR set status='unleasable' where motno = ? ";
 	
-		Connection con = null;
-		PreparedStatement pstmt = null;
-	
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
-			con = ds.getConnection();
+			session.beginTransaction();
+			
+			MotorVO motorVO = (MotorVO) session.get(MotorVO.class, motno);
+			motorVO.setStatus("unleasable");
 
-			pstmt = con.prepareStatement(UPDATE_MOTOR_STATUS_FROM_RESERVE_TO_UNLEASABLE);
-
-			pstmt.setString(1, motno);
-			pstmt.executeUpdate();
-	
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-			// Clean up JDBC resources
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			session.getTransaction().commit();
+			
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 	}
 
 
 	@Override
 	public void updateMotorAfterReturn(String motno, Integer mile, String rlocno, String action) {
+		
+//		private static final String UPDATE_MOTOR_STATUS_FROM_OCCUPIED_TO_UNLEASABLE = 
+//				"UPDATE MOTOR set mile = ?, status='unleasable', locno = ? where motno = ? ";
 
-		Connection con = null;
-		PreparedStatement pstmt = null;
-	
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
-			con = ds.getConnection();
-	
-			pstmt = con.prepareStatement(UPDATE_MOTOR_STATUS_FROM_OCCUPIED_TO_UNLEASABLE);
-
-			pstmt.setInt(1, mile);
-			pstmt.setString(2, rlocno);
-			pstmt.setString(3, motno);
+			session.beginTransaction();
 			
-			pstmt.executeUpdate();
-	
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-			// Clean up JDBC resources
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			MotorVO motorVO = (MotorVO) session.get(MotorVO.class, motno);
+			motorVO.setStatus("unleasable");
+			motorVO.setMile(mile);
+			motorVO.setLocno(rlocno);
+
+			session.getTransaction().commit();
+			
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 	}
 
@@ -807,600 +479,288 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	@Override
 	public void updateMotorStatusAfterAvailable(String motno, String action) {
 	
-		Connection con = null;
-		PreparedStatement pstmt = null;
-	
+//		private static final String UPDATE_MOTOR_STATUS_FROM_RESERVE_TO_OCCUPIED = 
+//				"UPDATE MOTOR set status='occupied' where motno = ? ";
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
-			con = ds.getConnection();
+			session.beginTransaction();
+			
+			MotorVO motorVO = (MotorVO) session.get(MotorVO.class, motno);
+			motorVO.setStatus("occupied");
 
-			pstmt = con.prepareStatement(UPDATE_MOTOR_STATUS_FROM_RESERVE_TO_OCCUPIED);
-
-			pstmt.setString(1, motno);
-			pstmt.executeUpdate();
-	
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-			// Clean up JDBC resources
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			session.getTransaction().commit();
+			
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 	}
 
 
 	@Override
 	public void updateEmtsAfterReturn(String emtno, String rlocno, String action) {
+		
+//		private static final String UPDATE_EMT_STATUS_FROM_OCCUPIED_TO_UNLEASABLE = 
+//				"UPDATE EQUIPMENT set status='unleasable', locno = ? where emtno = ? ";
 	
-		Connection con = null;
-		PreparedStatement pstmt = null;
-	
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
-			con = ds.getConnection();
+			session.beginTransaction();
 			
-			pstmt = con.prepareStatement(UPDATE_EMT_STATUS_FROM_OCCUPIED_TO_UNLEASABLE);
-	
-			pstmt.setString(1, rlocno);
-			pstmt.setString(2, emtno);
+			EquipmentVO emtVO = (EquipmentVO) session.get(EquipmentVO.class, emtno);
+			emtVO.setLocno(rlocno);
+			emtVO.setStatus("unleasable");
+
+			session.getTransaction().commit();
 			
-			pstmt.executeUpdate();
-	
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-			// Clean up JDBC resources
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 	}
 
 
 	@Override
 	public void updateEmtsStatusAfterNoshow(String emtno, String action) {
-	
-		Connection con = null;
-		PreparedStatement pstmt = null;
-	
+//		private static final String UPDATE_EMT_STATUS_FROM_RESERVE_TO_UNLEASABLE = 
+//				"UPDATE EQUIPMENT set status='unleasable' where emtno = ? ";
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
-			con = ds.getConnection();
+			session.beginTransaction();
+			
+			EquipmentVO emtVO = (EquipmentVO) session.get(EquipmentVO.class, emtno);
+			emtVO.setStatus("unleasable");
 
-			pstmt = con.prepareStatement(UPDATE_EMT_STATUS_FROM_RESERVE_TO_UNLEASABLE);
-
-			pstmt.setString(1, emtno);
-			pstmt.executeUpdate();
-	
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-			// Clean up JDBC resources
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			session.getTransaction().commit();
+			
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 	}
 
 
 	@Override
 	public void updateEmtsStatusAfterAvailable(String emtno, String action) {
+//		private static final String UPDATE_EMT_STATUS_FROM_RESERVE_TO_OCCUPIED = 
+//				"UPDATE EQUIPMENT set status='occupied' where emtno = ? ";
 	
-		Connection con = null;
-		PreparedStatement pstmt = null;
-	
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
-			con = ds.getConnection();
-
-			pstmt = con.prepareStatement(UPDATE_EMT_STATUS_FROM_RESERVE_TO_OCCUPIED);
-
-			pstmt.setString(1, emtno);
-			pstmt.executeUpdate();
-	
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-			// Clean up JDBC resources
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
-		}
-	}
-
-
-	@Override
-	public Set<EquipmentVO> getEquipmentVOsByRentno(String rentno) {
-		//System.out.println("RentOrdDAO getEquipmentVOsByRentno in");
-		//System.out.println("rentno =" + rentno);
-		Set<EquipmentVO> set = new LinkedHashSet<EquipmentVO>();
-
-		Connection con = null;		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		try {
-				
-			con = ds.getConnection();			
-			pstmt = con.prepareStatement(GET_EMTNOs_BY_RENTNO_IN_EMT_LIST);
+			session.beginTransaction();
 			
-			pstmt.setString(1, rentno);
-			rs = pstmt.executeQuery();
+			EquipmentVO emtVO = (EquipmentVO) session.get(EquipmentVO.class, emtno);
+			emtVO.setStatus("occupied");
 
-			while (rs.next()) {
-				String emtno = null;
-				EquipmentVO emtVO = null;
-				
-				Connection con2 = null;
-				PreparedStatement pstmt2 = null;
-				ResultSet rs2 = null;
-				
-				emtno = rs.getString("emtno");
-				//System.out.println("emtno = "+ emtno);
-				
-				try {
-					con2 = ds.getConnection();		
-					pstmt2 = con2.prepareStatement(GET_EMPVOs_BY_EMTNOs_IN_EQUIPMENT);				
-					pstmt2.setString(1, emtno);
-					rs2 = pstmt2.executeQuery();
-					
-					while(rs2.next()){
-						//System.out.println("rs2 in with emtno = " + emtno);					
-						emtVO = new EquipmentVO();
-						emtVO.setEmtno(rs2.getString("emtno"));
-						emtVO.setEcno(rs2.getString("ecno"));
-						emtVO.setLocno(rs2.getString("locno"));
-						emtVO.setPurchdate(rs2.getTimestamp("purchdate"));
-						emtVO.setStatus(rs2.getString("status"));
-						emtVO.setNote(rs2.getString("note"));
-						set.add(emtVO); // Store the row in the list
-					}					
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				} finally{
-					if (rs2 != null) {
-						try {
-							rs2.close();
-						} catch (SQLException se) {
-							se.printStackTrace(System.err);
-						}
-					}
-					if (pstmt2 != null) {
-						try {
-							pstmt2.close();
-						} catch (SQLException se) {
-							se.printStackTrace(System.err);
-						}
-					}
-					if (con2 != null) {
-						try {
-							con2.close();
-						} catch (Exception e) {
-							e.printStackTrace(System.err);
-						}
-					}				
-				}
-			}
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			session.getTransaction().commit();
+			
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
-		return set;
 	}
+
 
 	@Override
 	public void insert(RentOrdVO roVO) {
 
-		Connection con = null;
-		PreparedStatement pstmt = null;
-
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(INSERT_STMT);
 
-			/*
-			 * (沒有rentno) 下面計15個attribute memno, motno, slocno, rlocno,
-			 * milstart, milend, filldate, "+
-			 * "startdate, enddate, returndate, fine, total, rank, status, note"
-			 * +
-			 */
-			
-			//合理版本
 //		    final String INSERT_STMT = "INSERT INTO RENT_ORD"
-//			+ " (rentno, memno, motno, slocno, rlocno, startdate, enddate, total "
-//			+ " ) VALUES ('R'||LPAD(TO_CHAR(rentno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?,"
-//			+ "  ?, ?, ?)";
-
-			pstmt.setString(1, roVO.getMemno());
-			pstmt.setString(2, roVO.getMotno());
-			pstmt.setString(3, roVO.getSlocno());
-			pstmt.setString(4, roVO.getRlocno());
-			pstmt.setTimestamp(5, roVO.getStartdate());
-			pstmt.setTimestamp(6, roVO.getEnddate());
-			pstmt.setInt(7, roVO.getTotal());
-			pstmt.setString(8, roVO.getStatus());
+//		    		+ " (rentno, memno, motno, slocno, rlocno, startdate, enddate, total, status "
+//		    		+ " ) VALUES ('R'||LPAD(TO_CHAR(rentno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?,"
+//		    		+ "  ?, ?, ?,?)";
 			
-//          pstmt.setTimestamp(4, roVO.getFilldate());
-//			pstmt.setInt(5, roVO.getMilstart());
-//			pstmt.setInt(6, roVO.getMilend());
-//			pstmt.setTimestamp(10, roVO.getReturndate());
-//			pstmt.setInt(11, roVO.getFine());
-//			pstmt.setString(13, roVO.getRank());
+			session.beginTransaction();
 			
-//			pstmt.setString(7, roVO.getNote());
+			Query query = session.createSQLQuery(INSERT_STMT);
+			query.setParameter(0, roVO.getMemno());
+			query.setParameter(1, roVO.getMotorVO().getMotno());
+			query.setParameter(2, roVO.getSlocno());
+			query.setParameter(3, roVO.getRlocno());
+			query.setParameter(4, roVO.getStartdate());
+			query.setParameter(5, roVO.getEnddate());
+			query.setParameter(6, roVO.getTotal());
+			query.setParameter(7, roVO.getStatus());
+			query.executeUpdate();
 
-			pstmt.executeUpdate();
-
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-			// Clean up JDBC resources
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			session.getTransaction().commit();
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 	}
 
 	@Override
 	public void update(RentOrdVO roVO) {
-
-		Connection con = null;
-		PreparedStatement pstmt = null;
-
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(UPDATE);
-
+			
+			System.out.println("update RentOrdVO in");
 //			private static final String UPDATE = "UPDATE RENT_ORD set  motno=?,"
-//			+ " slocno=?, rlocno=?, milstart=?, milend=?, startdate=?, enddate=?,"
-//			+ "returndate=?, fine=?, total=?, rank=?, status=?, note=? where rentno = ?";
+//					+ " slocno=?, rlocno=?, milstart=?, milend=?, startdate=?, enddate=?,"
+//					+ " returndate=?, fine=?, total=?, rank=?, status=?, note=? where rentno = ?";
+			session.beginTransaction();
+			
+			RentOrdVO exeVO = (RentOrdVO) session.get(RentOrdVO.class, roVO.getRentno());
+			
+				
+				exeVO.setRank(roVO.getRank());
+				exeVO.setNote(roVO.getNote());
+				exeVO.setStatus(roVO.getStatus());
+				exeVO.setSlocno(roVO.getSlocno());
+				exeVO.setRlocno(roVO.getRlocno());
 
-			//pstmt.setString(1, roVO.getMemno());
-			pstmt.setString(1, roVO.getMotno());
-			pstmt.setString(2, roVO.getSlocno());
-			pstmt.setString(3, roVO.getRlocno());
-			pstmt.setInt(4, roVO.getMilstart());
-			pstmt.setInt(5, roVO.getMilend());
-			//pstmt.setTimestamp(7, roVO.getFilldate());
-			pstmt.setTimestamp(6, roVO.getStartdate());
-			pstmt.setTimestamp(7, roVO.getEnddate());
-			pstmt.setTimestamp(8, roVO.getReturndate());
-			pstmt.setInt(9, roVO.getFine());
-			pstmt.setInt(10, roVO.getTotal());
-			pstmt.setString(11, roVO.getRank());
-			pstmt.setString(12, roVO.getStatus());
-			pstmt.setString(13, roVO.getNote());
-			pstmt.setString(14, roVO.getRentno());
-
-			pstmt.executeUpdate();
-
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-			// Clean up JDBC resources
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
+				
+				exeVO.setStartdate(roVO.getStartdate());
+				exeVO.setEnddate(roVO.getEnddate());
+				exeVO.setReturndate(roVO.getReturndate());
+				
+				if(roVO.getFine()!=-1){
+					exeVO.setFine(roVO.getFine());
+					System.out.println("roVO.getFine() "+ roVO.getFine());
 				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
+					
+				if(roVO.getTotal()!=-1){
+					exeVO.setTotal(roVO.getTotal());
+					System.out.println("roVO.getTotal() "+ roVO.getTotal());
 				}
-			}
+					
+				if((roVO.getMilend()!=-1&&roVO.getMilend()>=roVO.getMilstart())){
+					exeVO.setMilend(roVO.getMilend());
+					System.out.println("roVO.getMilend() "+ roVO.getMilend());
+				}
+					
+				if(roVO.getMilstart()!=-1&&roVO.getMilstart()<=roVO.getMilend()){
+					exeVO.setMilstart(roVO.getMilstart());
+					System.out.println("roVO.getFine() "+roVO.getFine());
+				}
+					
+			
+			session.getTransaction().commit();
+		} catch (RuntimeException ex) {
+			System.out.println("RuntimeException");
+			session.getTransaction().rollback();
+			throw ex;
 		}
 	}
 
 	@Override
 	public void delete(String rentno) {
-
-		Connection con = null;
-		PreparedStatement pstmt = null;
-
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
-			con = ds.getConnection();
-
-			// 1●設定於 pstmt.executeUpdate()之前
-			con.setAutoCommit(false);
-
-			pstmt = con.prepareStatement(DELETE);
-			pstmt.setString(1, rentno);
-			pstmt.executeUpdate();
-
-			// 2●設定於 pstm.executeUpdate()之後
-			con.commit();
-			con.setAutoCommit(true);
-
-		} catch (SQLException se) {
-			if (con != null) {
-				try {
-					// 3●設定於當有exception發生時之catch區塊內
-					con.rollback();
-				} catch (SQLException excep) {
-					throw new RuntimeException("rollback error occured. " + excep.getMessage());
-				}
-			}
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			session.beginTransaction();
+			Query query = session.createQuery("delete RentOrdVO where rentno=?");
+			query.setParameter(0, rentno);
+			System.out.println("刪除的筆數=" + query.executeUpdate());
+			session.getTransaction().commit();
+			System.out.println("in RentOrdDAO delete end");
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
-
 	}
 
 	@Override
 	public List<RentOrdVO> getAll() {
-		List<RentOrdVO> list = new ArrayList<RentOrdVO>();
-		RentOrdVO roVO = null;
-
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		List<RentOrdVO> list = null;
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
 		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_ALL);
-			rs = pstmt.executeQuery();
+			session.beginTransaction();
+			
+			Query query = session.createQuery("from RentOrdVO order by rentno desc");
+			list = query.list();
+			session.getTransaction().commit();
 
-			/*
-			 * 計16個attribute rentno,memno, motno, slocno, rlocno, milstart,
-			 * milend, filldate, "+
-			 * "startdate, enddate, returndate, fine, total, rank, status, note"
-			 * +
-			 */
-
-			while (rs.next()) {
-				roVO = new RentOrdVO();
-				roVO.setRentno(rs.getString("rentno"));
-				roVO.setMemno(rs.getString("memno"));
-				roVO.setMotno(rs.getString("motno"));
-				roVO.setSlocno(rs.getString("slocno"));
-				roVO.setRlocno(rs.getString("rlocno"));
-				roVO.setMilstart(rs.getInt("milstart"));
-				roVO.setMilend(rs.getInt("milend"));
-				roVO.setFilldate(rs.getTimestamp("filldate"));
-				roVO.setStartdate(rs.getTimestamp("startdate"));
-				roVO.setEnddate(rs.getTimestamp("enddate"));
-				roVO.setReturndate(rs.getTimestamp("returndate"));
-				roVO.setFine(rs.getInt("fine"));
-				roVO.setTotal(rs.getInt("total"));
-				roVO.setRank(rs.getString("rank"));
-				roVO.setStatus(rs.getString("status"));
-				roVO.setNote(rs.getString("note"));
-				list.add(roVO); // Store the row in the list
-			}
-
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 		return list;
 	}
 
 	@Override
 	public RentOrdVO findByPrimaryKey(String rentno) {
-
 		RentOrdVO roVO = null;
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_ONE);
-
-			pstmt.setString(1, rentno);
-
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				// deptVO 也稱為 Domain objects
-				roVO = new RentOrdVO();
-				roVO.setRentno(rs.getString("rentno"));
-				roVO.setMemno(rs.getString("memno"));
-				roVO.setMotno(rs.getString("motno"));
-				roVO.setSlocno(rs.getString("slocno"));
-				roVO.setRlocno(rs.getString("rlocno"));
-				roVO.setMilstart(rs.getInt("milstart"));
-				roVO.setMilend(rs.getInt("milend"));
-				roVO.setFilldate(rs.getTimestamp("filldate"));
-				roVO.setStartdate(rs.getTimestamp("startdate"));
-				roVO.setEnddate(rs.getTimestamp("enddate"));
-				roVO.setReturndate(rs.getTimestamp("returndate"));
-				roVO.setFine(rs.getInt("fine"));
-				roVO.setTotal(rs.getInt("total"));
-				roVO.setRank(rs.getString("rank"));
-				roVO.setStatus(rs.getString("status"));
-				roVO.setNote(rs.getString("note"));
-
-			}
-
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-			// Clean up JDBC resources
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			session.beginTransaction();
+			roVO = (RentOrdVO) session.get(RentOrdVO.class, rentno);
+			session.getTransaction().commit();
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 		return roVO;
 	}
 
 	@Override
-	public Set<RentOrdVO> getRentalOrdersByStatus(String status) {
-		Set<RentOrdVO> set = new LinkedHashSet<RentOrdVO>();
-		RentOrdVO roVO = null;
+	public Set<EquipmentVO> getEquipmentVOsByRentno(String rentno) {
 
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
+		Set<EquipmentVO> set = null;
+	
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		
 		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_BY_STATUS);
-			pstmt.setString(1, status);
-			rs = pstmt.executeQuery();
+			session.beginTransaction();
+			
+			Query query = session.createQuery(GET_EMTNOs_BY_RENTNO_IN_EMT_LIST);
+//			private static final String GET_EMTNOs_BY_RENTNO_IN_EMT_LIST= 
+//					" SELECT emtno FROM EmtListVO where rentno = ? ";
+			
+			query.setParameter(0, rentno);
+			
+			List list = query.list();
+			set = new LinkedHashSet<EquipmentVO>(list);
+			session.getTransaction().commit();
+			
+//聯合映射前:
+//				for(String emtno: list){
+//				    	private static final String GET_EMPVOs_BY_EMTNOs_IN_EQUIPMENT=
+//							" from EQUIPMENT where emtno = ? ";
+//						query = session.createQuery(GET_EMPVOs_BY_EMTNOs_IN_EQUIPMENT);
+//						query.setParameter(0, emtno);
+//						
+//						List<EquipmentVO> list2 = query.list();
+//						
+//						for(EquipmentVO eVO: list2){
+//							set.add(eVO);
+//						}
+//					}	
+				
+			} catch (RuntimeException ex) {
+				session.getTransaction().rollback();
+				throw ex;
+			}
+		return set;
+	}
 
-			while (rs.next()) {
-				roVO = new RentOrdVO();
-				setAllAttributeMethod(roVO, rs); // 拉出來寫成一個方法
+	@Override
+	public Set<RentOrdVO> getRentalOrdersByStatus(String status) {
+		Set<RentOrdVO> set = null;
+		
+		//private static final String GET_BY_STATUS = " from RentOrdVO where status = ?";
 
-				set.add(roVO); // Store the row in the vector
-			}
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+//		Configuration config = new Configuration().configure();
+//		SessionFactory sessionFactory = config.buildSessionFactory();
+//		Session session = sessionFactory.openSession();
+		try {
+			session.beginTransaction();
+			Query query = session.createQuery(GET_BY_STATUS);
+			query.setParameter(0, status);
+			
+			List list = query.list();
+			set = new LinkedHashSet<RentOrdVO>(list);
 
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			session.getTransaction().commit();
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 		return set;
 	}
@@ -1408,148 +768,75 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	@Override
 	public Set<RentOrdVO> getRentalOrdersByRentLoc(String slocno) {
 		Set<RentOrdVO> set = new LinkedHashSet<RentOrdVO>();
-		RentOrdVO roVO = null;
 
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+//		private static final String GET_BY_START_LOC_NO =  
+//		"from RentOrdVO where slocno = ?  order by rentno desc";
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
 		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_BY_START_LOC_NO);
-			pstmt.setString(1, slocno);
-			rs = pstmt.executeQuery();
+			session.beginTransaction();
+			Query query = session.createQuery(GET_BY_START_LOC_NO);
+			query.setParameter(0, slocno);
+			
+			List list = query.list();
+			set = new LinkedHashSet<RentOrdVO>(list);
 
-			while (rs.next()) {
-				roVO = new RentOrdVO();
-				setAllAttributeMethod(roVO, rs); // 拉出來寫成一個方法
-
-				set.add(roVO); // Store the row in the vector
-			}
-
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			session.getTransaction().commit();
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 		return set;
 	}
 
 	@Override
 	public Set<RentOrdVO> getRentalOrdersByReturnLoc(String rlocno) {
-		Set<RentOrdVO> set = new LinkedHashSet<RentOrdVO>();
-		RentOrdVO roVO = null;
-
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		Set<RentOrdVO> set = null;
+		
+//		private static final String GET_BY_RETURN_LOC_NO = 
+//		"from RentOrdVO where rlocno = ?  order by rentno desc";
+		
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
 		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_BY_RETURN_LOC_NO);
-			pstmt.setString(1, rlocno);
-			rs = pstmt.executeQuery();
+			session.beginTransaction();
+			Query query = session.createQuery(GET_BY_RETURN_LOC_NO);
+			query.setParameter(0, rlocno);
+			
+			List list = query.list();
+			set = new LinkedHashSet<RentOrdVO>(list);
 
-			while (rs.next()) {
-				roVO = new RentOrdVO();
-				setAllAttributeMethod(roVO, rs); // 拉出來寫成一個方法
-				set.add(roVO); // Store the row in the vector
-			}
-
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			session.getTransaction().commit();
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 		return set;
 	}
 
 	@Override
 	public Set<RentOrdVO> getRentalOrdersByStartDatePrioid(Timestamp start_time, Timestamp end_time) {
-		Set<RentOrdVO> set = new LinkedHashSet<RentOrdVO>();
-		RentOrdVO roVO = null;
+		Set<RentOrdVO> set = null;
 
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
+//		private static final String GET_BY_STARTTIME_PEROID =
+//				 " from RentOrdVO  where startdate  between ? and ? order by startdate";
+		
 		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_BY_STARTTIME_PEROID);
-			pstmt.setTimestamp(1, start_time);
-			pstmt.setTimestamp(2, end_time);
-			rs = pstmt.executeQuery();
+			session.beginTransaction();
+			Query query = session.createQuery(GET_BY_STARTTIME_PEROID);
+			query.setParameter(0, start_time);
+			query.setParameter(1, end_time);
+			
+			List list = query.list();
+			set = new LinkedHashSet<RentOrdVO>(list);
 
-			while (rs.next()) {
-				roVO = new RentOrdVO();
-				setAllAttributeMethod(roVO, rs); // 拉出來寫成一個方法
-				set.add(roVO); // Store the row in the vector
-			}
-
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			session.getTransaction().commit();
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 		return set;
 	}
@@ -1557,99 +844,55 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	@Override
 	public Set<RentOrdVO> getRentalOrdersByEndDatePrioid(Timestamp start_time, Timestamp end_time) {
 		Set<RentOrdVO> set = new LinkedHashSet<RentOrdVO>();
-		RentOrdVO roVO = null;
 
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		
+//		private static final String GET_BY_ENDTIME_PEROID = 
+//				 " from RentOrdVO  where enddate"
+//				+ " between ? and ? order by enddate";
+		
 		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_BY_ENDTIME_PEROID);
-			pstmt.setTimestamp(1, start_time);
-			pstmt.setTimestamp(2, end_time);
-			rs = pstmt.executeQuery();
+			session.beginTransaction();
+			Query query = session.createQuery(GET_BY_ENDTIME_PEROID);
+			query.setParameter(0, start_time);
+			query.setParameter(1, end_time);
+			
+			List list = query.list();
+			set = new LinkedHashSet<RentOrdVO>(list);
 
-			while (rs.next()) {
-				roVO = new RentOrdVO();
-				setAllAttributeMethod(roVO, rs); // 拉出來寫成一個方法
-				set.add(roVO); // Store the row in the vector
-			}
-
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			session.getTransaction().commit();
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 		return set;
 	}
 
 	@Override
 	public Set<RentOrdVO> getRentalOrdersForLeaseView(String slocno) {
-		Set<RentOrdVO> set = new LinkedHashSet<RentOrdVO>();
-		RentOrdVO roVO = null;
+		Set<RentOrdVO> set = new LinkedHashSet<RentOrdVO>();		
+		
+//		private static final String GET_FOR_LEASE_VIEW = 
+//				"from RentOrdVO where slocno=? "
+//				+" and (status = 'unpaid' or status = 'unoccupied' or"
+//				+" status = 'noshow' or status = 'available' or status = 'canceled')"
+//				+" order by DECODE(status,'noshow',1,'available',2), status, startdate";
 	
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-	
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		
 		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_FOR_LEASE_VIEW);
-			pstmt.setString(1, slocno);
-			rs = pstmt.executeQuery();
-	
-			while (rs.next()) {
-				roVO = new RentOrdVO();
-				setAllAttributeMethod(roVO, rs); // 拉出來寫成一個方法
-	
-				set.add(roVO); // Store the row in the vector
-			}
-	
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			session.beginTransaction();
+			Query query = session.createQuery(GET_FOR_LEASE_VIEW);
+			query.setParameter(0, slocno);
+			
+			List list = query.list();
+			set = new LinkedHashSet<RentOrdVO>(list);
+
+			
+			session.getTransaction().commit();
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 		return set;
 	}
@@ -1657,50 +900,26 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	@Override
 	public Set<RentOrdVO> getRentalOrdersForReturnView(String rlocno) {
 		Set<RentOrdVO> set = new LinkedHashSet<RentOrdVO>();
-		RentOrdVO roVO = null;
-	
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-	
+		
+//		private static final String GET_FOR_RETURN_VIEW = 
+//				"from RentOrdVO where rlocno=? "
+//				+" and (status = 'noreturn' or status = 'overtime')"
+//				+"order by DECODE(status,'overtime',1,'noreturn',2), enddate";
+		
+Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		
 		try {
-	
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_FOR_RETURN_VIEW);
-			pstmt.setString(1, rlocno);
-			rs = pstmt.executeQuery();
-	
-			while (rs.next()) {
-				roVO = new RentOrdVO();
-				setAllAttributeMethod(roVO, rs); // 拉出來寫成一個方法
-	
-				set.add(roVO); // Store the row in the vector
-			}
-	
-		} catch (SQLException se) {
-			throw new RuntimeException("A database error occured. " + se.getMessage());
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (SQLException se) {
-					se.printStackTrace(System.err);
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (Exception e) {
-					e.printStackTrace(System.err);
-				}
-			}
+			session.beginTransaction();
+			Query query = session.createQuery(GET_FOR_RETURN_VIEW);
+			query.setParameter(0, rlocno);
+
+			List list = query.list();
+			set = new LinkedHashSet<RentOrdVO>(list);
+			
+			session.getTransaction().commit();
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 		return set;
 	}
@@ -1709,82 +928,215 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	public String differDateCalculator(String rentno) {
 	
 			String differDate = null;
-			Connection con = null;
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
+			
+//			private static final String DIFFER_DATE_CALCULATOR = 
+//				"select to_char(SYSDATE - TO_DATE(to_char(ENDDATE, 'yyyy/mm/dd'),'yyyy/mm/dd')) DIFFDAY "
+//				+" from RentOrdVO where rentno = ? ";
 	
+			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+			System.out.println("differDateCalculator in");
 			try {
-				con = ds.getConnection();
-				pstmt = con.prepareStatement(DIFFER_DATE_CALCULATOR);
+				session.beginTransaction();
+				Query query = session.createSQLQuery(DIFFER_DATE_CALCULATOR);
+				query.setParameter(0, rentno);
 	
-				pstmt.setString(1, rentno);
-	
-				rs = pstmt.executeQuery();
-	
-				while (rs.next()) {
-					// deptVO 也稱為 Domain objects
-					Integer num = (int) Math.ceil(Double.parseDouble(rs.getString(1)));
-					differDate = num.toString();
-					System.out.println("rs.getString(1)"+ rs.getString(1));
-					System.out.println("differDate : "+differDate);
-	
-				}
-	
-			} catch (SQLException se) {
-				throw new RuntimeException("A database error occured. " + se.getMessage());
-				// Clean up JDBC resources
-			} finally {
-				if (rs != null) {
-					try {
-						rs.close();
-					} catch (SQLException se) {
-						se.printStackTrace(System.err);
-					}
-				}
-				if (pstmt != null) {
-					try {
-						pstmt.close();
-					} catch (SQLException se) {
-						se.printStackTrace(System.err);
-					}
-				}
-				if (con != null) {
-					try {
-						con.close();
-					} catch (Exception e) {
-						e.printStackTrace(System.err);
-					}
-				}
+				System.out.println("query.list().size()"+query.list().size());
+
+				Integer num = (int) Math.ceil(Double.parseDouble((String) query.list().get(0)));
+				differDate = num.toString();
+				
+				System.out.println("differDate : "+differDate);
+				
+				session.getTransaction().commit();
+			} catch (RuntimeException ex) {
+				session.getTransaction().rollback();
+				throw ex;
 			}
 			return differDate;
 		}
 
+	
+	
+	public static void main(String[] args) {
 
-	private void setAllAttributeMethod(RentOrdVO roVO, ResultSet rs) {
+		RentOrdDAO dao = new RentOrdDAO();
+		
+//		updateStatusByRentno
+//		dao.updateStatusByRentno("unoccupied", "R000640");
+		
+		//getRoVOsByDatePrioidAndMotno(Timestamp start_time, Timestamp end_time, String motno)
+//		Set<RentOrdVO> set = dao.getRoVOsByDatePrioidAndMotno(java.sql.Timestamp.valueOf("2017-07-02 10:10:10"),
+//				java.sql.Timestamp.valueOf("2017-09-09 10:10:10"), "M000001");
+//			for(RentOrdVO roVO: set){
+//				System.out.println("roVO.getRentno(): "+ roVO.getRentno()+" motno:"+ roVO.getMotorVO().getMotno());
+//			}
+			
+			
+		//getEmtnoByRentno
+//			List<EquipmentVO> list = dao.getEmtnoByRentno("R000610");
+//			for(EquipmentVO eVO:list)
+//				System.out.println("emtno: "+ eVO.getEmtno());
+			
+			
+//		//getRentnoByRentalPeriod
+//			List<String> list = dao.getRentnoByRentalPeriod(java.sql.Timestamp.valueOf("2017-07-02 10:10:10"),
+//					java.sql.Timestamp.valueOf("2017-09-09 10:10:10"));
+//			for(String rentno :list)
+//				System.out.println("rentno: "+ rentno);	
+//			System.out.println("=================================");
+//		
+//		//getRentnoByMemnoAndStartdate
+//		String str = dao.getRentnoByMemnoAndStartdate("MEM000002",
+//				java.sql.Timestamp.valueOf("2017-07-18 23:00:00"));
+//		System.out.println("rentno: "+str);
+//		System.out.println("=================================");
+//		//getRentalOrdersBymotno
+//		Set<RentOrdVO> set = dao.getRentalOrdersBymotno("M000001");
+//		for(RentOrdVO roVO: set){
+//			System.out.print("roVO rentno :"+roVO.getRentno());
+//			System.out.print("roVO motno :"+roVO.getMotorVO().getMotno());
+//			System.out.println("roVO startday :"+roVO.getStartdate());
+//		}
+//		System.out.println("=================================");
+		
+		//getMotnoInRentOrdByRentalPeriod
+//			List<MotorVO> list = dao.getMotnoInRentOrdByRentalPeriod(java.sql.Timestamp.valueOf("2017-08-02 10:10:10"),
+//					java.sql.Timestamp.valueOf("2017-09-09 10:10:10"));
+//			for(MotorVO mVO :list)
+//				System.out.println("motno: "+ mVO.getMotno());	
+			
 
-		try {
-			roVO.setMotno(rs.getString("motno"));
-			roVO.setRentno(rs.getString("rentno"));
-			roVO.setMemno(rs.getString("memno"));
-			roVO.setSlocno(rs.getString("slocno"));
-			roVO.setRlocno(rs.getString("rlocno"));
-			roVO.setMilstart(rs.getInt("milstart"));
-			roVO.setMilend(rs.getInt("milend"));
-			roVO.setFilldate(rs.getTimestamp("filldate"));
-			roVO.setStartdate(rs.getTimestamp("startdate"));
-			roVO.setEnddate(rs.getTimestamp("enddate"));
-			roVO.setReturndate(rs.getTimestamp("returndate"));
-			roVO.setFine(rs.getInt("fine"));
-			roVO.setTotal(rs.getInt("total"));
-			roVO.setRank(rs.getString("rank"));
-			roVO.setStatus(rs.getString("status"));
-			roVO.setNote(rs.getString("note"));
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//updateRentOrdAfterOvertime
+//			dao.updateRentOrdAfterOvertime("R000640", 1000, 
+//					java.sql.Timestamp.valueOf("2017-09-09 10:10:10"),
+//					100, "2", "test", "update");
+			
+		//updateRentOrdAfterNoreturn
+//			dao.updateRentOrdAfterNoreturn("R000628", 1000, java.sql.Timestamp.valueOf("2017-09-10 10:10:10"), 
+//					100, "3", "test", "update2");
+			
+		//updateRentOrdStatusAfterAvailable
+//			dao.updateRentOrdStatusAfterAvailable("R000635", "ttava", "wow");
+			
+		//updateRentOrdStatusAfterNoshow
+//			dao.updateRentOrdStatusAfterNoshow("R000634", "ttava", "wow2");
+			
+		//updateMotorStatusAfterNoshow
+//			dao.updateMotorStatusAfterNoshow("M000010", "action");
+			
+		//updateMotorAfterReturn
+//			dao.updateMotorAfterReturn("M000010", 2000, "TPE01", "action");
+			
+		//updateMotorStatusAfterAvailable
+//			dao.updateMotorStatusAfterAvailable("M000010", "action");
+			
+		//updateEmtsAfterReturn
+//			dao.updateEmtsAfterReturn("E000011", "TPE01", "action");
+			
+		//updateEmtsStatusAfterNoshow
+//			dao.updateEmtsStatusAfterNoshow("E000011", "action");
+			
+		//updateEmtsStatusAfterAvailable
+//			dao.updateEmtsStatusAfterAvailable("E000011", "action");
+		
 
+		//insert
+//		RentOrdVO roVO = new RentOrdVO();
+//		roVO.setMemno("MEM000002");
+//		roVO.setMotorVO(new MotorForRentOrdService().findByPK("M000101"));
+//		roVO.setSlocno("TXG01");
+//		roVO.setRlocno("TXG01");
+//		roVO.setStartdate(java.sql.Timestamp.valueOf("2017-09-13 10:10:10"));
+//		roVO.setEnddate(java.sql.Timestamp.valueOf("2017-09-14 10:10:10"));
+//		roVO.setTotal(5000);
+//		roVO.setStatus("unpaid");
+//		dao.insert(roVO);
+
+		
+//		private static final String UPDATE = "UPDATE RENT_ORD set  motno=?,"
+//		+ " slocno=?, rlocno=?, milstart=?, milend=?, startdate=?, enddate=?,"
+//		+ " returndate=?, fine=?, total=?, rank=?, status=?, note=? where rentno = ?";
+		//update
+//		  RentOrdVO roVO2 = new RentOrdVO(); 
+//		  roVO2.setMemno("memno2");
+//		  roVO2.setMotorVO(new MotorForRentOrdService().findByPK("M000101")); 
+//		  roVO2.setSlocno("slocno2");
+//		  roVO2.setRlocno("rlocno2"); 
+//		  roVO2.setMilstart(211111);
+//		  roVO2.setMilend(322222);
+//		  //roVO2.setFilldate(java.sql.Timestamp.valueOf("2017-06-03 10:10:10"));
+//		  roVO2.setStartdate(java.sql.Timestamp.valueOf("2017-08-06 10:10:10"));
+//		  roVO2.setEnddate(java.sql.Timestamp.valueOf("2017-08-09 10:10:10"));
+//		  roVO2.setReturndate(java.sql.Timestamp.valueOf("2017-08-10 10:10:10")); 
+//		  roVO2.setFine(15000); 
+//		  roVO2.setTotal(220000); 
+//		  roVO2.setRank("5");
+//		  roVO2.setStatus("unoccupied"); 
+//		  roVO2.setNote("test3");
+//		  roVO2.setRentno("R000639"); 
+//		  dao.update(roVO2);	
+
+		//delete
+//		dao.delete("R000639");
+		
+		//getAll
+//		List<RentOrdVO> list = dao.getAll();
+//		for(RentOrdVO roVO:list){
+//			System.out.print(roVO.getRentno()+", ");
+//			System.out.print(roVO.getMotorVO().getMotno()+", ");
+//			System.out.println(roVO.getSlocno());
+//		}
+//		System.out.println(list.size());
+		
+		//findbyPK
+//		RentOrdVO roVO =dao.findByPrimaryKey("R000638");
+//		System.out.println("rentno: "+ roVO.getRentno()+", monto"+ roVO.getMotorVO().getMotno());
+		
+		//getEquipmentVOsByRentno
+//		Set<EquipmentVO> set = dao.getEquipmentVOsByRentno("R000573");
+//		for(EquipmentVO eVO:set)
+//			System.out.println(eVO.getEmtno()+", "+eVO.getLocno());
+		
+		//getRentalOrdersByStatus(String status)
+//		Set<RentOrdVO> set = dao.getRentalOrdersByStatus("overtime");
+//		for(RentOrdVO roVO :set)
+//			System.out.println(roVO.getRentno()+" "+roVO.getMotorVO().getMotno()+" "+roVO.getSlocno()+" "+roVO.getStatus());
+		
+		//getRentalOrdersByRentLoc
+//		Set<RentOrdVO> set = dao.getRentalOrdersByRentLoc("TPE01");
+//		for(RentOrdVO roVO :set)
+//			System.out.println(roVO.getRentno()+" "+roVO.getMotorVO().getMotno()+" "+roVO.getSlocno()+" "+roVO.getStatus());		
+		
+		//getRentalOrdersByReturnLoc
+//		Set<RentOrdVO> set = dao.getRentalOrdersByReturnLoc("TPE01");
+//		for(RentOrdVO roVO :set)
+//			System.out.println(roVO.getRentno()+" "+roVO.getMotorVO().getMotno()+" "+roVO.getRlocno()+" "+roVO.getStatus());			
+		
+		//getRentalOrdersByStartDatePrioid
+//		Set<RentOrdVO> set = dao.getRentalOrdersByStartDatePrioid(java.sql.Timestamp.valueOf("2017-07-10 10:10:10"),
+//				java.sql.Timestamp.valueOf("2017-08-10 10:10:10"));
+//		for(RentOrdVO roVO :set)
+//		System.out.println(roVO.getRentno()+" "+roVO.getStartdate()+" "+roVO.getRlocno()+" "+roVO.getStatus());	
+		
+		
+//		getRentalOrdersByEndDatePrioid
+//		Set<RentOrdVO> set = dao.getRentalOrdersByEndDatePrioid(java.sql.Timestamp.valueOf("2017-07-10 10:10:10"),
+//				java.sql.Timestamp.valueOf("2017-08-10 10:10:10"));
+//		for(RentOrdVO roVO :set)
+//		System.out.println(roVO.getRentno()+" "+roVO.getEnddate()+" "+roVO.getRlocno()+" "+roVO.getStatus());
+		
+		//getRentalOrdersForLeaseView
+//		Set<RentOrdVO> set = dao.getRentalOrdersForLeaseView("TPE01");
+//		for(RentOrdVO roVO :set)
+//		System.out.println(roVO.getRentno()+" "+roVO.getEnddate()+" "+roVO.getSlocno()+" "+roVO.getStatus());		
+		
+		//getRentalOrdersForReturnView
+//		Set<RentOrdVO> set = dao.getRentalOrdersForReturnView("TPE01");
+//		for(RentOrdVO roVO :set)
+//		System.out.println(roVO.getRentno()+" "+roVO.getEnddate()+" "+roVO.getRlocno()+" "+roVO.getStatus());		
+		
+		//differDateCalculator
+//		String str = dao.differDateCalculator("R000631");
+//		System.out.println("diffday" + str);
 	}
-
-
 }
