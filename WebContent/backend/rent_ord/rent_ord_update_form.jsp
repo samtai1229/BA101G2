@@ -1,8 +1,7 @@
 <%@page import="java.sql.Timestamp"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
@@ -17,7 +16,7 @@
 <style>
 .control-label, .form-control{
 
-font-size:20px;
+font-size:18px;
 
 }
 
@@ -68,9 +67,9 @@ font-size:20px;
 							</label>
 							<div class="controls col-md-9 ">
 								<input class="input-md  textinput textInput form-control"
-									id="id_motno" maxlength="30" name="motno" value="${roQueryVO.motno}"
+									id="id_motno" maxlength="30" name="motno" value="${roQueryVO.motorVO.motno}"
 									placeholder="請填入車輛編號"
-									style="margin-bottom: 10px" type="text" placeholder="no data"/>
+									style="margin-bottom: 10px" type="text" placeholder="no data" readonly/>
 							</div>
 						</div>
 <jsp:useBean id="locSvc" scope="page" class="com.location.model.LocationService"/>
@@ -155,7 +154,7 @@ font-size:20px;
 								<input class="input-md  textinput textInput form-control timer"
 									id="id_startdate" maxlength="30" name="startdate"
 									value="<fmt:formatDate pattern = "MM/dd/yyyy H:mm" value = "${roQueryVO.startdate}"/>"
-									style="margin-bottom: 10px" type="text" placeholder="no data"/>
+									style="margin-bottom: 10px" type="text" placeholder="no data" readonly/>
 							</div>
 						</div>
 						
@@ -168,7 +167,7 @@ font-size:20px;
 								<input class="input-md  textinput textInput form-control timer"
 									id="id_enddate" maxlength="30" name="enddate"
 									value="<fmt:formatDate pattern = "MM/dd/yyyy H:mm" value = "${roQueryVO.enddate}"/>"
-									style="margin-bottom: 10px" type="text" placeholder="no data"/>
+									style="margin-bottom: 10px" type="text" placeholder="no data" readonly/>
 							</div>
 						</div>
 						
@@ -183,13 +182,12 @@ font-size:20px;
 									<input class="input-md  textinput textInput form-control timer"
 										id="id_returndate" maxlength="30" name="returndate"
 										value="<fmt:formatDate pattern = "MM/dd/yyyy H:mm" value = "${roQueryVO.returndate}"/>"
-										style="margin-bottom: 10px" type="text" placeholder="no data"/>
+										style="margin-bottom: 10px" type="text" placeholder="no data" readonly/>
 								</c:if>
 								<c:if test="${roQueryVO.returndate==null}">
 									<input class="input-md  textinput textInput form-control timer"
-										id="id_returndate" maxlength="30" name="returndate"
-										value="${roQueryVO.returndate}"
-										style="margin-bottom: 10px" type="text" placeholder="no data"/>
+										id="id_returndate" maxlength="30" name="returndate" value="${roQueryVO.returndate}"
+										style="margin-bottom: 10px" type="text" placeholder="no data" readonly/>
 								</c:if>	
 							</div>
 						</div>
@@ -298,7 +296,6 @@ font-size:20px;
 									style="margin-bottom: 10px" type="text" placeholder="no data"/>
 							</div>
 						</div>									
-						
 						<div class="form-group">
 							<div class="controls col-md-12 ">
 								<div class="modal-footer">

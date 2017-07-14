@@ -29,7 +29,7 @@
 	%>
 	租賃單號:<c:out value="${roQueryVO.rentno}" default="無資料"/><br>
 	會員編號:<c:out value="${roQueryVO.memno}" default="無資料"/><br>
-	車輛編號:<c:out value="${roQueryVO.motno}" default="無資料"/><br>
+	車輛編號:<c:out value="${roQueryVO.motorVO.motno}" default="無資料"/><br>
 	交車據點:<c:out value="${roQueryVO.slocno}" default="無資料"/><br>
             還車據點:<c:out value="${roQueryVO.rlocno}" default="無資料"/><br>
 	起始里程:<c:out value="${roQueryVO.milstart}" default="無資料"/><br>

@@ -87,7 +87,7 @@
 										<tr">
 											<td>${roVO.rentno}</td>
 											<td>${roVO.memno}</td>
-											<td>${roVO.motno}</td>	
+											<td>${roVO.motorVO.motno}</td>	
 											<td>${roVO.slocno}</td>
 											<td>${roVO.rlocno}</td>
  											<td><fmt:formatDate pattern = "yyyy" value = "${roVO.filldate}" /></td>

@@ -6,7 +6,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
 <%@ page import="com.rent_ord.model.*"%>
-<%@ page import="com.motor.model.*"%>
 <%@ page import="com.member.model.*"%>
 <%@ page import="com.motor_model.model.*"%>
 <%@ page import="com.location.model.*"%>
@@ -49,16 +48,15 @@ LocationVO rlocQueryVO =  (LocationVO)request.getAttribute("rlocQueryVO");
 <c:set var="now" value="<%=new java.util.Date()%>" />
 
 
-This is leaseForm.jsp<br>
+<%-- This is leaseForm.jsp<br>
 rentNo =  <c:out value="${roQueryVO.rentno}" default="no value"/><br>
 memName = <c:out value="${memQueryVO.memname}" default="no value"/><br> 
 motorNo = <c:out value="${motorQueryVO.motno}" default="no value"/><br> 
 slocName = <c:out value="${slocQueryVO.locname}" default="no value"/><br> 
 rlocName = <c:out value="${rlocQueryVO.locname}" default="no value"/><br> 
 mmName =  <c:out value="${mmQueryVO.name}" default="no value"/><br> 
-
 status: <c:out value="<%=status%>" default="no value"/><br>
-action: <c:out value="${action}" default="no value"/><br>
+action: <c:out value="${action}" default="no value"/><br> --%>
 
 
 	<div class="container-fluid">
@@ -70,7 +68,7 @@ action: <c:out value="${action}" default="no value"/><br>
 				2.在label添加一個格線以及一個control-label的class
 				3.把input輸入欄位，包裹在一個格線當中 
 				-->
-				<h1>AutoBike - 交車管理 - 租賃單</h1>
+				<h1>AutoBike - 租賃單 - 可取車</h1>
 
 				<hr>
 				
@@ -231,7 +229,7 @@ action: <c:out value="${action}" default="no value"/><br>
 									編號:
 								</label>
 								<div class="col-xs-12 col-sm-8 innerDiv">
-									<input type="text" name="motno" value="${motorQueryVO.motno}" 
+									<input type="text" name="motorVO.motno" value="${motorQueryVO.motno}" 
 									class="form-control" readonly>
 								</div>
 							</div>
@@ -385,7 +383,7 @@ action: <c:out value="${action}" default="no value"/><br>
 					</div>
 	
 					<div class="clear"></div>
-					
+					共 <%=count%> 件裝備。
 					<h3>確認項目</h3>
 					<hr>
 					

@@ -5,7 +5,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
-<%@ page import="com.motor.model.*"%>
+<%@ page import="com.rent_ord.model.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -83,7 +83,7 @@
 					<td><c:out value="${locSvc.getOneLocation(roVO.rlocno).locname}" default="無資料" /></td>
 					<td><fmt:formatDate pattern="yyyy-MM-dd" value="${roVO.enddate}" /></td>
 					<td><c:out value="${roVO.memno}" default="無資料" /></td>
-					<td><c:out value="${roVO.motno}" default="無資料" /></td>
+					<td><c:out value="${roVO.motorVO.motno}" default="無資料" /></td>
 					<td><c:out value="${roVO.fine}" default="無資料" /></td>
 					<td><c:out value="${roVO.total}" default="無資料" /></td>					
 					<td><c:out value="${locSvc.getOneLocation(roVO.slocno).locname}" default="無資料" /></td>

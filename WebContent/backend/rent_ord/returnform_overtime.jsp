@@ -6,7 +6,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
 <%@ page import="com.rent_ord.model.*"%>
-<%@ page import="com.motor.model.*"%>
 <%@ page import="com.member.model.*"%>
 <%@ page import="com.motor_model.model.*"%>
 <%@ page import="com.location.model.*"%>
@@ -49,9 +48,9 @@ LocationVO slocQueryVO =  (LocationVO)request.getAttribute("slocQueryVO");
 LocationVO rlocQueryVO =  (LocationVO)request.getAttribute("rlocQueryVO");
 %>
 
-<c:set var="now" value="<%=new java.util.Date()%>" />
+ <c:set var="now" value="<%=new java.util.Date()%>" />
 
-This is returnForm.jsp<br>
+<%--This is returnForm.jsp<br>
 
 rentNo     = <c:out value="${roQueryVO.rentno}"    default="no value"/><br>
 memName    = <c:out value="${memQueryVO.memname}"  default="no value"/><br> 
@@ -62,7 +61,7 @@ mmName     = <c:out value="${mmQueryVO.name}"      default="no value"/><br>
 differDate = <c:out value="${differDate}"          default="no value"/><br>
 
 status: <c:out value="<%=status%>" default="no value"/><br>
-action: <c:out value="${action}" default="no value"/><br>
+action: <c:out value="${action}" default="no value"/><br> --%>
 
 <%! 
 	int equipsPrice = 0; 
@@ -71,7 +70,7 @@ action: <c:out value="${action}" default="no value"/><br>
 	int fineDays = 0;
 %>
 
-<c:forEach var="emtVO" items="${get_equipmentVOs_by_rentno}">
+ <c:forEach var="emtVO" items="${get_equipmentVOs_by_rentno}">
 	<c:set scope="page" var="price">
 		<c:out value="${ecSvc.getOneEmtCate(emtVO.ecno).price}"/>
 	</c:set> 	
@@ -99,12 +98,12 @@ motorPrice = java.lang.Integer.parseInt(str2);
 
 rentPerDay = motorPrice + equipsPrice;
 %>
-
-=======Equip(s)Price:<%=equipsPrice %><br>
+<%--
+ =======Equip(s)Price:<%=equipsPrice %><br>
 =======motorPrice:<%=motorPrice %><br>
 =======rentPerDay:<%=rentPerDay%><br>
 =======fineDays:<%=fineDays %><br>
-=======totalFine<%=fineDays*rentPerDay%>
+=======totalFine<%=fineDays*rentPerDay%> --%>
 
 
 	<div class="container-fluid">
@@ -116,7 +115,7 @@ rentPerDay = motorPrice + equipsPrice;
 				2.在label添加一個格線以及一個control-label的class
 				3.把input輸入欄位，包裹在一個格線當中 
 				-->
-				<h1>AutoBike - 還車管理 - 逾期未還(建構中)</h1>
+				<h1>AutoBike - 交車管理 - 逾期未還車</h1>
 
 				<hr>
 				
@@ -431,11 +430,10 @@ rentPerDay = motorPrice + equipsPrice;
 															
 							</div>
 						</c:forEach>
-							
 					</div>
 	
 					<div class="clear"></div>
-					
+					共 <%=count%> 件裝備。
 					<h3>確認項目</h3>
 					<hr>
 					
