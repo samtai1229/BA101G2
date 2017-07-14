@@ -312,9 +312,9 @@
     </div>
    </div>
    <div class="col-xs-12 col-sm-4">
-
-    
-     
+    <div class="container">
+     <div class="row">
+      <div class="col-sm-4">
        <div class="news">
         <div class="img-figure">
          <img src=<%=request.getContextPath()%>/backend/news/newsread.do?newsno=<%=listnormal.get(2).getNewsno()%> 
@@ -333,9 +333,9 @@
        </div>
 
 
-      
-     
-   
+      </div>
+     </div>
+    </div>
    </div>
   </div>
  </div>
