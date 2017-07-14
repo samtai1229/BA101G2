@@ -8,10 +8,13 @@
 
 <%
 	RentOrdService roSvc = new RentOrdService();
+    MemberService mSvc = new MemberService(); 
 	String memno = (String)request.getAttribute("memno");
 	List<RentOrdVO> list = roSvc.getAll();
+	pageContext.setAttribute("mems",mSvc.getAll());
 	pageContext.setAttribute("list",list);
 	pageContext.setAttribute("memno",memno);
+	
 %>
 
 <html>
@@ -55,7 +58,7 @@
 <!-- 	</font> -->
 <%-- </c:if> --%>
 <%-- <%@ include file="pages/page1.file" %>  --%>
-
+<div  class="col-xs-12 col-sm-12">
 <table border='1'  bordercolor='#CCCCFF' class="table table-striped">
 	
 	<tr>
@@ -63,6 +66,7 @@
 		<th style="text-align:center">租賃單編號</th>
 		<th style="text-align:center">會員編號</th>
 		<th style="text-align:center">車輛型號</th>
+		<th style="text-align:center">會員名稱</th>
 		<th style="text-align:center">取車據點</th>
 		<th style="text-align:center">還車據點</th>
 		<th style="text-align:center">起始里程</th>
@@ -85,7 +89,12 @@
 		<tr align='center' valign='middle'>
 			<td>${roVO.rentno}</td>
 			<td>${roVO.memno}</td>
-			<td>${roVO.motno}</td>
+			<td>${roVO.motorVO.motno}</td>
+		<c:forEach var="mem" items="${mems}" >	
+		  <c:if test="${mem.memno==roVO.memno}">
+		     <td>${mem.memname}</td>
+		  </c:if>
+			</c:forEach>
 			<td>${roVO.slocno}</td>
 			<td>${roVO.rlocno}</td>
 			<td>${roVO.milstart}</td>	
@@ -128,10 +137,10 @@
    <font color=blue>request.getServletPath():</font> <%= request.getServletPath()%><br>
    <font color=blue>request.getRequestURI(): </font> <%= request.getRequestURI()%> </b>
 
-
+</div>
 
 
 </body>
 <script src="https://code.jquery.com/jquery.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </html>

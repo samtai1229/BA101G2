@@ -109,10 +109,12 @@
 <!-- 			</td> -->
 		</tr>
     </table>
-    
+   </div>
+   <div class="col-xs-12 col-sm-12">
     <button type="button" onclick="loadDoc()" >我的二手車訂單</button>
 	<button type="button" onclick="loadOrder()" >我的租賃單</button>
-   </div>
+	</div>
+	<BR/>
 <div class="col-xs-12 col-sm-12"  id="demo"></div>
 
 
