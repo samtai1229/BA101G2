@@ -91,7 +91,9 @@
        <button class="accordion accordionMenu">會員管理系統</button>
         <div class="btn-group-vertical">
         <%if(adminisVO.getAuthno().equals("AC03")){%>
-            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/member/listAllMember.jsp" role="button">會員管理</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/member/listAllMember.jsp" role="button">所有會員</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/member/select_page.jsp" role="button">會員資料管理</a>
+ -          <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/member/.jsp" role="button">實名認證管理</a>
             <a class="btn btn-default" href="#" role="button">會員認證管理</a>
             <a class="btn btn-default" href="#" role="button">會員</a>
          <%} %>

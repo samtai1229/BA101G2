@@ -203,5 +203,32 @@
  </servlet-mapping>
  
  
+ <servlet>
+  <servlet-name>AdminisServlet</servlet-name>
+  <servlet-class>com.adminis.controller.AdminisServlet</servlet-class>
+ </servlet>
+ <servlet-mapping>
+  <servlet-name>AdminisServlet</servlet-name>
+  <url-pattern>/adminis/adminis.do</url-pattern>
+ </servlet-mapping>
+ 
+ <servlet>
+  <servlet-name>MesBoardServlet</servlet-name>
+  <servlet-class>com.mes_board.controller.MesBoardServlet</servlet-class>
+ </servlet>
+ <servlet-mapping>
+  <servlet-name>MesBoardServlet</servlet-name>
+  <url-pattern>/backend/mes_board/mesboard.do</url-pattern>
+ </servlet-mapping>
+ 
+ <servlet>
+  <servlet-name>MesBoardDBGifReader</servlet-name>
+  <servlet-class>com.mes_board.controller.MesBoardDBGifReader</servlet-class>
+ </servlet>
+ <servlet-mapping>
+  <servlet-name>MesBoardDBGifReader</servlet-name>
+  <url-pattern>/backend/mes_board/mesboardread.do</url-pattern>
+ </servlet-mapping>
+ 
   
 </web-app>

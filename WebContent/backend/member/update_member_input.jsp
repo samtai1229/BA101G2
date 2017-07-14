@@ -6,7 +6,7 @@
 	MemberVO memVO = (MemberVO) request.getAttribute("memVO"); //EmpServlet.java (Concroller), 存入req的empVO物件 (包括幫忙取出的empVO, 也包括輸入資料錯誤時的empVO物件)
 	String[] statusArray = {"unconfirmed","confirmed"};
 	String[] gender = {"Girl","Boy"};
-
+	pageContext.setAttribute("memVO", memVO);
     pageContext.setAttribute("statusArray", statusArray);
 	pageContext.setAttribute("gender", gender);
 %>
@@ -22,7 +22,7 @@
 <table border='1' cellpadding='5' cellspacing='0' width='1690'>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
-		<h3>會員資料修改 - update_member_input.jsp</h3>
+		<h3>後端會員資料修改 - update_member_input.jsp</h3>
 		<a href="<%=request.getContextPath()%>/index.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a></td>
 	</tr>
 </table>
@@ -115,12 +115,11 @@
 	</tr>
 </table>
 <br/>
-<input type="hidden" name="action" value="update">
-<input type="hidden" name="memno" value="<%=memVO.getMemno()%>">
-<input type="hidden" name="sex" value="<%=memVO.getSex()%>">
-<input type="hidden" name="birth" value="<fmt:formatDate pattern = "yyyy-MM-dd HH:mm:ss"         value = "${memVO.birth}" />">
-<input type="hidden" name="credate" value="<fmt:formatDate pattern = "yyyy-MM-dd HH:mm:ss" 
- value = "${memVO.credate}" />">
+<input type="hidden" name="action" value="update_backend_verified">
+<input type="hidden" name="memno" value="${memVO.memno}">
+<input type="hidden" name="sex" value="${memVO.sex}">
+<input type="hidden" name="birth" value="<fmt:formatDate value="${memVO.birth}" pattern='yyyy-MM-dd HH:mm:ss'/>">
+<input type="hidden" name="credate" value="<fmt:formatDate value="${memVO.credate}" pattern='yyyy-MM-dd HH:mm:ss'/>">
 <input type="submit" value="送出修改"></FORM>
 
 </body>

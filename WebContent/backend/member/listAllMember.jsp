@@ -9,6 +9,7 @@
 	MemberService memSvc = new MemberService();
 	List<MemberVO> list = memSvc.getAll();
 	pageContext.setAttribute("list",list);
+	String prev = (String) request.getAttribute("prev");
 %>
 
 <html>
@@ -17,15 +18,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body bgcolor='white'>
-<table border='1' cellpadding='5' cellspacing='0' width='1600'>
+<div class="col-xs-12 col-sm-12">
+<table border='1' cellpadding='5' cellspacing='0' width='100%'>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
 		<h3>所有會員資料</h3>
-		<a href="<%=request.getContextPath()%>/backend/member/select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a>
+		<a href="<%=request.getContextPath()%>/backend/index.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回上頁</a>
 		</td>
 	</tr>
 </table>
-
+</div>
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
 	<font color='red'>請修正以下錯誤:
@@ -39,22 +41,23 @@
 <%@ include file="pages/page1.file" %> 
 
 <div class="col-xs-12 col-sm-12">
-<table border='1' bordercolor='#CCCCFF' width='1600'>
+<table class="table table-striped table-inverse" border='1' bordercolor='#CCCCFF' width='100%'>
 	<tr>
-		<th>會員編號</th>
-		<th width='70'>會員名稱</th>
-		<th  width='50'>性別 </th>
-		<th>生日</th>
-		<th>Mail</th>
-		<th>電話</th>
-		<th>地址</th>
-		<th>帳號</th>
-		<th>密碼</th>
-		<th>身分證正面</th>
-		<th>身分證反面</th>
-		<th>駕照</th>
-		<th>加入時間</th>
-		<th>認證狀態</th>
+		<th style="text-align:center">會員編號</th>
+		<th style="text-align:center">會員名稱</th>
+		<th style="text-align:center">性別 </th>
+		<th style="text-align:center">生日</th>
+		<th style="text-align:center">Mail</th>
+		<th style="text-align:center">電話</th>
+		<th style="text-align:center">地址</th>
+		<th style="text-align:center">帳號</th>
+		<th style="text-align:center">密碼</th>
+		<th style="text-align:center">身分證正面</th>
+		<th style="text-align:center">身分證反面</th>
+		<th style="text-align:center">駕照</th>
+		<th style="text-align:center">加入時間</th>
+		<th style="text-align:center">認證狀態</th>
+		<th colspan="2" style="text-align:center">操作</th>
 	</tr>
 <%-- 	begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" --%>
 	<c:forEach var="memVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">

@@ -6,6 +6,7 @@
 	MemberVO memVO = (MemberVO) request.getAttribute("memVO"); //EmpServlet.java (Concroller), 存入req的empVO物件 (包括幫忙取出的empVO, 也包括輸入資料錯誤時的empVO物件)
 	String[] statusArray = {"unconfirmed","confirmed"};
 	String[] gender = {"Girl","Boy"};
+	pageContext.setAttribute("memVO", memVO);
     pageContext.setAttribute("statusArray", statusArray);
 	pageContext.setAttribute("gender", gender);
 %>
@@ -54,7 +55,7 @@
 	</tr>	
 	<tr>
 		<td>生日:</td>
-		<td><input type="date" name="birth"></td>
+		<td><fmt:formatDate pattern = "yyyy年MM月dd號" value = "${memVO.birth}"/></td>
 	</tr>	
 	<tr>
 		<td>信箱:</td>
@@ -106,6 +107,7 @@
 <br/>
 <input type="hidden" name="action" value="update">
 <input type="hidden" name="memno" value="<%=memVO.getMemno()%>">
+<input type="hidden" name="status" value="${memVO.status}">
 <input type="submit" value="送出修改"></FORM>
 
 </body>
