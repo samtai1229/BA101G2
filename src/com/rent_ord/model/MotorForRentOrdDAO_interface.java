@@ -4,13 +4,12 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 
-import com.motor.model.MotorVO;
+import com.rent_ord.model.MotorVO;
 
 public interface MotorForRentOrdDAO_interface {
 
 	public List<MotorVO> getAll();
 	public List<String> getMotnosByModelType(String modtype);
-	
 	public List<MotorVO> getMotorsByRentalSide();
 	public Set<MotorVO> getMotorsByModelType(String modtype);
 	public Set<MotorVO> getMotorsByLocNo(String locno);
