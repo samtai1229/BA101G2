@@ -22,19 +22,22 @@ import javax.servlet.http.HttpSession;
 
 import com.emt_cate.model.EmtCateService;
 import com.emt_list.model.EmtListService;
-import com.equipment.model.EquipmentVO;
+
+import com.rent_ord.model.EquipmentVO;
+import com.rent_ord.model.MotorVO;
+import com.rent_ord.model.RentOrdVO;
+import com.rent_ord.model.EquipmentForRentOrdService;
+import com.rent_ord.model.MotorForRentOrdService;
+import com.rent_ord.model.RentOrdService;
+
 import com.location.model.LocationService;
 import com.location.model.LocationVO;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
-import com.motor.model.MotorService;
-import com.motor.model.MotorVO;
 import com.motor_model.model.MotorModelService;
 import com.motor_model.model.MotorModelVO;
-import com.rent_ord.model.EquipmentForRentOrdService;
-import com.rent_ord.model.MotorForRentOrdService;
-import com.rent_ord.model.RentOrdService;
-import com.rent_ord.model.RentOrdVO;
+
+
 
 public class RentOrdServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -47,6 +50,8 @@ public class RentOrdServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		System.out.println("RentOrdServlet in");
+		
+		String exceptionURL = "/index.jsp";
 
 	if ("redirect_to_login".equals(action)){
 		String url ="/Login.jsp";
@@ -122,7 +127,7 @@ public class RentOrdServlet extends HttpServlet {
 
 
 				//1.用modtype找到所有的motno
-				MotorService motorSvc = new MotorService();
+				MotorForRentOrdService motorSvc = new MotorForRentOrdService();
 				RentOrdService roSvc = new RentOrdService();
 				MotorForRentOrdService mfroSvc = new MotorForRentOrdService();
 				
@@ -251,8 +256,9 @@ public class RentOrdServlet extends HttpServlet {
 				/***************************其他可能的錯誤處理*************************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
+				System.out.println("RentOrdServlet exception=========j========");
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/frontend/rental_form/quick_search_product4.jsp");
+						.getRequestDispatcher(exceptionURL);
 				failureView.forward(req, res);
 			}
 		} 
@@ -400,8 +406,9 @@ public class RentOrdServlet extends HttpServlet {
 			/***************************其他可能的錯誤處理*************************************/
 		} catch (Exception e) {
 			errorMsgs.add("無法取得資料:" + e.getMessage());
+			System.out.println("RentOrdServlet exception=========k========");
 			RequestDispatcher failureView = req
-					.getRequestDispatcher("/frontend/rental_form/quick_search_product.jsp");
+					.getRequestDispatcher(exceptionURL);
 			failureView.forward(req, res);
 		}
 	}	
@@ -452,7 +459,7 @@ public class RentOrdServlet extends HttpServlet {
 			int total =0;
 
 			//1
-			MotorService motorSvc = new MotorService();
+			MotorForRentOrdService motorSvc = new MotorForRentOrdService();
 			MotorVO motorQueryVO = motorSvc.findByPK(motno);
 			
 			MotorModelService mmSvc = new MotorModelService();
@@ -645,9 +652,10 @@ public class RentOrdServlet extends HttpServlet {
 
 			/***************************其他可能的錯誤處理*************************************/
 		} catch (Exception e) {
+			System.out.println("RentOrdServlet exception=========m========");
 			errorMsgs.add("無法取得資料:" + e.getMessage());
 			RequestDispatcher failureView = req
-					.getRequestDispatcher("/frontend/rental_form/quick_search_product.jsp");
+					.getRequestDispatcher(exceptionURL);
 			failureView.forward(req, res);
 		}
 	}
@@ -678,7 +686,7 @@ public class RentOrdServlet extends HttpServlet {
 			
 
 			//1
-			MotorService motorSvc = new MotorService();
+			MotorForRentOrdService motorSvc = new MotorForRentOrdService();
 			MotorVO motorQueryVO = motorSvc.findByPK(motno);
 			
 			//2
@@ -862,8 +870,9 @@ public class RentOrdServlet extends HttpServlet {
 			/***************************其他可能的錯誤處理*************************************/
 		} catch (Exception e) {
 			errorMsgs.add("無法取得資料:" + e.getMessage());
+			System.out.println("RentOrdServlet exception=========p========");
 			RequestDispatcher failureView = req
-					.getRequestDispatcher("/frontend/rental_form/quick_search_product.jsp");
+					.getRequestDispatcher(exceptionURL);
 			failureView.forward(req, res);
 		}
 	}
@@ -886,7 +895,7 @@ public class RentOrdServlet extends HttpServlet {
 			System.out.println("dayrange:" + dayrange);
 			
 			/***************************2.開始查詢資料*****************************************/
-			MotorService motorSvc = new MotorService();
+			MotorForRentOrdService motorSvc = new MotorForRentOrdService();
 			RentOrdService roSvc = new RentOrdService();
 			
 			MotorVO motorQueryVO = motorSvc.findByPK(motno);
@@ -941,9 +950,10 @@ public class RentOrdServlet extends HttpServlet {
 
 			/***************************其他可能的錯誤處理*************************************/
 		} catch (Exception e) {
+			System.out.println("RentOrdServlet exception=========r========");
 			errorMsgs.add("無法取得資料:" + e.getMessage());
 			RequestDispatcher failureView = req
-					.getRequestDispatcher("/frontend/rental_form/quick_search_product.jsp");
+					.getRequestDispatcher(exceptionURL);
 			failureView.forward(req, res);
 		}
 	} 
@@ -1012,15 +1022,16 @@ public class RentOrdServlet extends HttpServlet {
 				Set<MotorVO> availableMotorVO= new LinkedHashSet<MotorVO>();
 				
 				List<MotorVO> allMotorList = mfroSvc.getMotorsByRentalSide();
-				List<String> notAllowMotorList = roSvc.getMotnoInRentOrdByRentalPeriod(start_time, end_time);
+				System.out.println("allMotorList.size()"+allMotorList.size());
+				List<MotorVO> notAllowMotorList = roSvc.getMotnoInRentOrdByRentalPeriod(start_time, end_time);
 				
 				for(MotorVO mVO : allMotorList){
 					int count = 0;
-					//System.out.println("allMotorVO motno: " + mVO.getMotno());
-					for(String ngMotor : notAllowMotorList){
+					System.out.println("allMotorVO motno: " + mVO.getMotno());
+					for(MotorVO mVO2 : notAllowMotorList){
 						//System.out.println("ngMotor: " + ngMotor);
 						
-						if(ngMotor.equals(mVO.getMotno())){
+						if(mVO2.getMotno().equals(mVO.getMotno())){
 							count ++;
 							//System.out.println("ngMotor caught! :" + ngMotor);
 							//System.out.println("==========================count :"+ count);
@@ -1040,7 +1051,7 @@ public class RentOrdServlet extends HttpServlet {
 						}//"leasable".equals(statusTemp)
 						String statusTemp = mVO.getStatus();//1.同型的車只取1輛 , (新增條件)2.而且那一輛在當下是租車方狀態的車.(unleaseable除外)
 						if(count2==0&&!"unleasable".equals(statusTemp)){
-							System.out.println("quick_search add room: mVO.status(): " +mVO.getStatus());
+							//System.out.println("quick_search add room: mVO.status(): " +mVO.getStatus());
 							availableMotorVO.add(mVO);
 							//System.out.println("mVO.getByMotno:"+mVO.getMotno());
 							//System.out.println("availableMotorVO.add(mVO); mVO.type = "+mVO.getModtype());
@@ -1066,9 +1077,10 @@ public class RentOrdServlet extends HttpServlet {
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
-				System.out.println("RentOrdServlet exception=================");
+				e.printStackTrace();
+				System.out.println("RentOrdServlet exception======aaa===========");
 				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/rent_ord/quick_search.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher(exceptionURL);
 				failureView.forward(req, res);
 			}
 		} 
@@ -1102,8 +1114,8 @@ public class RentOrdServlet extends HttpServlet {
 				
 				String differDate = roSvc.differDateCalculator(rentno);
 				
-				MotorService motorSvc = new MotorService();
-				MotorVO motorQueryVO = motorSvc.findByPK(roQueryVO.getMotno());
+				MotorForRentOrdService motorSvc = new MotorForRentOrdService();
+				MotorVO motorQueryVO = motorSvc.findByPK(roQueryVO.getMotorVO().getMotno());
 
 				MemberService memSvc = new MemberService();
 				MemberVO memQueryVO = memSvc.getOneMember(roQueryVO.getMemno());
@@ -1148,7 +1160,7 @@ public class RentOrdServlet extends HttpServlet {
 			} catch (Exception e) {
 				System.out.println("exception=================");
 				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/return.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher(exceptionURL);
 				failureView.forward(req, res);
 			}
 		} 
@@ -1183,8 +1195,8 @@ public class RentOrdServlet extends HttpServlet {
 
 						Set<EquipmentVO> set = roSvc.getEquipmentVOsByRentno(rentno);
 
-						MotorService motorSvc = new MotorService();
-						MotorVO motorQueryVO = motorSvc.findByPK(roQueryVO.getMotno());
+						MotorForRentOrdService motorSvc = new MotorForRentOrdService();
+						MotorVO motorQueryVO = motorSvc.findByPK(roQueryVO.getMotorVO().getMotno());
 
 						MemberService memSvc = new MemberService();
 						MemberVO memQueryVO = memSvc.getOneMember(roQueryVO.getMemno());
@@ -1230,7 +1242,7 @@ public class RentOrdServlet extends HttpServlet {
 					} catch (Exception e) {
 						System.out.println("exception=================");
 						errorMsgs.add("無法取得資料:" + e.getMessage());
-						RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/lease.jsp");
+						RequestDispatcher failureView = req.getRequestDispatcher(exceptionURL);
 						failureView.forward(req, res);
 					}
 				} // lease_form_parameter_setting end
@@ -1303,7 +1315,7 @@ public class RentOrdServlet extends HttpServlet {
 						
 						// Send the use back to the form, if there were errors
 						if (!errorMsgs.isEmpty()) {
-							RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/return.jsp");
+							RequestDispatcher failureView = req.getRequestDispatcher("/index.jsp");
 							failureView.forward(req, res);
 							return;
 						}
@@ -1356,9 +1368,9 @@ public class RentOrdServlet extends HttpServlet {
 
 						/*************************** 其他可能的錯誤處理 *************************************/
 					} catch (Exception e) {
-						System.out.println("RentOrdServlet exception=================");
+						System.out.println("RentOrdServlet exception======b===========");
 						errorMsgs.add("無法取得資料:" + e.getMessage());
-						RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/return.jsp");
+						RequestDispatcher failureView = req.getRequestDispatcher(exceptionURL);
 						failureView.forward(req, res);
 					}
 				} // after_noreturn_form end				
@@ -1439,9 +1451,9 @@ public class RentOrdServlet extends HttpServlet {
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
-				System.out.println("RentOrdServlet exception=================");
+				System.out.println("RentOrdServlet exception=========c========");
 				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/lease.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher(exceptionURL);
 				failureView.forward(req, res);
 			}
 		} // after_nowshow_form end
@@ -1506,24 +1518,14 @@ public class RentOrdServlet extends HttpServlet {
 //
 //				/*************************** 其他可能的錯誤處理 *************************************/
 //			} catch (Exception e) {
-//				System.out.println("RentOrdServlet exception=================");
+//				System.out.println("RentOrdServlet exception=========d========");
 //				errorMsgs.add("無法取得資料:" + e.getMessage());
-//				RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/lease.jsp");
+//				RequestDispatcher failureView = req.getRequestDispatcher(exceptionURL);
 //				failureView.forward(req, res);
 //			}
 //		} // after_available_form end
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-
 		// query
 		if ("query".equals(action) || "lease_ord_form".equals(action)||"query_for_update".equals(action)) {
 
@@ -1546,7 +1548,7 @@ public class RentOrdServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req
-							.getRequestDispatcher("/backend/rent_ord/get_rent_ord_by_pk.jsp");
+							.getRequestDispatcher("/index.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
 				}
@@ -1571,6 +1573,7 @@ public class RentOrdServlet extends HttpServlet {
 				 *************/
 				System.out.println("query-finished");
 				req.setAttribute("roQueryVO", roQueryVO); // 資料庫取出的VO物件,存入req
+				
 				System.out.println("roQueryVO.getRentno:" + roQueryVO.getRentno());
 				System.out.println("action=" + action);
 				if ("query".equals(action)) {
@@ -1587,7 +1590,8 @@ public class RentOrdServlet extends HttpServlet {
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/get_rent_ord_by_pk.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher(exceptionURL);
+				System.out.println("RentOrdServlet exception=========e========");
 				failureView.forward(req, res);
 			}
 		} // query end
@@ -1662,7 +1666,11 @@ public class RentOrdServlet extends HttpServlet {
 
 				RentOrdVO roVO = new RentOrdVO();
 				roVO.setMemno(memno);
-				roVO.setMotno(motno);
+				
+				//roVO.setMotno(motno);
+				MotorForRentOrdService mSvc = new MotorForRentOrdService();
+				roVO.setMotorVO(mSvc.findByPK(motno));
+				
 				roVO.setSlocno(slocno);
 				roVO.setRlocno(rlocno);
 				roVO.setTotal(total);
@@ -1676,7 +1684,7 @@ public class RentOrdServlet extends HttpServlet {
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("roVO", roVO); // 含有輸入格式錯誤的VO物件,也存入req
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/backendRentOrd.jsp");
+					RequestDispatcher failureView = req.getRequestDispatcher("/index.jsp");
 					failureView.forward(req, res);
 					return;
 				}
@@ -1696,7 +1704,8 @@ public class RentOrdServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
 				System.out.println("err main insert catch in");
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/backendRentOrd.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher(exceptionURL);
+				System.out.println("RentOrdServlet exception=========f========");
 				failureView.forward(req, res);
 			}
 		} // insert 'if' end
@@ -1713,95 +1722,142 @@ public class RentOrdServlet extends HttpServlet {
 				/***********************
 				 * 1.接收請求參數 - 輸入格式的錯誤處理
 				 *************************/
-				String motno = req.getParameter("motno").trim();
-				String slocno = req.getParameter("slocno").trim();
-				String rlocno = req.getParameter("rlocno").trim();
-				String rank = req.getParameter("rank").trim();
-				String status = req.getParameter("status").trim();
-				String note = req.getParameter("note").trim();
-				String rentno = req.getParameter("rentno").trim();
+				
+				//(7)String: motno, slocno, rlocno, rank, status, note, rentno 
+				//(3)Timestamp: startdate, enddate, returndate
+				//(4)Integer: total, fine, milstart, milend
+				
+				
+				//String
+				String rentno = "";
+				if(!req.getParameter("rentno").trim().isEmpty())
+					rentno = req.getParameter("rentno").trim();
+				
+				String motno = "";
+				if(!req.getParameter("motno").trim().isEmpty())
+					motno = req.getParameter("motno").trim();
+					
+				String slocno = "";
+				if(!req.getParameter("slocno").trim().isEmpty())	
+					slocno = req.getParameter("slocno").trim();
+				
+				String rlocno = "";
+				if(!req.getParameter("rlocno").trim().isEmpty())
+					rlocno = req.getParameter("rlocno").trim();
+				
+				String rank = "";
+				if(!req.getParameter("rank").trim().isEmpty())
+					rank = req.getParameter("rank").trim();
+				
+				String status = "";
+				if(!req.getParameter("status").trim().isEmpty())
+					status = req.getParameter("status").trim();
+				
+				String note = "";
+				if(!req.getParameter("note").trim().isEmpty())
+					note = req.getParameter("note").trim();
 
-				// 處理日期
+				// Date
 				SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 				java.util.Date date;
 				long longTime;
+				
+				RentOrdVO roBackup = new RentOrdService().findByPK(rentno);
 
 				// 處理日期 startdate
 				java.sql.Timestamp startdate = null;
 				try {
-					date = (java.util.Date) sdf.parse(req.getParameter("startdate"));// String
-																						// to
-																						// Date
+					date = (java.util.Date) sdf.parse(req.getParameter("startdate"));
 					longTime = date.getTime(); // 取long
 					startdate = new java.sql.Timestamp(longTime); // 切為SQL專用格式
-					System.out.println(longTime);
+					System.out.println("start: "+longTime);
 				} catch (ParseException e) {
 					e.printStackTrace();
-					errorMsgs.add("請輸入起始日期!");
+					System.out.println("startdate catch error");
+					startdate = roBackup.getStartdate();
 				}
 
 				// 處理日期 enddate
 				java.sql.Timestamp enddate = null;
 				try {
-					date = (java.util.Date) sdf.parse(req.getParameter("enddate"));// String
-																					// to
-																					// Date
+					date = (java.util.Date) sdf.parse(req.getParameter("enddate"));
 					longTime = date.getTime(); // 取long
 					enddate = new java.sql.Timestamp(longTime); // 切為SQL專用格式
-					System.out.println(longTime);
+					System.out.println("end: "+longTime);
 				} catch (ParseException e) {
 					e.printStackTrace();
-					errorMsgs.add("請輸入結束日期!");
+					System.out.println("enddate catch error");
+					enddate = roBackup.getEnddate();
 				}
 
 				java.sql.Timestamp returndate = null;
+				
 				// 處理日期 logic: returndate日期可以暫時空白不填，但是要填的話就要填正確
 				String returndateStr = req.getParameter("returndate").trim();
 				if (returndateStr != null&& !returndateStr.isEmpty()) {
+					System.out.println("in returndateStr if");
 					try {
-						date = (java.util.Date) sdf.parse(returndateStr);// String
-																			// to
-																			// Date
+						date = (java.util.Date) sdf.parse(returndateStr);
 						longTime = date.getTime(); // 取long
 						returndate = new java.sql.Timestamp(longTime); // 切為SQL專用格式
-						System.out.println(longTime);
+						System.out.println("return: "+longTime);
 					} catch (ParseException e) {
 						e.printStackTrace();
-						errorMsgs.add("請輸入正確還車時間!");
+						System.out.println("returndate catch error");
+						returndate = roBackup.getReturndate();
 					}
 				}
+				System.out.println("returndate:"+ returndate);
 
+				//Integer
 				String milstartStr = req.getParameter("milstart").trim();
 				String milendStr = req.getParameter("milend").trim();
 				String fineStr = req.getParameter("fine").trim();
 				String totalStr = req.getParameter("total").trim();
 
-				Integer milstart = null;
-				try {
-					milstart = new Integer(milstartStr);
-				} catch (Exception e) {
-					errorMsgs.add("起始里程請填數字");
+				Integer milstart = 0;
+				if(!milstartStr.isEmpty()){
+					try {
+						milstart = new Integer(milstartStr);
+					} catch (Exception e) {
+						System.out.println("milstart catch error");
+						milstart = -1;
+					}
 				}
 
-				Integer milend = null;
-				try {
-					milend = new Integer(milendStr);
-				} catch (Exception e) {
-					errorMsgs.add("結束里程請填數字");
+				Integer milend = 0;
+				if(!milendStr.isEmpty()){
+					try {
+						milend = new Integer(milendStr);
+					} catch (Exception e) {
+						System.out.println("milend catch error");
+						milend = -1;
+					}
 				}
 
-				Integer fine = null;
-				try {
-					fine = new Integer(fineStr);
-				} catch (Exception e) {
-					errorMsgs.add("罰金請填數字");
+				Integer fine = 0;
+				if(!fineStr.isEmpty()){
+					try {
+						fine = new Integer(fineStr);
+						System.out.println("fine :" +fine);
+						if(fine<0)
+							fine = 0;
+					} catch (Exception e) {
+						System.out.println("fine catch error");
+						fine = -1;
+					}
 				}
 
-				Integer total = null;
-				try {
-					total = new Integer(totalStr);
-				} catch (Exception e) {
-					errorMsgs.add("總價請填數字");
+				Integer total = 0;
+				if(!totalStr.isEmpty()){
+					try {
+							total = new Integer(totalStr);
+							if(total < 0)
+								total = 0;
+						} catch (Exception e) {
+							System.out.println("total catch error");
+							total = -1;
+						}
 				}
 
 				// 合理版本: 去掉 filldate, memno
@@ -1811,53 +1867,67 @@ public class RentOrdServlet extends HttpServlet {
 				// enddate=?,"
 				// + "returndate=?, fine=?, total=?, rank=?, status=?, note=?
 				// where rentno = ?";
+				
+				//(7)String: motno, slocno, rlocno, rank, status, note, rentno 
+				//(3)Timestamp: startdate, enddate, returndate
+				//(4)Integer: total, fine, milstart, milend
+				
+				
+				
 
 				RentOrdVO roVO = new RentOrdVO();
-				roVO.setMotno(motno);
-				roVO.setSlocno(slocno);
-				roVO.setRlocno(rlocno);
-				roVO.setMilstart(milstart);
-				roVO.setMilend(milend);
-				roVO.setStartdate(startdate);
-				roVO.setEnddate(enddate);
-				roVO.setReturndate(returndate);
-				roVO.setFine(fine);
-				roVO.setTotal(total);
-				roVO.setRank(rank);
-				roVO.setStatus(status);
-				roVO.setNote(note);
-				roVO.setRentno(rentno);
+					roVO.setRentno(rentno);
+					
+					roVO.setSlocno(slocno);
+					roVO.setRlocno(rlocno);
+					roVO.setRank(rank);
+					roVO.setStatus(status);
+					roVO.setNote(note);
+					//roVO.setMotno(motno);
+					MotorForRentOrdService mSvc = new MotorForRentOrdService();
+					roVO.setMotorVO(mSvc.findByPK(motno));
+					
+					roVO.setStartdate(startdate);
+					roVO.setEnddate(enddate);
+					roVO.setReturndate(returndate);
+					
+					roVO.setMilstart(milstart);
+					roVO.setMilend(milend);
+					roVO.setFine(fine);
+					roVO.setTotal(total);
 
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("roVO", roVO); // 含有輸入格式錯誤的VO物件,也存入req
-					RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/backendRentOrd.jsp");
+					System.out.println("RentOrdServlet !errorMsgs.isEmpty() in");
+					RequestDispatcher failureView = req.getRequestDispatcher("/backend/index.jsp");
 					failureView.forward(req, res);
 					return;
 				}
 				System.out.println("update start");
 				/*************************** 2.開始新增資料 ***************************************/
 				RentOrdService roSvc = new RentOrdService();
-				roVO = roSvc.updateRentOrd(rentno, motno, slocno, rlocno, milstart, milend, startdate, enddate,
-						returndate, fine, total, rank, status, note);
+				
+				roVO = roSvc.updateRentOrd(rentno, motno, slocno, rlocno, rank, status, note ,
+						 startdate, enddate,returndate, milstart, milend, fine, total);	
 
 				/***************************
 				 * 3.新增完成,準備轉交(Send the Success view)
 				 ***********/
-				
 				String url="";
 				if("update".equals(action))
 					url = "/backend/rent_ord/backendRentOrd.jsp";
 				if("update_and_close".equals(action))
-					url = "/frontend/rental_form/close.jsp";
+					url = "/backend/rent_ord/close.jsp";
 				
 				req.getRequestDispatcher(url).forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
-				System.out.println("err main update catch in");
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/backendRentOrd.jsp");
+				System.out.println("err main update Exception in");
+				RequestDispatcher failureView = req.getRequestDispatcher(exceptionURL);
+				System.out.println("RentOrdServlet exception=========g========");
 				failureView.forward(req, res);
 			}
 		} // update end
@@ -1909,7 +1979,8 @@ public class RentOrdServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add(e.getMessage());
 				System.out.println("err main delete catch in");
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/backendRentOrd.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher(exceptionURL);
+				System.out.println("RentOrdServlet exception=========h========");
 				failureView.forward(req, res);
 			}
 		} // delete end
@@ -1968,7 +2039,8 @@ public class RentOrdServlet extends HttpServlet {
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/get_for_lease_view.jsp");
+				System.out.println("RentOrdServlet exception=========k========");
+				RequestDispatcher failureView = req.getRequestDispatcher(exceptionURL);
 				failureView.forward(req, res);
 			}
 		} // get_for_lease_view end
@@ -2026,16 +2098,11 @@ public class RentOrdServlet extends HttpServlet {
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/backend/rent_ord/get_for_return_view.jsp");
+				RequestDispatcher failureView = req.getRequestDispatcher(exceptionURL);
+				System.out.println("RentOrdServlet exception=========i========");
 				failureView.forward(req, res);
 			}
 		} // get_for_return_view end
-
-		
-		
-		
-		
-		
 
 
 	}
