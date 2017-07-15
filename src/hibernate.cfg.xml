@@ -6,11 +6,8 @@
 
 	<session-factory>
 
-		<!-- JDBC連線池 (預設會使用Hibernate內建的連線池)(不建議用在實際的專案) -->
-		<property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
-		<property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:XE</property>
-		<property name="hibernate.connection.username">ba101g2</property>
-		<property name="hibernate.connection.password">ba101g2</property>
+ 		<!-- JNDI連線池 (Apache Tomcat 連線池DBCP)設定 -->
+		<property name="hibernate.connection.datasource">java:/comp/env/jdbc/G2DB</property>
         
 		<!--SQL方言,以下使用Oracle -->
 		<property name="hibernate.dialect">org.hibernate.dialect.OracleDialect</property>
@@ -32,6 +29,7 @@
 		<mapping resource="com/rent_ord/model/equipment.hbm.xml" />
 		<mapping resource="com/rent_ord/model/rent_ord.hbm.xml" />
 		<mapping resource="com/rent_ord/model/emt_list.hbm.xml" />
+		<mapping resource="com/member/model/member.hbm.xml" />
 	</session-factory>
 	
 </hibernate-configuration>

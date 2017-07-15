@@ -125,13 +125,7 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 		return memberVO;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	@Override
 	public void insert(MemberVO memberVO) {

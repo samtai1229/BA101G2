@@ -4,14 +4,20 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.member.model.*"%>
 <%@ page import="com.rent_ord.model.*"%>
+<%@ page import="com.emt_list.model.*"%>
+<%@ page import="com.equipment.model.*"%>
 <%-- 此頁練習採用 EL 的寫法取值 --%>
 
 <%
 	RentOrdService roSvc = new RentOrdService();
     MemberService mSvc = new MemberService(); 
+    EmtListService emtlistSvc = new EmtListService();
+    EquipmentService equipSvc = new EquipmentService();
 	String memno = (String)request.getAttribute("memno");
 	List<RentOrdVO> list = roSvc.getAll();
 	pageContext.setAttribute("mems",mSvc.getAll());
+	pageContext.setAttribute("emtlist",emtlistSvc.getAll());
+	pageContext.setAttribute("equips",equipSvc.getAll());
 	pageContext.setAttribute("list",list);
 	pageContext.setAttribute("memno",memno);
 	
@@ -42,7 +48,7 @@
 <table  border='1' cellpadding='5' cellspacing='0' width='100%'>
 	<tr  bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
-		<h3>我的訂單 </h3>
+		<h3>我的租賃單 </h3>
 	</td>
 	</tr>
 </table>
@@ -80,7 +86,7 @@
 		<th style="text-align:center">RANK</th>
 		<th style="text-align:center">Status</th>
 		<th style="text-align:center">Note</th>
-	
+		<th style="text-align:center">裝備編號</th>
 	</tr>
 	
 <%-- 	begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" --%>
@@ -112,7 +118,26 @@
 			<td>${roVO.total}</td>
 			<td>${roVO.rank}</td>
 			<td>${roVO.status}</td>
-			<td>${roVO.note}</td>	
+			<td>${roVO.note}</td>
+			<c:forEach var="emtlistVO" items="${emtlist}">
+			 
+			    <c:if test="${roVO.rentno==emtlistVO.rentno}">
+			     <c:forEach var="equipVO" items="${equips}">
+			       <c:if test="${emtlistVO.emtno==equipVO.emtno}">
+			       
+			        
+			          <td><c:out value="${equipVO.emtno}" ></c:out></td> 
+			       </c:if>
+			        <c:if test="${emtlistVO.emtno!=equipVO.emtno}">
+			       
+			        
+			          <td><c:out value="未租裝備" ></c:out></td> 
+			       </c:if>
+			      </c:forEach>
+			    </c:if>
+			 
+			</c:forEach>
+			
 <!-- 			<td> -->
 <%-- 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/backend/member/member.do"> --%>
 <!-- 			     <input type="submit" value="修改">  -->

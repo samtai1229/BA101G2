@@ -15,7 +15,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<table border='1' bordercolor='#CCCCFF' width='1260'>
+<table border='1' bordercolor='#CCCCFF' width='100%'>
 	<tr>
 		<th>車輛編號</th>
 		<th>車型編號</th>

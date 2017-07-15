@@ -49,7 +49,7 @@
 </table>
 </div>
 <div class="col-xs-12 col-sm-12">
-    <table   border="1" class="table table-striped table-inverse" bordercolor='#CCCCFF' width='100%'>
+    <table   border="1" class="table table-striped table-inverse" bordercolor='#CCCCFF' width='1260'>
     
         <tr>
 		<th style="text-align:center">會員編號</th>
@@ -60,12 +60,10 @@
 		<th style="text-align:center">電話</th>
 		<th style="text-align:center">地址</th>
 		<th style="text-align:center">帳號</th>
-		<th style="text-align:center">密碼</th>
 		<th style="text-align:center">身分證正面</th>
 		<!-- <th>影片</th> -->
 		<th style="text-align:center">身分證反面</th>
 		<th style="text-align:center">駕照</th>
-		<th style="text-align:center">加入時間</th>
 		<th style="text-align:center">認證狀態</th>
 		<th style="text-align:center">操作</th>
 	
@@ -73,21 +71,18 @@
     
             <tr align='center' valign='middle'>
 			<td>${memVO.memno}</td>
-			<td width='100'>${memVO.memname}</td>
-			<td width='50'>${memVO.sex}</td>
-			<td  width='150'><fmt:formatDate pattern = "yyyy年MM月dd號" 
+			<td>${memVO.memname}</td>
+			<td>${memVO.sex}</td>
+			<td><fmt:formatDate pattern = "yyyy年MM月dd號" 
          value = "${memVO.birth}" /></td>
 			<td>${memVO.mail}</td>
 			<td>${memVO.phone}</td>	
-			<td   width='200'>${memVO.addr}</td>	
+			<td>${memVO.addr}</td>	
 			<td>${memVO.acc}</td>
-			<td>${memVO.pwd}</td>
 <!-- 正面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard1' width='200' height='180'></td>	
 <!-- 影片 --><!-- <td><video src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard1' width='200' height='180' controls></video></td> -->				
 <!-- 反面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard2'  width='200' height='180'></td>				
 <!-- 駕照 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=license'  width='200' height='180'></td>							
-			<td><fmt:formatDate pattern = "yyyy年MM月dd號" 
-         value = "${memVO.credate}" /></td>
 			<td>${memVO.status}</td>
 			<td class="text-center"><a class='btn btn-info btn-xs' href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Update&memno=${memVO.memno}"><span class="glyphicon glyphicon-edit"></span> Edit</a></td>
 	
