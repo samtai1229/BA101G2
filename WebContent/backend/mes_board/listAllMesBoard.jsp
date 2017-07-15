@@ -48,7 +48,7 @@
 		<th>修改</th>
 		<th>刪除</th>
 	</tr>
-	<%@ include file="pages/page1.file" %> 
+	<%@ include file="page1.file" %> 
 	<c:forEach var="mesboardVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>">
 		<tr align='center' valign='middle' ${(mesboardVO.mesno==param.mesno) ? 'bgcolor=#CCCCFF':''}><!--將修改的那一筆加入對比色而已-->
 			<td>${mesboardVO.mesno}</td>
@@ -76,6 +76,6 @@
 		</tr>
 	</c:forEach>
 </table>
-<%@ include file="pages/page2.file" %>
+<%@ include file="page2.file" %>
 </body>
 </html>
