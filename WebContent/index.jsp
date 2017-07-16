@@ -443,7 +443,7 @@
 			 <c:forEach var="locVO" items="${list}" >
 				<div class="col-xs-12 col-sm-2">
 					<div class="team-member">
-						<a href="location.html"> <img src='<%=request.getContextPath()%>/frontend/location/locReader.do?locno=${locVO.locno}'
+						<a href="<%=request.getContextPath()%>/frontend/location/location.jsp"> <img src='<%=request.getContextPath()%>/frontend/location/locReader.do?locno=${locVO.locno}'
 							class="img-responsive img-circle" alt="" /></a>
 						<h4>${locVO.locname}</h4>
 						<h5>address :${locVO.addr} phone :${locVO.tel}</h5>
