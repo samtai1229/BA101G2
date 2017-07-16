@@ -1,22 +1,69 @@
-<!DOCTYPE html>
-<html lang="">
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-		<title>Title Page</title>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-		<!--[if lt IE 9]>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
-		<![endif]-->
-	</head>
-	<body>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="com.motor.model.*" %>
+<%@ page import="java.util.*" %>
+<% MotorService moSvc = new MotorService();
+   List<MotorVO> list = moSvc.getAll();
+   pageContext.setAttribute("list", list);
+
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=BIG5">
+<title>Insert title here</title>
+</head>
+<body>
+
+
+<table border='1' bordercolor='#CCCCFF' width='100%'>
+	<tr>
+		<th>®ÆΩ¯Ωs∏π</th>
+		<th>®Æ´¨Ωs∏π</th>
+		<th>®ÆµP∏πΩX</th>
+		<th>§ﬁ¿∫Ωs∏π</th>
+		<th>•Xºt§È¥¡</th>
+		<th>Mile</th>
+		<th>Locno</th>
+		<th>status</th>
+		<th>note</th>
+	</tr>
+<%-- 					begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" --%>
+	<c:forEach var="motorVO" items="${list}" >
+	  <c:if test="${ motorVO.status=='seconsale'}">
+		<tr align='center' valign='middle'>
 		
-		<h1 class="text-center">ÂìàÂõâÔΩûÂì©ÂæåÔºÅ</h1>
-		
-		
-		<script src="https://code.jquery.com/jquery.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	</body>
+			<td>${motorVO.motno}</td>
+			<td>${motorVO.modtype}</td>
+			<td>${motorVO.plateno}</td>
+			<td>${motorVO.engno}</td>
+			<td>${motorVO.manudate}</td>		
+			<td>${motorVO.mile}</td>	
+			<td>${motorVO.locno}</td>	
+			<td>${motorVO.status}</td>	
+			<td>${motorVO.note}</td>	
+			<td>
+			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
+			     <input type="submit" value="≠◊ßÔ"> 
+			     <input type="hidden" name="sono" value="${soVO.sono}">
+			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--∞e•X•ª∫Ù≠∂™∫∏ÙÆ|µπController--><!-- •ÿ´e©|•º•Œ®Ï  -->
+			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
+			</td>
+			<td>
+			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
+			    <input type="submit" value="ßR∞£">
+			    <input type="hidden" name="sono" value="${soVO.sono}">
+			    <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--∞e•X•ª∫Ù≠∂™∫∏ÙÆ|µπController-->
+			    <input type="hidden" name="action"value="delete"></FORM>
+			</td>
+		</tr>
+		</c:if>
+	</c:forEach>
+</table>
+
+
+
+
+</body>
 </html>
