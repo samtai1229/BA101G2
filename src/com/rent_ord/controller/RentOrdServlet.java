@@ -48,17 +48,32 @@ public class RentOrdServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
-		String action = req.getParameter("action");
+		String action="";
+		if(!"login".equals(req.getParameter("action")))
+			action = req.getParameter("action");
+		else
+			action = (String) req.getAttribute("action");
+		
+		
 		String location = req.getParameter("location");
 		System.out.println("我從:"+location+"   而來");
 		System.out.println("RentOrdServlet in");
+		System.out.println("action: "+action);
 		
 		String exceptionURL = "/index.jsp";
 
 	if ("redirect_to_login".equals(action)){
 		String url ="/Login.jsp";
-		req.setAttribute("location", location);
-		req.getRequestDispatcher(url).forward(req, res); // 轉去登入畫面???
+		String motno = req.getParameter("motno");
+		String dayrange = req.getParameter("confirmed_rentday");
+		
+		HttpSession session = req.getSession();
+		
+		session.setAttribute("motno", motno);
+		session.setAttribute("dayrange", dayrange);		
+		session.setAttribute("action", "rental");
+		
+		req.getRequestDispatcher(url).forward(req, res); // 轉去登入畫面
 	}
 
 	
@@ -672,12 +687,22 @@ public class RentOrdServlet extends HttpServlet {
 		req.setAttribute("errorMsgs", errorMsgs);
 		
 		System.out.println("quick_search_product_2 in");
-
+		HttpSession session = req.getSession();
+		String motno="";
+		String dayrange="";
 
 		try {
 			/***************************1.接收請求參數 **********************/
-			String motno = req.getParameter("motno");
-			String dayrange = req.getParameter("confirmed_rentday");
+			if(session.getAttribute("motno")!=null){
+				motno = (String)session.getAttribute("motno");
+				dayrange = (String)session.getAttribute("dayrange");
+				System.out.println("in session range motno="+motno+", dayrange = "+dayrange);
+			}else{
+				motno = req.getParameter("motno");
+				dayrange = req.getParameter("confirmed_rentday");
+				System.out.println("in else range motno="+motno+", dayrange = "+dayrange);
+			}
+			
 
 			
 			/***************************2.開始查詢資料*****************************************/
