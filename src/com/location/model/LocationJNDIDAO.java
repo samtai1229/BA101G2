@@ -18,6 +18,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.member.model.MemberVO;
 
 public class LocationJNDIDAO implements LocationDAO_interface{
 
@@ -25,7 +26,7 @@ private static DataSource ds = null;
 static{
 	try{
 		Context ctx = new InitialContext();
-		ds = (DataSource) ctx.lookup("java:comp/env/jdbc/G2DB");
+		ds = (DataSource) ctx.lookup("java:comp/env/jdbc/TestDB");
 	}catch (NamingException e){
 		e.printStackTrace();
 	}
@@ -305,5 +306,10 @@ static{
 		fis.close();
 
 		return baos.toByteArray();
+	}
+	@Override
+	public List<LocationVO> getAllStatusOpen() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
