@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=BIG5"
     pageEncoding="BIG5"%>
+<% 
+   String location = (String)request.getAttribute("location");
+
+
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -38,6 +43,7 @@
                     </div>
                     <div class="group">
                         <input type="submit" class="button" value="Sign In">
+                         <input type="hidden" name="location" value="<%=location%>">
                         <input type="hidden" name="action" value="login">
                     </div>
                     <div class="hr"></div>

@@ -49,12 +49,15 @@ public class RentOrdServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
+		String location = req.getParameter("location");
+		System.out.println("我從:"+location+"   而來");
 		System.out.println("RentOrdServlet in");
 		
 		String exceptionURL = "/index.jsp";
 
 	if ("redirect_to_login".equals(action)){
 		String url ="/Login.jsp";
+		req.setAttribute("location", location);
 		req.getRequestDispatcher(url).forward(req, res); // 轉去登入畫面???
 	}
 

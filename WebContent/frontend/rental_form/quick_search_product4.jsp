@@ -162,6 +162,7 @@ dayPicker <c:out value="${dayPicker}" default="no value"></c:out> --%>
 							<p class="text-center">
 								<c:if test="<%=memno==null%>">
 							    	<input type="hidden" name="action" value="redirect_to_login">
+							    	<input type="hidden" name="location" value="<%=request.getServletPath()%>">
 							    </c:if>
 								<c:if test="<%=memno!=null%>">
 									<input type="hidden" name="motno" value="${motorQueryVO.motno}">
