@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -13,6 +14,7 @@ import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
@@ -280,11 +282,24 @@ public class MemberServlet extends HttpServlet {
 			System.out.println("Login~~~~~~~~~~~~~");
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
+			//req.removeAttribute("action");
+			Enumeration<String> enumber = req.getAttributeNames();
+			while(enumber.hasMoreElements()){
+				String name = (String) enumber.nextElement();
+				System.out.println(name+" : "+req.getAttribute(name));
+			}
+			
 
 			try {
 				/***************************
 				 * 1.接收請求參數 - 輸入格式的錯誤處理
 				 **********************/
+				HttpSession session = req.getSession();
+				System.out.println("url_action="+session.getAttribute("action"));
+				System.out.println("motno="+session.getAttribute("motno"));
+				System.out.println("dayrange="+session.getAttribute("dayrange"));
+				
+				
 				String acc = req.getParameter("acc");
 				String pwd = req.getParameter("pwd");
 				if (acc == null || pwd == null || (acc.trim()).length() == 0 || (pwd.trim()).length() == 0) {
@@ -333,13 +348,25 @@ public class MemberServlet extends HttpServlet {
 				String url = null;
 				if(memVO.getStatus().equals("completed")||memVO.getStatus().equals("confirmed") || memVO.getStatus().equals("unconfirmed"))
 				{
-					
-					url = location;
-					System.out.println(url);
+					if("rental".equals((String)session.getAttribute("action"))){
+						System.out.println("in rental url");
+						req.setAttribute("action", "quick_search_product_2");
+						System.out.println("action: "+ req.getAttribute("action"));
+						url = "/backend/rent_ord/rentOrd.do";
+					}else{
+						url = location;
+					}
+					System.out.println("url= "+url);
 				}
 				else
 				{
 					 url = "/frontend/member/verified.jsp";
+				}
+				
+				Enumeration<String> enumber2 = req.getAttributeNames();
+				while(enumber2.hasMoreElements()){
+					String name = (String) enumber2.nextElement();
+					System.out.println(name+" 2: "+req.getAttribute(name));
 				}
 
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
