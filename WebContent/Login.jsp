@@ -1,10 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=BIG5"
-    pageEncoding="BIG5"%>
-<% 
-   String location = (String)request.getAttribute("location");
-
-
-%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -13,33 +8,38 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 		<title>Title Page</title>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-		<!--[if lt IE 9]>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
-		<![endif]-->
 		<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style_login2.css">
 </head>
 <body>
-								<div class="login-wrap">
+<% 
+   String location = (String)request.getAttribute("location");
+   String dayrange = (String)session.getAttribute("dayrange");
+   String motno = (String)session.getAttribute("motno");
+%>
+dayrange: <c:out value="${dayrange}"></c:out>
+motno: <c:out value="${motno}"></c:out>
+action: <c:out value="${action}"></c:out>
+
+	<div class="login-wrap">
         <div class="login-html" style="width:100% height:1000px">
             <input id="tab-1" type="radio" name="tab" class="sign-in" checked>
-            <label for="tab-1" class="tab">µn§J</label>
+            <label for="tab-1" class="tab">ÁôªÂÖ•</label>
             <input id="tab-2" type="radio" name="tab" class="sign-up">
-            <label for="tab-2" class="tab">µ˘•U</label>
+            <label for="tab-2" class="tab">Ë®ªÂÜä</label>
             <div class="login-form">
             <form action="<%=request.getContextPath()%>/backend/member/member.do">
                 <div class="sign-in-htm">
                     <div class="group">
-                        <label for="acc" class="label">±b∏π</label>
+                        <label for="acc" class="label">Â∏≥Ëôü</label>
                         <input id="acc" name="acc" type="text" class="input">
                     </div>
                     <div class="group">
-                        <label for="pwd" class="label">±KΩX</label>
+                        <label for="pwd" class="label">ÂØÜÁ¢º</label>
                         <input id="pwd" name="pwd" type="password" class="input" data-type="password">
                     </div>
                     <div class="group">
                         <input id="check" name="check" type="checkbox" class="check" checked>
-                        <label for="check"><span class="icon"></span>∞O¶Ìß⁄</label>
+                        <label for="check"><span class="icon"></span>Ë®ò‰ΩèÊàë</label>
                     </div>
                     <div class="group">
                         <input type="submit" class="button" value="Sign In">
@@ -48,7 +48,7 @@
                     </div>
                     <div class="hr"></div>
                     <div class="foot-lnk">
-                        <a href="#forgot">ß—∞O±KΩX?</a>
+                        <a href="#forgot">ÂøòË®òÂØÜÁ¢º?</a>
                     </div>
                    
                 </div>
@@ -56,19 +56,19 @@
                 <form action="<%=request.getContextPath()%>/backend/member/member.do">
                 <div class="sign-up-htm">
                     <div class="group">
-                        <label for="new_acc" class="label">±b∏π</label>
+                        <label for="new_acc" class="label">Â∏≥Ëôü</label>
                         <input name="new_acc" type="text" class="input">
                     </div>
                     <div class="group">
-                        <label for="new_pwd" class="label">±KΩX</label>
+                        <label for="new_pwd" class="label">ÂØÜÁ¢º</label>
                         <input name="new_pwd" type="password" class="input" data-type="password">
                     </div>
                     <div class="group">
-                        <label for="pass" class="label">ΩTª{±KΩX</label>
+                        <label for="pass" class="label">Á¢∫Ë™çÂØÜÁ¢º</label>
                         <input name="pass" type="password" class="input" data-type="password">
                     </div>
                     <div class="group">
-                        <label for="mail" class="label">´HΩc</label>
+                        <label for="mail" class="label">‰ø°ÁÆ±</label>
                         <input id="mail" name="mail" type="email" class="input">
                     </div>
                     <div class="group">
@@ -77,7 +77,7 @@
                     </div>
                     <div class="hr"></div>
                     <div class="foot-lnk">
-                        <label for="tab-1">§w∏g¨O∑|≠˚?</label>
+                        <label for="tab-1">Â∑≤Á∂ìÊòØÊúÉÂì°?</label>
                     </div>
                 </div>
                 </form>
