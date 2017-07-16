@@ -128,13 +128,10 @@
 			        
 			          <td><c:out value="${equipVO.emtno}" ></c:out></td> 
 			       </c:if>
-			        <c:if test="${emtlistVO.emtno!=equipVO.emtno}">
-			       
-			        
-			          <td><c:out value="¥¼¯²¸Ë³Æ" ></c:out></td> 
-			       </c:if>
+			      
 			      </c:forEach>
 			    </c:if>
+			      
 			 
 			</c:forEach>
 			

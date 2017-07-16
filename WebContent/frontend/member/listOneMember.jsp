@@ -83,7 +83,8 @@
 <!-- 影片 --><!-- <td><video src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard1' width='200' height='180' controls></video></td> -->				
 <!-- 反面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard2'  width='200' height='180'></td>				
 <!-- 駕照 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=license'  width='200' height='180'></td>							
-			<td>${memVO.status}</td>
+			<c:if test="${memVO.status=='confirmed'}"><td><font color=red><b>完整會員</b></font></td></c:if>
+			<c:if test="${memVO.status=='unconfirmed'}"><td><font color=red><b>簡易會員</b></font></td></c:if>
 			<td class="text-center"><a class='btn btn-info btn-xs' href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Update&memno=${memVO.memno}"><span class="glyphicon glyphicon-edit"></span> Edit</a></td>
 	
 
