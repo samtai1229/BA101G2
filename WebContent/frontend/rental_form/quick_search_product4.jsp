@@ -160,15 +160,14 @@ dayPicker <c:out value="${dayPicker}" default="no value"></c:out> --%>
 						
 								
 							<p class="text-center">
+								<input type="hidden" name="motno" value="${motorQueryVO.motno}">
 								<c:if test="<%=memno==null%>">
 							    	<input type="hidden" name="action" value="redirect_to_login">
 							    	<input type="hidden" name="location" value="<%=request.getServletPath()%>">
 							    </c:if>
 								<c:if test="<%=memno!=null%>">
-									<input type="hidden" name="motno" value="${motorQueryVO.motno}">
 							    	<input type="hidden" name="action" value="quick_search_product_2">
 							    </c:if>	
-							    						    
 				   					<button type="submit" class="btn btn-success btn-lg">
 										<i class="glyphicon glyphicon-ok"></i>我要訂車
 									</button>
