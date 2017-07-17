@@ -3,8 +3,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,13 +18,14 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import com.member.model.MemberService;
 import com.member.model.MemberVO;
-import com.rent_ord.model.RentOrdService;
-import com.rent_ord.model.RentOrdVO;
+import com.sec_ord.model.SecOrdService;
+import com.sec_ord.model.SecOrdVO;
 
 import utility.MailService;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 public class MemberServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
 
 	public static byte[] getPicByteArray(Part part) throws IOException {
 		InputStream fis = null;
@@ -70,6 +71,65 @@ public class MemberServlet extends HttpServlet {
 		System.out.println("我從"+location+"進來的");
 		
 		
+		
+		//從sec_ord移過來
+			if ("get_second_ord_per_member".equals(action)) { // 來自select_page.jsp的請求
+
+				List<String> errorMsgs = new LinkedList<String>();
+				// Store this set in the request scope, in case we need to
+				// send the ErrorPage view.
+				req.setAttribute("errorMsgs", errorMsgs);
+				String addaction = req.getParameter("addaction");
+				System.out.println("addaction: "+addaction);
+
+				try {
+					/***************************
+					 * 1.接收請求參數 - 輸入格式的錯誤處理
+					 **********************/
+					String memno = req.getParameter("memno");
+					System.out.println("memno: "+memno);
+
+					/*************************** 2.開始查詢資料 *****************************************/
+					SecOrdService soSvc = new SecOrdService();
+					List<SecOrdVO> list1 = soSvc.getAll();
+					List<SecOrdVO> list2 = new ArrayList<SecOrdVO>();
+					for(SecOrdVO ord : list1)
+					{
+						if(ord.getMemno().equals(memno))
+						{
+							list2.add(ord);
+						}
+					}
+				
+					System.out.println("addaction:"+addaction);
+					/***************************
+					 * 3.查詢完成,準備轉交(Send the Success view)
+					 *************/
+					req.setAttribute("memno", memno);
+					req.setAttribute("list", list2); // 資料庫取出的empVO物件,存入req
+					req.setAttribute("status", "all");
+					String url="";
+						if("backend".equals(addaction))
+							url= "/backend/member/backSecOrdList.jsp";
+						if("frontend".equals(addaction))
+							url= "/frontend/member/frontSecOrdList.jsp";						
+						
+					RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
+					successView.forward(req, res);
+
+					/*************************** 其他可能的錯誤處理 *************************************/
+				} catch (Exception e) {
+					errorMsgs.add("無法取得資料:" + e.getMessage());
+					RequestDispatcher failureView = req.getRequestDispatcher("/frontend/second_order/select_page.jsp");
+					failureView.forward(req, res);
+				}
+			}
+		
+		
+		
+		
+		
+		
 		if ("getAllRentOrder".equals(action)) { // 來自select_page.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
@@ -80,7 +140,9 @@ public class MemberServlet extends HttpServlet {
 				 * 1.接收請求參數 - 輸入格式的錯誤處理
 				 **********************/
 				String memno = req.getParameter("memno");
-				System.out.println("幹"+memno);
+				System.out.println("memno"+memno);
+				String addaction = req.getParameter("addaction");
+				System.out.println("addaction: "+ addaction);
 				
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
@@ -103,7 +165,11 @@ public class MemberServlet extends HttpServlet {
 				
 				 // 3.查詢完成,準備轉交(Send the Success view)
 				req.setAttribute("memno", memno);
-				String url = "/frontend/member/listAllRentOrder.jsp";
+				String url =""; 
+					if("frontend".equals(addaction))
+						url= "/frontend/member/frontRentOrdList.jsp";
+					if("backend".equals(addaction))
+						url= "/backend/member/backRentOrdList.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
 				successView.forward(req, res);
 
@@ -130,7 +196,7 @@ public class MemberServlet extends HttpServlet {
 				 * 1.接收請求參數 - 輸入格式的錯誤處理
 				 **********************/
 				String memid = req.getParameter("memid");
-				System.out.println("幹"+memid);
+				System.out.println("memid"+memid);
 				
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
@@ -160,7 +226,7 @@ public class MemberServlet extends HttpServlet {
 				 *************/
 
 				req.setAttribute("memVO", memVO); // 資料庫取出的empVO物件,存入req
-				String url = "/frontend/member/listOneMember.jsp";
+				String url = "/frontend/member/frontMember.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
 				successView.forward(req, res);
 
@@ -190,10 +256,7 @@ public class MemberServlet extends HttpServlet {
 			String url = "/index.jsp";
 			RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
 			successView.forward(req, res);
-			
-			
-			
-			
+
 		}
 		
 		
@@ -458,6 +521,8 @@ public class MemberServlet extends HttpServlet {
 			try {
 				/*************************** 1.接收請求參數 ****************************************/
 				String memno = req.getParameter("memno");
+				String addAction = req.getParameter("addAction");
+				System.out.println("addAction = "+addAction);
 				/*************************** 2.開始查詢資料 ****************************************/
 				MemberService memSvc = new MemberService();
 				MemberVO memVO = memSvc.getOneMember(memno);
@@ -469,7 +534,11 @@ public class MemberServlet extends HttpServlet {
 				 ************/
 				System.out.println("我拿到了VO 準備轉交");
 				req.setAttribute("memVO", memVO); // 資料庫取出的empVO物件,存入req
-				String url = "/backend/member/update_member_input.jsp";
+				String url="";
+				if("modifyMember".equals(addAction))
+					url = "/backend/member/update_member_input.jsp";
+				else
+					url = "/backend/member/listOneMember.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交update_emp_input.jsp
 				successView.forward(req, res);
 
@@ -478,6 +547,11 @@ public class MemberServlet extends HttpServlet {
 				throw new ServletException(e);
 			}
 		}
+		
+		
+		
+		
+		
 
 		if ("update".equals(action)) { // 來自update_emp_input.jsp的請求
 			System.out.println("準備更新!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -539,8 +613,10 @@ public class MemberServlet extends HttpServlet {
 				memVO.setSex(sex);
 				Timestamp credate = Timestamp.valueOf(req.getParameter("credate"));
 				memVO.setCredate(credate);
-				if( memname.length()!=0 && birth!=null && phone.length()!=0
-						&& addr.length()!=0 && sex.length()!=0)status="unconfirmed";
+				System.out.println("for member update test, in memberServlet line:615");
+				if(memname.length()!=0 && birth!=null && phone.length()!=0 && addr.length()!=0 && sex.length()!=0)
+					status="unconfirmed";
+				
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("memVO", memVO); // 含有輸入格式錯誤的empVO物件,也存入req
@@ -633,7 +709,7 @@ public class MemberServlet extends HttpServlet {
 				 * 3.新增完成,準備轉交(Send the Success view)
 				 ***********/
 				System.out.println("轉到全部會員清單");
-				String url = "/backend/member/listAllMember.jsp";
+				String url = "/backend/member/backendMember.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEmp.jsp
 				successView.forward(req, res);
 
@@ -732,7 +808,7 @@ public class MemberServlet extends HttpServlet {
 				Part license = req.getPart("license");
 				System.out.println("拿到license:大小" + license.getSize());
 				String status = req.getParameter("status");
-				System.out.println("拿到" + status);
+				System.out.println("拿到status: " + status);
 				
 	
 				MemberVO memVO = new MemberVO();
@@ -754,8 +830,9 @@ public class MemberServlet extends HttpServlet {
 				memVO.setSex(sex);
 				Timestamp credate = Timestamp.valueOf(req.getParameter("credate"));
 				memVO.setCredate(credate);
-				if( memname.length()!=0 && birth!=null && phone.length()!=0
-						&& addr.length()!=0 && sex.length()!=0)status="unconfirmed";
+				if(memname.length()!=0 && birth!=null && phone.length()!=0 && 
+						addr.length()!=0 && sex.length()!=0 && "uncompleted".equals(status))
+					status="unconfirmed";
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("memVO", memVO); // 含有輸入格式錯誤的empVO物件,也存入req
@@ -780,7 +857,7 @@ public class MemberServlet extends HttpServlet {
 				req.setAttribute("memVO", memSvc.getOneMemberByAcc(acc)); // 資料庫update成功後,正確的的empVO物件,存入req
 				req.setAttribute("prev", req.getRequestURI());
 				System.out.println("準備轉交");
-				String url = "/backend/member/listOneMember.jsp";
+				String url = "/backend/member/backendMember.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 
