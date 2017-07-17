@@ -458,36 +458,6 @@ public class MotorServlet4H extends HttpServlet {
 			}
 		} // get_motors_by_modtype 'if' end
 
-// listMotors_ByCompositeQuery
-		if ("listMotors_ByCompositeQuery".equals(action)) {
-			List<String> errorMsgs = new LinkedList<String>();
-			req.setAttribute("errorMsgs", errorMsgs);
-			try {
-
-				/************* 1.將輸入資料轉為Map ********************/
-				// 採用Map<String,String[]> getParameterMap()的方法
-				// 注意:an immutable java.util.Map
-				Map<String, String[]> map = req.getParameterMap();
-
-				/**************** 2.開始複合查詢 *********************/
-				MotorService motorSvc = new MotorService();
-				MotorModelService mmSvc = new MotorModelService();
-				List<MotorVO> list = motorSvc.getAll(map);
-				
-				/************* 3.查詢完成,準備轉交(Send the Success view) ************/
-				req.setAttribute("listMotors_ByCompositeQuery", list); // 資料庫取出的list物件,存入request
-				RequestDispatcher successView = req
-						.getRequestDispatcher("/backend/motor/listMotors_ByCompositeQuery.jsp");
-				successView.forward(req, res);
-
-				/************** 其他可能的錯誤處理 ************/
-			} catch (Exception e) {
-				errorMsgs.add(e.getMessage());
-				RequestDispatcher failureView = req
-						.getRequestDispatcher("/backend/motor/listMotors_ByCompositeQuery.jsp");
-				failureView.forward(req, res);
-			}
-		}
 
 // fuzzyGetAll
 		if ("fuzzyGetAll".equals(action)) {
@@ -513,12 +483,9 @@ public class MotorServlet4H extends HttpServlet {
 				/************* 2.開始查詢資料 *******************/
 				System.out.println("開始 fuzzyGetAll");
 				MotorService motorSvc = new MotorService();
-				MotorModelService mmSvc = new MotorModelService();
 				List<MotorVO> list = motorSvc.fuzzyGetAll(fuzzyValue);
-				List<MotorModelVO> mmList = mmSvc.fuzzyGetAll(fuzzyValue);
-System.out.println("MMservletList: " + mmList);
 						
-				if (list == null && mmList == null) {
+				if (list == null) {
 					errorMsgs.add("查無資料");
 				}
 				// Send the use back to the form, if there were errors
@@ -531,7 +498,6 @@ System.out.println("MMservletList: " + mmList);
 				/********* 3.查詢完成,準備轉交(Send the Success view) *******/
 
 				req.setAttribute("fuzzyGetAll", list); // 資料庫取出的list物件,存入req
-				req.setAttribute("mmFuzzyGetAll", mmList);
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				System.out.println("fuzzyGetAll 成功");
