@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
 <%@ page import="com.motor.model.*"%>
+<%@ page import="com.location.model.*"%>
 
 
 <%-- 萬用複合查詢-可由客戶端select_page.jsp隨意增減任何想查詢的欄位 --%>
@@ -13,9 +14,8 @@
 <jsp:useBean id="mmSvc" scope="page"
 	class="com.motor_model.model.MotorModelService" />
 <jsp:useBean id="now" scope="page" class="java.util.Date" />        
+<jsp:useBean id="locSvc" scope="page" class="com.location.model.LocationService" />
 
-
- 
 
 
 <html>
@@ -195,50 +195,24 @@
 <!-- 			警告：必須MOTOR及MOTOR_MODEL兩個table都找得到的關鍵字才會正常顯示.... -->
 				<c:forEach var="motorVO" items="${fuzzyGetAll}">
 					<tr>
-						<td>${motorVO.motno}
-<%-- 							<c:choose> --%>
-<%--   								<c:when test="${motorVO != null}"> --%>
-<%--     								${motorVO.motno} --%>
-<%--   								</c:when> --%>
-<%--   								<c:when test="${motorVO == null && mmVO != null}"> --%>
-<%--   									<c:forEach var="mtVO" items="${fuzzyGetAll}"> --%>
-<%--     									${motorSvc.getMotorsByModelType(mmVO.modtype).motno} --%>
-<%--     								</c:forEach>	 --%>
-<%--   								</c:when> --%>
-<%--   								<c:otherwise> --%>
-<%--   								</c:otherwise> --%>
-<%-- 							</c:choose>	 --%>
-						</td>
+						<td>${motorVO.motno}</td>
 						<td>${motorVO.modtype}</td>
-						<td>
-							<c:forEach var="mmVO" items="${mmFuzzyGetAll}">
-							<c:if test="${motorVO.modtype==mmVO.modtype}">${mmVO.brand}</c:if>
-							</c:forEach>
-						</td>
-						<td>
-							<c:forEach var="mmVO" items="${mmFuzzyGetAll}">
-							<c:if test="${motorVO.modtype==mmVO.modtype}">${mmVO.name}</c:if>
-							</c:forEach>
-						</td>
-						<td>
-							<c:forEach var="mmVO" items="${mmFuzzyGetAll}">
-							<c:if test="${motorVO.modtype==mmVO.modtype}">${mmVO.displacement}</c:if>
-							</c:forEach></td>
-						<td>
-							<c:forEach var="mmVO" items="${mmFuzzyGetAll}">
-							<c:if test="${motorVO.modtype==mmVO.modtype}">${mmVO.renprice}元/日</c:if>
-							</c:forEach>
-						</td>
+						<td>${motorVO.brand}</td>
+						<td>${motorVO.name}</td>
+						<td>${motorVO.displacement}</td>
+						<td>${motorVO.renprice}元/日</td>
 						<td>${motorVO.plateno}</td>
 						<td>${motorVO.mile}</td>
-						<td>${motorVO.locno}</td>
+						<td>
+						<c:forEach var="locVO" items="${locSvc.all}">
+							<c:if test="${motorVO.locno == locVO.locno }">
+               							${locVO.locname}(${motorVO.locno})
+                   			</c:if>
+						</c:forEach>
+						</td>
 						<td>${motorVO.engno}</td>
 						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${motorVO.manudate}"/></td>
-						<td>
-							<c:forEach var="mmVO" items="${mmFuzzyGetAll}">
-							<c:if test="${motorVO.modtype==mmVO.modtype}">${mmVO.saleprice}元</c:if>
-							</c:forEach>
-						</td>
+						<td>${motorVO.saleprice}元</td>
 						<td>${motorVO.status}</td>
 
 						<td>
