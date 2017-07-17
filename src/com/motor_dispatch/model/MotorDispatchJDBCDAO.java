@@ -10,11 +10,14 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.motor.model.MotorVO;
+import com.rent_ord.model.RentOrdVO;
+
 public class MotorDispatchJDBCDAO implements MotorDispatchDAO_interface {
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "ba101g2";
-	String passwd = "ba101g2";
+	String userid = "servlet";
+	String passwd = "123456";
 
 	private static final String INSERT_STMT = "INSERT INTO MOTOR_DISPATCH" 
 			+ " (mdno, locno, filldate, closeddate, prog"
@@ -36,6 +39,10 @@ public class MotorDispatchJDBCDAO implements MotorDispatchDAO_interface {
 
 	private static final String GET_BY_PROG = "SELECT mdno, locno, filldate,"
 			+ "  closeddate, prog FROM MOTOR_DISPATCH where prog = ?";
+	
+	private static final String GET_DISPATCHABLE_DATE = 
+			"select motno from rent_ord where motno = ? and (sysdate not between STARTDATE and ENDDATE) and (sysdate+1 not between STARTDATE and ENDDATE)and (sysdate+2 not between STARTDATE and ENDDATE)";
+
 
 	@Override
 	public void insert(MotorDispatchVO mdVO) {
@@ -420,6 +427,63 @@ public class MotorDispatchJDBCDAO implements MotorDispatchDAO_interface {
 		return set;
 	}
 
+	@Override
+	public RentOrdVO checkDispatchableMotors(String motno) {
+
+		RentOrdVO rentOrdVO = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
+			pstmt = con.prepareStatement(GET_DISPATCHABLE_DATE);
+
+			pstmt.setString(1, motno);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				// 也稱為 Domain objects
+				rentOrdVO = new RentOrdVO();
+				rentOrdVO.setMotno(rs.getString("motno"));
+				
+			}
+			// Handle any driver errors
+					} catch (ClassNotFoundException e) {
+						throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+			// Clean up JDBC resources
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return rentOrdVO;
+	}
+	
 	public static void main(String[] args) {
 
 		MotorDispatchJDBCDAO dao = new MotorDispatchJDBCDAO();
@@ -455,11 +519,11 @@ public class MotorDispatchJDBCDAO implements MotorDispatchDAO_interface {
 		// System.out.println(mdVO1.getProg() +",");
 		// System.out.println("query ok");
 
-		 List<MotorDispatchVO> list = dao.getAll();
-		 System.out.println("=======================================");
-		 for (MotorDispatchVO aMD : list) {
-		 printMethod(aMD);
-		 }
+//		 List<MotorDispatchVO> list = dao.getAll();
+//		 System.out.println("=======================================");
+//		 for (MotorDispatchVO aMD : list) {
+//		 printMethod(aMD);
+//		 }
 		//
 		//
 		// Set<MotorDispatchVO> set1 = dao.getMotorDispatchsByLoc("locno2");
@@ -473,18 +537,22 @@ public class MotorDispatchJDBCDAO implements MotorDispatchDAO_interface {
 //		for (MotorDispatchVO aMD : set2) {
 //			printMethod(aMD);
 //		}
+		
+		 
+				 RentOrdVO roVO3 = dao.checkDispatchableMotors("M000002");
+				 System.out.println(roVO3.getMotno() +",");
 
 	}
 
-	private static void printMethod(MotorDispatchVO aMD) {
-
-		System.out.println("" + aMD.getMdno() + ",");
-		System.out.println("" + aMD.getLocno() + ",");
-		System.out.println("" + aMD.getFilldate() + ",");
-		System.out.println("" + aMD.getCloseddate() + ",");
-		System.out.println("" + aMD.getProg() + ",");
-		System.out.println();
-
-	}
+//	private static void printMethod(MotorDispatchVO aMD) {
+//
+//		System.out.println("" + aMD.getMdno() + ",");
+//		System.out.println("" + aMD.getLocno() + ",");
+//		System.out.println("" + aMD.getFilldate() + ",");
+//		System.out.println("" + aMD.getCloseddate() + ",");
+//		System.out.println("" + aMD.getProg() + ",");
+//		System.out.println();
+//
+//	}
 
 }
