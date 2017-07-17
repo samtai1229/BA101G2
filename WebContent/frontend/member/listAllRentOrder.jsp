@@ -81,11 +81,11 @@
 		<th style="text-align:center">訂單開始時間</th>
 		<th style="text-align:center">訂單結束時間</th>
 		<th style="text-align:center">還車時間</th>
-		<th style="text-align:center">FINE</th>
-		<th style="text-align:center">TOTAL</th>
+		<th style="text-align:center">罰金</th>
+		<th style="text-align:center">總金額</th>
 		<th style="text-align:center">RANK</th>
-		<th style="text-align:center">Status</th>
-		<th style="text-align:center">Note</th>
+		<th style="text-align:center">狀態</th>
+		<th style="text-align:center">註記</th>
 		<th style="text-align:center">裝備編號</th>
 	</tr>
 	

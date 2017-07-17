@@ -9,7 +9,7 @@
 <%@ page import="com.adminis.model.*"%>
 <%  AdminisService as = new AdminisService();
 	AdminisVO adminisVO= (AdminisVO)session.getAttribute("adminisVO");
-
+     pageContext.setAttribute("admins", adminisVO.getName());
 %>
 
 <!DOCTYPE html>
@@ -83,7 +83,7 @@
         <button class="accordion accordionMenu">二手車管理系統</button>
         <div class="btn-group-vertical">
         <%if(adminisVO.getAuthno().equals("AC05") || adminisVO.getAuthno().equals("AC07")){%>
-            <a class="btn btn-default" href="#" role="button">二手車輛管理</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/second_order/SaleOnOff.jsp?who=${admins}" role="button">二手車輛管理</a>
             <a class="btn btn-default" href="#" role="button">二手車訂單管理</a>
             <a class="btn btn-default" href="#" role="button">二手車交易管理</a>
          <%} %>
@@ -91,8 +91,8 @@
        <button class="accordion accordionMenu">會員管理系統</button>
         <div class="btn-group-vertical">
         <%if(adminisVO.getAuthno().equals("AC03") || adminisVO.getAuthno().equals("AC07")){%>
-            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/member/listAllMember.jsp" role="button">會員管理</a>
-            <a class="btn btn-default" href="#" role="button">會員認證管理</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/member/select_page.jsp" role="button">會員管理</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/member/select_page.jsp" role="button">會員查詢</a>
             <a class="btn btn-default" href="#" role="button">會員</a>
          <%} %>
         </div>
