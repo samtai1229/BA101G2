@@ -1555,7 +1555,9 @@ public class RentOrdServlet extends HttpServlet {
 		
 		
 		// query
-		if ("query".equals(action) || "lease_ord_form".equals(action)||"query_for_update".equals(action)) {
+		if ("query".equals(action) || "lease_ord_form".equals(action)
+				||"query_for_update".equals(action)||"query_for_member".equals(action)
+				||"query_for_member_frontend".equals(action)) {
 
 			System.out.println("ro query in");
 			List<String> errorMsgs = new LinkedList<String>();
@@ -1585,6 +1587,8 @@ public class RentOrdServlet extends HttpServlet {
 				System.out.println("query-started");
 				RentOrdService roSvc = new RentOrdService();
 				RentOrdVO roQueryVO = roSvc.findByPK(rentno);
+				Set<EquipmentVO> set = roSvc.getEquipmentVOsByRentno(rentno);
+				
 				if (roQueryVO == null) {
 					errorMsgs.add("查無資料");
 				}
@@ -1600,20 +1604,24 @@ public class RentOrdServlet extends HttpServlet {
 				 * 3.查詢完成,準備轉交(Send the Success view)
 				 *************/
 				System.out.println("query-finished");
-				req.setAttribute("roQueryVO", roQueryVO); // 資料庫取出的VO物件,存入req
+				req.setAttribute("roQueryVO", roQueryVO);
+				req.setAttribute("get_equipmentVOs_by_rentno", set);
 				
 				System.out.println("roQueryVO.getRentno:" + roQueryVO.getRentno());
 				System.out.println("action=" + action);
+				
 				if ("query".equals(action)) {
-					RequestDispatcher successView = req.getRequestDispatcher("/backend/rent_ord/get_rent_ord_by_pk.jsp");
-					successView.forward(req, res);
+					req.getRequestDispatcher("/backend/rent_ord/get_rent_ord_by_pk.jsp").forward(req, res);
 				} else if ("lease_ord_form".equals(action)) {
-					RequestDispatcher successView = req.getRequestDispatcher("/backend/rent_ord/lease_ord_form.jsp");
-					successView.forward(req, res);
+					req.getRequestDispatcher("/backend/rent_ord/lease_ord_form.jsp").forward(req, res);
 				}else if ("query_for_update".equals(action)){
-					RequestDispatcher successView = req.getRequestDispatcher("/backend/rent_ord/rent_ord_update_form.jsp");
-					successView.forward(req, res);
+					req.getRequestDispatcher("/backend/rent_ord/rent_ord_update_form.jsp").forward(req, res);
+				}else if ("query_for_member".equals(action)){
+					req.getRequestDispatcher("/backend/member/rent_ord_query_form.jsp").forward(req, res);
+				}else if ("query_for_member_frontend".equals(action)){
+					req.getRequestDispatcher("/frontend/member/rent_ord_query_form.jsp").forward(req, res);
 				}
+				
 
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
