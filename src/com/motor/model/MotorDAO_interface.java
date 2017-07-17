@@ -16,6 +16,8 @@ public interface MotorDAO_interface {
 	public MotorVO findByPrimaryKey(String motno);
 
 	public List<MotorVO> getAll();
+	
+	public List<MotorVO> fuzzyGetAll(String fuzzyValue);
 
 	public Set<MotorVO> getMotorsByModelType(String modtype);
 
@@ -23,15 +25,22 @@ public interface MotorDAO_interface {
 
 	public Set<MotorVO> getMotorsByManuDate(Timestamp start_time, Timestamp end_time);
 	
-	public List<MotorVO> getAll(Map<String, String[]> map);
 //	public List<MotorVO> getMotorsByAllStatus();
 
-	List<MotorVO> getMotorsByModtypeAndLocno(String modtype, String locno);
+	public HashSet<MotorVO> getModtypeByLocNo(String locno);
 
-	List<MotorVO> fuzzyGetAll(String fuzzyValue);
+	public List<MotorVO> getMotorsByModtypeAndLocno(String modtype, String locno);
 
-	HashSet<MotorVO> getModtypeByLocNo(String locno);
+//以下為Hibernate用
+	public void insertByHib(MotorVO motorVO);
 
-	
-	
+	public void updateByHib(MotorVO motorVO);
+
+	public void deleteByHib(String motno);
+
+	public MotorVO findByPkByHib(String motno);
+
+	public List<MotorVO> getAllByHib();
+
+	public List<MotorVO> fuzzySearchByHib(String fuzzyValue);
 }

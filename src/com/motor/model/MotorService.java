@@ -1,7 +1,6 @@
 package com.motor.model;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.*;
 
 public class MotorService {
@@ -12,7 +11,8 @@ public class MotorService {
 		dao = new MotorDAO();
 	}
 
-	public MotorVO addMotor(String modtype, String plateno, String engno, java.sql.Timestamp manudate, Integer mile, String note) {
+	public MotorVO addMotor(String modtype, String plateno, String engno, java.sql.Timestamp manudate, Integer mile,
+			String note) {
 		System.out.println("MotorService, addMotor in");
 
 		MotorVO motorVO = new MotorVO();
@@ -58,7 +58,7 @@ public class MotorService {
 	public List<MotorVO> getAll() {
 		return dao.getAll();
 	}
-	
+
 	public List<MotorVO> fuzzyGetAll(String fuzzyValue) {
 		return dao.fuzzyGetAll(fuzzyValue);
 	}
@@ -66,6 +66,7 @@ public class MotorService {
 	public Set<MotorVO> getMotorsByModelType(String modtype) {
 		return dao.getMotorsByModelType(modtype);
 	}
+
 	public List<MotorVO> getMotorsByModtypeAndLocno(String modtype, String locno) {
 		return dao.getMotorsByModtypeAndLocno(modtype, locno);
 	}
@@ -77,14 +78,34 @@ public class MotorService {
 	public Set<MotorVO> getMotorsByManuDate(Timestamp start_time, Timestamp end_time) {
 		return dao.getMotorsByManuDate(start_time, end_time);
 	}
-	
-	public List<MotorVO> getAll(Map<String, String[]> map) {
-		return dao.getAll(map);
-	}
 
 	public HashSet<MotorVO> getModtypeByLocNo(String locno) {
 		return dao.getModtypeByLocNo(locno);
 	}
+
+	// 以下為Hibernate用
+	public void insertByHib(MotorVO motorVO) {
+		dao.insertByHib(motorVO);
+	}
+
+	public void updateByHib(MotorVO motorVO) {
+		dao.updateByHib(motorVO);
+	}
+
+	public void deleteByHib(String motno) {
+		dao.deleteByHib(motno);
+	}
+
+	public MotorVO findByPkByHib(String motno) {
+		return dao.findByPkByHib(motno);
+	}
+
+	public List<MotorVO> getAllByHib() {
+		return dao.getAllByHib();
+	}
 	
-	
+	public List<MotorVO> fuzzySearchByHib(String fuzzyValue){
+		return dao.fuzzySearchByHib(fuzzyValue);
+	}
+
 }
