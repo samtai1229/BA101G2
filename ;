@@ -1,0 +1,17 @@
+Revert "二手車交易update-1"
+
+This reverts commit b25bad886d5aa4c57bac593f0b5532c8d5d0c577.
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch and 'origin/master' have diverged,
+# and have 1 and 2 different commits each, respectively.
+#   (use "git pull" to merge the remote branch into yours)
+#
+# Changes to be committed:
+#	modified:   WebContent/frontend/second_order/listAllSecond.jsp
+#	deleted:    WebContent/frontend/second_order/listOneSecond.jsp
+#	modified:   build/classes/com/member/controller/MemberServlet.class
+#	modified:   src/com/second/controller/SaleOnOff.java
+#
