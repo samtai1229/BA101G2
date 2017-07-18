@@ -132,16 +132,16 @@
  			<!-- 右選單 -->
  			<ul class="nav navbar-nav navbar-right">
  				<li><a href="#">${who} 您好</a></li>
- 				<li><a href="#">登出</a></li>
- 				<li><a href="#">個人設定</a></li>
- 				<li class="dropdown">
- 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">繁體中文 <b class="caret"></b></a>
- 					<ul class="dropdown-menu">
- 						<li><a href="#">繁體中文</a></li>
- 						<li><a href="#">English</a></li>
- 						<li><a href="#">日本語</a></li>
- 					</ul>
- 				</li>
+ 				<li><a href="<%=request.getContextPath()%>/admin.do?action=logout">登出</a></li>
+<!--  				<li><a href="#">個人設定</a></li> -->
+<!--  				<li class="dropdown"> -->
+<!--  					<a href="#" class="dropdown-toggle" data-toggle="dropdown">繁體中文 <b class="caret"></b></a> -->
+<!--  					<ul class="dropdown-menu"> -->
+<!--  						<li><a href="#">繁體中文</a></li> -->
+<!--  						<li><a href="#">English</a></li> -->
+<!--  						<li><a href="#">日本語</a></li> -->
+<!--  					</ul> -->
+<!--  				</li> -->
  			</ul>
  		</div>
  		<!-- 手機隱藏選單區結束 -->
@@ -159,17 +159,18 @@
        <input type="hidden" name="who" value="${who}">
        <input type="hidden" name="action" value="listMotorByStatus">
      </FORM>
-<table border='1' bordercolor='#CCCCFF' width='1260'>
+<table border='1' bordercolor='#CCCCFF' width='100%'>
 	<tr align='center' valign='middle'>
+	    <th style="text-align:center">相片</th>
 		<th style="text-align:center">車輛編號</th>
 		<th style="text-align:center">車型編號</th>
 		<th style="text-align:center">車牌號碼</th>
 		<th style="text-align:center">引擎編號</th>
 		<th style="text-align:center">出廠日期</th>
-		<th style="text-align:center">Mile</th>
-		<th style="text-align:center">Locno</th>
-		<th style="text-align:center">status</th>
-		<th style="text-align:center">note</th>
+		<th style="text-align:center">里程數</th>
+		<th style="text-align:center">據點編號</th>
+		<th style="text-align:center">狀態</th>
+		<th style="text-align:center">註記</th>
 		<th style="text-align:center">上/下架</th>
 	</tr>
 <%-- 					begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" --%>
@@ -179,11 +180,13 @@
 	  <c:if test="${motorVO.status=='secpause' || motorVO.status=='seconsale'}">
 		<tr align='center' valign='middle'>
 		
+		    <td><img src="<%=request.getContextPath()%>/backend/motor_model/mmReader.do?modtype=${motorVO.modtype}"></td>
 			<td>${motorVO.motno}</td>
 			<td>${motorVO.modtype}</td>
 			<td>${motorVO.plateno}</td>
 			<td>${motorVO.engno}</td>
-			<td>${motorVO.manudate}</td>		
+			<td><fmt:formatDate value="${motorVO.manudate}" pattern="yyyy年MM月dd日"/>		</td>
+			
 			<td>${motorVO.mile}</td>	
 			<td>${motorVO.locno}</td>	
 			<td>${motorVO.status}</td>	
@@ -222,12 +225,12 @@
            <c:forEach var="motorVO" items="${list}" >
 	  <c:if test="${motorVO.status==status}">
 		<tr align='center' valign='middle'>
-		
+		    <td><img src="<%=request.getContextPath()%>/backend/motor_model/mmReader.do?modtype=${motorVO.modtype}"></td>
 			<td>${motorVO.motno}</td>
 			<td>${motorVO.modtype}</td>
 			<td>${motorVO.plateno}</td>
 			<td>${motorVO.engno}</td>
-			<td>${motorVO.manudate}</td>		
+			<td><fmt:formatDate value="${motorVO.manudate}" pattern="yyyy年MM月dd日"/>		</td>
 			<td>${motorVO.mile}</td>	
 			<td>${motorVO.locno}</td>	
 			<td>${motorVO.status}</td>	
@@ -256,12 +259,12 @@
            <c:forEach var="motorVO" items="${list}" >
 	  <c:if test="${motorVO.status==status}">
 		<tr align='center' valign='middle'>
-		
+		    <td><img src="<%=request.getContextPath()%>/backend/motor_model/mmReader.do?modtype=${motorVO.modtype}"></td>
 			<td>${motorVO.motno}</td>
 			<td>${motorVO.modtype}</td>
 			<td>${motorVO.plateno}</td>
 			<td>${motorVO.engno}</td>
-			<td>${motorVO.manudate}</td>		
+			<td><fmt:formatDate value="${motorVO.manudate}" pattern="yyyy年MM月dd日"/>		</td>
 			<td>${motorVO.mile}</td>	
 			<td>${motorVO.locno}</td>	
 			<td>${motorVO.status}</td>	

@@ -433,7 +433,7 @@
 				<div class="col-xs-12 col-sm-12 text-center">
 					<h2>我們的據點</h2>
 					<h3
-							style="color: blue" class="section-subheading"><a href="leave_message_Page.html" id="general">
+							style="color: blue" class="section-subheading"><a href="<%=request.getContextPath()%>/frontend/location/location.jsp" id="general">
 							See More
 							</a></h3>
 				</div>
