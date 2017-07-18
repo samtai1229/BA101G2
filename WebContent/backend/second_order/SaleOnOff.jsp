@@ -159,7 +159,7 @@
        <input type="hidden" name="who" value="${who}">
        <input type="hidden" name="action" value="listMotorByStatus">
      </FORM>
-<table border='1' bordercolor='#CCCCFF' width='100%'>
+<table class="table table-hover" border='1' bordercolor='#CCCCFF' width='100%'>
 	<tr align='center' valign='middle'>
 	    <th style="text-align:center">相片</th>
 		<th style="text-align:center">車輛編號</th>
