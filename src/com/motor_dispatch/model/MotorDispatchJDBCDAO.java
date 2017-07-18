@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.motor.model.MotorVO;
+import com.motor_disp_list.model.MotorDispListVO;
 import com.rent_ord.model.RentOrdVO;
 
 public class MotorDispatchJDBCDAO implements MotorDispatchDAO_interface {
@@ -542,6 +543,48 @@ public class MotorDispatchJDBCDAO implements MotorDispatchDAO_interface {
 				 RentOrdVO roVO3 = dao.checkDispatchableMotors("M000002");
 				 System.out.println(roVO3.getMotno() +",");
 
+	}
+
+	@Override
+	public void insertByHib(MotorDispatchVO mdVO) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateByHib(MotorDispatchVO mdVO) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteByHib(String mdno) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public MotorDispatchVO findByPkByHib(String mdno) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<MotorDispatchVO> getAllByHib() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<MotorDispListVO> getMdListByMdnoByHib(String mdno) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<MotorDispatchVO> getByLocnoByHib(String locno) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 //	private static void printMethod(MotorDispatchVO aMD) {

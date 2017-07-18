@@ -466,7 +466,7 @@ public class MotorJNIDDAO implements MotorDAO_interface {
 		}
 	}
 	
-	@Override
+
 	public List<MotorVO> getAll(Map<String, String[]> map) {
 			List<MotorVO> list = new ArrayList<MotorVO>();
 			MotorVO motorVO = null;
@@ -632,6 +632,42 @@ public class MotorJNIDDAO implements MotorDAO_interface {
 
 	@Override
 	public HashSet<MotorVO> getModtypeByLocNo(String locno) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void insertByHib(MotorVO motorVO) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateByHib(MotorVO motorVO) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteByHib(String motno) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public MotorVO findByPkByHib(String motno) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<MotorVO> getAllByHib() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<MotorVO> fuzzySearchByHib(String fuzzyValue) {
 		// TODO Auto-generated method stub
 		return null;
 	}
