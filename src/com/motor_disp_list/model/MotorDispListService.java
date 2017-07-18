@@ -13,15 +13,7 @@ public class MotorDispListService {
 		dao = new MotorDispListDAO();
 	}
 	
-	public MotorDispListVO addMotorDispList(MotorDispatchVO motorDispatchVO, MotorModelVO motorModelVO) {
-		MotorDispListVO mdListVO = new MotorDispListVO();
-
-		mdListVO.setMotorDispatchVO(motorDispatchVO);
-		mdListVO.setMotorModelVO(motorModelVO);
-		dao.insertByHib(mdListVO);
-
-		return mdListVO;
-	}
+	
 	
 	public MotorDispListVO findByDispatchNo(String mdno) {
 		return dao.findByPrimaryKeyDispatchNo(mdno);

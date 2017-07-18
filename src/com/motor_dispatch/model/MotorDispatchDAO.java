@@ -22,6 +22,7 @@ import org.hibernate.Session;
 import com.motor.model.MotorVO;
 import com.motor_disp_list.model.MotorDispListVO;
 import com.motor_model.model.MotorModelVO;
+import com.rent_ord.model.MotorForRentOrdDAO;
 import com.rent_ord.model.RentOrdVO;
 
 import hibernate.util.HibernateUtil;
@@ -427,8 +428,9 @@ public class MotorDispatchDAO implements MotorDispatchDAO_interface {
 			while (rs.next()) {
 				// 也稱為 Domain objects
 				rentOrdVO = new RentOrdVO();
-				rentOrdVO.setMotno(rs.getString("motno"));
-				
+				//rentOrdVO.getMotorVO().getMotno();
+				rentOrdVO.getMotorVO().setMotno(rs.getString("motno"));
+//				rentOrdVO.setMotorVO(new MotorForRentOrdDAO().findByPrimaryKey(rs.getString("motno")));
 			}
 		
 		} catch (SQLException se) {
