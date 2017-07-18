@@ -6,6 +6,7 @@
 <%@	page import="java.text.SimpleDateFormat"%>
 <%@	page import="java.text.DateFormat"%>
 <%@ page import="com.motor.model.*"%>
+<!-- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
 <%@ page import="com.adminis.model.*"%>
 <%  AdminisService as = new AdminisService();
 	AdminisVO adminisVO= (AdminisVO)session.getAttribute("adminisVO");
@@ -13,7 +14,7 @@
      session.setAttribute("admins", adminisVO.getName());
      session.setAttribute("adminisVO", adminisVO);
 %>
-
+<!-- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,7 +53,7 @@
        <b><%= adminisVO.getName() %></b>
     </nav>
  <%--保留寫法     href="<%=request.getContextPath()%>/backend/backendRentOrd.jsp"  --%>
-
+<!------------------------------- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
     <div class="col-xs-12 col-sm-2 leftBar">
      	
         <img id="menuLogo" src="images/logo.jpg">
@@ -110,6 +111,7 @@
         </div>
         <div class="btn-group-vertical"></div>
     </div>
+<!----------------------------------------------- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
     <div class="col-xs-12 col-sm-10 rightHTML" id="demo">
 		<img src="images/android_logo.png" id="mainPageLogo" style="vertical-align:middle">
     </div><!-- sm-10 rightHTML  -->
