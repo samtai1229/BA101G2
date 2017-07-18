@@ -28,6 +28,9 @@
 		/*死都不換行*/
 		white-space:nowrap;
 	} 
+	td{
+		vertical-align: middle!important;
+	}
 </style>
 
 <body>
