@@ -6,16 +6,17 @@
 <% MotorService moSvc = new MotorService();
    List<MotorVO> list = moSvc.getAll();
    String status =(String) request.getAttribute("status");
+   System.out.println("狀態選:"+status);
    if(status==null)
    {
 	   status="all";
    }
 
    String who = (String)request.getParameter("who");
-   String who2 = new String(who.getBytes("ISO-8859-1"),"UTF-8");
+  String who2 = new String(who.getBytes("ISO-8859-1"),"UTF-8");
    System.out.println(who);
-   System.out.println(who2);
-   pageContext.setAttribute("who", who2);
+  System.out.println(who2);
+   session.setAttribute("who", who2);
    pageContext.setAttribute("list", list);
    pageContext.setAttribute("status", status);
 
@@ -155,6 +156,7 @@
        	   <option ${status == 'seconsale' ? 'selected="selected"' : ''} value="seconsale">上架中
        	</select></span>
        <input type="submit" value="送出">
+       <input type="hidden" name="who" value="${who}">
        <input type="hidden" name="action" value="listMotorByStatus">
      </FORM>
 <table border='1' bordercolor='#CCCCFF' width='1260'>
@@ -191,6 +193,7 @@
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
 			     <input type="submit" value="二手車上架"> 
 			     <input type="hidden" name="motno" value="${motorVO.motno}">
+			     <input type="hidden" name="who" value="${who}">
 			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--><!-- 目前尚未用到  -->
 			     <input type="hidden" name="action"	value="getOneMotor_OnOffSale"></FORM>
 			</td>
@@ -200,6 +203,7 @@
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
 			     <input type="submit" value="二手車下架"> 
 			     <input type="hidden" name="motno" value="${motorVO.motno}">
+			     <input type="hidden" name="who" value="${who}">
 			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--><!-- 目前尚未用到  -->
 			     <input type="hidden" name="action"	value="getOneMotor_OnOffSale"></FORM>
 			</td>
@@ -233,6 +237,7 @@
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
 			     <input type="submit" value="二手車上架"> 
 			     <input type="hidden" name="motno" value="${motorVO.motno}">
+			      <input type="hidden" name="who" value="${who}">
 			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--><!-- 目前尚未用到  -->
 			     <input type="hidden" name="action"	value="getOneMotor_OnOffSale"></FORM>
 			</td>
@@ -266,6 +271,7 @@
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
 			     <input type="submit" value="二手車下架"> 
 			     <input type="hidden" name="motno" value="${motorVO.motno}">
+			      <input type="hidden" name="who" value="${who}">
 			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--><!-- 目前尚未用到  -->
 			     <input type="hidden" name="action"	value="getOneMotor_OnOffSale"></FORM>
 			</td>

@@ -29,12 +29,20 @@ public class SaleOnOff extends HttpServlet {
 	   System.out.println("進來了");
 	   String action = req.getParameter("action");
 	   System.out.println("我要走"+action );
+	   String who = req.getParameter("who");
+	   String who2 = new String(who.getBytes("ISO-8859-1"),"UTF-8");
+	   System.out.println(who2);
+
+	   System.out.println("我是~~~~~"+who );
 	   String requestURL = req.getParameter("requestURL");
 	   System.out.println("我來自"+requestURL );
 	   if("listMotorByStatus".equals(action))
 	   {
 		   String status = req.getParameter("status");
+		   System.out.println("狀態為:"+status);
 		   req.setAttribute("status", status);
+		  // req.setAttribute("who", who);
+		    req.getSession().setAttribute("who", who2);
 		   RequestDispatcher successView = req.getRequestDispatcher("/backend/second_order/SaleOnOff.jsp");
 		   successView.forward(req, res);
 	   }

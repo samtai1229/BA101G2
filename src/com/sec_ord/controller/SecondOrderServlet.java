@@ -39,33 +39,36 @@ public class SecondOrderServlet extends HttpServlet {
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 
-			try {
+//			try {
 				/***************************
 				 * 1.接收請求參數 - 輸入格式的錯誤處理
 				 **********************/
 				String motno = req.getParameter("motno");
 				System.out.println("車輛編號是"+motno);
+				String who = (String)req.getParameter("who");
+				System.out.println("腳色是"+who);
+				
 				/*************************** 2.開始查詢資料 *****************************************/
 				MotorService motSvc = new MotorService();
 				
 				MotorVO motorVO = motSvc.findByPK(motno);
 			    motorVO.setStatus(motorVO.getStatus().equals("secpause")? "seconsale" : "secpause");			
-			   motorVO= motSvc.updateMotor(motorVO.getMotno(), motorVO.getModtype(), motorVO.getPlateno(), motorVO.getEngno(), motorVO.getManudate(), motorVO.getMile(), motorVO.getLocno(), motorVO.getStatus(), motorVO.getNote());
+			    motorVO= motSvc.updateMotor(motorVO.getMotno(), motorVO.getModtype(), motorVO.getPlateno(), motorVO.getEngno(), motorVO.getManudate(), motorVO.getMile(), motorVO.getLocno(), motorVO.getStatus(), motorVO.getNote());
 				/***************************
 				 * 3.查詢完成,準備轉交(Send the Success view)
 				 *************/
-
-				req.setAttribute("motorVO", motorVO); // 資料庫取出的empVO物件,存入req
+			    req.setAttribute("who", who);
+			    req.setAttribute("motorVO", motorVO); // 資料庫取出的empVO物件,存入req
 				String url = "/backend/second_order/SaleOnOff.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
-			} catch (Exception e) {
-				errorMsgs.add("無法取得資料:" + e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/second_order/select_page.jsp");
-				failureView.forward(req, res);
-			}
+//			} catch (Exception e) {
+//				errorMsgs.add("無法取得資料:" + e.getMessage());
+//				RequestDispatcher failureView = req.getRequestDispatcher("/frontend/second_order/select_page.jsp");
+//				failureView.forward(req, res);
+//			}
 			
 			
 			
