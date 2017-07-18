@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.motor_dispatch.model.MotorDispatchVO" table="motor_dispatch" >
+        
+     <id name="mdno" column="mdno">
+     	<generator class="generator.MdnoGenerator"/>
+     </id>
+     
+     <property name="locno" column="locno" />
+     <property name="filldate" column="filldate" />
+     <property name="closeddate" column="closeddate" />
+     <property name="prog" column="prog" />
+     
+     <set name="motorDispLists" table = "motor_disp_list" lazy="false" cascade="all" inverse="true" order-by="mdno asc">
+     	<key><column name="mdno"/></key>
+     	<one-to-many class="com.motor_disp_list.model.MotorDispListVO"/>
+     </set>
+        
+    </class>
+</hibernate-mapping>
+
