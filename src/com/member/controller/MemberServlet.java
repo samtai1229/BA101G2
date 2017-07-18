@@ -260,10 +260,8 @@ public class MemberServlet extends HttpServlet {
 		}
 		
 		
-		
-		
 		if ("register".equals(action)) {
-			System.out.println("Register~~~~~~~~~~~~~");
+			System.out.println("MemberServlet register");
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 
@@ -276,22 +274,26 @@ public class MemberServlet extends HttpServlet {
 				String new_pwd = req.getParameter("new_pwd");
 				String pass = req.getParameter("pass");
 				String mail = req.getParameter("mail");
+				
+				System.out.println("acc:"+new_acc+" pwd:"+new_pwd+" pass"+pass+" mail"+mail);
 			
 				if ( mail==null||(mail.trim()).length() == 0 ||   pass==null||(pass.trim()).length() == 0 ||new_acc == null || new_pwd == null || (new_acc.trim()).length() == 0 || (new_pwd.trim()).length() == 0) {
-					
+					System.out.println("欄位不可為空");
 					errorMsgs.add("欄位不可為空");
 				}
 				if(!pass.equals(new_pwd))
 				{
+					System.out.println("2次密碼不一致");
 					errorMsgs.add("2次密碼不一致");
 				}
 				// Send the use back to the form, if there were errors
-				if (!errorMsgs.isEmpty()) {
+				/*if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/select_page.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
-				}
+				}*/
 
+				System.out.println("==============2");
 				/*************************** 2.開始檢查帳號是否存在 *****************************************/
 				MemberService memSvc = new MemberService();
 				
@@ -299,37 +301,46 @@ public class MemberServlet extends HttpServlet {
 						
 				if ( memSvc.checkAccIsExisted(new_acc)) {
 					errorMsgs.add("該帳號已存在");
+					System.out.println("該帳號已存在");
 					 memVO = memSvc.getOneMemberByAcc(new_acc);
 				}
-				else
+/*				else
 				{
-				  System.out.println("馬的BBBBBBB都是NULL");
+				  System.out.println("register NULL");
 				   memSvc.insert("未填", "未填", new Timestamp(System.currentTimeMillis()), mail, "未填", "未填", new_acc, new_pwd, null, null, null);
 				   
 				   req.setAttribute("memVO", memSvc.getOneMemberByAcc(new_acc));
 				   RequestDispatcher failureView = req.getRequestDispatcher("/frontend/member/verified.jsp");
 					failureView.forward(req, res);
 					return;// 程式中斷
-				}
+				}*/
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					RequestDispatcher failureView = req.getRequestDispatcher("/index.jsp");
 					failureView.forward(req, res);
+					System.out.println("!errorMsgs.isEmpty()");
 					return;// 程式中斷
 				}
-
+				System.out.println("==============3");
 				/***************************
 				 * 3.查詢完成,準備轉交(Send the Success view) 轉交到會員專區的網頁
 				 *************/
+				memSvc.insert("", "", new Timestamp(System.currentTimeMillis()), mail, "", "", new_acc, new_pwd, null, null, null);
+				System.out.println("==============3-2");
+				
+				memVO = memSvc.getOneMemberByAccAndPwd(new_acc, new_pwd);
+				
                 new  MailService(memVO.getMail(),"註冊成功 ","歡迎您成為會員");
+                System.out.println("==============4");
 				req.setAttribute("memVO", memVO); // 資料庫取出的empVO物件,存入req
-				String url = "/backend/member/listAllMember.jsp";
+				String url = "/frontend/member/frontMember.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
 				successView.forward(req, res);
-
+				
 				/*************************** 其他可能的錯誤處理 *************************************/
 			} catch (Exception e) {
 				errorMsgs.add("無法取得資料:" + e.getMessage());
+				System.out.println("regist exception");
 				RequestDispatcher failureView = req.getRequestDispatcher("/backend/member/select_page.jsp");
 				failureView.forward(req, res);
 			}
@@ -342,7 +353,7 @@ public class MemberServlet extends HttpServlet {
 		
 		
 		if ("login".equals(action)) {
-			System.out.println("Login~~~~~~~~~~~~~");
+			System.out.println("Login servlet");
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 			//req.removeAttribute("action");
@@ -366,7 +377,7 @@ public class MemberServlet extends HttpServlet {
 				String acc = req.getParameter("acc");
 				String pwd = req.getParameter("pwd");
 				if (acc == null || pwd == null || (acc.trim()).length() == 0 || (pwd.trim()).length() == 0) {
-
+					System.out.println("error empty acc");
 					errorMsgs.add("帳號/密碼不可為空");
 				}
 				// Send the use back to the form, if there were errors
@@ -385,14 +396,17 @@ public class MemberServlet extends HttpServlet {
 				MemberVO memVO = memSvc.getOneMemberByAccAndPwd(acc, pwd);
 
 				if (memVO == null) {
+					System.out.println("error empty acc");
 					errorMsgs.add("無此帳號");
 				} else {
 					if (!pwd.equals(memVO.getPwd())) {
+						System.out.println("error acc / pwd");
 						errorMsgs.add("帳號/密碼錯誤");
 					}
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
+					System.out.println("error !errorMsgs.isEmpty()");
 					req.setAttribute("error", errorMsgs.get(0));
 					RequestDispatcher failureView = req.getRequestDispatcher("/index.jsp");
 					failureView.forward(req, res);
@@ -423,7 +437,8 @@ public class MemberServlet extends HttpServlet {
 				}
 				else
 				{
-					 url = "/frontend/member/verified.jsp";
+					req.setAttribute("addStatus", "uncompleted");
+					 url = "/frontend/member/frontMember.jsp";
 				}
 				
 				Enumeration<String> enumber2 = req.getAttributeNames();
@@ -535,10 +550,14 @@ public class MemberServlet extends HttpServlet {
 				System.out.println("我拿到了VO 準備轉交");
 				req.setAttribute("memVO", memVO); // 資料庫取出的empVO物件,存入req
 				String url="";
-				if("modifyMember".equals(addAction))
+				if("modifyMember".equals(addAction)){
 					url = "/backend/member/update_member_input.jsp";
-				else
+				}else if("frontMember".equals(addAction)){
+					url = "/frontend/member/frontend_update_member_input.jsp";
+				}else{
 					url = "/backend/member/listOneMember.jsp";
+				}
+					
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交update_emp_input.jsp
 				successView.forward(req, res);
 
@@ -770,8 +789,8 @@ public class MemberServlet extends HttpServlet {
 		
 		
 		
-		if ("update_backend_verified".equals(action)) { // 來自update_emp_input.jsp的請求
-			System.out.println("後端更新!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		if ("update_backend_verified".equals(action)||"update_frontend_verified".equals(action)) { // 來自update_emp_input.jsp的請求
+			System.out.println("update_backend_verified || ");
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
@@ -857,7 +876,12 @@ public class MemberServlet extends HttpServlet {
 				req.setAttribute("memVO", memSvc.getOneMemberByAcc(acc)); // 資料庫update成功後,正確的的empVO物件,存入req
 				req.setAttribute("prev", req.getRequestURI());
 				System.out.println("準備轉交");
-				String url = "/backend/member/backendMember.jsp";
+				String url="";
+				if("update_backend_verified".equals(action))
+					url= "/backend/member/backendMember.jsp";
+				else if("update_frontend_verified".equals(action))
+					url= "/frontend/member/frontMember.jsp";
+				
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 
