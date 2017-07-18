@@ -53,7 +53,7 @@
         <button class="accordion accordionMenu accordion accordionMenuMenu">總部管理系統</button>
         <div class="btn-group-vertical">
                 
-            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/motor/backendMotor.jsp"  role="button">車輛資料管理</a>
+            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/motor/motorMgmtHqSelectPage.jsp"  role="button">車輛資料管理</a>
             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/motor_model/backendMotorModel.jsp"  role="button">車輛型號管理</a>           
             <a class="btn btn-default" href="#" role="button">車輛調度</a>            
 <!--        <a class="btn btn-default" role="button" onclick="loadRentOrd()">租賃單管理</a> -->
@@ -67,9 +67,9 @@
             <a class="btn btn-default" href="#" role="button">據點車輛管理</a>
             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/lease.jsp"  role="button">交車管理</a>
           	<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/return.jsp"  role="button">還車管理</a>
-            <a class="btn btn-default" href="#" role="button">車輛調度申請</a>
+            <a class="btn btn-default" ：href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/locMotorDispatchApply.jsp" role="button">車輛調度申請</a>
             <a class="btn btn-default" href="#" role="button">車輛保養/維修管理</a>
-            <a class="btn btn-default" href="#" role="button">據點裝備管理</a>
+            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/equipment/emtMgmtSelectPage.jsp" role="button">據點裝備管理</a>
             <a class="btn btn-default" href="#" role="button">裝備申請</a>
         </div>
         <button class="accordion accordionMenu">二手車管理系統</button>
