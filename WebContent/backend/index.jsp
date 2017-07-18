@@ -9,7 +9,9 @@
 <%@ page import="com.adminis.model.*"%>
 <%  AdminisService as = new AdminisService();
 	AdminisVO adminisVO= (AdminisVO)session.getAttribute("adminisVO");
-     pageContext.setAttribute("admins", adminisVO.getName());
+	System.out.println("!!!!!!!!!!!"+adminisVO.getName());
+     session.setAttribute("admins", adminisVO.getName());
+     session.setAttribute("adminisVO", adminisVO);
 %>
 
 <!DOCTYPE html>
