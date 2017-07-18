@@ -164,6 +164,14 @@
 							value="<%=mmVO.getSaleprice()%>" />
 					</div>
 				</div>
+				
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="intro">車型說明：</label>
+					<div class="col-sm-10">
+						<textarea class="form-control" id="intro" rows="5" cols="70"
+							name="intro">${(mmVO.intro == null) ? '' : mmVO.getIntro()}</textarea>
+					</div>
+				</div>
 
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="motpic">更改圖片：</label>

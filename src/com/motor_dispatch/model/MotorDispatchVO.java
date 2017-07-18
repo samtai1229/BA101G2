@@ -1,19 +1,33 @@
 package com.motor_dispatch.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.*;
 
-public class MotorDispatchVO implements java.io.Serializable {
+import com.motor_disp_list.model.MotorDispListVO;
 
-	private static final long serialVersionUID = 1L;
-
+public class MotorDispatchVO implements Serializable {
+	private static final long serialVersionUID = 6080077837756344013L;
+	
 	private String mdno;
 	private String locno;
 	private Timestamp filldate;
 	private Timestamp closeddate;
 	private String prog;
-
+	private Set<MotorDispListVO> motorDispLists = new HashSet<MotorDispListVO>();
+	
 	public MotorDispatchVO() {
-
+		checkNull();
+	}
+	
+	private void checkNull() {//若為空值則給預設值
+		if (filldate == null) {
+			filldate = new Timestamp(System.currentTimeMillis());
+		}
+		if (prog == null) {
+			prog = "request";
+			return;
+		}
 	}
 
 	public String getMdno() {
@@ -56,4 +70,11 @@ public class MotorDispatchVO implements java.io.Serializable {
 		this.prog = prog;
 	}
 
+	public Set<MotorDispListVO> getMotorDispLists() {
+		return motorDispLists;
+	}
+
+	public void setMotorDispLists(Set<MotorDispListVO> motorDispListVO) {
+		this.motorDispLists = motorDispListVO;
+	} 
 }

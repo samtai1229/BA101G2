@@ -62,5 +62,12 @@ public class MotorModelService {
 	public List<MotorModelVO> fuzzyGetAll(String fuzzyValue) {
 		return dao.fuzzyGetAll(fuzzyValue);
 	}
-
+	
+	public List<MotorModelVO> fuzzySearchByHib(String fuzzyValue){
+		return dao.fuzzySearchByHib(fuzzyValue);
+	};
+	
+	public List<MotorModelVO> getAllByHib(){
+		return dao.getAllByHib();
+	};
 }

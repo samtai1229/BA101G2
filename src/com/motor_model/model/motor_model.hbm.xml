@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.motor_model.model.MotorModelVO" table="MOTOR_MODEL" >
+        
+        <id name="modtype" column="modtype">
+            <generator class="generator.ModtypeGenerator"/>
+        </id>
+        
+        <property name="brand" column="brand" />
+        <property name="displacement" column="displacement" />
+        <property name="name" column="name" />
+        <property name="renprice" column="renprice" />
+        <property name="saleprice" column="saleprice" />
+        <property name="motpic" column="motpic" />
+        <property name="intro" column="intro" />
+        
+        <set name="motors" table="motor" lazy="false" cascade="all"  inverse="true"  order-by="motno asc">			
+			<key>
+				<column name="modtype" />
+			</key>
+			<one-to-many class="com.motor.model.MotorVO" />
+		</set>
+    </class>
+</hibernate-mapping>
+

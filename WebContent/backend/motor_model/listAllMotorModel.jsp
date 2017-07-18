@@ -6,7 +6,7 @@
 
 <%
 	MotorModelService motorModelSvc = new MotorModelService();
-	List<MotorModelVO> list = motorModelSvc.getAll();
+	List<MotorModelVO> list = motorModelSvc.getAllByHib();
 	pageContext.setAttribute("list", list);
 %>
 
@@ -190,8 +190,7 @@
 						<td><img id="motpic"
 							src="<%=request.getContextPath()%>/backend/motor_model/mmReader.do?modtype=${motorModelVO.modtype}"></td>
 						<td>
-							<FORM METHOD="post" style="display: inline;"
-								ACTION="<%=request.getContextPath()%>/backend/motor_model/motorModel4H.do">
+							<FORM METHOD="post" style="display: inline;" ACTION="motorModel4H.do">
 								<input type="submit" name="fix" value="修改"
 									class="btn btn-default" role="button"> <input
 									type="hidden" name="modtype" value="${motorModelVO.modtype}">

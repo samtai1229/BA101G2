@@ -9,7 +9,21 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import org.hibernate.Session;
+
+import com.motor_dispatch.model.MotorDispatchVO;
+import com.motor_model.model.MotorModelVO;
+
+import hibernate.util.HibernateUtil;
+
 public class MotorDispListDAO implements MotorDispListDAO_interface {
+	
+	private static final String GET_ONE_BY_MODO = "SELECT mdno, motno " 
+			+ "  FROM MOTOR_DISP_LIST where mdno = ?";
+
+	private static final String GET_ONE_BY_MOTNO = "SELECT mdno, motno " 
+			+ "  FROM MOTOR_DISP_LIST where motno = ?";
+	
 	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
 	private static DataSource ds = null;
 	static {
@@ -20,12 +34,6 @@ public class MotorDispListDAO implements MotorDispListDAO_interface {
 			e.printStackTrace();
 		}
 	}
-
-	private static final String GET_ONE_BY_MODO = "SELECT mdno, motno " 
-			+ "  FROM MOTOR_DISP_LIST where mdno = ?";
-
-	private static final String GET_ONE_BY_MOTNO = "SELECT mdno, motno " 
-			+ "  FROM MOTOR_DISP_LIST where motno = ?";
 
 	@Override
 	public MotorDispListVO findByPrimaryKeyDispatchNo(String mdno) {
@@ -136,6 +144,34 @@ public class MotorDispListDAO implements MotorDispListDAO_interface {
 			mdlVO.setMotno(rs.getString("motno"));
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+	}
+
+	//以下為Hibernate用
+	
+	@Override
+	public void insertByHib(MotorDispListVO mdListVO) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try {
+			session.beginTransaction();
+			session.saveOrUpdate(mdListVO);
+			session.getTransaction().commit();
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
+		}
+	}
+
+	@Override
+	public void updateByHib(MotorDispListVO mdListVO) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try {
+			session.beginTransaction();
+			session.saveOrUpdate(mdListVO);
+			session.getTransaction().commit();
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
 		}
 	}
 

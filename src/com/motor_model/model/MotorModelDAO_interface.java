@@ -15,4 +15,8 @@ public interface MotorModelDAO_interface {
 
 	public List<MotorModelVO> fuzzyGetAll(String fuzzyValue);
 
+	List<MotorModelVO> fuzzySearchByHib(String fuzzyValue);
+
+	List<MotorModelVO> getAllByHib();
+
 }

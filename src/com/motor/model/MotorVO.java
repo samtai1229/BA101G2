@@ -2,6 +2,9 @@ package com.motor.model;
 
 import java.sql.Timestamp;
 
+import com.location.model.LocationVO;
+import com.motor_model.model.MotorModelVO;
+
 public class MotorVO implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -15,9 +18,30 @@ public class MotorVO implements java.io.Serializable {
 	private String locno;
 	private String status;
 	private String note;
+	
+	//MotorModelVO:
+	private String brand;
+	private Integer displacement;
+	private String name;
+	private Integer renprice;
+	private Integer saleprice;
+	
+	// 以下hibernate用
+	private MotorModelVO motorModelVO;
+	private LocationVO locationVO;
 
 	public MotorVO() {
+		checkNull();
+	}
 
+	private void checkNull() {//若為空值則給預設值
+		if (status == null) {
+			status = "unleasable";
+		}
+		if (locno == null) {
+			locno = "TPE00";
+			return;
+		}
 	}
 
 	public String getMotno() {
@@ -92,4 +116,59 @@ public class MotorVO implements java.io.Serializable {
 		this.note = note;
 	}
 
+	public MotorModelVO getMotorModelVO() {
+		return motorModelVO;
+	}
+
+	public void setMotorModelVO(MotorModelVO motorModelVO) {
+		this.motorModelVO = motorModelVO;
+	}
+
+	public LocationVO getLocationVO() {
+		return locationVO;
+	}
+
+	public void setLocationVO(LocationVO locationVO) {
+		this.locationVO = locationVO;
+	}
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+
+	public Integer getDisplacement() {
+		return displacement;
+	}
+
+	public void setDisplacement(Integer displacement) {
+		this.displacement = displacement;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Integer getRenprice() {
+		return renprice;
+	}
+
+	public void setRenprice(Integer renprice) {
+		this.renprice = renprice;
+	}
+
+	public Integer getSaleprice() {
+		return saleprice;
+	}
+
+	public void setSaleprice(Integer saleprice) {
+		this.saleprice = saleprice;
+	}
 }

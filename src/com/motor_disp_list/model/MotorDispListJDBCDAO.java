@@ -9,8 +9,8 @@ import java.sql.SQLException;
 public class MotorDispListJDBCDAO implements MotorDispListDAO_interface {
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "ba101g2";
-	String passwd = "ba101g2";
+	String userid = "servlet";
+	String passwd = "123456";
 
 	private static final String GET_ONE_BY_MODO = "SELECT mdno, motno " 
 			+ "  FROM MOTOR_DISP_LIST where mdno = ?";

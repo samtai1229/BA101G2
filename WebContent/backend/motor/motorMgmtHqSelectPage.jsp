@@ -84,7 +84,7 @@
 			<a class="btn btn-default" href="#" role="button">據點車輛管理</a> <a
 				class="btn btn-default" href="#" role="button">交車管理</a> <a
 				class="btn btn-default" href="#" role="button">還車管理</a> <a
-				class="btn btn-default" href="#" role="button">車輛調度申請</a> <a
+				class="btn btn-default" href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/locMotorDispatchApply.jsp" role="button">車輛調度申請</a> <a
 				class="btn btn-default" href="#" role="button">車輛保養/維修管理</a> <a
 				class="btn btn-default" href="#" role="button">據點裝備管理</a> <a
 				class="btn btn-default" href="#" role="button">裝備申請</a>

@@ -4,6 +4,9 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 
+import com.motor_disp_list.model.MotorDispListVO;
+import com.rent_ord.model.RentOrdVO;
+
 public class MotorDispatchService {
 
 	private MotorDispatchDAO_interface dao;
@@ -12,13 +15,11 @@ public class MotorDispatchService {
 		dao = new MotorDispatchDAO();
 	}
 
-	public MotorDispatchVO addMotorDispatch(String locno, Timestamp filldate, Timestamp closeddate, String prog) {
+	public MotorDispatchVO addMotorDispatch(String locno, Set<MotorDispListVO> motorDispLists) {
 		MotorDispatchVO mdVO = new MotorDispatchVO();
 
 		mdVO.setLocno(locno);
-		mdVO.setFilldate(filldate);
-		mdVO.setCloseddate(closeddate);
-		mdVO.setProg(prog);
+		mdVO.setMotorDispLists(motorDispLists);
 		dao.insert(mdVO);
 
 		return mdVO;
@@ -57,5 +58,37 @@ public class MotorDispatchService {
 	public Set<MotorDispatchVO> getByProg(String prog) {
 		return dao.getMotorDispatchsByProg(prog);
 	}
+	
+	public RentOrdVO checkDispatchableMotors(String motno){
+		return dao.checkDispatchableMotors(motno);
+	}
 
+	//以下為Hibernate用
+	public void insertByHib(MotorDispatchVO mdVO){
+		dao.insertByHib(mdVO);
+	}
+	
+	public void updateByHib(MotorDispatchVO mdVO){
+		dao.updateByHib(mdVO);
+	}
+
+	public void deleteByHib(String mdno){
+		dao.deleteByHib(mdno);
+	}
+
+	public MotorDispatchVO findByPkByHib(String mdno){
+		return dao.findByPkByHib(mdno);
+	}
+
+	public List<MotorDispatchVO> getAllByHib(){
+		return dao.getAllByHib();
+	}
+
+	Set<MotorDispListVO> getMdListByMdnoByHib(String mdno){
+		return dao.getMdListByMdnoByHib(mdno);
+	}
+	
+	public List<MotorDispatchVO> getByLocnoByHib(String locno){
+		return dao.getByLocnoByHib(locno);
+	}
 }

@@ -1,5 +1,11 @@
 package com.motor_model.model;
 
+
+
+import java.util.*;
+
+import com.motor.model.MotorVO;
+
 public class MotorModelVO implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -12,6 +18,8 @@ public class MotorModelVO implements java.io.Serializable {
 	private Integer saleprice;
 	private byte[] motpic;
 	private String intro;
+	//以下為hibernate用
+	private Set<MotorVO> motors = new HashSet<MotorVO>();
 
 	public MotorModelVO() {
 
@@ -81,5 +89,12 @@ public class MotorModelVO implements java.io.Serializable {
 		this.intro = intro;
 	}
 
+	public Set<MotorVO> getMotors() {
+		return motors;
+	}
+
+	public void setMotors(Set<MotorVO> motors) {
+		this.motors = motors;
+	}
 
 }
