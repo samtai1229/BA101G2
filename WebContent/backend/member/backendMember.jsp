@@ -34,9 +34,12 @@ th,td{
 }
 
 /*自定*/
-	 th, tr{
+	 th, .nochangeTag{
 		/*死都不換行*/
 		white-space:nowrap;
+	}
+	#tdAddrTag{
+		text-align:left;
 	} 
 </style>
 
@@ -154,13 +157,13 @@ th,td{
 										     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 										</td>
 										<td>${memVO.memno}</td>
-										<td>${memVO.memname}</td>
+										<td class="nochangeTag">${memVO.memname}</td>
 										<td>${memVO.status}</td>
 										<td>${memVO.sex}</td>	
 										<td><fmt:formatDate pattern = "yyyy/MM/dd" value = "${memVO.birth}" /></td>
-										<td>${memVO.mail}</td>
+										<td class="nochangeTag">${memVO.mail}</td>
 										<td>${memVO.phone}</td>
-										<td>${memVO.addr}</td>
+										<td id="tdAddrTag">${memVO.addr}</td>
 										<td>${memVO.acc}</td>
 										<td><fmt:formatDate pattern = "yyyy/MM/dd" value = "${memVO.credate}" /></td>
 									</tr>

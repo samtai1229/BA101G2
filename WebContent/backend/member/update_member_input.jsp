@@ -26,7 +26,27 @@ margin-top:10px;
   line-height:34px;
 }
 label{
-  text-align:right;
+	text-align:right;
+	size:16px;
+}
+.form-control{
+	size:16px;
+}
+
+input[type="file"] {
+    display: none !important;
+}
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    margin-left:20%;
+}
+
+#licenseTag{
+	margin-left:10%;
+
 }
 </style>
 
@@ -243,46 +263,99 @@ label{
 			
 			
 				<div class="col-xs-12 col-sm-3">
-					身分證(正面):<input type="file" name="idcard1" />
+					<label>身分證(正面):</label><label for="myFile" class="custom-file-upload">
+    				<i class="fa fa-cloud-upload"></i>點我上傳圖片</label>
+					<input type="file" name="idcard1" id="myFile"/>
 					<img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard1' 
-					width='100%'>
+					width='300px' height='300px' id="idcard1">
 		        </div>
 		        <div class="col-xs-12 col-sm-3">
-					身分證(反面):<input type="file" name="idcard2" />
+					<label>身分證(反面):</label><label for="myFile1" class="custom-file-upload">
+    				<i class="fa fa-cloud-upload"></i>點我上傳圖片</label>
+    				<input type="file" name="idcard2"  id="myFile1"/>
 					<img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard2'
-					 width='100%'>
+					 width='300px' height='300px' id="idcard2">
 		        </div>
 		        <div class="col-xs-12 col-sm-3">	
-					駕照:<input type="file" name="license" size="45"/>
+					<label id="licenseTag">駕照:</label><label for="myFile2" class="custom-file-upload">
+    				<i class="fa fa-cloud-upload"></i>點我上傳圖片</label>
+    				<input type="file" name="license"  id="myFile2"/>
 					<img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=license'
-					 width='100%'>
+					 width='300px' height='300px' id="license">
 				 </div>
 			
 				<input type="hidden" name="action" value="update_backend_verified">
 				<input type="hidden" name="memno" value="${memVO.memno}">
+				<input type="hidden" name="pwd" value="${memVO.pwd}">
 				<input type="hidden" name="sex" value="${memVO.sex}">
 				<input type="hidden" name="birth" value="<fmt:formatDate value="${memVO.birth}" pattern='yyyy-MM-dd HH:mm:ss'/>">
 				<input type="hidden" name="credate" value="<fmt:formatDate value="${memVO.credate}" pattern='yyyy-MM-dd HH:mm:ss'/>">
-				
 				<div class="col-xs-12 col-sm-12">
-				<p class="text-center">
-					<button type="submit" class="btn btn-success btn-lg">
-						<i class="glyphicon glyphicon-ok"></i>送出修改
-					</button>
-					<a onclick="history.back()" class="btn btn-danger btn-lg">
-						<i class="glyphicon glyphicon-arrow-up"></i>返回上頁
-					</a>
-				</p>
+					<p class="text-center">
+						<button type="submit" class="btn btn-success btn-lg">
+							<i class="glyphicon glyphicon-ok"></i>送出修改
+						</button>
+						<a onclick="history.back()" class="btn btn-danger btn-lg">
+							<i class="glyphicon glyphicon-arrow-up"></i>返回上頁
+						</a>
+						
+						
+					</p>
 				</div>
 		</FORM>
 
     </div><!-- sm-10 rightHTML  -->
 
-	<!--RWD部分:下面兩行我拿掉一行和JQuery有關的script, 不然datepicker會衝到  -->
 	<script src="https://code.jquery.com/jquery.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="<%=request.getContextPath()%>/backend/Modified/motorKanli_js.js"></script>
     <script src="<%=request.getContextPath()%>/backend/Modified/indexNew.js"></script>
+<script>
+function doFirst(){
+	document.getElementById('myFile').onchange = fileChange;
+	document.getElementById('myFile1').onchange = fileChange1;
+	document.getElementById('myFile2').onchange = fileChange2;
+}
+function fileChange() {
+	var file = document.getElementById('myFile').files[0];
+
+	var readFile = new FileReader();
+	readFile.readAsDataURL(file);
+	readFile.addEventListener('load',function(){
+		var image = document.getElementById('idcard1');
+		image.src = this.result;
+		image.style.maxWidth = '500px';
+		image.style.maxHeight = '500px';
+	},false);
+}
+
+function fileChange1() {
+	var file = document.getElementById('myFile1').files[0];
+
+	var readFile = new FileReader();
+	readFile.readAsDataURL(file);
+	readFile.addEventListener('load',function(){
+		var image = document.getElementById('idcard2');
+		image.src = this.result;
+		image.style.maxWidth = '500px';
+		image.style.maxHeight = '500px';
+	},false);
+}
+
+function fileChange2() {
+	var file = document.getElementById('myFile2').files[0];
+
+	var readFile = new FileReader();
+	readFile.readAsDataURL(file);
+	readFile.addEventListener('load',function(){
+		var image = document.getElementById('license');
+		image.src = this.result;
+		image.style.maxWidth = '500px';
+		image.style.maxHeight = '500px';
+	},false);
+}
+window.addEventListener('load',doFirst,false);
+</script>
+
 </body>
 </html>

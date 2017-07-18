@@ -32,6 +32,9 @@ th,td{
 	height:20px;
 
 }
+td{
+	vertical-align: middle!important;
+}
 
 /*¦Û©w*/
 	 th, tr{

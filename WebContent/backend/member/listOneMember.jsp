@@ -56,6 +56,10 @@ MemberVO memVO = (MemberVO) request.getAttribute("memVO");
 	.btn-lg{
 		margin:5px;
 	}
+	
+	td{
+		vertical-align: middle!important;
+	}
 
 
 </style>
@@ -145,7 +149,7 @@ MemberVO memVO = (MemberVO) request.getAttribute("memVO");
 					<th>駕照</th>
 					<th>加入時間</th>
 					<th>認證狀態</th>
-					<th colspan="2" align="center">修改</th>
+					<th>修改</th>
 				</tr>
 		    </thead>
 		    <tbody>
@@ -178,9 +182,9 @@ MemberVO memVO = (MemberVO) request.getAttribute("memVO");
 					</td>							
 					<td><fmt:formatDate pattern = "yyyy/MM/dd" value = "${memVO.credate}" /></td>
 					<td>${memVO.status}</td>
-					<td class="text-center"><a class='btn btn-info btn-xs' 
+					<td class="text-center"><a class='btn btn-info btn-md' 
 					href="<%=request.getContextPath()%>/backend/member/member.do?addAction=modifyMember&action=getOne_For_Update&memno=${memVO.memno}">
-					<span class="glyphicon glyphicon-edit"></span> 修改</a></td>
+					<span class="glyphicon glyphicon-edit"></span>修改</a></td>
 				</tr>
 				</tbody>
 	    </table>
