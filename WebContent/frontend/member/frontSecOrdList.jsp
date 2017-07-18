@@ -74,9 +74,6 @@
 	</c:forEach>
 </table>
 <%@ include file="pages/page2.file" %>
-<br>本網頁的路徑:frrrrrrrrrront<br><b>
-   <font color=blue>request.getServletPath():</font> <%= request.getServletPath()%><br>
-   <font color=blue>request.getRequestURI(): </font> <%= request.getRequestURI()%> </b>
    </div>
 </body>
 

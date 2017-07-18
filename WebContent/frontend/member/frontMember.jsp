@@ -140,7 +140,7 @@ margin-top:10%;
 
 #mamberTable{
 	margin:0px;
-	background-color: #ccc!important;
+	background-color: #fff!important;
 	font-size:16px!important;
 	
 }
@@ -149,8 +149,12 @@ text-align: center!important;
 }
 
 td{
-	line-height:197px!important;
+	/* line-height:197px!important; */
+text-align:left!important;
+vertical-align: middle!important;
 }
+
+
 
 
 /****end 自已加的 ****/
@@ -223,12 +227,19 @@ td{
 	<!-- 租車主軸Header -->
 
 <%----------------------------------------------------VVVV building area VVVV-----------------------------------------------------------%>
-	
-	
-	
+<%
+	String addStatus = (String)request.getAttribute("addStatus");
+
+
+%>
 
 
 <div class="col-xs-12 col-sm-12" id="mamberDiv">
+		<c:if test="${memVO.status!='confirmed'}">
+			<div class="alert alert-warning">
+			  <strong>為了維護您的權益，請盡速填寫完整的會員資料並進行認證</strong>
+			</div>
+		</c:if>
     <table id="mamberTable" border="1" class="table table-striped table-inverse">
         <tr>
 			<th>會員編號</th>
@@ -245,7 +256,7 @@ td{
 			<th>認證狀態</th>
 			<th>編輯</th>
 		</tr>
-            <tr align='center' valign='middle'>
+            <tr>
 			<td>${memVO.memno}</td>
 			<td>${memVO.memname}</td>
 			<td>${memVO.sex}</td>
@@ -257,24 +268,27 @@ td{
 			<td>
 				<c:if test="${memVO.idcard1!=null}">
 				<img src='<%=request.getContextPath()%>
-				/backend/member/memReader.do?memno=${memVO.memno}&card=idcard1' width='200' height='180'>
+				/backend/member/memReader.do?memno=${memVO.memno}&card=idcard1' width='200' height='200'>
 				</c:if><c:if test="${memVO.idcard1==null}">沒有圖片</c:if>
 			</td>	
 			<td>
 				<c:if test="${memVO.idcard2!=null}">
 				<img src='<%=request.getContextPath()%>
-				/backend/member/memReader.do?memno=${memVO.memno}&card=idcard2'  width='200' height='180'>
+				/backend/member/memReader.do?memno=${memVO.memno}&card=idcard2'  width='200' height='200'>
 				</c:if><c:if test="${memVO.idcard2==null}">沒有圖片</c:if>
 			</td>				
 			<td>
 				<c:if test="${memVO.idcard2!=null}">
 				<img src='<%=request.getContextPath()%>
-				/backend/member/memReader.do?memno=${memVO.memno}&card=license' width='200' height='180'>
+				/backend/member/memReader.do?memno=${memVO.memno}&card=license' width='200' height='200'>
 				</c:if><c:if test="${memVO.license==null}">沒有圖片</c:if>
-			</td>						
-			<c:if test="${memVO.status=='confirmed'}"><td><font color=red><b>完整會員</b></font></td></c:if>
-			<c:if test="${memVO.status=='unconfirmed'}"><td><font color=red><b>簡易會員</b></font></td></c:if>
-			<td class="text-center"><a class='btn btn-info btn-xs' href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Update&memno=${memVO.memno}"><span class="glyphicon glyphicon-edit"></span> Edit</a></td>
+			</td>
+			<c:if test="${memVO.status=='uncompleted'}"><td><font color=red><b>簡易註冊</b></font></td></c:if>					
+			<c:if test="${memVO.status=='confirmed'}"><td><font color=red><b>完整認證</b></font></td></c:if>
+			<c:if test="${memVO.status=='unconfirmed'}"><td><font color=red><b>簡易認證</b></font></td></c:if>
+			<td class="text-center"><a class='btn btn-info btn-md' 
+			href="<%=request.getContextPath()%>/backend/member/member.do?addAction=frontMember&action=getOne_For_Update&memno=${memVO.memno}">
+			<span class="glyphicon glyphicon-edit"></span> Edit</a></td>
 
 		</tr>
     </table>
@@ -322,7 +336,7 @@ td{
 			     document.getElementById("demo").innerHTML=this.responseText;
 			    }
 			 };
-			  xhttp.open("GET","<%=request.getContextPath()%>/backend/member/member.do?addaction=backend&action=get_second_ord_per_member&memno=${memVO.memno}", true);
+			  xhttp.open("GET","<%=request.getContextPath()%>/backend/member/member.do?addaction=frontend&action=get_second_ord_per_member&memno=${memVO.memno}", true);
 			  xhttp.send();
 			}
 	 </script>

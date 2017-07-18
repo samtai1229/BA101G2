@@ -112,16 +112,10 @@ li{
 	font-size:16px;
 }
 
-.btn{
+/* .btn{
 	position:relative;
-	margin-top:2%;
-}
-
-.text_type{
-
-color: #000;
-}
-
+	margin-top:0%;
+} */
 
 body {
        background: url(/BA101G2/img/header1.jpg) no-repeat center center fixed; 
@@ -157,15 +151,19 @@ margin-top:5%;
 }
 td,th{
 text-align: center!important;
+padding:0px!important;
+line-height:51px!important;
 }
 
-td{
-	line-height:16px!important;
-}
+
 .paginate_button{
 	background-color: #fff!important;
 }
 
+.queryTag{
+    margin-top:13px!important; 
+    position:relative;
+}
 
 /****end 自已加的 ****/
 </style>
@@ -177,7 +175,7 @@ td{
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">     
 	<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
 	<script type="text/javascript" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-		<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.min.css" rel="stylesheet" />
+	<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.min.css" rel="stylesheet" />
 	<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.css" rel="stylesheet" />
 	<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" rel="stylesheet" />
 <title>我的租賃單資料</title>
@@ -254,8 +252,7 @@ td{
 		<th>車輛</th>
 		<th>取車據點</th>
 		<th>還車據點</th>
-		<th>起始里程</th>
-		<th>結束里程</th>
+		<th>下訂時間</th>
 		<th>開始時間</th>
 		<th>還車時間</th>
 		<th>租金</th>
@@ -274,17 +271,16 @@ td{
        						  onsubmit="window.open('about:blank','print_popup','width=1000,height=900');">
 							<input type="hidden" name="rentno" value="${roVO.rentno}">
 							<input type="hidden" name="action" value="query_for_member_frontend">
-							<input type="submit" class="btn btn-default" value="查詢">
+							<input type="submit" class="btn btn-default queryTag" value="查詢">
 						</form>	
 					</td>				
 					<td>${roVO.rentno}</td>
 					<td>${mmSvc.findByPK(roVO.motorVO.modtype).brand}&nbsp;${mmSvc.findByPK(roVO.motorVO.modtype).name}</td>
 					<td>${locSvc.getOneLocation(roVO.slocno).locname}</td>
 					<td>${locSvc.getOneLocation(roVO.rlocno).locname}</td>
-					<td>${roVO.milstart}</td>	
-					<td>${roVO.milend}</td>	
-					<td><fmt:formatDate pattern = "yyyy/MM/dd" value = "${roVO.startdate}" /></td>
-					<td><fmt:formatDate pattern = "yyyy/MM/dd" value = "${roVO.returndate}" /></td>				
+					<td><fmt:formatDate pattern = "yyyy/MM/dd hh:mm a" value = "${roVO.filldate}" /></td>	
+					<td><fmt:formatDate pattern = "yyyy/MM/dd hh:mm a" value = "${roVO.startdate}" /></td>
+					<td><fmt:formatDate pattern = "yyyy/MM/dd hh:mm a" value = "${roVO.returndate}" /></td>				
 					<td>${roVO.total}</td>
 					<td>${roVO.fine}</td>
 					<td>${roVO.rank}</td>
