@@ -2,19 +2,25 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.member.model.*"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="java.util.*"%>
+<%@ page import="com.adminis.model.*"%>
 <%
 	MemberVO memVO = (MemberVO) request.getAttribute("memVO"); //EmpServlet.java (Concroller), 存入req的empVO物件 (包括幫忙取出的empVO, 也包括輸入資料錯誤時的empVO物件)
-	String[] statusArray = {"uncompleted","confirmed","unconfirmed"};
+	String[] statusArray = {"uncompleted","confirmed","unconfirmed","verifing"};
 	String[] gender = {"Girl","Boy"};
 	pageContext.setAttribute("memVO", memVO);
     pageContext.setAttribute("statusArray", statusArray);
 	pageContext.setAttribute("gender", gender);
-%>
-<%@ page import="com.adminis.model.*"%>
-<%  
+ 
 	AdminisService as = new AdminisService();
 	AdminisVO adminisVO= (AdminisVO)session.getAttribute("adminisVO");
-%>
+
+	Map<String, String> statusMap = new HashMap<String, String>();
+	statusMap.put("uncompleted", "簡易註冊");
+	statusMap.put("unconfirmed", "還未認證");
+	statusMap.put("verifing", "等待認證");
+	statusMap.put("confirmed", "認證合格");					
+%>	
 <html>
 <style>
 .form-tag{
@@ -114,7 +120,7 @@ input[type="file"] {
         <button class="accordion accordionMenu">二手車管理系統</button>
         <div class="btn-group-vertical">
         <%if(adminisVO.getAuthno().equals("AC05") || adminisVO.getAuthno().equals("AC07")){%>
-            <a class="btn btn-default" href="#" role="button">二手車輛管理</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/second_order/SaleOnOff.jsp?who=${admins}" role="button">二手車輛管理</a>
             <a class="btn btn-default" href="#" role="button">二手車訂單管理</a>
             <a class="btn btn-default" href="#" role="button">二手車交易管理</a>
          <%} %>
@@ -128,20 +134,24 @@ input[type="file"] {
         <div class="btn-group-vertical">
         <%if(adminisVO.getAuthno().equals("AC06") || adminisVO.getAuthno().equals("AC07")){%>
             <a class="btn btn-default" href="#" role="button">推播管理</a>
-            <a class="btn btn-default" href="#" role="button">留言版管理</a>
-            <a class="btn btn-default" href="#" role="button">最新消息管理</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/mes_board/listAllMesBoard.jsp" role="button">留言版管理</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/news/news_select_page.jsp" role="button">最新消息管理</a>
          <%} %>
         </div>
         <button class="accordion accordionMenu">後端管理系統</button>
         <div class="btn-group-vertical">
         <%if(adminisVO.getAuthno().equals("AC04") || adminisVO.getAuthno().equals("AC07")){%>
-            <a class="btn btn-default" href="#" role="button">後端權限管理</a>
+            <a class="btn btn-default"  href="<%=request.getContextPath()%>/backend/adminis/adm_select_page.jsp" role="button">後端權限管理</a>
             <a class="btn btn-default" href="#" role="button">推薦景點管理</a>
             <a class="btn btn-default" href="#" role="button">後端登入管理</a>
          <%} %>
         </div>
         <div class="btn-group-vertical"></div>
     </div>
+    
+    
+    
+    
     <div class="col-xs-12 col-sm-10 rightHTML" id="demo">
 
 		<div class="topTitle">
@@ -173,7 +183,6 @@ input[type="file"] {
 						</div>
 					</div>
 					
-					
 					<div class="form-group col-xs-12 col-sm-12">
 						<label for="sex" class="col-xs-12 col-sm-4 control-label">
 							性別:
@@ -183,7 +192,6 @@ input[type="file"] {
 						value="${memVO.sex}" placeholder="文字" class="form-control" id="sex" style="width:100%" readonly/>
 						</div>
 					</div>
-					
 					
 					<div class="form-group col-xs-12 col-sm-12">
 						<label for="birth" class="col-xs-12 col-sm-4">
@@ -203,7 +211,6 @@ input[type="file"] {
 						</div>
 					</div>
 					
-					
 					<div class="form-group col-xs-12 col-sm-12">
 						<label for="mail" class="col-xs-12 col-sm-4">
 							信箱:
@@ -212,8 +219,6 @@ input[type="file"] {
 						<input type="email" name="mail"  class="form-control" style="width:100%"  value="<%=memVO.getMail()%>"/>
 						</div>
 					</div>
-					
-					
 					
 					<div class="form-group col-xs-12 col-sm-12">
 						<label for="phone" class="col-xs-12 col-sm-4">
@@ -224,8 +229,6 @@ input[type="file"] {
 						</div>
 					</div>
 					
-					
-					
 					<div class="form-group col-xs-12 col-sm-12">
 						<label for="address" class="col-xs-12 col-sm-4">
 							地址:
@@ -235,8 +238,6 @@ input[type="file"] {
 						</div>
 					</div>
 					
-					
-					
 					<div class="form-group col-xs-12 col-sm-12">
 						<label for="acc" class="col-xs-12 col-sm-4">
 							帳號:
@@ -245,7 +246,7 @@ input[type="file"] {
 							<input type="text" name="acc" class="form-control" style="width:100%" value="<%=memVO.getAcc()%>"/>
 						</div>
 					</div>
-					
+
 					<div class="form-group col-xs-12 col-sm-12">
 						<label for="status" class="col-xs-12 col-sm-4">
 							狀態:
@@ -253,14 +254,18 @@ input[type="file"] {
 						<div class="col-xs-12 col-sm-8">
 							<select name="status"  class="form-control" style="width:100%">
 								<c:forEach var="status_value" items="${statusArray}">
-									<option value="${status_value}" ${(memVO.status==status_value)? 'selected':''}>${status_value}</option>
+									<c:set scope="page" var="temp">
+									 	<c:out value="${status_value}"/>
+									</c:set>
+									<% 
+									  String key = String.valueOf(pageContext.getAttribute("temp"));
+									%>								
+									<option value="${status_value}" ${(memVO.status==status_value)? 'selected':''}><%=statusMap.get(key)%></option>
 								</c:forEach>
 							</select>
 						</div>
 					</div>
 				</div>
-			
-			
 			
 				<div class="col-xs-12 col-sm-3">
 					<label>身分證(正面):</label><label for="myFile" class="custom-file-upload">
