@@ -57,7 +57,6 @@ textarea{
         </ul>
     </nav>
     <div class="col-xs-12 col-sm-2 leftBar">
-     	
         <img id="menuLogo" src="<%=request.getContextPath()%>/backend/images/android_logo2.jpg">
         <button class="accordion accordionMenu accordion accordionMenuMenu">總部管理系統</button> 
         <div class="btn-group-vertical">
@@ -88,7 +87,7 @@ textarea{
         <button class="accordion accordionMenu">二手車管理系統</button>
         <div class="btn-group-vertical">
         <%if(adminisVO.getAuthno().equals("AC05") || adminisVO.getAuthno().equals("AC07")){%>
-            <a class="btn btn-default" href="#" role="button">二手車輛管理</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/second_order/SaleOnOff.jsp?who=${admins}" role="button">二手車輛管理</a>
             <a class="btn btn-default" href="#" role="button">二手車訂單管理</a>
             <a class="btn btn-default" href="#" role="button">二手車交易管理</a>
          <%} %>
@@ -102,20 +101,24 @@ textarea{
         <div class="btn-group-vertical">
         <%if(adminisVO.getAuthno().equals("AC06") || adminisVO.getAuthno().equals("AC07")){%>
             <a class="btn btn-default" href="#" role="button">推播管理</a>
-            <a class="btn btn-default" href="#" role="button">留言版管理</a>
-            <a class="btn btn-default" href="#" role="button">最新消息管理</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/mes_board/listAllMesBoard.jsp" role="button">留言版管理</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/news/news_select_page.jsp" role="button">最新消息管理</a>
          <%} %>
         </div>
         <button class="accordion accordionMenu">後端管理系統</button>
         <div class="btn-group-vertical">
         <%if(adminisVO.getAuthno().equals("AC04") || adminisVO.getAuthno().equals("AC07")){%>
-            <a class="btn btn-default" href="#" role="button">後端權限管理</a>
+            <a class="btn btn-default"  href="<%=request.getContextPath()%>/backend/adminis/adm_select_page.jsp" role="button">後端權限管理</a>
             <a class="btn btn-default" href="#" role="button">推薦景點管理</a>
             <a class="btn btn-default" href="#" role="button">後端登入管理</a>
          <%} %>
         </div>
         <div class="btn-group-vertical"></div>
     </div>
+    
+    
+    
+    
     <div class="col-xs-12 col-sm-10 rightHTML">
 
 		<div class="topTitle">

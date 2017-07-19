@@ -20,7 +20,6 @@ MemberVO memVO = (MemberVO) request.getAttribute("memVO");
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
-
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>	
@@ -32,8 +31,6 @@ MemberVO memVO = (MemberVO) request.getAttribute("memVO");
 
    <title>會員管理-AutoBike</title>
 </head>
-<title>會員資料 - listOneMember.jsp</title>
-
 <style type="text/css">
 
 .custab{
@@ -80,21 +77,28 @@ MemberVO memVO = (MemberVO) request.getAttribute("memVO");
         <ul class="nav navbar-nav navbar-right">
         </ul>
     </nav>
+    
+    
+    
     <div class="col-xs-12 col-sm-2 leftBar">
+     	
         <img id="menuLogo" src="<%=request.getContextPath()%>/backend/images/android_logo2.jpg">
-        <button class="accordion accordionMenu accordion accordionMenuMenu">總部管理系統</button>
+        <button class="accordion accordionMenu accordion accordionMenuMenu">總部管理系統</button> 
         <div class="btn-group-vertical">
-                
+         <%if(adminisVO.getAuthno().equals("AC01") || adminisVO.getAuthno().equals("AC07")){%>     
             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/motor/backendMotor.jsp"  role="button">車輛資料管理</a>
             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/motor_model/backendMotorModel.jsp"  role="button">車輛型號管理</a>           
-            <a class="btn btn-default" href="#" role="button">車輛調度</a>            
+            <a class="btn btn-default" href="#" role="button">車輛調度</a>
 			<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/backendRentOrd.jsp" role="button">租賃單管理</a>
             <a class="btn btn-default" href="#" role="button">裝備管理</a>
             <a class="btn btn-default" href="#" role="button">裝備調度</a>
             <a class="btn btn-default" href="#" role="button">據點管理</a>
+         <%} %>  
         </div>
+       
         <button class="accordion accordionMenu">據點管理系統</button>
         <div class="btn-group-vertical">
+        <%if(adminisVO.getAuthno().equals("AC02") || adminisVO.getAuthno().equals("AC07")){%> 
             <a class="btn btn-default" href="#" role="button">據點車輛管理</a>
             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/lease.jsp"  role="button">交車管理</a>
           	<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/return.jsp"  role="button">還車管理</a>
@@ -102,32 +106,44 @@ MemberVO memVO = (MemberVO) request.getAttribute("memVO");
             <a class="btn btn-default" href="#" role="button">車輛保養/維修管理</a>
             <a class="btn btn-default" href="#" role="button">據點裝備管理</a>
             <a class="btn btn-default" href="#" role="button">裝備申請</a>
+         <%} %>
         </div>
+         
         <button class="accordion accordionMenu">二手車管理系統</button>
         <div class="btn-group-vertical">
-            <a class="btn btn-default" href="#" role="button">二手車輛管理</a>
+        <%if(adminisVO.getAuthno().equals("AC05") || adminisVO.getAuthno().equals("AC07")){%>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/second_order/SaleOnOff.jsp?who=${admins}" role="button">二手車輛管理</a>
             <a class="btn btn-default" href="#" role="button">二手車訂單管理</a>
             <a class="btn btn-default" href="#" role="button">二手車交易管理</a>
+         <%} %>
         </div>
-        <button class="accordion accordionMenu">會員管理系統</button>
+       <button class="accordion accordionMenu">會員管理系統</button>
         <div class="btn-group-vertical">
             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/member/backendMember.jsp" role="button">會員管理</a>
             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/member/addMember.jsp" role="button">新增會員</a>
         </div>
         <button class="accordion accordionMenu">活動企劃管理系統</button>
         <div class="btn-group-vertical">
+        <%if(adminisVO.getAuthno().equals("AC06") || adminisVO.getAuthno().equals("AC07")){%>
             <a class="btn btn-default" href="#" role="button">推播管理</a>
-            <a class="btn btn-default" href="#" role="button">留言版管理</a>
-            <a class="btn btn-default" href="#" role="button">最新消息管理</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/mes_board/listAllMesBoard.jsp" role="button">留言版管理</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/news/news_select_page.jsp" role="button">最新消息管理</a>
+         <%} %>
         </div>
         <button class="accordion accordionMenu">後端管理系統</button>
         <div class="btn-group-vertical">
-            <a class="btn btn-default" href="#" role="button">後端權限管理</a>
+        <%if(adminisVO.getAuthno().equals("AC04") || adminisVO.getAuthno().equals("AC07")){%>
+            <a class="btn btn-default"  href="<%=request.getContextPath()%>/backend/adminis/adm_select_page.jsp" role="button">後端權限管理</a>
             <a class="btn btn-default" href="#" role="button">推薦景點管理</a>
             <a class="btn btn-default" href="#" role="button">後端登入管理</a>
+         <%} %>
         </div>
         <div class="btn-group-vertical"></div>
     </div>
+    
+    
+    
+    
     <div class="col-xs-12 col-sm-10 rightHTML">
     	<div class="topTitle">
             <h1>會員資料管理系統</h1>
@@ -136,6 +152,8 @@ MemberVO memVO = (MemberVO) request.getAttribute("memVO");
 	    <table border="1" class="table table-striped custab stripe hover">
 		    <thead>
 		        <tr>
+		        	<th>修改</th>
+		        	<th>認證狀態</th>
 					<th>會員編號</th>
 					<th>會員名稱</th>
 					<th>性別 </th>
@@ -148,12 +166,36 @@ MemberVO memVO = (MemberVO) request.getAttribute("memVO");
 					<th>身分證反面</th>
 					<th>駕照</th>
 					<th>加入時間</th>
-					<th>認證狀態</th>
-					<th>修改</th>
 				</tr>
 		    </thead>
 		    <tbody>
 		            <tr align='center' valign='middle'>
+		            <td class="text-center"><a class='btn btn-info btn-md' 
+						href="<%=request.getContextPath()%>/backend/member/member.do?addAction=modifyMember&action=getOne_For_Update&memno=${memVO.memno}">
+						<span class="glyphicon glyphicon-edit"></span>修改</a>
+					</td>
+					
+					
+				<% 
+					Map<String, String> statusMap = new HashMap<String, String>();
+					statusMap.put("uncompleted", "簡易註冊");
+					statusMap.put("unconfirmed", "還未認證");
+					statusMap.put("verifing", "等待認證");
+					statusMap.put("confirmed", "認證合格");					
+				%>	
+					<c:set scope="page" var="temp">
+					 	<c:out value="${memVO.status}"/>
+					</c:set>
+				<% 
+				  String key = String.valueOf(pageContext.getAttribute("temp"));
+				  if(statusMap.containsKey(key)){
+					  if("verifing".equals(key)){;%>
+					<td style="color:red"><%=statusMap.get(key)%></td>
+					<%}else{;%>
+					<td><%=statusMap.get(key)%></td>
+					<%}};
+				%>						
+					
 					<td>${memVO.memno}</td>
 					<td>${memVO.memname}</td>
 					<td>${memVO.sex}</td>
@@ -181,10 +223,6 @@ MemberVO memVO = (MemberVO) request.getAttribute("memVO");
 						</c:if><c:if test="${memVO.license==null}">沒有圖片</c:if>
 					</td>							
 					<td><fmt:formatDate pattern = "yyyy/MM/dd" value = "${memVO.credate}" /></td>
-					<td>${memVO.status}</td>
-					<td class="text-center"><a class='btn btn-info btn-md' 
-					href="<%=request.getContextPath()%>/backend/member/member.do?addAction=modifyMember&action=getOne_For_Update&memno=${memVO.memno}">
-					<span class="glyphicon glyphicon-edit"></span>修改</a></td>
 				</tr>
 				</tbody>
 	    </table>
@@ -204,12 +242,11 @@ MemberVO memVO = (MemberVO) request.getAttribute("memVO");
 		</form>
 
 
-<div id="demo"></div>
-<div id="demo2"></div>
+	<div id="demo"></div>
+	<div id="demo2"></div>
 		</div>
-</div>	
+	</div>	
 
-</body>
 <script type="text/javascript">
  function loadDoc() {
     var xhttp = new XMLHttpRequest();
