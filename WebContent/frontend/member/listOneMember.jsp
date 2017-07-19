@@ -61,7 +61,6 @@
 		<th style="text-align:center">地址</th>
 		<th style="text-align:center">帳號</th>
 		<th style="text-align:center">身分證正面</th>
-		<!-- <th>影片</th> -->
 		<th style="text-align:center">身分證反面</th>
 		<th style="text-align:center">駕照</th>
 		<th style="text-align:center">認證狀態</th>
@@ -80,29 +79,11 @@
 			<td>${memVO.addr}</td>	
 			<td>${memVO.acc}</td>
 <!-- 正面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard1' width='200' height='180'></td>	
-<!-- 影片 --><!-- <td><video src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard1' width='200' height='180' controls></video></td> -->				
 <!-- 反面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard2'  width='200' height='180'></td>				
 <!-- 駕照 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=license'  width='200' height='180'></td>							
 			<c:if test="${memVO.status=='confirmed'}"><td><font color=red><b>完整會員</b></font></td></c:if>
 			<c:if test="${memVO.status=='unconfirmed'}"><td><font color=red><b>簡易會員</b></font></td></c:if>
 			<td class="text-center"><a class='btn btn-info btn-xs' href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Update&memno=${memVO.memno}"><span class="glyphicon glyphicon-edit"></span> Edit</a></td>
-	
-
-
-<!-- 			<td> -->
-<%-- 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/backend/member/member.do"> --%>
-<!-- 			     <input type="submit" value="修改">  -->
-<%-- 			     <input type="hidden" name="memno" value="${memVO.memno}"> --%>
-<%-- 			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--><!-- 目前尚未用到  --> --%>
-<!-- 			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM> -->
-<!-- 			</td> -->
-<!-- 			<td> -->
-<%-- 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/backend/member/member.do"> --%>
-<!-- 			    <input type="submit" value="刪除"> -->
-<%-- 			    <input type="hidden" name="memno" value="${memVO.memno}"> --%>
-<%-- 			    <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--> --%>
-<!-- 			    <input type="hidden" name="action"value="delete"></FORM> -->
-<!-- 			</td> -->
 		</tr>
     </table>
    </div>

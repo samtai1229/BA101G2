@@ -53,17 +53,6 @@
 	</tr>
 </table>
 </div>
-<%-- 錯誤表列 --%>
-<%-- <c:if test="${not empty errorMsgs}"> --%>
-<!-- 	<font color='red'>請修正以下錯誤: -->
-<!-- 	<ul> -->
-<%-- 		<c:forEach var="message" items="${errorMsgs}"> --%>
-<%-- 			<li>${message}</li> --%>
-<%-- 		</c:forEach> --%>
-<!-- 	</ul> -->
-<!-- 	</font> -->
-<%-- </c:if> --%>
-<%-- <%@ include file="pages/page1.file" %>  --%>
 <div  class="col-xs-12 col-sm-12">
 <table border='1'  bordercolor='#CCCCFF' class="table table-striped">
 	
