@@ -49,14 +49,15 @@
         <form method="post" action="<%=request.getContextPath()%>/admin.do?action=logout">
         <input type="submit" value="登出" >
 <!--           <input type="hidden" name="action1" value="logout" > -->
+		<b><%= adminisVO.getName() %></b>
        </form>
-       <b><%= adminisVO.getName() %></b>
+       
     </nav>
  <%--保留寫法     href="<%=request.getContextPath()%>/backend/backendRentOrd.jsp"  --%>
 <!------------------------------- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
     <div class="col-xs-12 col-sm-2 leftBar">
      	
-        <img id="menuLogo" src="images/logo.jpg">
+        <img id="menuLogo" src="<%=request.getContextPath()%>/backend/images/android_logo2.jpg">
         <button class="accordion accordionMenu accordion accordionMenuMenu">總部管理系統</button> 
         <div class="btn-group-vertical">
          <%if(adminisVO.getAuthno().equals("AC01") || adminisVO.getAuthno().equals("AC07")){%>     
