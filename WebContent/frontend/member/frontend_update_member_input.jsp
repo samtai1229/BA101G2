@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.member.model.*"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="java.util.*"%>
 <%
 	MemberVO memVO = (MemberVO) request.getAttribute("memVO"); //EmpServlet.java (Concroller), 存入req的empVO物件 (包括幫忙取出的empVO, 也包括輸入資料錯誤時的empVO物件)
 	String[] statusArray = {"uncompleted","confirmed","unconfirmed"};
@@ -28,19 +29,26 @@ margin-top:10px;
 label{
   text-align:right;
 }
+
+.alert {
+    padding: 20px;
+    background-color: #f44336; /* Red */
+    color: white;
+    margin-bottom: 15px;
+}
+
 </style>
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
-	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>  	
-	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/daterangepicker.css" />
 	<link href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 	<link href="<%=request.getContextPath()%>/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 	<link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css' />
 	<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.min.css" rel="stylesheet" />
 	<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.css" rel="stylesheet" />
 	<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" rel="stylesheet" />
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<title>會員資料修改</title>
 </head>
 
@@ -173,6 +181,22 @@ input[type="file"] {
 
 }
 
+.radioBgTag{
+	background-color:#fff;
+	vertical-align: middle!important;
+	height: 34px;
+     width: 247px; 
+    margin-left: 15px;
+    padding: 6px 12px;
+    font-size: 16px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
 </style>
 
 
@@ -209,9 +233,9 @@ input[type="file"] {
 					<li><a href="<%=request.getContextPath()%>/backend/member/member.do">
 					<i class="fa fa-shopping-cart"></i>二手車購買</a></li>
 					<c:if test="${not empty memno}">
-						<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">歡迎，${memname}</a></li>
+						<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">歡迎，${(memname == null) ? '會員':memname}</a></li>
 						<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout" data-toggle="modal">
-						<i class="glyphicon glyphicon-user"></i>登出</a>
+							<i class="glyphicon glyphicon-user"></i>登出</a>
 						</li>
 					</c:if>
 				</ul>
@@ -243,23 +267,36 @@ input[type="file"] {
 					</div>
 				</div>
 				
-				<div class="form-group col-xs-12 col-sm-12 bgTag">
-					<label for="sex" class="col-xs-12 col-sm-4 control-label">
-						<mark>性別:</mark>
-					</label>
-					<div class="col-xs-12 col-sm-8">
-					<input type="text" name="sex" 
-					value="${memVO.sex}" placeholder="文字" class="form-control" id="sex" style="width:100%" readonly/>
+				<c:if test="${memVO.sex !=null}">
+					<div class="form-group col-xs-12 col-sm-12 bgTag">
+						<label for="sex" class="col-xs-12 col-sm-4 control-label">
+							<mark>性別:</mark>
+						</label>
+						<div class="col-xs-12 col-sm-8">
+							<input type="text" name="sex" 
+							value="${memVO.sex}" placeholder="文字" class="form-control" id="sex" style="width:100%" readonly/>
+						</div>
 					</div>
-				</div>
+				</c:if>
+				<c:if test="${memVO.sex ==null}">
+					<div class="form-group col-xs-12 col-sm-12 bgTag">
+						<label for="sex" class="col-xs-12 col-sm-4 control-label">
+							<mark>性別:</mark>
+						</label>
+						<div class="col-xs-12 col-sm-8 radioBgTag">
+							<label class="radio-inline "><input type="radio" name="sex" id="male" value="male"/>男</label>
+							<label class="radio-inline"><input type="radio" name="sex" id="female" value="female">女</label>
+						</div>
+					</div>
+				</c:if>				
 				
  				<div class="form-group col-xs-12 col-sm-12 bgTag">
 					<label for="birth" class="col-xs-12 col-sm-4">
 						<mark>生日:</mark>
 					</label>
 					<div class="col-xs-12 col-sm-8">
-						<input type="text" name="birth"  class="form-control" style="width:100%"  
-						value="<fmt:formatDate pattern = "yyyy/MM/dd" value ="${memVO.birth}" />" disabled/>
+						<input type="text" name="birth" id="birth"  class="form-control" style="width:100%"  
+						value="<fmt:formatDate pattern = "yyyy/MM/dd" value ="${memVO.birth}"/>" readonly/>
 					</div>
 				</div>		
 												 
@@ -279,7 +316,7 @@ input[type="file"] {
 						<mark>信箱:</mark>
 					</label>
 					<div class="col-xs-12 col-sm-8">
-					<input type="email" name="mail"  class="form-control" style="width:100%"  value="<%=memVO.getMail()%>"/>
+					<input type="email" name="mail"  class="form-control" style="width:100%"  value="${memVO.mail}"/>
 					</div>
 				</div>
 				
@@ -288,7 +325,7 @@ input[type="file"] {
 						<mark>電話:</mark>
 					</label>
 					<div class="col-xs-12 col-sm-8">
-						<input type="tel" name="phone"  class="form-control"  style="width:100%"  value="<%=memVO.getPhone()%>"/>
+						<input type="tel" name="phone"  class="form-control"  style="width:100%"  value="${memVO.phone}" maxlength="10"/>
 					</div>
 				</div>
 				
@@ -297,7 +334,7 @@ input[type="file"] {
 						<mark id="addressMark">地址:</mark>
 					</label>
 					<div class="col-xs-12 col-sm-8">
-					<textarea rows="4" name="address" class="form-control" style="width:100%" maxlength="95"><%=memVO.getAddr()%></textarea>
+					<textarea rows="4" name="address" class="form-control" style="width:100%" maxlength="60">${memVO.addr}</textarea>
 					</div>
 				</div>
 				
@@ -306,16 +343,51 @@ input[type="file"] {
 						<mark>帳號:</mark>
 					</label>
 					<div class="col-xs-12 col-sm-8">
-						<input type="text" name="acc" class="form-control" style="width:100%" value="<%=memVO.getAcc()%>"/>
+						<input type="text" name="acc" class="form-control" style="width:100%" value="${memVO.acc}"/>
 					</div>
 				</div>
+				
+				<div class="form-group col-xs-12 col-sm-12">
+					<label for="acc" class="col-xs-12 col-sm-4">
+						<mark>密碼:</mark>
+					</label>
+					<div class="col-xs-12 col-sm-8">
+						<input type="password" name="pwd" id="pwd" class="form-control" style="width:100%" value="${memVO.pwd}"/>
+					</div>
+				</div>
+				
+				<div class="form-group col-xs-12 col-sm-12">
+					<label for="acc" class="col-xs-12 col-sm-4">
+						<mark>重填密碼:</mark>
+					</label>
+					<div class="col-xs-12 col-sm-8">
+						<input type="password" name="pwd2" id="pwd2" class="form-control" style="width:100%" value=""/>
+					</div>
+				</div>								
 				
 				<div class="form-group col-xs-12 col-sm-12">
 					<label for="status" class="col-xs-12 col-sm-4">
 						<mark>狀態:</mark>
 					</label>
 					<div class="col-xs-12 col-sm-8">
-						<input type="text" name="status" class="form-control" style="width:100%" value="${memVO.status}" readonly/>
+				<%
+					Map<String, String> statusMap = new HashMap<String, String>();
+					statusMap.put("uncompleted", "簡易註冊");
+					statusMap.put("unconfirmed", "還未認證");
+					statusMap.put("verifing", "等待認證");
+					statusMap.put("confirmed", "認證合格");	
+				%>	
+					<c:set scope="page" var="temp">
+						<c:out value="${memVO.status}"/>
+					</c:set>
+				<% 
+					String key = String.valueOf(pageContext.getAttribute("temp"));
+					if(statusMap.containsKey(key)){
+				%>
+				
+						<input type="text" name="statusShow" class="form-control" style="width:100%" value="<%=statusMap.get(key)%>" readonly/>
+						<input type="hidden" name="status" value="${memVO.status}">
+			<%};%>			
 					</div>
 				</div>
 			</div>
@@ -350,16 +422,30 @@ input[type="file"] {
 			<input type="hidden" name="credate" value="<fmt:formatDate value="${memVO.credate}" pattern='yyyy-MM-dd HH:mm:ss'/>">
 			<div class="col-xs-12 col-sm-12">
 				<p class="text-center">
-					<button type="submit" class="btn btn-success btn-lg">
+					<button type="submit" onClick="return check()" class="btn btn-success btn-lg">
 						<i class="glyphicon glyphicon-ok"></i>送出修改
 					</button>
-					<a onclick="history.back()" class="btn btn-danger btn-lg">
+					<c:if test="${memVO.status=='unconfirmed'||memVO.status=='uncompleted'}">
+						<button type="button" onclick="changeStatus(); this.disabled=true;"
+						class="btn btn-info btn-lg" id="sendConfirm">
+							<i class="glyphicon glyphicon-ok"></i>送出認證請求
+						</button>					
+					</c:if>
+					<c:if test="${memVO.status =='verifing'}">
+						<button type="submit" class="btn btn-info btn-lg" disabled>
+							<i class="glyphicon glyphicon-ok"></i>認證中
+						</button>					
+					</c:if>					
+					<a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memno=${memno}"
+					 class="btn btn-danger btn-lg">
 						<i class="glyphicon glyphicon-arrow-up"></i>返回上頁
 					</a>
 				</p>
 			</div>
 		</FORM>
 	</div>
+	
+  
 	
 		<%----------------------------------------------------^^^^ building area ^^^^-----------------------------------------------------------%>		
 
@@ -377,57 +463,110 @@ input[type="file"] {
 		</div>
 	</footer>
 	
-	
-	<script src="https://code.jquery.com/jquery.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/agency.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 <script>
-function doFirst(){
-	document.getElementById('myFile').onchange = fileChange;
-	document.getElementById('myFile1').onchange = fileChange1;
-	document.getElementById('myFile2').onchange = fileChange2;
-}
-function fileChange() {
-	var file = document.getElementById('myFile').files[0];
 
-	var readFile = new FileReader();
-	readFile.readAsDataURL(file);
-	readFile.addEventListener('load',function(){
-		var image = document.getElementById('idcard1');
-		image.src = this.result;
-		image.style.maxWidth = '500px';
-		image.style.maxHeight = '500px';
-	},false);
-}
+	function loadDoc() {
+	    var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		     document.getElementById("demo").innerHTML=this.responseText;
+		    }
+		 };
+		  xhttp.open("GET","<%=request.getContextPath()%>/backend/member/member.do?addaction=frontend&action=get_second_ord_per_member&memno=${memVO.memno}", true);
+		  xhttp.send();
+	}
 
-function fileChange1() {
-	var file = document.getElementById('myFile1').files[0];
+	function check(){
+		var p1 = document.getElementById('pwd').value; 
+		var p2 = document.getElementById('pwd2').value;
+		alert("已更新");
+		
+		if(p1!='${memVO.pwd}'||p2.trim().length!=0){
+			if ( p1 == p2 ) { 
+				if ( p1.length > 6 && p2.length > 6 ){
+					alert("密碼更新成功!");
+					return true;
+				}else{
+					alert("密碼設定至少 7 碼以上"); return false;
+				}
+			}else{
+				alert("兩組密碼不一致，請重新輸入密碼");
+				return false;
+			}
+		}
+	}
 
-	var readFile = new FileReader();
-	readFile.readAsDataURL(file);
-	readFile.addEventListener('load',function(){
-		var image = document.getElementById('idcard2');
-		image.src = this.result;
-		image.style.maxWidth = '500px';
-		image.style.maxHeight = '500px';
-	},false);
-}
+	function changeStatus() {
+   var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+	if (this.readyState == 4 && this.status == 200) {
+	     //document.getElementById("sendConfirm").innerHTML=this.responseText;
+	    }
+	 };
+	  xhttp.open("GET","<%=request.getContextPath()%>/backend/member/member.do?action=change_status&status=verifing&memno=${memVO.memno}", true);
+	  xhttp.send();
+	}
 
-function fileChange2() {
-	var file = document.getElementById('myFile2').files[0];
+	function doFirst(){
+		document.getElementById('myFile').onchange = fileChange;
+		document.getElementById('myFile1').onchange = fileChange1;
+		document.getElementById('myFile2').onchange = fileChange2;
+	}
+	function fileChange() {
+		var file = document.getElementById('myFile').files[0];
+	
+		var readFile = new FileReader();
+		readFile.readAsDataURL(file);
+		readFile.addEventListener('load',function(){
+			var image = document.getElementById('idcard1');
+			image.src = this.result;
+			image.style.maxWidth = '500px';
+			image.style.maxHeight = '500px';
+		},false);
+	}
 
-	var readFile = new FileReader();
-	readFile.readAsDataURL(file);
-	readFile.addEventListener('load',function(){
-		var image = document.getElementById('license');
-		image.src = this.result;
-		image.style.maxWidth = '500px';
-		image.style.maxHeight = '500px';
-	},false);
-}
+	function fileChange1() {
+		var file = document.getElementById('myFile1').files[0];
+	
+		var readFile = new FileReader();
+		readFile.readAsDataURL(file);
+		readFile.addEventListener('load',function(){
+			var image = document.getElementById('idcard2');
+			image.src = this.result;
+			image.style.maxWidth = '500px';
+			image.style.maxHeight = '500px';
+		},false);
+	}
+	
+	function fileChange2() {
+		var file = document.getElementById('myFile2').files[0];
+	
+		var readFile = new FileReader();
+		readFile.readAsDataURL(file);
+		readFile.addEventListener('load',function(){
+			var image = document.getElementById('license');
+			image.src = this.result;
+			image.style.maxWidth = '500px';
+			image.style.maxHeight = '500px';
+		},false);
+	}
+	
+	  $( function() {
+		    $( "#birth" ).datepicker({
+		    	dateFormat: 'yy/mm/dd',
+		      changeMonth: true,
+		      changeYear: true,
+		      defaultDate:"1984/01/01",
+		      yearRange: "1930:1999"
+		    });
+		  } );
+	
 window.addEventListener('load',doFirst,false);
 </script>
 </html>
