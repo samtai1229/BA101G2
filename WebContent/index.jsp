@@ -11,7 +11,7 @@
 	NewsService newSvc = new NewsService();
 	List<NewsVO> listnormal = newSvc.getAllnormal();
 	List<NewsVO> newslist = newSvc.getAll();
-	List<LocationVO> list = locSvc.getAll();
+	List<LocationVO> list = locSvc.getAllStatusOpen();
 	String memno = (String)session.getAttribute("memno");
 	String memname = (String)session.getAttribute("memname");
 	String error = (String)request.getAttribute("error");
@@ -24,6 +24,7 @@
 	pageContext.setAttribute("error", error);
 	pageContext.setAttribute("listnormal",listnormal);
 	
+	pageContext.setAttribute("listsize",list.size());
 %>
 
 <!DOCTYPE html>
@@ -426,39 +427,96 @@
 		</div>
 	</section>
 	<aside id="loc">
-		<div class="container-fluid bg-light-gray">
-		 
-			<div class="row">
-				<br />
-				<div class="col-xs-12 col-sm-12 text-center">
-					<h2>我們的據點</h2>
-					<h3
-							style="color: blue" class="section-subheading"><a href="<%=request.getContextPath()%>/frontend/location/location.jsp" id="general">
-							See More
-							</a></h3>
-				</div>
-			</div>
-		   	
-			<div class="row">
-			 <c:forEach var="locVO" items="${list}" >
-				<div class="col-xs-12 col-sm-2">
-					<div class="team-member">
-						<a href="<%=request.getContextPath()%>/frontend/location/location.jsp"> <img src='<%=request.getContextPath()%>/frontend/location/locReader.do?locno=${locVO.locno}'
-							class="img-responsive img-circle" alt="" /></a>
-						<h4>${locVO.locname}</h4>
-						<h5>address :${locVO.addr} phone :${locVO.tel}</h5>
-					</div>
-				</div>
-			</c:forEach>
-			</div>
-			
-		</div>
-		<!-- <div class="row">
+  <div class="container-fluid bg-light-gray">
+   
+   <div class="row">
+    <br />
+    <div class="col-xs-12 col-sm-12 text-center">
+     <h2>我們的據點</h2>
+     <h3
+       style="color: blue" class="section-subheading"><a href="<%=request.getContextPath()%>/frontend/location/location.jsp" id="general">
+       See More
+       </a></h3>
+    </div>
+   </div>
+      
+   <div class="row">
+    <c:forEach var="locVO" items="${list}" >
+     <c:if test="${listsize==2}">
+     <div class="col-xs-12 col-sm-6">
+      <div class="team-member">
+       <a href="<%=request.getContextPath()%>/backend/location/location.do?action=marker&locno=${locVO.locno}&lon=${locVO.lon}&lat=${locVO.lat}"> <img src='<%=request.getContextPath()%>/frontend/location/locReader.do?locno=${locVO.locno}'
+        class="img-responsive img-circle" alt="" /></a>
+       <h4>${locVO.locname}</h4>
+       <h5>address :${locVO.addr} phone :${locVO.tel}</h5>
+      </div>
+     </div>
+    </c:if>
+    
+    <c:if test="${listsize==3}">
+     <div class="col-xs-12 col-sm-4">
+      <div class="team-member">
+       <a href="<%=request.getContextPath()%>/backend/location/location.do?action=marker&locno=${locVO.locno}&lon=${locVO.lon}&lat=${locVO.lat}"> <img src='<%=request.getContextPath()%>/frontend/location/locReader.do?locno=${locVO.locno}'
+        class="img-responsive img-circle" alt="" /></a>
+       <h4>${locVO.locname}</h4>
+       <h5>address :${locVO.addr} phone :${locVO.tel}</h5>
+      </div>
+     </div>
+    </c:if>
+    
+    <c:if test="${listsize==4}">
+     <div class="col-xs-12 col-sm-3">
+      <div class="team-member">
+       <a href="<%=request.getContextPath()%>/backend/location/location.do?action=marker&locno=${locVO.locno}&lon=${locVO.lon}&lat=${locVO.lat}"> <img src='<%=request.getContextPath()%>/frontend/location/locReader.do?locno=${locVO.locno}'
+        class="img-responsive img-circle" alt="" /></a>
+       <h4>${locVO.locname}</h4>
+       <h5>address :${locVO.addr} phone :${locVO.tel}</h5>
+      </div>
+     </div>
+    </c:if>
+    
+    <c:if test="${listsize==5}">
+    <div class="col-xs-12 col-sm-2 col-sm-offset-1">
+     <div class="team-member">
+      <a href="<%=request.getContextPath()%>/backend/location/location.do?action=marker&locno=${locVO.locno}&lon=${locVO.lon}&lat=${locVO.lat}"> <img src='<%=request.getContextPath()%>/frontend/location/locReader.do?locno=${locVO.locno}'
+       class="img-responsive img-circle" alt="" /></a>
+      <h4>${locVO.locname}</h4>
+      <h5>address :${locVO.addr} phone :${locVO.tel}</h5>
+     </div>
+    </div>
+    </c:if>
+    
+    <c:if test="${listsize==6}">
+    <div class="col-xs-12 col-sm-2">
+     <div class="team-member">
+      <a href="<%=request.getContextPath()%>/backend/location/location.do?action=marker&locno=${locVO.locno}&lon=${locVO.lon}&lat=${locVO.lat}"> <img src='<%=request.getContextPath()%>/frontend/location/locReader.do?locno=${locVO.locno}'
+       class="img-responsive img-circle" alt="" /></a>
+      <h4>${locVO.locname}</h4>
+      <h5>address :${locVO.addr} phone :${locVO.tel}</h5>
+     </div>
+    </div>
+    </c:if>
+    <c:if test="${listsize>6}">
+    <div class="col-xs-12 col-sm-1">
+     <div class="team-member">
+      <a href="<%=request.getContextPath()%>/backend/location/location.do?action=marker&locno=${locVO.locno}&lon=${locVO.lon}&lat=${locVO.lat}"> <img src='<%=request.getContextPath()%>/frontend/location/locReader.do?locno=${locVO.locno}'
+       class="img-responsive img-circle" alt="" /></a>
+      <h4>${locVO.locname}</h4>
+      <h5>address :${locVO.addr} phone :${locVO.tel}</h5>
+     </div>
+    </div>
+    </c:if>
+    
+   </c:forEach>
+   </div>
+   
+  </div>
+  <!-- <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 text-center">
                     <p class="large text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
                 </div>-->
-		
-	</aside>
+  
+ </aside>
 	<footer>
 		<div class="col-xs-12 col-sm-12">
 			<span>聯絡資訊</span>

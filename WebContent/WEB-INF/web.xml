@@ -215,5 +215,13 @@
     <url-pattern>/backend/SaleOnOff.do</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>LocationServlet</servlet-name>
+    <servlet-class>com.location.controller.LocationServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LocationServlet</servlet-name>
+    <url-pattern>/backend/location/location.do</url-pattern>
+  </servlet-mapping>
   
 </web-app>
