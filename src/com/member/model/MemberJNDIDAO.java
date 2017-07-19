@@ -383,5 +383,11 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 			return null;
 		}
 
+		@Override
+		public void updateStatus(String memno, String status) {
+			// TODO Auto-generated method stub
+			
+		}
+
 	
 }
