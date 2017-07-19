@@ -15,8 +15,7 @@
 	String memno = (String)session.getAttribute("memno");
 	String memname = (String)session.getAttribute("memname");
 	String error = (String)request.getAttribute("error");
-	System.out.println(memno);
-	System.out.println(memname);
+	System.out.println("index.jsp-Session memno:"+memno+", memename: "+memname);
 	pageContext.setAttribute("list",list);
 	pageContext.setAttribute("memno",memno);
 	pageContext.setAttribute("memname",memname);
@@ -206,7 +205,7 @@
               						</li>
               						
               						<c:if test="${not empty memno}">	
-              						<li><a href="#">歡迎，${memname}</a></li>		
+              						<li><a href="#">歡迎，${(memname == null) ? '會員':memname}</a></li>	
               							<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}"><b>會員專區</b></a></li>
               									<li>
               										<a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout"
@@ -433,7 +432,7 @@
 				<div class="col-xs-12 col-sm-12 text-center">
 					<h2>我們的據點</h2>
 					<h3
-							style="color: blue" class="section-subheading"><a href="<%=request.getContextPath()%>/frontend/location/location.jsp" id="general">
+							style="color: blue" class="section-subheading"><a href="leave_message_Page.html" id="general">
 							See More
 							</a></h3>
 				</div>
