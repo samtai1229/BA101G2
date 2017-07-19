@@ -11,6 +11,6 @@ public interface MemberDAO_interface {
 	MemberVO findByPrimaryKeyByAccAndPwd(String acc, String pwd);
 	public MemberVO findByAcc(String acc);
 	MemberVO findByPrimaryKeyById(String memid);
-
+	public void updateStatus(String memno, String status);
 
 }

@@ -47,11 +47,45 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 	
 	private static final String selectfactor ="SELECT memno,memname,sex,birth,mail,phone,addr,acc,pwd,idcard1,idcard2,license,credate,status ";
 	
-	private static final String GET_ALL_STMT = selectfactor	+ "FROM MEMBER order by memno";
+	private static final String GET_ALL_STMT = selectfactor	+ "FROM MEMBER order by DECODE(status,'verifing',1), memno";
 	private static final String GET_ONE_STMT_BY_ID = selectfactor	+ "FROM MEMBER where memname = ?";
 	private static final String GET_ONE_STMT = selectfactor	+ "FROM MEMBER where memno = ?";
 	private static final String GET_ONE_STMT_BY_ACC_PWD = selectfactor	+ "FROM MEMBER where acc = ? AND pwd = ?";
 	private static final String GET_ONE_STMT_BY_ACC = selectfactor	+ "FROM MEMBER where acc = ?";
+
+	@Override
+		public void updateStatus(String memno, String status) {
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			try {
+				con = ds.getConnection();
+				pstmt = con.prepareStatement("UPDATE MEMBER set status = ? where memno = ?");
+				pstmt.setString(1, status);
+				pstmt.setString(2, memno);
+				pstmt.executeUpdate();
+	
+			} catch (SQLException se) {
+					se.printStackTrace(System.err);
+			} finally {
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException se) {
+						se.printStackTrace(System.err);
+					}
+				}
+				if (con != null) {
+					try {
+						con.close();
+					} catch (Exception e) {
+						e.printStackTrace(System.err);
+					}
+				}
+			}
+		}
+
+
+
 	/*	String memno,String memname,String sex,Timestamp birth,String mail,String phone,
 		String addr,String acc,String pwd,byte[] idcard1,byte[] idcard2,byte[] license,
 		Timestamp credate,String status,*/
