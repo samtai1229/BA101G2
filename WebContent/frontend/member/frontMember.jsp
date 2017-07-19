@@ -229,17 +229,22 @@ vertical-align: middle!important;
 <%----------------------------------------------------VVVV building area VVVV-----------------------------------------------------------%>
 <%
 	String addStatus = (String)request.getAttribute("addStatus");
-
-
 %>
 
 
 <div class="col-xs-12 col-sm-12" id="mamberDiv">
-		<c:if test="${memVO.status!='confirmed'}">
+		<c:if test="${memVO.status=='unconfirmed'||memVO.status=='uncompleted'}">
 			<div class="alert alert-warning">
 			  <strong>為了維護您的權益，請盡速填寫完整的會員資料並進行認證</strong>
 			</div>
 		</c:if>
+		<c:if test="${memVO.status=='verifing'}">
+			<div class="alert alert-warning">
+			  <strong>目前正在認證中，請稍後</strong>
+			</div>
+		</c:if>		
+		
+		
     <table id="mamberTable" border="1" class="table table-striped table-inverse">
         <tr>
 			<th>會員編號</th>
@@ -286,6 +291,7 @@ vertical-align: middle!important;
 			<c:if test="${memVO.status=='uncompleted'}"><td><font color=red><b>簡易註冊</b></font></td></c:if>					
 			<c:if test="${memVO.status=='confirmed'}"><td><font color=red><b>完整認證</b></font></td></c:if>
 			<c:if test="${memVO.status=='unconfirmed'}"><td><font color=red><b>簡易認證</b></font></td></c:if>
+			<c:if test="${memVO.status=='verifing'}"><td><font color=red><b>認證中</b></font></td></c:if>
 			<td class="text-center"><a class='btn btn-info btn-md' 
 			href="<%=request.getContextPath()%>/backend/member/member.do?addAction=frontMember&action=getOne_For_Update&memno=${memVO.memno}">
 			<span class="glyphicon glyphicon-edit"></span> Edit</a></td>
