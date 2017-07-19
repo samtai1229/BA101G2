@@ -239,9 +239,9 @@ public class NewsDAO implements NewsDAO_interface{
 				list.add(newsVO); // Store the row in the list
 			}
 
-			for(NewsVO aaa:list){
-				System.out.println(aaa.getNewsno());
-			}
+//			for(NewsVO aaa:list){
+//				System.out.println(aaa.getNewsno());
+//			}
 			// Handle any driver errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "
@@ -299,9 +299,9 @@ public class NewsDAO implements NewsDAO_interface{
 				listnormal.add(newsVO); // Store the row in the list
 			}
 
-			for(NewsVO aaa:listnormal){
-				System.out.println(aaa.getNewsno());
-			}
+//			for(NewsVO aaa:listnormal){
+//				System.out.println(aaa.getNewsno());
+//			}
 			// Handle any driver errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. "

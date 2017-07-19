@@ -35,7 +35,7 @@ public class LocationDBGifReader extends HttpServlet {
 		try {
 			Statement stmt = con.createStatement();
 			String locno = req.getParameter("locno"); // 後
-			System.out.println(locno);
+		//	System.out.println(locno);
 		
 			//String empno2 = new String(empno.getBytes("ISO-8859-1"), "big5");// 再
 			ResultSet rs = stmt.executeQuery("SELECT pic FROM location WHERE locno ="+"'"+locno+"'");
