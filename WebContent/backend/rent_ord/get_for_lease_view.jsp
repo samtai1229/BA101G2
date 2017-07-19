@@ -26,7 +26,11 @@
 	 th, tr{
 		/*死都不換行*/
 		white-space:nowrap;
-	} 
+	}
+	td{
+		vertical-align: middle!important;
+	}
+	 
 </style>
 <body>
 	<table id="QueryTable" class="table table-bordred table-striped table-hover">
