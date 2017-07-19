@@ -87,5 +87,9 @@ public class MemberService {
 		return dao.findByPrimaryKeyById(memid);
 	}
 	
+	public void updateStatus(String memno, String status){
+		dao.updateStatus(memno, status);
+	}
+	
 
 }
