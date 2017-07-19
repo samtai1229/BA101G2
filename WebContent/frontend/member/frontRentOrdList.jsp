@@ -178,7 +178,7 @@ line-height:51px!important;
 	<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.min.css" rel="stylesheet" />
 	<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.css" rel="stylesheet" />
 	<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" rel="stylesheet" />
-<title>我的租賃單資料</title>
+<title>我的租賃單</title>
 
 </head>
 <body>
@@ -195,6 +195,17 @@ line-height:51px!important;
 	pageContext.setAttribute("list",list);
 	pageContext.setAttribute("memno",memno);
 	
+	Map<String, String> statusMap = new HashMap<String, String>();
+	statusMap.put("unpaid", "待繳費");
+	statusMap.put("canceled", "取消訂單");
+	statusMap.put("unoccupied", "訂單成立");
+	statusMap.put("available", "今日取車");
+	statusMap.put("noshow", "逾期未取");
+	statusMap.put("noreturn", "出租中");
+	statusMap.put("overtime", "逾期未還");
+	statusMap.put("abnormalclosed", "異常結案");
+	statusMap.put("closed", "結案");
+	statusMap.put("other", "其它");
 %>
 
 <!-- Navigation -->
@@ -253,7 +264,7 @@ line-height:51px!important;
 		<th>取車據點</th>
 		<th>還車據點</th>
 		<th>下訂時間</th>
-		<th>開始時間</th>
+		<th>取車時間</th>
 		<th>還車時間</th>
 		<th>租金</th>
 		<th>罰金</th>
@@ -284,7 +295,16 @@ line-height:51px!important;
 					<td>${roVO.total}</td>
 					<td>${roVO.fine}</td>
 					<td>${roVO.rank}</td>
-					<td>${roVO.status}</td>
+					
+					<c:set scope="page" var="temp">
+					 	<c:out value="${roVO.status}"/>
+					</c:set>
+					<% 
+					  String key = String.valueOf(pageContext.getAttribute("temp"));
+					  if(statusMap.containsKey(key)){;
+					%>
+					<td><%=statusMap.get(key)%></td>
+					<%};%>
 				</tr>
 			</c:if>
 		</c:forEach>

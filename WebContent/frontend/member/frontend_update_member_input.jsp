@@ -311,6 +311,24 @@ input[type="file"] {
 				</div>
 				
 				<div class="form-group col-xs-12 col-sm-12">
+					<label for="acc" class="col-xs-12 col-sm-4">
+						<mark>密碼:</mark>
+					</label>
+					<div class="col-xs-12 col-sm-8">
+						<input type="password" name="pwd" id="pwd" class="form-control" style="width:100%" value="<%=memVO.getPwd()%>"/>
+					</div>
+				</div>
+				
+				<div class="form-group col-xs-12 col-sm-12">
+					<label for="acc" class="col-xs-12 col-sm-4">
+						<mark>重填密碼:</mark>
+					</label>
+					<div class="col-xs-12 col-sm-8">
+						<input type="password" name="pwd2" id="pwd2" class="form-control" style="width:100%" value=""/>
+					</div>
+				</div>								
+				
+				<div class="form-group col-xs-12 col-sm-12">
 					<label for="status" class="col-xs-12 col-sm-4">
 						<mark>狀態:</mark>
 					</label>
@@ -350,16 +368,30 @@ input[type="file"] {
 			<input type="hidden" name="credate" value="<fmt:formatDate value="${memVO.credate}" pattern='yyyy-MM-dd HH:mm:ss'/>">
 			<div class="col-xs-12 col-sm-12">
 				<p class="text-center">
-					<button type="submit" class="btn btn-success btn-lg">
+					<button type="submit" onClick="return check()" class="btn btn-success btn-lg">
 						<i class="glyphicon glyphicon-ok"></i>送出修改
 					</button>
-					<a onclick="history.back()" class="btn btn-danger btn-lg">
+					<c:if test="${memVO.status=='unconfirmed'||memVO.status=='uncompleted'}">
+						<button type="button" onclick="changeStatus(); this.disabled=true;"
+						class="btn btn-info btn-lg" id="sendConfirm">
+							<i class="glyphicon glyphicon-ok"></i>送出認證請求
+						</button>					
+					</c:if>
+					<c:if test="${memVO.status =='verifing'}">
+						<button type="submit" class="btn btn-info btn-lg" disabled>
+							<i class="glyphicon glyphicon-ok"></i>認證中
+						</button>					
+					</c:if>					
+					<a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}"
+					 class="btn btn-danger btn-lg">
 						<i class="glyphicon glyphicon-arrow-up"></i>返回上頁
 					</a>
 				</p>
 			</div>
 		</FORM>
 	</div>
+	
+  
 	
 		<%----------------------------------------------------^^^^ building area ^^^^-----------------------------------------------------------%>		
 
@@ -385,49 +417,91 @@ input[type="file"] {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 <script>
-function doFirst(){
-	document.getElementById('myFile').onchange = fileChange;
-	document.getElementById('myFile1').onchange = fileChange1;
-	document.getElementById('myFile2').onchange = fileChange2;
-}
-function fileChange() {
-	var file = document.getElementById('myFile').files[0];
 
-	var readFile = new FileReader();
-	readFile.readAsDataURL(file);
-	readFile.addEventListener('load',function(){
-		var image = document.getElementById('idcard1');
-		image.src = this.result;
-		image.style.maxWidth = '500px';
-		image.style.maxHeight = '500px';
-	},false);
-}
+	function loadDoc() {
+	    var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		     document.getElementById("demo").innerHTML=this.responseText;
+		    }
+		 };
+		  xhttp.open("GET","<%=request.getContextPath()%>/backend/member/member.do?addaction=frontend&action=get_second_ord_per_member&memno=${memVO.memno}", true);
+		  xhttp.send();
+	}
 
-function fileChange1() {
-	var file = document.getElementById('myFile1').files[0];
+	function check(){
+		var p1 = document.getElementById('pwd').value; 
+		var p2 = document.getElementById('pwd2').value;
+		
+		if(p1!='${memVO.pwd}'||p2.trim().length!=0){
+			if ( p1 == p2 ) { 
+				if ( p1.length > 6 && p2.length > 6 ){
+					alert("密碼更新成功!");
+					return true;
+				}else{
+					alert("密碼設定至少 7 碼以上"); return false;
+				}
+			}else{
+				alert("兩組密碼不一致，請重新輸入密碼");
+				return false;
+			}
+		}
+	}
 
-	var readFile = new FileReader();
-	readFile.readAsDataURL(file);
-	readFile.addEventListener('load',function(){
-		var image = document.getElementById('idcard2');
-		image.src = this.result;
-		image.style.maxWidth = '500px';
-		image.style.maxHeight = '500px';
-	},false);
-}
+	function changeStatus() {
+   var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+	if (this.readyState == 4 && this.status == 200) {
+	     //document.getElementById("sendConfirm").innerHTML=this.responseText;
+	    }
+	 };
+	  xhttp.open("GET","<%=request.getContextPath()%>/backend/member/member.do?action=change_status&status=verifing&memno=${memVO.memno}", true);
+	  xhttp.send();
+	}
 
-function fileChange2() {
-	var file = document.getElementById('myFile2').files[0];
+	function doFirst(){
+		document.getElementById('myFile').onchange = fileChange;
+		document.getElementById('myFile1').onchange = fileChange1;
+		document.getElementById('myFile2').onchange = fileChange2;
+	}
+	function fileChange() {
+		var file = document.getElementById('myFile').files[0];
+	
+		var readFile = new FileReader();
+		readFile.readAsDataURL(file);
+		readFile.addEventListener('load',function(){
+			var image = document.getElementById('idcard1');
+			image.src = this.result;
+			image.style.maxWidth = '500px';
+			image.style.maxHeight = '500px';
+		},false);
+	}
 
-	var readFile = new FileReader();
-	readFile.readAsDataURL(file);
-	readFile.addEventListener('load',function(){
-		var image = document.getElementById('license');
-		image.src = this.result;
-		image.style.maxWidth = '500px';
-		image.style.maxHeight = '500px';
-	},false);
-}
+	function fileChange1() {
+		var file = document.getElementById('myFile1').files[0];
+	
+		var readFile = new FileReader();
+		readFile.readAsDataURL(file);
+		readFile.addEventListener('load',function(){
+			var image = document.getElementById('idcard2');
+			image.src = this.result;
+			image.style.maxWidth = '500px';
+			image.style.maxHeight = '500px';
+		},false);
+	}
+	
+	function fileChange2() {
+		var file = document.getElementById('myFile2').files[0];
+	
+		var readFile = new FileReader();
+		readFile.readAsDataURL(file);
+		readFile.addEventListener('load',function(){
+			var image = document.getElementById('license');
+			image.src = this.result;
+			image.style.maxWidth = '500px';
+			image.style.maxHeight = '500px';
+		},false);
+	}
 window.addEventListener('load',doFirst,false);
 </script>
 </html>
