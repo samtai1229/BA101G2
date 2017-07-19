@@ -6,6 +6,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.location.model.*"%>
+<%@ page import="com.adminis.model.*" %>
 <%-- 此頁練習採用 EL 的寫法取值 --%>
 
 <%
@@ -13,6 +14,8 @@
 	List<LocationVO> list = locationSvc.getAll();
 	pageContext.setAttribute("list",list); */
 	LocationVO locationVO = (LocationVO) request.getAttribute("locationVO");
+	AdminisService as = new AdminisService();
+	AdminisVO adminisVO= (AdminisVO)session.getAttribute("adminisVO");
 %>
 <%-- <jsp:useBean id="locationSvc" scope="page" class="com.location.model.LocationService" /> --%>
 
@@ -25,13 +28,15 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css" >
+	
+	
 	<title>所有員工資料 - listAllMember.jsp</title>
 </head>
 <body>
 	
 		<nav class="navbar navbar-default" role="navigation">
         <!-- logo區 -->
-        <a class="navbar-brand" href="#" id="navA">AUTOBIKE</a>
+        <a class="navbar-brand" href="<%=request.getContextPath()%>/backend/index.jsp" id="navA">AUTOBIKE</a>
         <!-- 左選單 -->
         <ul class="nav navbar-nav">
             <li><a href="#" id="navA" id="navA">後端管理系統</a></li>
@@ -42,9 +47,14 @@
         <!-- 右選單 -->
         <ul class="nav navbar-nav navbar-right">
         </ul>
+        <form method="post" action="<%=request.getContextPath()%>/admin.do?action=logout">
+        <input type="submit" value="登出" >
+<!--           <input type="hidden" name="action1" value="logout" > -->
+       </form>
+       <b><%= adminisVO.getName() %></b>
     </nav>
 <%--保留寫法     href="<%=request.getContextPath()%>/backend/backendRentOrd.jsp"  --%>
-   <%--  <div class="col-xs-12 col-sm-2 leftBar">
+     <div class="col-xs-12 col-sm-2 leftBar">
         <img id="menuLogo" src="<%=request.getContextPath()%>/backend/images/android_logo2.jpg">
         <button class="accordion accordionMenu accordion accordionMenuMenu">總部管理系統</button>
         <div class="btn-group-vertical">
@@ -91,8 +101,8 @@
             <a class="btn btn-default" href="#" role="button">後端登入管理</a>
         </div>
         <div class="btn-group-vertical"></div>
-    </div> --%>
-    <div class="col-xs-12 col-sm-12 rightHTML" id="demo">
+    </div> 
+    <div class="col-xs-12 col-sm-10 rightHTML" id="demo">  <!-- 左方表單註解掉可用col-sm-12 -->
 
 		<div class="topTitle">
             <h1>據點管理系統</h1>
@@ -130,13 +140,13 @@
 					          </li>
 					          <li role="presentation">
 					              <a href="#tab4" aria-controls="tab4" role="tab" data-toggle="tab">刪除</a>
-					          </li>
+					          <!-- </li>
 					          <li role="presentation">
 					              <a href="#tab5" aria-controls="tab3" role="tab" data-toggle="tab">?</a>
 					          </li>
 					          <li role="presentation">
 					              <a href="#tab6" aria-controls="tab4" role="tab" data-toggle="tab">?</a>
-					          </li>
+					          </li> -->
 <!-- 標籤面板：標籤區結束 -->	  </ul>	
 
 <!-- 標籤面板：內容區開始 -->     <div class="tab-content">
@@ -185,7 +195,7 @@
 										</div>
 										<div class="InputForm">
 										    <label class="title">據點地址</label>
-										    <input type="text" name="addr" maxlength="10" /><br>
+										    <input type="text" name="addr" maxlength="50" /><br>
 										</div>
 										<div class="InputForm">
 											<label class="title">據點照片</label>
