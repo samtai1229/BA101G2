@@ -65,48 +65,49 @@ console.log( "lats["+j+"]= "+$("tr td:eq("+(b+j*c)+")").text()  );
 	 
  	}
  	
- 	function changeLatLng(lon,lat){
- 		var count =1;
- 		 Lon = lon;
- 		 Lat = lat;
-console.log("lon= "+Lon); 			
-console.log("lat= "+Lat); 	
- 			myPosition[count] = new google.maps.LatLng(Lon,Lat);
-console.log("myPosition["+count+"]= "+myPosition[count]);
- 			 map = new google.maps.Map(myMap,{
- 	            zoom: 10,
- 	            center: myPosition[count],
- 	            mapTypeId: google.maps.MapTypeId.ROADMAP
- 	    });
- 			 
- 		var markers = 'marker'+count;	 
- 		 markers = new google.maps.Marker({
- 				position: myPosition[count],
- 				map: map,
- 				animation: google.maps.Animation.DROP
- 			});
- 			
- 		 count++;
- 		}
+// 	function changeLatLng(lon,lat){
+// 		var count =1;
+// 		 Lon = lon;
+// 		 Lat = lat;
+//console.log("lon= "+Lon); 			
+//console.log("lat= "+Lat); 	
+// 			myPosition[count] = new google.maps.LatLng(Lon,Lat);
+//console.log("myPosition["+count+"]= "+myPosition[count]);
+// 			 map = new google.maps.Map(myMap,{
+// 	            zoom: 10,
+// 	            center: myPosition[count],
+// 	            mapTypeId: google.maps.MapTypeId.ROADMAP
+// 	    });
+// 			 
+// 		var markers = 'marker'+count;	 
+// 		 markers = new google.maps.Marker({
+// 				position: myPosition[count],
+// 				map: map,
+// 				animation: google.maps.Animation.DROP
+// 			});
+// 			
+// 		 count++;
+// 		}
 
- 		
- 	function addr(){
-var url="https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=YOUR_API_KEY";
- 	}
- 	
- 	
- 	function startXMLRequest(){
- 	   var xmlHttp = createXMLHttpRequest();
- 	   var url = "testFile.xml";
- 	   xmlHttp.open("GET",url,true);
- 	   xmlHttp.onreadystatechange = function (){
- 	      if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
- 		     drawTable(xmlHttp.responseXML);
- 	      }
-        };
-        xmlHttp.send(null);
-    }
+// 		
+// 	function addr(){
+//var url="https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=YOUR_API_KEY";
+// 	}
+// 	
+// 	
+// 	function startXMLRequest(){
+// 	   var xmlHttp = createXMLHttpRequest();
+// 	   var url = "testFile.xml";
+// 	   xmlHttp.open("GET",url,true);
+// 	   xmlHttp.onreadystatechange = function (){
+// 	      if(xmlHttp.readyState == 4 && xmlHttp.status == 200){
+// 		     drawTable(xmlHttp.responseXML);
+// 	      }
+//        };
+//        xmlHttp.send(null);
+//    }
  	
  	
  	
  	window.addEventListener('load',doFirst,false);
+ 	window.addEventListener('ready',doFirst,false);

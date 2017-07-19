@@ -72,7 +72,7 @@ pageContext.setAttribute("lat", lat);
 	
 	<link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans:600'>
 	
-<script src="<%=request.getContextPath()%>/frontend/location/js/googlemap.js"></script>
+ <script src="<%=request.getContextPath()%>/frontend/location/js/googlemap.js"></script>
 
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
@@ -109,11 +109,11 @@ pageContext.setAttribute("lat", lat);
         border: 2px solid #ccc;
     }
 	
-	<%-- nav{
+	nav{
 		background-image:url(<%=request.getContextPath()%>/img/header2.jpg);
 		background-attachment: scroll;
 		background-attachment:  fixed;
-	} --%>
+	}
 	
 	#demo{
  		width:277px;
@@ -281,22 +281,6 @@ pageContext.setAttribute("lat", lat);
 		<!-- /.container-fluid -->
 	</nav>
 	
-	<!-- 租車主軸Header -->
-	<header id="rent">
-		
-		<div class="container">
-		
-			<div class="intro-text">
-				<div class="intro-lead-in">Welcome To Autobike!</div>
-				<div class="intro-heading">The Best Bike For You!</div>
-				
-				<!-- 				<a href="rent.html" class="page-scroll btn btn-xl">點我租車</a> -->
-			</div>
-
-		</div>
-	</header>
-	
-	
         <div class="container">
             <div class="row container-fluid">
             <br>
@@ -344,8 +328,10 @@ pageContext.setAttribute("lat", lat);
 										class="img-responsive img-circle" alt="" width="100" height="100" onclick=changeLatLng('${locationVO.lon}','${locationVO.lat}') />
 							</td>
 						</tr>
-						
 			</c:forEach>
+						<tr><td>${lon}</td>
+							<td>${lat}</td>
+						</tr>
 		</table>
 	</div>
 
@@ -397,6 +383,37 @@ pageContext.setAttribute("lat", lat);
     </script>
 
 <script>
+
+var lons = "${lon}";
+var lats = "${lat}";
+
+var Lon,Lat;
+var myMap;
+var map;
+var myPosition =[];
+var i=0,j=0;
+ 	function doFirst(){
+         myMap = document.getElementById('myMap');
+         Lon = 24.01;
+         Lat = 121.1;
+         myPosition = new google.maps.LatLng(Lon,Lat);
+         var a=2;
+         var b=3;
+         var c=6;
+         var lon = new Array(1);
+         var lat = new Array(1);
+         map = new google.maps.Map(myMap,{
+	    	 zoom: 8,
+	    	 center:  myPosition,
+	    	 mapTypeId: google.maps.MapTypeId.ROADMAP
+	     });
+         console.log("lons= "+lons);
+         console.log("lats= "+lats);
+		indexclick(lons,lats);
+
+ 	}
+
+
 function indexclick(lon,lat){
 		var count =1;
 		 Lon = lon;
@@ -421,10 +438,12 @@ console.log("myPosition["+count+"]= "+myPosition[count]);
 		 count++;
 		}
 		
-var lons = "${lon}";
-var lats = "${lat}";
+		
+		
+		
 
-window.addEventListener('read',indexclick(lons,lats),false);
+window.addEventListener('load',doFirst,false);
+// window.addEventListener('read',indexclick(lons,lats),false);
 	
 </script>
 
