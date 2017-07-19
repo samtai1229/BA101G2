@@ -71,6 +71,37 @@ public class MemberServlet extends HttpServlet {
 		System.out.println("我從"+location+"進來的");
 		
 		
+
+		
+		// change status
+		if ("change_status".equals(action)) { // 來自select_page.jsp的請求
+				System.out.println("in MemberServlet change_status");
+
+			try {
+				/***************************
+				 * 1.接收請求參數 - 輸入格式的錯誤處理
+				 **********************/
+				String memno = req.getParameter("memno");
+				String status = req.getParameter("status");
+				
+				System.out.println("memno: "+memno);
+				System.out.println("status: "+ status);
+				
+				/*************************** 2.開始查詢資料 *****************************************/
+				
+				MemberService mSvc = new MemberService();
+				mSvc.updateStatus(memno, status);
+
+				System.out.println("update success!");
+				
+				/*************************** 其他可能的錯誤處理 *************************************/
+			} catch (Exception e) {
+				e.getStackTrace();
+				System.out.println("change exception");
+			}
+		}
+		
+		
 		
 		//從sec_ord移過來
 			if ("get_second_ord_per_member".equals(action)) { // 來自select_page.jsp的請求
