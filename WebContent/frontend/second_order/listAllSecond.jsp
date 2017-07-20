@@ -17,7 +17,7 @@
 </head>
 <body>
 <div class="col-xs-12 col-sm-12">
-<table  border='1' cellpadding='5' cellspacing='0' width='100%'>
+<table  class="table table-hover" border='1' width='100%'>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
 		<td>
 		<h3>二手車出售區</h3>
@@ -26,33 +26,35 @@
 	</tr>
 </table>
 </div>
-<table border='1' bordercolor='#CCCCFF' width='100%'>
-	<tr>
-		<th>車輛編號</th>
-		<th>車型編號</th>
-		<th>車牌號碼</th>
-		<th>圖片</th>
-		<th>引擎編號</th>
-		<th>出廠日期</th>
-		<th>Mile</th>
-		<th>Locno</th>
-<!-- 		<th>status</th> -->
-		<th>note</th>
+<table class="table table-hover" border='1' bordercolor='#CCCCFF' width='100%'>
+	<tr align='center' valign='middle'>
+		<th style="text-align:center">相片</th>
+		<th style="text-align:center">車輛編號</th>
+		<th style="text-align:center">車型編號</th>
+		<th style="text-align:center">車牌號碼</th>
+		<th style="text-align:center">引擎編號</th>
+		<th style="text-align:center">出廠日期</th>
+		<th style="text-align:center">里程數</th>
+		<th style="text-align:center">據點編號</th>
+		<th style="text-align:center">狀態</th>
+		<th style="text-align:center">註記</th>
+	
 	</tr>
 <%-- 					begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" --%>
 	<c:forEach var="motorVO" items="${list}" >
 	  <c:if test="${ motorVO.status=='seconsale'}">
 		<tr align='center' valign='middle'>
 		
+			<td><img style="width:300px" src="<%=request.getContextPath()%>/backend/motor_model/mmReader.do?modtype=${motorVO.modtype}"></td>
 			<td>${motorVO.motno}</td>
 			<td>${motorVO.modtype}</td>
 			<td>${motorVO.plateno}</td>
-			<td><img src="<%=request.getContextPath()%>/backend/motor_model/mmReader.do?modtype=${motorVO.modtype}" width='200' height='180'></td>
 			<td>${motorVO.engno}</td>
-			<td>${motorVO.manudate}</td>		
+			<td><fmt:formatDate value="${motorVO.manudate}" pattern="yyyy年MM月dd日"/>		</td>
+			
 			<td>${motorVO.mile}</td>	
 			<td>${motorVO.locno}</td>	
-<%-- 			<td>${motorVO.status}</td>	 --%>
+			<td>${motorVO.status}</td>	
 			<td>${motorVO.note}</td>	
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">

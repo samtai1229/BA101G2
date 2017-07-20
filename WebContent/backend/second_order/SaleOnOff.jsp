@@ -225,7 +225,7 @@
            <c:forEach var="motorVO" items="${list}" >
 	  <c:if test="${motorVO.status==status}">
 		<tr align='center' valign='middle'>
-		    <td><img src="<%=request.getContextPath()%>/backend/motor_model/mmReader.do?modtype=${motorVO.modtype}"></td>
+		    <td><img style="width:300px" src="<%=request.getContextPath()%>/backend/motor_model/mmReader.do?modtype=${motorVO.modtype}"></td>
 			<td>${motorVO.motno}</td>
 			<td>${motorVO.modtype}</td>
 			<td>${motorVO.plateno}</td>
@@ -259,7 +259,7 @@
            <c:forEach var="motorVO" items="${list}" >
 	  <c:if test="${motorVO.status==status}">
 		<tr align='center' valign='middle'>
-		    <td><img src="<%=request.getContextPath()%>/backend/motor_model/mmReader.do?modtype=${motorVO.modtype}"></td>
+		    <td><img style="width:300px" src="<%=request.getContextPath()%>/backend/motor_model/mmReader.do?modtype=${motorVO.modtype}"></td>
 			<td>${motorVO.motno}</td>
 			<td>${motorVO.modtype}</td>
 			<td>${motorVO.plateno}</td>
