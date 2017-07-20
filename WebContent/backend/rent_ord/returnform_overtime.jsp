@@ -46,7 +46,13 @@ MemberVO memQueryVO = (MemberVO)request.getAttribute("memQueryVO");
 MotorModelVO mmQueryVO = (MotorModelVO)request.getAttribute("mmQueryVO");
 LocationVO slocQueryVO =  (LocationVO)request.getAttribute("slocQueryVO");
 LocationVO rlocQueryVO =  (LocationVO)request.getAttribute("rlocQueryVO");
-%>
+
+Map<String, String> statusMap = new HashMap<String, String>();
+statusMap.put("uncompleted", "簡易註冊");
+statusMap.put("unconfirmed", "還未認證");
+statusMap.put("verifing", "等待認證");
+statusMap.put("confirmed", "認證合格");	
+%>	
 
  <c:set var="now" value="<%=new java.util.Date()%>" />
 
@@ -215,17 +221,30 @@ rentPerDay = motorPrice + equipsPrice;
 							</label>
 							<div class="col-xs-12 col-sm-8 innerDiv">
 								<input type="text" name="fine" value="<%=fineDays*rentPerDay%>" 
-								class="form-control">
+								class="form-control" readonly>
 							</div>
 						</div>
-	
+						
+						<div class="form-group  arr1">
+							<label for="aa" class="col-xs-12 col-sm-4 control-label">
+								<mark>服務評價:</mark>
+							</label>
+							<div class="col-xs-12 col-sm-8 innerDiv">
+								<select name="rank"  class="form-control" id="rank">
+									<option value="">-</option>
+									<option value="5">正評</option>
+									<option value="4">良好</option>
+									<option value="3">普通</option>
+									<option value="2">不佳</option>
+									<option value="1">負評</option>
+								</select>							
+							</div>
+						</div>	
+
+												
 					</div>
 	
-	
-	
 					<div class="clear"></div>
-	
-	
 	
 					<div><h3>會員資料</h3></div>
 					<hr>
@@ -258,16 +277,19 @@ rentPerDay = motorPrice + equipsPrice;
 									class="form-control" readonly>
 								</div>
 							</div>
+							<c:set scope="page" var="temp"><c:out value="${memQueryVO.status}"/></c:set>
+							<%String key = String.valueOf(pageContext.getAttribute("temp"));%>
 							<div class="form-group  arr1">
 								<label for="aa" class="col-xs-12 col-sm-4 control-label">
 									實名認證:
 								</label>
 								<div class="col-xs-12 col-sm-8 innerDiv">
-									<input type="text" name="status" value="${memQueryVO.status}" 
-									class="form-control" readonly>
+									<input type="text" name="status" value="<%=statusMap.get(key)%>" class="form-control" readonly>
+									<input type="hidden" name="status" value="${memQueryVO.status}">
 								</div>
 							</div>		
 						</div>
+						
 					<div class="clear"></div>
 	
 					<h3>車輛資料</h3>
@@ -344,7 +366,7 @@ rentPerDay = motorPrice + equipsPrice;
 									起始里程(km):
 								</label>
 								<div class="col-xs-12 col-sm-8 innerDiv">
-									<input type="text" name="milstart" value="${motorQueryVO.mile}" 
+									<input type="text" name="milstart" id="milstart" value="${motorQueryVO.mile}" 
 									class="form-control" readonly>
 								</div>
 							</div>
@@ -354,7 +376,7 @@ rentPerDay = motorPrice + equipsPrice;
 									<mark>結束里程(km):</mark>
 								</label>
 									<div class="col-xs-12 col-sm-8 innerDiv">
-										<input type="text" name="milend" 
+										<input type="text" name="milend" id="milend"
 										value="${(action =='change_lease_form_to_return_form')?'NA':''}" 
 										class="form-control">
 									</div>
@@ -373,13 +395,11 @@ rentPerDay = motorPrice + equipsPrice;
 					
 					<div class="clear"></div>
 	
-	
 					<h3>裝備資料					
 					<a class="btn btn-primary" role="button" data-toggle="collapse" href=".collapse" aria-expanded="true" aria-controls=".collapse">
 						開啟 / 關閉
 					</a></h3>
 					<hr>
-
 
 						<div class="form-horizontal equip">		
 						<!--依實際裝備數量動態新增  -->
@@ -434,56 +454,40 @@ rentPerDay = motorPrice + equipsPrice;
 	
 					<div class="clear"></div>
 					共 <%=count%> 件裝備。
-					<h3>確認項目</h3>
+					<hr>
+					<h3>交接確認項目</h3>
 					<hr>
 					
-					<div><h4>裝備歸還確認:</h4></div>
+					<c:if test="<%=count!=0 %>">
+					<div><h4>請在裝備歸還時，勾選下方對應欄位進行確認:</h4></div>
+					</c:if>
 					<div>
 						<c:forEach var="emtVO" items="${get_equipmentVOs_by_rentno}">
 							<label class="checkbox-inline">
-								<input type="checkbox" name="${emtVO.emtno}" id="">
-								裝備${emtVO.emtno}
+								<input type="checkbox" name="check${emtVO.emtno}" 
+								value="裝備${emtVO.emtno}-${ecSvc.getOneEmtCate(emtVO.ecno).type}未交接" class="check_group">
+								裝備${emtVO.emtno}-${ecSvc.getOneEmtCate(emtVO.ecno).type}
 							</label>
-	
-							
 						</c:forEach>																							
 					</div><br>
 
 					<div><h4>還車確認:</h4></div>
 					<div class="checkbox">
 						<label>
-							<input type="checkbox" name="" id="">
-							檢查項目1: <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid eos perferendis, dolores dignissimos praesentium. Deserunt enim iure ullam error suscipit.</p>
+							<input type="checkbox" name="check1" id="check1" value="檢查項目1" class="check_group">
+							檢查項目1: <p>陪同客戶確認車輛狀況，確認是否有車損，並依車況進行備註。</p>
 						</label>
 					</div>
 					<div class="checkbox">
 						<label>
-							<input type="checkbox" name="" id="">
-							檢查項目2: <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam ratione, rem eos quia, perspiciatis temporibus ipsum nulla quo molestiae. Nulla?</p>
+							<input type="checkbox" name="check2" id="check2" value="檢查項目2" class="check_group">
+							檢查項目2: <p>依累計罰金向客戶要求繳納逾期金。</p>
 						</label>
-					</div>
+					</div>					
 					<div class="checkbox">
 						<label>
-							<input type="checkbox" name="" id="">
-							檢查項目3: <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, nam ullam ut nulla error minima magni eaque corporis dolores culpa.</p>
-						</label>
-					</div>
-					<div class="checkbox">
-						<label>
-							<input type="checkbox" name="" id="">
-							檢查項目4: <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis laborum quisquam nesciunt ipsam sequi animi nulla nisi iusto, aliquam sint!</p>
-						</label>
-					</div>
-					<div class="checkbox">
-						<label>
-							<input type="checkbox" name="" id="">
-							檢查項目5: <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem repudiandae consequuntur expedita officia eligendi explicabo fugiat mollitia, ipsam dignissimos, consectetur.</p>
-						</label>
-					</div>
-					<div class="checkbox">
-						<label>
-							<input type="checkbox" name="" id="">
-							檢查項目6: <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus fugiat exercitationem rem omnis blanditiis quia laborum necessitatibus natus corporis optio.</p>
+							<input type="checkbox" name="check3" id="check3" value="檢查項目3" class="check_group">
+							檢查項目3: <p>填寫車輛里程歸還里程數、詢問客戶意見並填寫客戶滿意度。</p>
 						</label>
 					</div>
 
@@ -499,7 +503,7 @@ rentPerDay = motorPrice + equipsPrice;
 					<p class="text-center">
 						<input type="hidden" name="rlocno" value="${roQueryVO.rlocno}">
 					    <input type="hidden" name="action" value="after_overtime_form">
-	    					<button type="submit" class="btn btn-success btn-lg">
+	    					<button type="submit" onClick="return check()" class="btn btn-success btn-lg">
 								<i class="glyphicon glyphicon-ok"></i>異常結案
 							</button>
 						<a href="javascript:window.close();" class="btn btn-danger btn-lg">
@@ -513,5 +517,57 @@ rentPerDay = motorPrice + equipsPrice;
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/datepicker_for_rent_ord.js"></script>
 	<script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/motorKanli_js.js"></script>
+	<script type="text/javascript">
+	
+	function check(){
+		
+		var check = document.getElementsByClassName('check_group');
+ 		var rank = document.getElementById('rank').value;		
+		var milend = document.getElementById('milend').value;
+		var milstart = document.getElementById('milstart').value;
+		var note = document.getElementById('note').value;
+		var message = "";
+		var   r   =   /^[0-9]*[1-9][0-9]*$/
+		
+		//alert(".js check on");
+		
+		for(i = 0; i< check.length ; i++){
+			if(check[i].checked==false){
+				message += check[i].value+",  ";
+			}
+		}
+		
+ 		//rank
+		if(rank.length==0){
+			message += "  評價未選, ";
+		}
+		
+		//milend
+		if(milend.length==0){
+			message +="  結束里程數未填, ";
+		}else{
+			if(r.test(milend)==false){
+				message +="  結束里程數請填入正整數,  ";
+			}else if(parseInt(milend)<parseInt(milstart)){
+				message +="  結束里程小於起始里程,  ";
+			}
+		}
+		
+		//note
+		if(note.length==0){
+			message +="  逾期單請簡述處理狀況, ";
+		
+		}
+		
+
+		//result
+		if(message.length!=0){
+			message +="..等注意事項尚未勾選確認."
+			alert(message);
+			return false;
+		}
+	}
+	
+	</script>
 </body>
 </html>

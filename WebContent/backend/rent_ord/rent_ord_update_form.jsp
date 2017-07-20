@@ -26,6 +26,22 @@ font-size:18px;
 	RentOrdVO roQueryVO = (RentOrdVO) request.getAttribute("roQueryVO");
 %>
 
+<%
+
+	Map<String, String> roStatusMap = new HashMap<String, String>();
+	roStatusMap.put("unpaid", "待繳費");
+	roStatusMap.put("canceled", "取消");
+	roStatusMap.put("unoccupied", "準備交車");
+	roStatusMap.put("available", "今日取車");	
+	roStatusMap.put("noshow", "逾期未取");	
+	roStatusMap.put("noreturn", "待還車");	
+	roStatusMap.put("overtime", "逾期未還");	
+	roStatusMap.put("abnormalclosed", "異常結案");	
+	roStatusMap.put("closed", "正常結案");	
+	roStatusMap.put("other", "其他");
+	
+%>
+
 	<div class="container">
 		<div id="signupbox" style="margin-top: 50px"
 			class="mainbox mainbox col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
@@ -226,15 +242,18 @@ font-size:18px;
 							<div class="controls col-md-9 ">
 								<select name="rank"  class="input-md  textinput textInput form-control" 
 								id="id_rank" style="margin-bottom: 10px">
-									<option value="" ${(roQueryVO.rank=="")? 'selected':''}>no data</option>
-									<option value="1" ${(roQueryVO.rank=="1")? 'selected':''}>1(worst)</option>
-									<option value="2" ${(roQueryVO.rank=="2")? 'selected':''}>2</option>
-									<option value="3" ${(roQueryVO.rank=="3")? 'selected':''}>3</option>
-									<option value="4" ${(roQueryVO.rank=="4")? 'selected':''}>4</option>
-									<option value="5" ${(roQueryVO.rank=="5")? 'selected':''}>5(best)</option>
+									<option value="" ${(roQueryVO.rank=="")? 'selected':''}>-</option>
+									<option value="5" ${(roQueryVO.rank=="5")? 'selected':''}>正評</option>
+									<option value="4" ${(roQueryVO.rank=="4")? 'selected':''}>良好</option>
+									<option value="3" ${(roQueryVO.rank=="3")? 'selected':''}>普通</option>
+									<option value="2" ${(roQueryVO.rank=="2")? 'selected':''}>不佳</option>
+									<option value="1" ${(roQueryVO.rank=="1")? 'selected':''}>負評</option>
 								</select>
 							</div>
 						</div>
+						
+						
+						
 						
 						<div id="div_status" class="form-group required">
 							<label for="id_status"
@@ -244,42 +263,42 @@ font-size:18px;
 							<div class="controls col-md-9 ">
 								<select name="status"  class="input-md  textinput textInput form-control" id="id_status" style="margin-bottom: 10px">
 									<c:if test="${(roQueryVO.status=='unpaid')}">
-										<option value="unpaid" ${(roQueryVO.status=="unpaid")? 'selected':''}>unpaid</option>
+										<option value="unpaid" ${(roQueryVO.status=="unpaid")? 'selected':''}><%=roStatusMap.get("unpaid")%></option>
 									</c:if>
 									<c:if test="${(roQueryVO.status=='unpaid'||roQueryVO.status=='unoccupied')}">
-										<option value="unoccupied" ${(roQueryVO.status=="unoccupied")? 'selected':''}>unoccupied</option>
+										<option value="unoccupied" ${(roQueryVO.status=="unoccupied")? 'selected':''}><%=roStatusMap.get("unoccupied")%></option>
 									</c:if>
 									<c:if test="${(roQueryVO.status=='available')}">
-										<option value="available" ${(roQueryVO.status=="available")? 'selected':''}>available</option>
+										<option value="available" ${(roQueryVO.status=="available")? 'selected':''}><%=roStatusMap.get("available")%></option>
 									</c:if>									
 									<c:if test="${(roQueryVO.status=='canceled'||roQueryVO.status=='unpaid'
 									||roQueryVO.status=='unoccupied'||roQueryVO.status=='available')}">
-										<option value="canceled" ${(roQueryVO.status=="canceled")? 'selected':''}>canceled</option>
+										<option value="canceled" ${(roQueryVO.status=="canceled")? 'selected':''}><%=roStatusMap.get("canceled")%></option>
 									</c:if>
 									
 									
 									<c:if test="${(roQueryVO.status=='noshow')}">
-										<option value="noshow" ${(roQueryVO.status=="noshow")? 'selected':''}>noshow</option>
+										<option value="noshow" ${(roQueryVO.status=="noshow")? 'selected':''}><%=roStatusMap.get("noshow")%></option>
 									</c:if>
 									
 									<c:if test="${(roQueryVO.status=='noreturn')}">
-										<option value="noreturn" ${(roQueryVO.status=="noreturn")? 'selected':''}>noreturn</option>
+										<option value="noreturn" ${(roQueryVO.status=="noreturn")? 'selected':''}><%=roStatusMap.get("noreturn")%></option>
 									</c:if>
 								
 									<c:if test="${(roQueryVO.status=='overtime')}">
-										<option value="overtime" ${(roQueryVO.status=="overtime")? 'selected':''}>overtime</option>
+										<option value="overtime" ${(roQueryVO.status=="overtime")? 'selected':''}><%=roStatusMap.get("overtime")%></option>
 									</c:if>
 									
 									<c:if test="${(roQueryVO.status=='abnormalclosed')}">
-										<option value="abnormalclosed" ${(roQueryVO.status=="abnormalclosed")? 'selected':''}>abnormalclosed</option>
+										<option value="abnormalclosed" ${(roQueryVO.status=="abnormalclosed")? 'selected':''}><%=roStatusMap.get("abnormalclosed")%></option>
 									</c:if>
 									
 									<c:if test="${(roQueryVO.status=='closed')}">
-										<option value="closed" ${(roQueryVO.status=="closed")? 'selected':''}>closed</option>
+										<option value="closed" ${(roQueryVO.status=="closed")? 'selected':''}><%=roStatusMap.get("closed")%></option>
 									</c:if>
 									
 									<c:if test="${(roQueryVO.status=='other')}">
-										<option value="other" ${(roQueryVO.status=="other")? 'selected':''}>other</option>
+										<option value="other" ${(roQueryVO.status=="other")? 'selected':''}><%=roStatusMap.get("other")%></option>
 									</c:if>
 								</select>
 							</div>
