@@ -68,9 +68,11 @@ String defday = (String)request.getAttribute("defday");
 pageContext.setAttribute("start_time", defday);
 pageContext.setAttribute("end_time", defday);
 String memno = (String)session.getAttribute("memno");
+String status = (String)session.getAttribute("status");
 pageContext.setAttribute("memno",memno);
 %>
-<%-- page4.jsp
+<%--<c:out value="${status}"></c:out>
+ page4.jsp
 memno:<c:out value="${memno}" default="no member login" /><br>
 start_time:<c:out value="${start_time}" default="no value"/><br>
 end_time:  <c:out value="${end_time}" default="no value"/><br>
@@ -159,22 +161,42 @@ dayPicker <c:out value="${dayPicker}" default="no value"></c:out> --%>
 	                    <jsp:useBean id="locSvc" scope="page" class="com.location.model.LocationService"/>
 						
 								
-							<p class="text-center">
-								<input type="hidden" name="motno" value="${motorQueryVO.motno}">
-								<c:if test="<%=memno==null%>">
-							    	<input type="hidden" name="action" value="redirect_to_login">
-							    	<input type="hidden" name="location" value="<%=request.getServletPath()%>">
+<p class="text-center">
+							<input type="hidden" name="motno" value="${motorQueryVO.motno}">
+							<c:if test="<%=memno==null%>">
+						    	<input type="hidden" name="action" value="redirect_to_login">
+						    	<input type="hidden" name="location" value="<%=request.getServletPath()%>">
+			   					<button type="submit" class="btn btn-info btn-lg">
+									<i class="glyphicon glyphicon-log-in"></i> 會員登入
+								</button>						    	
+								<a onclick="history.back()" class="btn btn-danger btn-lg">
+									<i class="glyphicon glyphicon-arrow-up"></i> 返回前頁
+								</a>						    	
+						    </c:if>
+							<c:if test="<%=memno!=null%>">
+								<c:if test="${status=='verifing'}">
+									<a onclick="history.back()" class="btn btn-info btn-lg">
+										<i class="glyphicon glyphicon-exclamation-sign"></i> 驗證中
+									</a>						    	
 							    </c:if>
-								<c:if test="<%=memno!=null%>">
+								<c:if test="${status=='confirmed'}">
 							    	<input type="hidden" name="action" value="quick_search_product_2">
-							    </c:if>	
 				   					<button type="submit" class="btn btn-success btn-lg">
 										<i class="glyphicon glyphicon-ok"></i>我要訂車
 									</button>
 									<a onclick="history.back()" class="btn btn-danger btn-lg">
-										<i class="glyphicon glyphicon-remove"></i>返回前頁
-									</a>
-							</p>
+										<i class="glyphicon glyphicon-arrow-up"></i> 返回前頁
+									</a>						    	
+							    </c:if>							    
+								<c:if test="${status=='uncompleted'||status=='unconfirmed'}">
+									<a href="<%=request.getContextPath()%>/backend/member/member.do?addAction=frontMember&action=getOne_For_Update&memno=${memno}"
+									 class="btn btn-info btn-lg">
+										<i class="glyphicon glyphicon-edit"></i> 前往驗證
+									</a>					   					
+							    </c:if>								    
+						    </c:if>	
+
+						</p>
 						</form>
 					</div>
 				</div>

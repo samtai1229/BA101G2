@@ -72,6 +72,7 @@ String dayrange = request.getParameter("dayrange");
 String dayPicker = (String)request.getAttribute("dayPicker");
 
 String memno = (String)session.getAttribute("memno");
+String status = (String)session.getAttribute("status");
 pageContext.setAttribute("dayrange", dayrange);
 String tokens[] = dayrange.split(" - ");
 String start_time = tokens[0];
@@ -79,9 +80,11 @@ String end_time = tokens[1];
 pageContext.setAttribute("start_time", start_time);
 pageContext.setAttribute("end_time", end_time);
 pageContext.setAttribute("memno",memno);
-%>
 
-<%-- memno:<c:out value="${memno}" default="no member login" /><br>
+%>
+<%--<c:out value="${status}"></c:out>
+ memno: <c:out value="${memno}" default="no member login" /><br>
+kk: <c:out value="${status}" default="no status login" /><br>
 start_time:<c:out value="${start_time}" default="no value"/><br>
 end_time:  <c:out value="${end_time}" default="no value"/><br>
 dayPicker <c:out value="${dayPicker}" default="no value"></c:out> --%>
@@ -173,16 +176,36 @@ dayPicker <c:out value="${dayPicker}" default="no value"></c:out> --%>
 							<c:if test="<%=memno==null%>">
 						    	<input type="hidden" name="action" value="redirect_to_login">
 						    	<input type="hidden" name="location" value="<%=request.getServletPath()%>">
+			   					<button type="submit" class="btn btn-info btn-lg">
+									<i class="glyphicon glyphicon-log-in"></i> 會員登入
+								</button>						    	
+								<a onclick="history.back()" class="btn btn-danger btn-lg">
+									<i class="glyphicon glyphicon-arrow-up"></i> 返回前頁
+								</a>						    	
 						    </c:if>
 							<c:if test="<%=memno!=null%>">
-						    	<input type="hidden" name="action" value="quick_search_product_2">
+								<c:if test="${status=='verifing'}">
+									<a onclick="history.back()" class="btn btn-info btn-lg">
+										<i class="glyphicon glyphicon-exclamation-sign"></i> 驗證中
+									</a>						    	
+							    </c:if>
+								<c:if test="${status=='confirmed'}">
+							    	<input type="hidden" name="action" value="quick_search_product_2">
+				   					<button type="submit" class="btn btn-success btn-lg">
+										<i class="glyphicon glyphicon-ok"></i>我要訂車
+									</button>
+									<a onclick="history.back()" class="btn btn-danger btn-lg">
+										<i class="glyphicon glyphicon-arrow-up"></i> 返回前頁
+									</a>						    	
+							    </c:if>							    
+								<c:if test="${status=='uncompleted'||status=='unconfirmed'}">
+									<a href="<%=request.getContextPath()%>/backend/member/member.do?addAction=frontMember&action=getOne_For_Update&memno=${memno}"
+									 class="btn btn-info btn-lg">
+										<i class="glyphicon glyphicon-edit"></i> 前往驗證
+									</a>					   					
+							    </c:if>								    
 						    </c:if>	
-		   					<button type="submit" class="btn btn-success btn-lg">
-								<i class="glyphicon glyphicon-ok"></i>我要訂車
-							</button>
-							<a onclick="history.back()" class="btn btn-danger btn-lg">
-								<i class="glyphicon glyphicon-remove"></i>返回前頁
-							</a>
+
 						</p>
 					</form>
 				</div>
