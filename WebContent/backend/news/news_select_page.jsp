@@ -6,31 +6,31 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
 <%@ page import="com.news.model.*"%>
+<!-- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
+<%@ page import="com.adminis.model.*"%>
+<%  AdminisService as = new AdminisService();
+	AdminisVO adminisVO= (AdminisVO)session.getAttribute("adminisVO");
+     session.setAttribute("admins", adminisVO.getName());
+     session.setAttribute("adminisVO", adminisVO);
+%>
+<!-- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
+<!DOCTYPE html>
 <html>
 <head><title>最新消息</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
 
- <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Backend HP</title>
-    <meta name="description" content="">
-    <meta name="keywords" content="">
-    <link href="" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-    <link rel="stylesheet" href="Modified/backendHP_css.css">
-    <link href="Modified/main.css" rel="stylesheet">
-    <script src="Modified/motorKanli_js.js"></script>
-    <script src="Modified/datepicker.js"></script>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/backend/motor/js/motorMgmtHqSelectPage_css.css">
-
-
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>  	
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">     
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css" >	
 </head>
 <body bgcolor='white'>
 
-<nav class="navbar navbar-default" role="navigation">
+    <nav class="navbar navbar-default" role="navigation">
         <!-- logo區 -->
         <a class="navbar-brand" href="#" id="navA">AUTOBIKE</a>
         <!-- 左選單 -->
@@ -43,50 +43,73 @@
         <!-- 右選單 -->
         <ul class="nav navbar-nav navbar-right">
         </ul>
+        <form method="post" action="<%=request.getContextPath()%>/admin.do?action=logout">
+        <input type="submit" value="登出" >
+<!--           <input type="hidden" name="action1" value="logout" > -->
+		<b><%= adminisVO.getName() %></b>
+       </form>
+       
     </nav>
+ <%--保留寫法     href="<%=request.getContextPath()%>/backend/backendRentOrd.jsp"  --%>
+<!------------------------------- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
     <div class="col-xs-12 col-sm-2 leftBar">
-        <img id="menuLogo" src="<%=request.getContextPath()%>/backend/adminis/images/logo.jpg">
-        <button class="accordion accordionMenu accordion accordionMenuMenu">總部管理系統</button>
+     	
+        <img id="menuLogo" src="<%=request.getContextPath()%>/backend/images/android_logo2.jpg">
+        <button class="accordion accordionMenu accordion accordionMenuMenu">總部管理系統</button> 
         <div class="btn-group-vertical">
-            <a class="btn btn-default" href="#" role="button">車輛管理</a>
-            <a class="btn btn-default" href="#" role="button">車輛調度</a>
-            <a class="btn btn-default" href="#" role="button">租賃單管理</a>
-            <a class="btn btn-default" href="#" role="button">裝備管理</a>
-            <a class="btn btn-default" href="#" role="button">裝備調度</a>
-            <a class="btn btn-default" href="#" role="button">據點管理</a>
+         <%if(adminisVO.getAuthno().equals("AC01") || adminisVO.getAuthno().equals("AC07")){%>     
+            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/motor/motorMgmtHqSelectPage.jsp"  role="button">車輛管理</a>
+            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/motorDispatchMgmtHq.jsp"  role="button">車輛調度管理</a>           
+			<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/backendRentOrd.jsp" role="button">租賃單管理</a>
+            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/equipment/emtMgmtSelectPage.jsp" role="button">裝備管理</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/location/listAllLocation.jsp" role="button">據點管理</a>
+         <%} %>  
         </div>
+       
         <button class="accordion accordionMenu">據點管理系統</button>
         <div class="btn-group-vertical">
+        <%if(adminisVO.getAuthno().equals("AC02") || adminisVO.getAuthno().equals("AC07")){%> 
             <a class="btn btn-default" href="#" role="button">據點車輛管理</a>
-            <a class="btn btn-default" href="#" role="button">交車管理</a>
-            <a class="btn btn-default" href="#" role="button">還車管理</a>
-            <a class="btn btn-default" href="#" role="button">車輛調度申請</a>
-            <a class="btn btn-default" href="#" role="button">車輛保養/維修管理</a>
-            <a class="btn btn-default" href="#" role="button">據點裝備管理</a>
-            <a class="btn btn-default" href="#" role="button">裝備申請</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/lease.jsp"  role="button">交車管理</a>
+          	<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/return.jsp"  role="button">還車管理</a>
+            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/locMotorDispatchApply.jsp" role="button">車輛調度申請</a>
+            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/emt_dispatch/locEmtDispatchApply.jsp" role="button">裝備申請</a>
+         <%} %>
         </div>
+         
         <button class="accordion accordionMenu">二手車管理系統</button>
         <div class="btn-group-vertical">
-            <a class="btn btn-default" href="#" role="button">二手車輛管理</a>
-            <a class="btn btn-default" href="#" role="button">二手車訂單管理</a>
-            <a class="btn btn-default" href="#" role="button">二手車交易管理</a>
+        <%if(adminisVO.getAuthno().equals("AC05") || adminisVO.getAuthno().equals("AC07")){%>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/second_order/SaleOnOff.jsp?who=${admins}" role="button">二手車輛管理</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/second_order/listAllSecOrd.jsp" role="button">二手車訂單管理</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/second_order/SaleOnOff.jsp" role="button">二手車交易管理</a>
+         <%} %>
         </div>
-        <button class="accordion accordionMenu">會員管理系統</button>
-        <div class="btn-group-vertical"></div>
+       <button class="accordion accordionMenu">會員管理系統</button>
+        <div class="btn-group-vertical">
+        <%if(adminisVO.getAuthno().equals("AC03") || adminisVO.getAuthno().equals("AC07")){%>
+             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/member/backendMember.jsp" role="button">會員管理</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/member/addMember.jsp" role="button">新增會員</a>
+         <%} %>
+        </div>
         <button class="accordion accordionMenu">活動企劃管理系統</button>
         <div class="btn-group-vertical">
-            <a class="btn btn-default" href="#" role="button">推播管理</a>
-            <a class="btn btn-default" href="#" role="button">留言版管理</a>
-            <a class="btn btn-default" href="#" role="button">最新消息管理</a>
+        <%if(adminisVO.getAuthno().equals("AC06") || adminisVO.getAuthno().equals("AC07")){%>
+<!--             <a class="btn btn-default" href="#" role="button">推播管理</a> -->
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/mes_board/listAllMesBoard.jsp" role="button">留言版管理</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/news/news_select_page.jsp" role="button">最新消息管理</a>
+         <%} %>
         </div>
         <button class="accordion accordionMenu">後端管理系統</button>
         <div class="btn-group-vertical">
-            <a class="btn btn-default" href="#" role="button">後端權限管理</a>
-            <a class="btn btn-default" href="#" role="button">推薦景點管理</a>
-            <a class="btn btn-default" href="#" role="button">後端登入管理</a>
+        <%if(adminisVO.getAuthno().equals("AC04") || adminisVO.getAuthno().equals("AC07")){%>
+           <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/adminis/adm_select_page.jsp" role="button">後端權限管理</a>
+<!--             <a class="btn btn-default" href="#" role="button">推薦景點管理</a> -->
+         <%} %>
         </div>
         <div class="btn-group-vertical"></div>
     </div>
+<!----------------------------------------------- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
     <div>
     
      <div class="col-xs-12 col-sm-10 rightHTML">
@@ -113,16 +136,7 @@
 </c:if>
 
 <ul>
-  <li><a href="listAllNews.jsp">List</a> all News. </li> <br><br>
-  
-  <li>
-    <FORM METHOD="post" ACTION="news.do" >
-        <b>輸入最新消息編號 (如N0001):</b>
-        <input type="text" name="newsno">
-        <input type="submit" value="送出">
-        <input type="hidden" name="action" value="getOne_For_Display">
-    </FORM>
-  </li>
+  <li><a href="listAllNews.jsp">查詢全部最新消息</a></li><br><br>
 
    <jsp:useBean id="newsSvc" scope="page" class="com.news.model.NewsService" />
    
@@ -144,9 +158,13 @@
 <h3>最新消息管理</h3>
 
 <ul>
-  <li><a href="addNews.jsp">Add</a> a new News.</li>
+  <li><a href="<%=request.getContextPath()%>/backend/news/addNews.jsp">新增最新消息</a></li>
 </ul>
 </div>
+<!----------------------------------------------- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
+	<!--RWD部分:下面兩行我拿掉一行和JQuery有關的script, 不然datepicker會衝到  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="<%=request.getContextPath()%>/backend/Modified/motorKanli_js.js"></script>
+    <script src="<%=request.getContextPath()%>/backend/Modified/indexNew.js"></script>
 </body>
-
 </html>
