@@ -1,5 +1,6 @@
 package com.motor_disp_list.model;
 
+import com.motor_dispatch.model.MotorDispatchVO;
 import com.motor_model.model.MotorModelVO;
 
 public interface MotorDispListDAO_interface {
@@ -12,6 +13,8 @@ public interface MotorDispListDAO_interface {
 	void insertByHib(MotorDispListVO mdListVO);
 
 	void updateByHib(MotorDispListVO mdListVO);
+
+	public void deleteByHib(String mdno);
 
 
 

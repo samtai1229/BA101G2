@@ -4,12 +4,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.motor_dispatch.model.MotorDispatchVO;
 import com.motor_model.model.MotorModelVO;
@@ -23,6 +27,8 @@ public class MotorDispListDAO implements MotorDispListDAO_interface {
 
 	private static final String GET_ONE_BY_MOTNO = "SELECT mdno, motno " 
 			+ "  FROM MOTOR_DISP_LIST where motno = ?";
+	//以下hiberante
+	private static final String DELETE = "delete MotorDispListVO where mdno = ?";
 	
 	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
 	private static DataSource ds = null;
@@ -174,5 +180,63 @@ public class MotorDispListDAO implements MotorDispListDAO_interface {
 			throw ex;
 		}
 	}
+	
+	@Override
+	public void deleteByHib(String mdno){
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		
+		try {
+			session.beginTransaction();
+			Query query = session.createQuery(DELETE);
+			query.setParameter(0, mdno);
+			query.executeUpdate();
+			
+			session.getTransaction().commit();
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
+		}
+	}
+	
+	public static void main(String[] args) {
+		
+		MotorDispListDAO dao = new MotorDispListDAO();
+		MotorDispatchVO mdVO = new MotorDispatchVO(); 
+		MotorModelVO mmVO = new MotorModelVO(); 
+		MotorDispListService mdlSvc = new MotorDispListService();
+		mdlSvc.deleteByHib("MD000023");
+		System.out.println("GGG");
+		
+		
+//		Set<MotorDispListVO> set = new HashSet<MotorDispListVO>();
+	//	
+//		MotorDispListVO mdListVO = new MotorDispListVO();
+//		int amount = 2;
+//		for(int i = 1; i <= amount; i++){
+//			mdVO.setLocno("TPE01");
+//			mmVO.setModtype("MM101");
+//			mdListVO.setMotno(String.valueOf(i));
+//		}
+//		mdListVO.setMotorDispatchVO(mdVO);
+//		mdListVO.setMotorModelVO(mmVO);
+//		set.add(mdListVO);
+	//	
+//		mdVO.setMotorDispLists(set);
+//		dao.insertByHib(mdVO);
+	//	
+	//	
+	//	
+//		List<MotorDispatchVO> list2 = dao.getAllByHib();
+//		for (MotorDispatchVO aDept : list2) {
+//			System.out.print(aDept.getMdno() + ",");
+//			System.out.print(aDept.getLocno() + ",");
+//			System.out.print(aDept.getFilldate());
+//			System.out.print(aDept.getCloseddate());
+//			System.out.print(aDept.getProg());
+//			System.out.println("\n-----------------");
+//			
+//		}
+	//	
+		}
 
 }

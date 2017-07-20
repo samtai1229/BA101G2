@@ -11,7 +11,6 @@ public class MotorDispListVO implements Serializable {
 	
 	private String mdno;
 	private String motno;
-	private String modtype;
 	
 	private MotorDispatchVO motorDispatchVO;
 	private MotorVO motorVO;
@@ -42,14 +41,6 @@ public class MotorDispListVO implements Serializable {
 
 	public void setMotno(String motno) {
 		this.motno = motno;
-	}
-
-	public String getModtype() {
-		return modtype;
-	}
-
-	public void setModtype(String modtype) {
-		this.modtype = modtype;
 	}
 
 	public MotorVO getMotorVO() {
