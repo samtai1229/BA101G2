@@ -161,17 +161,24 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="motpic">上傳圖片：</label>
 					<div class="col-sm-10">
-					<input type="file" id="filePic" name="motpic">
+					<input type="file" id="filePic" class="btn btn-default" name="motpic">
 					<p>
 					<img id="imgPic" src="">
 					</p>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="intro">說明文檔：</label>
+					<div class="col-sm-10">
+					<textarea class="form-control" id="intro" rows="5" cols="70" name="intro"></textarea>
 					</div>
 				</div>
 
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
 						<input type="hidden" name="action" value="insert">
-						<input type="submit" value="確認新增">
+						<input type="submit" class="btn btn-default" value="確認新增">
 					</div>
 				</div>
 			</FORM>
