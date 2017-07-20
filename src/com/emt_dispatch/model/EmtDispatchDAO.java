@@ -40,7 +40,7 @@ public class EmtDispatchDAO implements EmtDispatchDAO_interface{
 			"UPDATE EMT_DISPATCH set LOCNO=?, DEMANDDATE=?, CLOSEDDATE=?, PROG=? where EDNO = ?";
 		//以下為hibernate用
 		private static final String GET_ALL_STMT_BY_HIBERNATE = "from EmtDispatchVO order by edno desc";
-		private static final String GET_BY_LOCNO = "from EmtDispatchVO where locno = ? order by edno";
+		private static final String GET_BY_LOCNO = "from EmtDispatchVO where locno = ? order by edno desc";
 		private static final String CANCEL = "update EmtDispatchVO set prog = 'canceled', closeddate = systimestamp where edno = ?";
 		
 		@Override
