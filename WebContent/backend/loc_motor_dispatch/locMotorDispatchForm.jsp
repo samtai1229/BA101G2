@@ -1,11 +1,14 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
 <%@ page import="com.equipment.model.*"%>
 <%@ page import="com.emt_cate.model.*"%>
 <%@ page import="com.motor.model.*"%>
 <%@ page import="com.motor_model.model.*"%>
 <%@ page import="com.rent_ord.model.*"%>
+<%@ page import="com.motor_dispatch.model.*"%>
+
 
 <!DOCTYPE html>
 <%-- 此頁練習採用 EL 的寫法取值 --%>
@@ -20,10 +23,7 @@
 	class="com.rent_ord.model.RentOrdService" />
 <jsp:useBean id="locSvc" scope="page"
 	class="com.location.model.LocationService" />
-<%
-	List<MotorModelVO> list = mdSvc.getAllbyHib();
-	pageContext.setAttribute("list", list);
-%>
+<jsp:useBean id="now" scope="page" class="java.util.Date" />  
 
 
 <html>
@@ -39,7 +39,7 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/js/style.css">
+	href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/js/locMotorDispatchForm_css.css">
 <link rel="stylesheet"
 	href="http://www.jacklmoore.com/colorbox/example1/colorbox.css">
 
@@ -49,7 +49,7 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script
-	src="${pageContext.request.contextPath}/backend/loc_motor_dispatch/js/locMotorDispatchApply_js.js"></script>
+	src="${pageContext.request.contextPath}/backend/loc_motor_dispatch/js/locMotorDispatchForm_js.js"></script>
 <script type="text/javascript"
 	src="http://www.jacklmoore.com/colorbox/jquery.colorbox.js"></script>
 </head>
@@ -152,7 +152,7 @@
 						<td>
 							<FORM METHOD="post" style="display: inline;"
 								ACTION="${pageContext.request.contextPath}/backend/motor_dispatch/md.do">
-								<div class="form-group">
+								<div class="form-group" style="display: inline;">
 									<div class="col-sm-4">
 										<label class="control-label" for="locno">選取所在據點：</label>
 									</div>
@@ -177,7 +177,7 @@
 
 							<FORM METHOD="post" style="display: inline;"
 								ACTION="${pageContext.request.contextPath}/backend/motor_dispatch/md.do">
-								<div class="form-group">
+								<div class="form-group" style="display: inline;">
 									<div class="col-sm-4">
 										<label class="control-label" for="locno">查詢所在據點申請單據：</label>
 									</div>
@@ -204,119 +204,80 @@
 				</table>
 			</div>
 			<!--搜尋列結束 -->
-			<c:forEach var="motorModelVO" items="${list}" begin="<%=pageIndex%>"
-				end="<%=pageIndex+rowsPerPage-1%>">
-				<button class="accordion accordionDispTable">
+			<div class="accordion ">
 					<table>
 						<tr>
-							<td>${mmVO.modtype}</td>
-							<td>${mmVO.brand}</td>
-							<td>${mmVO.name}</td>
-							<td>${mmVO.displacement}c.c.</td>
-							<td>${mmVO.renprice}</td>
+							<td>調度單號</td>
+							<td>填單日期</td>
+							<td>結案日期</td>
+							<td>申請數量</td>
+							<td>處理進度</td>
+							<td>取消</td>
 						</tr>
 					</table>
-				</button>
-				<div class="btn-group-vertical">
-					<div class="btn btn-default" role="button">
-						台北&nbsp;&nbsp;&nbsp;&nbsp; 12台&nbsp;&nbsp;&nbsp;&nbsp; <input
-							type="number" name="" size=1>
-					</div>
-					<div class="btn btn-default" role="button">
-						台中&nbsp;&nbsp;&nbsp;&nbsp; 07台&nbsp;&nbsp;&nbsp;&nbsp; <input
-							type="number" name="">
-					</div>
-					<div class="btn btn-default" role="button">
-						台南&nbsp;&nbsp;&nbsp;&nbsp; 05台&nbsp;&nbsp;&nbsp;&nbsp; <input
-							type="number" name="">
-					</div>
-					<div class="btn btn-default" role="button">
-						高雄&nbsp;&nbsp;&nbsp;&nbsp; 09台&nbsp;&nbsp;&nbsp;&nbsp; <input
-							type="number" name="">
-					</div>
 				</div>
+			<c:forEach var="mdVO" items="${getByLocnoByHib}">
+				<div class="accordion accordionDispTable">
+					<table>
+						<tr>
+							<td>${mdVO.mdno}</td>
+							<td><fmt:formatDate pattern="yyyy-MM-dd" value="${mdVO.filldate}"/></td>
+							<td>
+								<c:choose>
+  								<c:when test="${mdVO.closeddate == null}">
+   									審查中...
+  								</c:when>
+  							    <c:otherwise>
+    								<fmt:formatDate pattern="yyyy-MM-dd" value="${mdVO.closeddate}"/>
+ 								</c:otherwise>
+								</c:choose>
+							</td>
+							<td>
+								<%! int count=0;%>
+								<c:forEach var="mdListVO" items="${mdVO.motorDispLists}">
+									<% count++;%>
+								</c:forEach>
+								<%= count %>輛
+							</td>
+								<%  count=0;%>
+							<td>${mdVO.prog}</td>
+							<td>
+								<c:choose>
+  								<c:when test="${mdVO.prog == 'request'}">
+  									<FORM METHOD="post" style="display: inline;"
+										ACTION="${pageContext.request.contextPath}/backend/motor_dispatch/md.do">
+   									<input type="submit" class="btn btn-default" value="取消">
+									<input type="hidden" name="action" value="cancel">
+									<input type="hidden" name="mdno" value="${mdVO.mdno}">
+									<input type="hidden" name="locno" value="${mdVO.locno}">
+									<input type="hidden" name="requestURL"
+											value="<%=request.getParameter("requestURL")%>">
+									</FORM>
+  								</c:when>
+  							    <c:otherwise>
+    								<input type="button" class="btn btn-default" value="取消" disabled>
+ 								</c:otherwise>
+								</c:choose>
+							</td>
+						</tr>
+					</table>
+				</div>
+				
+				
+				<div class="btn-group-vertical">
+					<c:forEach var="mdListVO" items="${mdVO.motorDispLists}">
+					<div class="btn btn-default" role="button">
+						${mdListVO.motorVO.motorModelVO.modtype}：${mdListVO.motorVO.motno}
+					</div>
+					</c:forEach>
+				</div>
+				
 			</c:forEach>
 
 		</div>
 		<!--container結束-->
 	</div>
 	<!--右邊HTML區塊結束 -->
-
-
-	<footer id="footer">
-		<div id="cartDiv">
-			<div id="newMotor">
-				<img src="" id="cartImage" style="margin-left: 150px;"> <span
-					id="spanName"></span> <span id="motorAmt"></span>
-				<!--     		<img src="imgs/formosa.jpg" id="cartImage"> -->
-				<!-- 			<span>Formosa</span>  -->
-				<!--  			<span>5000</span>	 -->
-			</div>
-			<span class="checkout">check out</span>
-			<div id="dispatchListContent">
-				<FORM METHOD="post"
-					ACTION="${pageContext.request.contextPath}/backend/motor_dispatch/md.do"
-					name="formDispatch" id="formDispatch" class="form-horizontal">
-					<table id="dispatchListTable">
-						<!--     		<tr class="contentTr"> -->
-						<!--     			<td class = "contentTd"> -->
-						<!--     				<div class="form-group"> -->
-						<!-- 						<label class="contentName control-label col-sm-3" for="modtype">MM101</label> -->
-						<!-- 						<input type="hidden" name="modtype" value="MM101"> -->
-						<!-- 						<div class="col-sm-9"> -->
-						<!-- 							<input type="text" class="contentCount form-control" id="modtype" name="modtype" value="1" /> -->
-						<!-- 						</div> -->
-						<!-- 					</div> -->
-						<!--     			</td> -->
-						<!--     		</tr> -->
-						<tr>
-							<td><input type="hidden" name="action" value="insert">
-								<input type="hidden" name="locno" value="${param.locno}">
-								<input type="hidden" name="requestURL"
-								value="<%=request.getParameter("requestURL")%>"> <input
-								type="submit" class="btn btn-default" value="確認提出"></td>
-						</tr>
-					</table>
-				</form>
-			</div>
-			<div id="dispatchListButton">
-				<span class="contentTotal"></span>
-			</div>
-			<div style="clear: both;"></div>
-		</div>
-	</footer>
-
-	<script type="text/javascript">
-		(function() {
-			$('.checkout').on('click', function() {
-				$.colorbox({
-					html : $("#dispatchListContent").html(), //在燈箱中要顯示的html字段
-					width : 700, //燈箱中間區塊的寬度
-					height : 600, //燈箱中間區塊的高度
-					onClosed : function() { //當燈箱關閉時的callback funtion
-					}
-				});
-			});
-		})();
-	</script>
-
-	<style type="text/css">
-.checkout {
-	background-color: #4e4e4f;
-	border: none;
-	color: white;
-	padding: 15px 32px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
-	margin: 4px 2px;
-	cursor: pointer;
-	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0
-		rgba(0, 0, 0, 0.19);
-	border-radius: 12px;
-}
-</style>
 
 
 

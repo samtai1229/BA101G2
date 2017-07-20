@@ -1,3 +1,4 @@
+<%@page import="sun.nio.cs.MS1250"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
@@ -140,31 +141,60 @@
 				<table>
 					<tr>
 						<td>
-							<FORM METHOD="post" style="display: inline;" ACTION="${pageContext.request.contextPath}/backend/motor_dispatch/md.do" >
-								<div class="form-group">
+							<FORM METHOD="post" style="display: inline;"
+								ACTION="${pageContext.request.contextPath}/backend/motor_dispatch/md.do">
+								<div class="form-group" style="display: inline;">
 									<div class="col-sm-4">
-											<label class="control-label" for="locno">選取所在據點：</label>
+										<label class="control-label" for="locno">選取所在據點：</label>
 									</div>
 									<div class="col-sm-7">
-      									<select class="form-control" name="locno" id="locSelect" style="display: inline;">
-      										<c:forEach var="locVO" items="${locSvc.getAll()}">
-        									<option value="${locVO.locno}"
-											${(locVO.locno==param.locno)?'selected':'' }>${locVO.locno}</option>
-        									</c:forEach>
-      									</select>
+										<select class="form-control" name="locno" id="locSelect"
+											style="display: inline;">
+											<c:forEach var="locVO" items="${locSvc.getAll()}">
+												<option value="${locVO.locno}"
+													${(locVO.locno==param.locno)?'selected':'' }>${locVO.locno}</option>
+											</c:forEach>
+										</select>
 									</div>
 									<div class="col-sm-1">
 										<input type="submit" class="btn btn-default" value="確認">
-										<input type="hidden" name="action" value="chooseLoc"> 
+										<input type="hidden" name="action" value="chooseLoc">
 										<input type="hidden" name="locno" value="${locVO.locno}">
-										<input type="hidden" name="requestURL" value="<%=request.getParameter("requestURL")%>">
+										<input type="hidden" name="requestURL"
+											value="<%=request.getParameter("requestURL")%>">
+									</div>
+								</div>
+							</form>
+
+							<FORM METHOD="post" style="display: inline;"
+								ACTION="${pageContext.request.contextPath}/backend/motor_dispatch/md.do">
+								<div class="form-group" style="display: inline;">
+									<div class="col-sm-4">
+										<label class="control-label" for="locno">查詢所在據點申請單據：</label>
+									</div>
+									<div class="col-sm-7">
+										<select class="form-control" name="locno"
+											id="locMotorDispListSelect" style="display: inline;">
+											<c:forEach var="locVO" items="${locSvc.getAll()}">
+												<option value="${locVO.locno}"
+													${(locVO.locno==param.locno)?'selected':'' }>${locVO.locno}</option>
+											</c:forEach>
+										</select>
+									</div>
+									<div class="col-sm-1">
+										<input type="submit" class="btn btn-default" value="查詢">
+										<input type="hidden" name="action" value="chooseLocForList">
+										<input type="hidden" name="locno" value="${locVO.locno}">
+										<input type="hidden" name="requestURL"
+											value="<%=request.getParameter("requestURL")%>">
 									</div>
 								</div>
 							</form>
 						</td>
 					</tr>
 				</table>
-			</div><!--搜尋列結束 -->
+			</div>
+			<!--搜尋列結束 -->
 			
 			<div id="outer-wrapper">
 				<div id="header-wrapper">

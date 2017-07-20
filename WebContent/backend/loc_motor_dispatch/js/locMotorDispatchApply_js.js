@@ -19,7 +19,6 @@ function doFirst() {
         }
     }
 
-    $(".addButton").off('click')
         //購物車
     $(".addButton").on('click', function() {
         var mmList = $(this).parent().parent().parent();
