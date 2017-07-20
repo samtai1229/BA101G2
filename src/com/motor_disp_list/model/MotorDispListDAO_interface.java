@@ -1,5 +1,7 @@
 package com.motor_disp_list.model;
 
+import java.util.List;
+
 import com.motor_dispatch.model.MotorDispatchVO;
 import com.motor_model.model.MotorModelVO;
 
@@ -15,6 +17,8 @@ public interface MotorDispListDAO_interface {
 	void updateByHib(MotorDispListVO mdListVO);
 
 	public void deleteByHib(String mdno);
+
+	public List<MotorDispListVO> getMotnosByMdnoByHib(String mdno);
 
 
 

@@ -129,6 +129,7 @@ public class MotorDispatchServlet extends HttpServlet {
 				MotorDispatchVO mdVO = new MotorDispatchVO();
 				MotorDispListVO mdListVO = new MotorDispListVO();
 				MotorVO motorVO = new MotorVO();
+				MotorDispatchService mdSvc = new MotorDispatchService();
 				Set<MotorDispListVO> set = new HashSet<MotorDispListVO>();
 
 				mdVO.setLocno(locno);
@@ -150,13 +151,32 @@ public class MotorDispatchServlet extends HttpServlet {
 					}
 
 					/************ 2.開始新增資料 ****************/
-					MotorDispatchService mdSvc = new MotorDispatchService();
+
 					mdSvc.insertByHib(mdVO);
 				}
 
+				// insert(申請)完調度單完立即查詢全部該據點調度單
+				List<MotorDispatchVO> list = mdSvc.getByLocnoByHib(locno);
+
+				if (list == null) {
+					errorMsgs.add("查無資料");
+				}
+
+				Set<MotorDispListVO> motorDispLists = new HashSet<MotorDispListVO>();
+				for (MotorDispatchVO mdVOtemp : list) {
+					motorDispLists = mdVOtemp.getMotorDispLists();
+				}
+
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher(requestURL);
+					failureView.forward(req, res);
+					return;// 程式中斷
+				} // end of "insert(申請)完調度單完立即查詢全部該據點調度單"
+
 				/************** 3.新增完成,準備轉交(Send the Success view) ***********/
+				req.setAttribute("getByLocnoByHib", list);
 				RequestDispatcher successView = req
-						.getRequestDispatcher("/backend/loc_motor_dispatch/locMotorDispatchApply.jsp"); // 新增成功後轉交?.jsp
+						.getRequestDispatcher("/backend/loc_motor_dispatch/locMotorDispatchForm.jsp"); // 新增成功後轉交?.jsp
 				successView.forward(req, res);
 				System.out.println("insert 成功");
 				/*************************** 其他可能的錯誤處理 **********************************/
@@ -198,11 +218,6 @@ public class MotorDispatchServlet extends HttpServlet {
 
 				if (list == null) {
 					errorMsgs.add("查無資料");
-				}
-
-				Set<MotorDispListVO> motorDispLists = new HashSet<MotorDispListVO>();
-				for (MotorDispatchVO mdVO : list) {
-					motorDispLists = mdVO.getMotorDispLists();
 				}
 
 				if (!errorMsgs.isEmpty()) {
@@ -257,7 +272,6 @@ public class MotorDispatchServlet extends HttpServlet {
 				/************ 2.開始新增資料 ***********************/
 				System.out.println("開始 cancel");
 				mdSvc.cancelByHib(mdno);
-				
 
 				/********** 3.更改完成,準備轉交(Send the Success view) *******/
 				req.setAttribute("getByLocnoByHib", list);
@@ -301,7 +315,7 @@ public class MotorDispatchServlet extends HttpServlet {
 				req.setAttribute("mdVO", mdVO);
 				req.setAttribute("motnoInList", list);
 				String url = "/backend/loc_motor_dispatch/updateMotorDispatch.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交updateMotorInput.jsp
+				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 				System.out.println("getOne_For_Update成功");
 				/*************************** 其他可能的錯誤處理 ************************************/
@@ -313,19 +327,48 @@ public class MotorDispatchServlet extends HttpServlet {
 			}
 		} // end of getOne_For_Update
 
-// update(審核調度單
+		// update(審核調度單
 		if ("update".equals(action)) {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 			String requestURL = req.getParameter("requestURL");
 			System.out.println("requestURL :  " + requestURL);
+			/************* 1.接收請求參數 - 輸入格式的錯誤處理 **************/
+			String mdno = req.getParameter("mdno");
+			String locno = req.getParameter("locno");
+			String prog = req.getParameter("prog");
+			String motnoArray[] = req.getParameterValues("motno");// 因為有複數motno
+			System.out.println("111111111111: " + motnoArray.length);
 			try {
-				/************* 1.接收請求參數 - 輸入格式的錯誤處理 **************/
-				String mdno = req.getParameter("mdno");
-				String locno = req.getParameter("locno");
-				String prog = req.getParameter("prog");
-				String motnoArray[] = req.getParameterValues("motno");// 因為有複數motno
-System.out.println("prog " + prog);
+				MotorDispatchVO mdVO = new MotorDispatchVO();
+				MotorDispListVO mdListVO = new MotorDispListVO();
+				Set<MotorDispListVO> motorDispListVOset = new HashSet<MotorDispListVO>();
+				MotorVO motorVO = new MotorVO();
+				MotorDispatchService mdSvc = new MotorDispatchService();
+				MotorService motorSvc = new MotorService();
+				MotorDispListService mdListSvc = new MotorDispListService();
+
+				for (String motno : motnoArray) {
+
+					String statusThisSec = motorSvc.findByPkByHib(motno).getStatus();
+					System.out.println("statusThisSec " + statusThisSec);
+					System.out.println("333333333333");
+
+					if (statusThisSec.equals("reserved") || statusThisSec.equals("occupied")
+							|| statusThisSec.equals("seconsale") || statusThisSec.equals("secpause")
+							|| statusThisSec.equals("secreserved") || statusThisSec.equals("secsaled")
+							|| statusThisSec.equals("other")) {
+						System.out.println("55555555555");
+						req.setAttribute("getAlert", "Yes"); // 含有輸入格式錯誤的empVO物件,也存入req
+						// req.setAttribute("action", "getOne_For_Update");
+						// req.setAttribute("mdno", mdno);
+						RequestDispatcher failureView = req.getRequestDispatcher(
+								"/backend/motor_dispatch/md.do?action=getOne_For_Update&mdno=" + mdno);
+						failureView.forward(req, res);
+						return;
+					}
+				}
+
 				// 處理日期
 				Timestamp filldate = null;
 				Timestamp closeddate = null;
@@ -333,7 +376,7 @@ System.out.println("prog " + prog);
 
 				try {
 					// filldate: 正常轉型、驗證格式
-					System.out.println(req.getParameter("filldate"));
+					System.out.println("filldate: " + req.getParameter("filldate"));
 
 					// 因為我允許closedddate為空值，故，isNULL就不轉型不驗證。
 					if (req.getParameter("closeddate").equals(null) || req.getParameter("closeddate").equals("null")) {
@@ -348,18 +391,9 @@ System.out.println("prog " + prog);
 					long filldateTypeLong = (sdf.parse(req.getParameter("filldate").trim())).getTime();
 					filldate = new Timestamp(filldateTypeLong);
 				} catch (IllegalArgumentException e) {
-					filldate = new Timestamp(System.currentTimeMillis());
 					errorMsgs.add("請輸入日期");
-
 				}
 
-				MotorDispatchVO mdVO = new MotorDispatchVO();
-				MotorDispListVO mdListVO = new MotorDispListVO();
-				Set<MotorDispListVO> motorDispListVOset = new HashSet<MotorDispListVO>();
-				MotorVO motorVO = new MotorVO();
-				MotorDispatchService mdSvc = new MotorDispatchService();
-				MotorDispListService mdListSvc = new MotorDispListService();
-				MotorService motorSvc = new MotorService();
 				// 先刪除調度單明細裡面全部的資料
 				mdListSvc.deleteByHib(mdno);
 
@@ -384,23 +418,26 @@ System.out.println("prog " + prog);
 					// Send the use back to the form, if there were errors
 					if (!errorMsgs.isEmpty()) {
 						req.setAttribute("mdVO", mdVO); // 含有輸入格式錯誤的VO物件,也存入req
-						RequestDispatcher failureView = req.getRequestDispatcher(requestURL);
+						RequestDispatcher failureView = req.getRequestDispatcher(
+								"/backend/motor_dispatch/md.do?action=getOne_For_Update&mdno=" + mdno);
 						failureView.forward(req, res);
 						return;
 					}
-					
-					//若調度單轉變為"調度中(dispatching)"，則將此單中所有車輛狀態也轉為dispatching
-					if(prog.equals("dispatching")){
+
+					// 若調度單轉變為"調度中(dispatching)"，則將此單中所有車輛狀態也轉為dispatching
+					if (prog.equals("dispatching")) {
 						String status = "dispatching";
 						System.out.println(status);
 						motorSvc.updateStatusByHib(motno, status);
-						//若調度單轉變為"調度完成(dispatched)"，則將此單中所有車輛狀態也轉為unleasable
-					} else if(prog.equals("dispatched")) {
+						// 若調度單轉變為"調度完成(dispatched)"，則將此單中所有車輛狀態也轉為unleasable
+					} else if (prog.equals("dispatched")) {
 						String status = "unleasable";
 						System.out.println(status);
 						motorSvc.updateStatusByHib(motno, status);
-						//若調度單設為結案，且結案日期內容為空值則結案日期colseddate設現在時間systime
-					} else if(prog.equals("closed") && req.getParameter("closeddate").equals(null) || req.getParameter("closeddate").equals("null")){
+						// 若調度單設為結案，且結案日期內容為空值則結案日期colseddate設現在時間systime
+					} else if (prog.equals("closed")
+							|| prog.equals("canceled") && (req.getParameter("closeddate").equals(null)
+									|| req.getParameter("closeddate").equals("null"))) {
 						closeddate = new Timestamp(System.currentTimeMillis());
 						mdVO.setCloseddate(closeddate);
 					}
@@ -424,7 +461,8 @@ System.out.println("prog " + prog);
 				errorMsgs.add(e.getMessage());
 				System.out.println("update失敗");
 				System.out.println(e.getMessage());
-				RequestDispatcher failureView = req.getRequestDispatcher(requestURL);
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/backend/motor_dispatch/md.do?action=getOne_For_Update&mdno=" + mdno);
 				failureView.forward(req, res);
 			}
 		} // end of update
