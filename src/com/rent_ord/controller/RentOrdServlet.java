@@ -80,7 +80,7 @@ public class RentOrdServlet extends HttpServlet {
 
 //query_product_info 從我要租車->選定某車款後進入。
 		if ("query_product_info".equals(action)) { 
-			System.out.println("quick_search_product in");
+			System.out.println("query_product_info in");
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 
@@ -110,7 +110,7 @@ public class RentOrdServlet extends HttpServlet {
 				Date query_start_time = cal.getTime();
 				
 				cal.add(Calendar.DATE, 3);//+3天    
-				Date tempEnd = cal.getTime();
+//				Date tempEnd = cal.getTime();
 				
 				cal.add(Calendar.DATE, 54);//+60天  
 				System.out.println("query_start_time: "+query_start_time);
@@ -919,7 +919,9 @@ public class RentOrdServlet extends HttpServlet {
 			/***************************1.接收請求參數 - 輸入格式的錯誤處理**********************/
 			String motno = req.getParameter("motno");
 			String dayrange = req.getParameter("dayrange");
+			String memno = req.getParameter("memno");
 
+			System.out.println("memno"+ memno);
 			System.out.println("dayrange:" + dayrange);
 			
 			/***************************2.開始查詢資料*****************************************/
@@ -970,6 +972,16 @@ public class RentOrdServlet extends HttpServlet {
 			System.out.println("motnoVO.motorQueryVO:"+motorQueryVO.getMotno());
 			
 			req.setAttribute("dayPicker", dayPicker);
+			
+			
+//			HttpSession session = req.getSession();
+//			Enumeration<String> enumber = session.getAttributeNames();
+//			while(enumber.hasMoreElements()){
+//				String name = (String) enumber.nextElement();
+//				System.out.println("quick_search_product session name: "+name+", value:"+session.getAttribute(name));
+//			}
+			
+			
 
 			
 			String url = "/frontend/rental_form/quick_search_product.jsp";
@@ -1055,7 +1067,7 @@ public class RentOrdServlet extends HttpServlet {
 				
 				for(MotorVO mVO : allMotorList){
 					int count = 0;
-					System.out.println("allMotorVO motno: " + mVO.getMotno());
+					//System.out.println("allMotorVO motno: " + mVO.getMotno());
 					for(MotorVO mVO2 : notAllowMotorList){
 						//System.out.println("ngMotor: " + ngMotor);
 						
@@ -1098,6 +1110,15 @@ public class RentOrdServlet extends HttpServlet {
 				req.setAttribute("quick_search", availableMotorVO);
 				req.setAttribute("start_time", start_time_str);
 				req.setAttribute("end_time", end_time_str);
+				
+				
+//				HttpSession session = req.getSession();
+//				Enumeration<String> enumber = session.getAttributeNames();
+//				while(enumber.hasMoreElements()){
+//					String name = (String) enumber.nextElement();
+//					System.out.println("quick_search session name: "+name+", value:"+session.getAttribute(name));
+//				}
+				
 
 				RequestDispatcher successView = req.getRequestDispatcher("/frontend/rental_form/quick_search.jsp"); // 成功轉交
 
@@ -1648,7 +1669,7 @@ public class RentOrdServlet extends HttpServlet {
 				String motno = req.getParameter("motno").trim();
 				String slocno = req.getParameter("slocno").trim();
 				String rlocno = req.getParameter("rlocno").trim();
-				String note = req.getParameter("note").trim();
+//				String note = req.getParameter("note").trim();
 
 				String totalStr = req.getParameter("total").trim();
 				
