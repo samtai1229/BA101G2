@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.location.model.LocationVO" table="location" >
+        
+        <id name="locno" column="locno"/>
+        
+        <property name="locname" column="locname" />
+        <property name="tel" column="tel" />
+        <property name="addr" column="addr" />
+        <property name="pic" column="pic" />
+        <property name="lon" column="lon" />
+        <property name="lat" column="lat" />
+        <property name="status" column="status" />
+        
+        <set name="emts" table="equipment" lazy="false" cascade="all"  inverse="true"  order-by="emtno asc">			
+			<key>
+				<column name="locno" />
+			</key>
+			<one-to-many class="com.equipment.model.EquipmentVO" />
+		</set>
+    </class>
+</hibernate-mapping>
+

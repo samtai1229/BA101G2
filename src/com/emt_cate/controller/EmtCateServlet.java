@@ -108,7 +108,7 @@ public class EmtCateServlet extends HttpServlet {
 
 				/*************************** 2.開始查詢資料 ****************************************/
 				EmtCateService ecSvc = new EmtCateService();
-				Set<EquipmentVO> set = ecSvc.getEqptsByEcno(ecno);
+				Set<EquipmentVO> set = ecSvc.getEmtsByEcno(ecno);
 
 				/**************************** 3.查詢完成,準備轉交(Send the Success view)************/
 				req.setAttribute("listEqpts_ByEcno", set); // 資料庫取出的list物件,存入request

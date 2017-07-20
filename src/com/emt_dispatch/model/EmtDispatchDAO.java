@@ -6,6 +6,14 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+
+import com.emt_disp_list.model.EmtDispListVO;
+import com.emt_dispatch.model.EmtDispatchVO;
+
+import hibernate.util.HibernateUtil;
+
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -30,7 +38,11 @@ public class EmtDispatchDAO implements EmtDispatchDAO_interface{
 			"DELETE FROM EMT_DISPATCH where EDNO = ?";
 		private static final String UPDATE = 
 			"UPDATE EMT_DISPATCH set LOCNO=?, DEMANDDATE=?, CLOSEDDATE=?, PROG=? where EDNO = ?";
-
+		//以下為hibernate用
+		private static final String GET_ALL_STMT_BY_HIBERNATE = "from EmtDispatchVO order by edno desc";
+		private static final String GET_BY_LOCNO = "from EmtDispatchVO where locno = ? order by edno";
+		private static final String CANCEL = "update EmtDispatchVO set prog = 'canceled', closeddate = systimestamp where edno = ?";
+		
 		@Override
 		public void insert(EmtDispatchVO emtDispatchVO) {
 
@@ -269,51 +281,153 @@ public class EmtDispatchDAO implements EmtDispatchDAO_interface{
 			return list;
 		}
 		
+		//以下為hibernate用
+		@Override
+		public void insertByHib(EmtDispatchVO edVO) {
+			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+			try {
+				session.beginTransaction();
+				session.saveOrUpdate(edVO);
+				session.getTransaction().commit();
+			} catch (RuntimeException ex) {
+				System.out.println("insertByHib fail");
+				session.getTransaction().rollback();
+				throw ex;
+			}
+		}
+
+		@Override
+		public void updateByHib(EmtDispatchVO edVO) {
+			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+			try {
+				session.beginTransaction();
+				session.saveOrUpdate(edVO);
+				session.getTransaction().commit();
+			} catch (RuntimeException ex) {
+				session.getTransaction().rollback();
+				throw ex;
+			}
+		}
+
+		@Override
+		public void deleteByHib(String edno) {
+			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+			try {
+				session.beginTransaction();
+				EmtDispatchVO edVO = (EmtDispatchVO) session.get(EmtDispatchVO.class, edno);
+				session.delete(edVO);
+				session.getTransaction().commit();
+			} catch (RuntimeException ex) {
+				session.getTransaction().rollback();
+				throw ex;
+			}
+		}
+
+		@Override
+		public EmtDispatchVO findByPkByHib(String edno) {
+			EmtDispatchVO edVO = null;
+			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+			try {
+				session.beginTransaction();
+				edVO = (EmtDispatchVO) session.get(EmtDispatchVO.class, edno);
+				session.getTransaction().commit();
+			} catch (RuntimeException ex) {
+				session.getTransaction().rollback();
+				throw ex;
+			}
+			return edVO;
+		}
+
+		@Override
+		public List<EmtDispatchVO> getAllByHib() {
+			List<EmtDispatchVO> list = null;
+			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+			try {
+				session.beginTransaction();
+				Query query = session.createQuery(GET_ALL_STMT_BY_HIBERNATE);
+				list = query.list();
+				session.getTransaction().commit();
+			} catch (RuntimeException ex) {
+				session.getTransaction().rollback();
+				throw ex;
+			}
+			return list;
+		}
+
+		@Override
+		public Set<EmtDispListVO> getEdListByEdnoByHib(String edno) {		
+			Set<EmtDispListVO> set = findByPkByHib(edno).getEmtDispLists();
+			return set;
+		}
+		
+		@Override
+		public List<EmtDispatchVO> getByLocnoByHib(String locno){
+			List<EmtDispatchVO> list = null;
+			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+			try {
+				session.beginTransaction();
+				Query query = session.createQuery(GET_BY_LOCNO);
+				query.setParameter(0, locno);
+				list = query.list();
+				session.getTransaction().commit();
+			} catch (RuntimeException ex) {
+				session.getTransaction().rollback();
+				throw ex;
+			}
+			return list;
+		}
+		
+		@Override
+		public void cancelByHib(String edno){
+			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+			try {
+				session.beginTransaction();
+				Query query = session.createQuery(CANCEL);
+				query.setParameter(0, edno);
+				query.executeUpdate();
+				
+				session.getTransaction().commit();
+			} catch (RuntimeException ex) {
+				session.getTransaction().rollback();
+				throw ex;
+			}
+		}
+		
 		
 		public static void main(String[] args){
 
-			EmtDispatchJDBCDAO dao = new EmtDispatchJDBCDAO();
-			DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-			
-			// 新增
-//			EmtDispatchVO emtDispatchVO1 = new EmtDispatchVO();
-//			emtDispatchVO1.setLocno("L000002");
-//			emtDispatchVO1.setDemanddate(Timestamp.valueOf("2017-01-01 11:11:11"));
-//			emtDispatchVO1.setCloseddate(Timestamp.valueOf("2017-02-02 20:20:20"));
-//			emtDispatchVO1.setProg("dispatched");
-//			dao.insert(emtDispatchVO1);
 
-			// 修改
-//			EmtDispatchVO emtDispatchVO2 = new EmtDispatchVO();
-//			emtDispatchVO2.setLocno("L000002");
-//			emtDispatchVO2.setDemanddate(Timestamp.valueOf("2017-03-03 11:33:33"));
-//			emtDispatchVO2.setCloseddate(Timestamp.valueOf("2017-02-02 20:20:20"));
-//			emtDispatchVO2.setProg("closed");
-//			emtDispatchVO2.setEdno("ED000021");
-//			dao.update(emtDispatchVO2);
-
-			// 刪除
-//			dao.delete("ED000021");
-			
-
-			// 查詢
-			EmtDispatchVO emtDispatchVO3 = dao.findByPrimaryKey("ED000003");
-			System.out.print(emtDispatchVO3.getEdno() + ",");
-			System.out.print(emtDispatchVO3.getLocno() + ",");
-			System.out.print(sdf.format(emtDispatchVO3.getDemanddate()) + ",");
-			System.out.print(sdf.format(emtDispatchVO3.getCloseddate()) + ",");
-			System.out.print(emtDispatchVO3.getProg());
-			System.out.println("---------------------");
-
-			// 查詢
-//			List<EmtDispatchVO> list = dao.getAll();
-//			for (EmtDispatchVO aEmtDispatch : list) {
-//				System.out.print(aEmtDispatch.getEdno() + ",");
-//				System.out.print(aEmtDispatch.getLocno() + ",");
-//				System.out.print(sdf.format(aEmtDispatch.getDemanddate()) + ",");
-//				System.out.print(sdf.format(aEmtDispatch.getCloseddate()) + ",");
-//				System.out.print(aEmtDispatch.getProg());
-//				System.out.println();
+//			EmtDispatchDAO dao = new EmtDispatchDAO();
+//			EmtDispatchVO edVO = new EmtDispatchVO(); 
+//			EmtCateVO mmVO = new EmtCateVO(); 
+//			Set<EmtDispListVO> set = new HashSet<EmtDispListVO>();
+		//	
+//			EmtDispListVO mdListVO = new EmtDispListVO();
+//			int amount = 2;
+//			for(int i = 1; i <= amount; i++){
+//				edVO.setLocno("TPE01");
+//				mmVO.setModtype("MM101");
+//				mdListVO.setMotno(String.valueOf(i));
 //			}
+//			mdListVO.setEmtDispatchVO(edVO);
+//			mdListVO.setEmtCateVO(mmVO);
+//			set.add(mdListVO);
+		//	
+//			edVO.setEmtDispLists(set);
+//			dao.insertByHib(edVO);
+		//	
+		//	
+		//	
+//			List<EmtDispatchVO> list2 = dao.getAllByHib();
+//			for (EmtDispatchVO aDept : list2) {
+//				System.out.print(aDept.getMdno() + ",");
+//				System.out.print(aDept.getLocno() + ",");
+//				System.out.print(aDept.getFilldate());
+//				System.out.print(aDept.getCloseddate());
+//				System.out.print(aDept.getProg());
+//				System.out.println("\n-----------------");
+//				
+//			}
+		//	
 		}
 	}

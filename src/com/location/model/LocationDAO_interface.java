@@ -9,5 +9,4 @@ public interface LocationDAO_interface {
     public void delete(String locno);
     public LocationVO findByPrimaryKey(String locno);
     public List<LocationVO> getAll();
-    public List<LocationVO> getAllStatusOpen();
 }

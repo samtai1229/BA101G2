@@ -260,7 +260,7 @@ public class EmtCateJNDIDAO implements EmtCateDAO_interface {
 	}
 
 	@Override
-	public Set<EquipmentVO> getEqptsByEcno(String ecno) {
+	public Set<EquipmentVO> getEmtsByEcno(String ecno) {
 		Set<EquipmentVO> set = new LinkedHashSet<EquipmentVO>();
 		EquipmentVO eqptVO = null;
 	

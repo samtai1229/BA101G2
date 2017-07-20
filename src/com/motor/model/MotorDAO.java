@@ -89,10 +89,10 @@ public class MotorDAO implements MotorDAO_interface {
 	
 //以下為Hibernate用
 	private static final String GET_ALL_STMT = "from MotorVO order by MOTNO";
-	private static final String FUZZY_SEARCH_BY_HIBERNATE ="FROM MotorVO where MOTNO LIKE ? or MODTYPE LIKE ? or PLATENO LIKE ? or ENGNO LIKE ? or MANUDATE LIKE ? or MILE LIKE ? or LOCNO LIKE ? or STATUS LIKE ? or NOTE LIKE ? or motorModelVO.brand like ? ORDER BY MOTNO"; 
-//			"SELECT m.motno, m.modtype, d.name, d.displacement, d.renprice, d.brand m.plateno, m.engno, m.manudate, m.mile, m.locno, d.saleprice,m.status, m.note FROM MOTOR as m join motor_model as d ON m.modtype = d.modtype where m.MOTNO LIKE ? or m.MODTYPE LIKE ? or m.PLATENO LIKE ? or m.ENGNO LIKE ? or m.MANUDATE LIKE ? or m.MILE LIKE ? or m.LOCNO LIKE ? or m.STATUS LIKE ? or m.NOTE LIKE ? or d.NAME LIKE ? or d.DISPLACEMENT LIKE ? or d.RENPRICE LIKE ? or d.SALEPRICE LIKE ? or d.BRAND LIKE ? ORDER BY m.MOTNO";
-	
-	
+	private static final String FUZZY_SEARCH_BY_HIBERNATE ="FROM MotorVO where motno LIKE ? or motorModelVO.modtype LIKE ? or plateno LIKE ? or engno LIKE ?  or mile LIKE ? or locno LIKE ? or status LIKE ? or note LIKE ? or motorModelVO.name LIKE ? or motorModelVO.displacement LIKE ? or motorModelVO.renprice LIKE ? or motorModelVO.saleprice LIKE ? or motorModelVO.brand LIKE ? ORDER BY motno"; 
+//			
+	private static final String GET_BY_MODTYPE_BY_HIBERNATE = "from MotorVO where modtype = ? order by MOTNO";
+	private static final String UPDATE_STATUS_BY_HIBERNATE = "update MotorVO set status = ? where motno = ?";
 	
 	@Override
 	public void insert(MotorVO motorVO) {
@@ -803,7 +803,7 @@ System.out.println("motorDAOlist: " + list);
 //			query2.add( Restrictions.like("renprice", "%"+fuzzyValue+"%"));
 //			query2.add( Restrictions.like("saleprice", "%"+fuzzyValue+"%"));
 			
-			Query query = session.createSQLQuery("SELECT m.motno, m.modtype, d.name, d.displacement, d.renprice, d.brand, m.plateno, m.engno, m.manudate, m.mile, m.locno, d.saleprice,m.status, m.note FROM MOTOR m join motor_model d ON m.modtype = d.modtype where m.MOTNO LIKE ? or m.MODTYPE LIKE ? or m.PLATENO LIKE ? or m.ENGNO LIKE ? or m.MANUDATE LIKE ? or m.MILE LIKE ? or m.LOCNO LIKE ? or m.STATUS LIKE ? or m.NOTE LIKE ? or d.NAME LIKE ? or d.DISPLACEMENT LIKE ? or d.RENPRICE LIKE ? or d.SALEPRICE LIKE ? or d.BRAND LIKE ? ORDER BY m.MOTNO");
+			Query query = session.createQuery(FUZZY_SEARCH_BY_HIBERNATE);
 			
 			query.setParameter(0, "%"+fuzzyValue+"%");
 			query.setParameter(1, "%"+fuzzyValue+"%");
@@ -818,7 +818,7 @@ System.out.println("motorDAOlist: " + list);
 			query.setParameter(10, "%"+fuzzyValue+"%");
 			query.setParameter(11, "%"+fuzzyValue+"%");
 			query.setParameter(12, "%"+fuzzyValue+"%");
-			query.setParameter(13, "%"+fuzzyValue+"%");
+//			query.setParameter(13, "%"+fuzzyValue+"%");
 			list = query.list();
 //			tx.commit();
 			session.getTransaction().commit();
@@ -831,16 +831,51 @@ System.out.println("motorDAOlist: " + list);
 		} 
 		return list;
 	}
+	
+	@Override
+	public List<MotorVO> getMotorsByModtypeByHib(String modtype) {
+		List<MotorVO> list = null;
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try {
+			session.beginTransaction();
+			Query query = session.createQuery(GET_BY_MODTYPE_BY_HIBERNATE);
+			query.setParameter(0, modtype);
+			list = query.list();
+			session.getTransaction().commit();
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
+		}
+		return list;
+	}
+	
+	@Override
+	public void updateStatusByHib(String motno, String status){
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try {
+			session.beginTransaction();
+			Query query = session.createQuery(UPDATE_STATUS_BY_HIBERNATE);
+			query.setParameter(0, status);
+			query.setParameter(1, motno);
+			int updateCount = query.executeUpdate();
+			System.out.println("updateStatusByHib: " + updateCount);
+			
+			session.getTransaction().commit();
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
+		}
+	}
 		
 	
 	
 	public static void main(String[] args) {
 
 		MotorDAO dao = new MotorDAO();
-
+		dao.fuzzySearchByHib("MM101");
 		//● 新增
-		MotorModelVO mmVO = new MotorModelVO(); // 部門POJO
-		mmVO.setModtype("MM102");
+//		MotorModelVO mmVO = new MotorModelVO(); // 部門POJO
+//		mmVO.setModtype("MM102");
 
 //		MotorVO empVO1 = new MotorVO();
 //		empVO1.setPlateno("ABC123");
@@ -889,7 +924,7 @@ System.out.println("motorDAOlist: " + list);
 
 
 		//● 查詢-getAll (多方emp2.hbm.xml必須設為lazy="false")(優!)
-		List<MotorVO> list = dao.getAllByHib();
+		List<MotorVO> list = dao.getMotorsByModtypeByHib("MM101");
 		for (MotorVO aEmp : list) {
 			System.out.print(aEmp.getMotno() + ",");
 //			System.out.print(aEmp.getModtype() + ",");

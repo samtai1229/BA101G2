@@ -18,7 +18,6 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import com.member.model.MemberVO;
 
 public class LocationJNDIDAO implements LocationDAO_interface{
 
@@ -306,10 +305,5 @@ static{
 		fis.close();
 
 		return baos.toByteArray();
-	}
-	@Override
-	public List<LocationVO> getAllStatusOpen() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

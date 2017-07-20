@@ -1,6 +1,10 @@
 package com.emt_dispatch.model;
 
 import java.util.List;
+import java.util.Set;
+
+import com.emt_disp_list.model.EmtDispListVO;
+
 
 
 public interface EmtDispatchDAO_interface {
@@ -9,6 +13,21 @@ public interface EmtDispatchDAO_interface {
      public void delete(String edno);
      public EmtDispatchVO findByPrimaryKey(String edno);
      public List<EmtDispatchVO> getAll();
-     //萬用複合查詢(傳入參數型態Map)(回傳 List)
-//   public List<EmpVO> getAll(Map<String, String[]> map); 
+
+   //以下為Hibernate用
+ 	public void insertByHib(EmtDispatchVO edVO);
+
+ 	public void updateByHib(EmtDispatchVO edVO);
+
+ 	public void deleteByHib(String edno);
+
+ 	public EmtDispatchVO findByPkByHib(String edno);
+
+ 	public List<EmtDispatchVO> getAllByHib();
+
+ 	Set<EmtDispListVO> getEdListByEdnoByHib(String edno);
+
+ 	public List<EmtDispatchVO> getByLocnoByHib(String locno);
+
+ 	public void cancelByHib(String edno);
 }

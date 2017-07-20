@@ -1,4 +1,9 @@
 package com.location.model;
+
+import java.util.*;
+
+import com.equipment.model.EquipmentVO;
+
 public class LocationVO implements java.io.Serializable{
 	private String locno;
 	private String locname;
@@ -8,6 +13,9 @@ public class LocationVO implements java.io.Serializable{
 	private float lon;
 	private float lat;
 	private String status;
+	
+	//hibernate用
+	private Set<EquipmentVO> emts = new HashSet<EquipmentVO>();
 	
 	public LocationVO() {
 		super();
@@ -75,6 +83,14 @@ public class LocationVO implements java.io.Serializable{
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public Set<EquipmentVO> getEmts() {
+		return emts;
+	}
+
+	public void setEmts(Set<EquipmentVO> emts) {
+		this.emts = emts;
 	}
 	
 }

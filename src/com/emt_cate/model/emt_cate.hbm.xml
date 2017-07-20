@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.emt_cate.model.EmtCateVO" table="emt_cate" >
+        
+        <id name="ecno" column="ecno">
+            <generator class="generator.EcnoGenerator"/>
+        </id>
+        
+        <property name="type" column="type" />
+        <property name="pic" column="pic" />
+        <property name="price" column="price" />
+        
+        <set name="emts" table="equipment" lazy="false" cascade="all"  inverse="true"  order-by="emtno asc">			
+			<key>
+				<column name="ecno" />
+			</key>
+			<one-to-many class="com.equipment.model.EquipmentVO" />
+		</set>
+    </class>
+</hibernate-mapping>
+
