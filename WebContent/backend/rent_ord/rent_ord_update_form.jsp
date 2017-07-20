@@ -270,8 +270,8 @@ font-size:18px;
 										<option value="overtime" ${(roQueryVO.status=="overtime")? 'selected':''}>overtime</option>
 									</c:if>
 									
-									<c:if test="${(roQueryVO.status=='abnromalclosed')}">
-										<option value="abnromalclosed" ${(roQueryVO.status=="abnromalclosed")? 'selected':''}>abnromalclosed</option>
+									<c:if test="${(roQueryVO.status=='abnormalclosed')}">
+										<option value="abnormalclosed" ${(roQueryVO.status=="abnormalclosed")? 'selected':''}>abnormalclosed</option>
 									</c:if>
 									
 									<c:if test="${(roQueryVO.status=='closed')}">
