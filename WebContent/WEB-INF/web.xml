@@ -101,7 +101,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MotorModelServlet4H</servlet-name>
-    <url-pattern>/backend/motor/motorModel4H.do</url-pattern>
+    <url-pattern>/backend/motor_model/motorModel4H.do</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>NewsDBGifReader</servlet-name>
