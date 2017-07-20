@@ -429,8 +429,8 @@ public class MotorDispatchDAO implements MotorDispatchDAO_interface {
 			while (rs.next()) {
 				// 也稱為 Domain objects
 				rentOrdVO = new RentOrdVO();
-				rentOrdVO.setMotno(rs.getString("motno"));
-				//rentOrdVO.getMotorVO().setMotno(rs.getString("motno"));上線版本!
+//				rentOrdVO.setMotno(rs.getString("motno"));
+				rentOrdVO.getMotorVO().setMotno(rs.getString("motno"));//上線版本!
 				
 			}
 		
