@@ -3,7 +3,15 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
 <%@ page import="com.sec_ord.model.*"%>
-<%-- 此頁練習採用 EL 的寫法取值 --%>
+<!-- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
+<%@ page import="com.adminis.model.*"%>
+<%  AdminisService as = new AdminisService();
+	AdminisVO adminisVO= (AdminisVO)session.getAttribute("adminisVO");
+	System.out.println("!!!!!!!!!!!"+adminisVO.getName());
+     session.setAttribute("admins", adminisVO.getName());
+     session.setAttribute("adminisVO", adminisVO);
+%>
+<!-- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
 
 <%
 	SecOrdService soSvc = new SecOrdService();
