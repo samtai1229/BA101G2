@@ -38,21 +38,26 @@ public class LoginHandler extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		res.setContentType("text/html; charset=UTF-8");
-		PrintWriter out = res.getWriter();
-		   
+		PrintWriter out = res.getWriter();  
 		    String account = req.getParameter("account");
 		    String password = req.getParameter("password");
-		    
+		   HttpSession session = req.getSession();   
+		    System.out.println("11111");
 		    // 【檢查該帳號 , 密碼是否有效】
-		    if (allowUser(account, password) == null) {          //【帳號 , 密碼無效時】
-		      out.println("<HTML><HEAD><TITLE>Access Denied</TITLE></HEAD>");
-		      out.println("<BODY>你的帳號 , 密碼無效!<BR>");
-		      out.println("請按此重新登入 <A HREF="+req.getContextPath()+"/backend/BackendLogin.jsp>重新登入</A>");
-		      out.println("</BODY></HTML>");
+		    if (allowUser(account, password).equals(null)) {          //【帳號 , 密碼無效時】
+		    	System.out.println("11111");
+		    	session.setAttribute("getAlert", "Yes");//Just initialize a random variable.
+		    	res.sendRedirect(req.getContextPath()+"/backend/BackendLogin.jsp");
+
+		     //out.println("<HTML><HEAD><TITLE>Access Denied</TITLE></HEAD>");
+//		      out.println("<BODY>你的帳號 , 密碼無效!<BR>");
+//		      out.println("請按此重新登入 <A HREF="+req.getContextPath()+"/backend/BackendLogin.jsp>重新登入</A>");
+//		      out.println("</BODY></HTML>");
 		    }else {                        
 //【帳號 , 密碼有效時, 才做以下工作】
-		      HttpSession session = req.getSession();//*工作1: 才在session內做已經登入過的標識
+		      //HttpSession session = req.getSession();//*工作1: 才在session內做已經登入過的標識
 		      session.setAttribute("adminisVO", adminisVO);
+		      System.out.println("2222");
 		       try {                                                        
 		         String location = (String) session.getAttribute("location");
 			    	System.out.println("location"+location);
