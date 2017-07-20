@@ -38,7 +38,7 @@ private static final String UPDATE = "UPDATE MEMBER set memname = ?, sex = ?, bi
 	
 	private static final String selectfactor ="SELECT memno,memname,sex,birth,mail,phone,addr,acc,pwd,idcard1,idcard2,license,credate,status ";
 	
-	private static final String GET_ALL_STMT = selectfactor	+ "FROM MEMBER order by DECODE(status,'verifing',1), memno";
+	private static final String GET_ALL_STMT = selectfactor	+ "FROM MEMBER order by DECODE(status,'verifing',1), memno desc";
 	private static final String GET_ONE_STMT_BY_ID = selectfactor	+ "FROM MEMBER where memname = ?";
 	private static final String GET_ONE_STMT = selectfactor	+ "FROM MEMBER where memno = ?";
 	private static final String GET_ONE_STMT_BY_ACC_PWD = selectfactor	+ "FROM MEMBER where acc = ? AND pwd = ?";
