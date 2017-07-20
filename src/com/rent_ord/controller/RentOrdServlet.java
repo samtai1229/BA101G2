@@ -1433,7 +1433,7 @@ public class RentOrdServlet extends HttpServlet {
 			"after_available_form".equals(action)) {
 			//1. 處理租賃單狀態、2. 車輛狀態、3. 裝備狀態
 
-			System.out.println("ro after_nowshow_form in");
+			System.out.println("ro after_nowshow/available_form in");
 
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
@@ -1447,7 +1447,7 @@ public class RentOrdServlet extends HttpServlet {
 				String motno = req.getParameter("motno");
 				String note = req.getParameter("note");
 				
-				System.out.println("NOTE = "+ note);
+				System.out.println("rentno:"+rentno+"motno:" + motno + "NOTE = "+ note);
 				
 				RentOrdService roSvc = new RentOrdService();
 		
@@ -1463,8 +1463,6 @@ public class RentOrdServlet extends HttpServlet {
 					roSvc.updateRentOrdStatusAfterAvailable(rentno, note, action);
 				}
 
-				
-				
 				Enumeration<String> enumber = req.getParameterNames();
 				//處理 3. 裝備狀態
 				while(enumber.hasMoreElements()){
@@ -1489,7 +1487,7 @@ public class RentOrdServlet extends HttpServlet {
 						}
 					}
 				}
-
+				
 				/***************************
 				 * 3.處理完成,準備轉交(Send the Success view)
 				 *************/ // 資料庫取出的VO物件,存入req
