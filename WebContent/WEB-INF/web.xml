@@ -45,7 +45,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>MotorDispatchServlet</servlet-name>
-    <url-pattern>/backend/motor_dispatch/motorDispatch.do</url-pattern>
+    <url-pattern>/backend/motor_dispatch/md.do</url-pattern>
   </servlet-mapping>
   <servlet>
     <servlet-name>MotorModelDBGifReader</servlet-name>
@@ -232,5 +232,8 @@
     <servlet-name>EmtDispatchServlet</servlet-name>
     <url-pattern>/backend/emt_dispatch/ed.do</url-pattern>
   </servlet-mapping>
+  
+  
+ 
   
 </web-app>
