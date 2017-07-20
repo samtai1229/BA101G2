@@ -3,10 +3,16 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="com.motor.model.*" %>
 <%@ page import="com.motor_model.model.*" %>
+<%@ page import="com.member.model.*" %>
 <%@ page import="java.util.*" %>
 <% 
    MotorVO motorVO = (MotorVO) request.getAttribute("motorVO");
    MotorModelVO mmVO = (MotorModelVO) request.getAttribute("mmVO");
+   String memno = (String) session.getAttribute("memno");
+   String memname = (String) session.getAttribute("memname");
+   MemberService memSvc = new MemberService();
+   MemberVO memVO = memSvc.getOneMember(memno);
+   pageContext.setAttribute("memVO", memVO);
    pageContext.setAttribute("motorVO", motorVO);
    pageContext.setAttribute("mm", mmVO);
 
@@ -72,10 +78,11 @@
 			    <td height="200"><span>${mm.intro}</span></td>	
 			   <td>${mm.saleprice}</td>	
 			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/backend/SaleOnOff.do">
+			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
 			     <input class="btn btn-success" type="submit" value="我要買"> 
 			     <input type="hidden" name="motno" value="${motorVO.motno}">
-			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--><!-- 目前尚未用到  -->
+			     <input type="hidden" name="memno" value="${memVO.memno}">
+			     <input type="hidden" name="location"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--><!-- 目前尚未用到  -->
 			     <input type="hidden" name="action"	value="DEAL"></FORM>
 			</td>
 		</tr>

@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.motor.model.MotorService;
 import com.motor.model.MotorVO;
+import com.motor_model.model.MotorModelService;
+import com.motor_model.model.MotorModelVO;
 import com.sec_ord.model.*;
 
 public class SecondOrderServlet extends HttpServlet {
@@ -28,6 +30,70 @@ public class SecondOrderServlet extends HttpServlet {
 
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
+		
+		
+		if("DEAL".equals(action)){
+			
+			String location = req.getParameter("location");
+			System.out.println("我來自~~~"+location);
+			String motno = req.getParameter("motno");
+			System.out.println("想買的車輛編號是~~~"+motno);
+			String memno = req.getParameter("memno");
+			System.out.println("我是會員 編號是~~~~"+memno);
+			
+			
+			 req.setAttribute("memno", memno);
+			 req.setAttribute("motno", motno);
+			 String url = "/frontend/second_order/payMoney.jsp";
+			 RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
+		     successView.forward(req, res); 
+			
+		}
+		
+		
+		
+		
+		
+		
+		if("I_WANT_IT".equals(action))
+		{
+			String memno = (String)req.getSession().getAttribute("memno");
+			String memname = (String)req.getSession().getAttribute("memname");
+			String motno = req.getParameter("motno");
+			String location = req.getParameter("location");
+			System.out.println(location);
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+			 if(memno == null || memname==null)
+			 {
+				  errorMsgs.add("沒登入");
+				  req.setAttribute("error", errorMsgs.get(0));
+				    String url = "/index.jsp";
+				    
+					RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
+					successView.forward(req, res);
+			 }
+			 else
+			 {
+				    MotorService motorSvc = new MotorService();
+				    MotorVO motorVO = motorSvc.findByPK(motno);
+				    MotorModelService mmSvc = new MotorModelService();
+				    MotorModelVO mmVO = mmSvc.findByPK(motorVO.getModtype());
+				    req.setAttribute("motorVO", motorVO);
+				    req.setAttribute("mmVO", mmVO);
+				    String url = "/frontend/second_order/listOneSecond.jsp";
+					RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
+					successView.forward(req, res); 
+			 }
+			
+		}
+	
+		
+		
+		
+		
 		
 		
 		if("getOneMotor_OnOffSale".equals(action))

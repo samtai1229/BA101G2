@@ -16,6 +16,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+
 <div class="col-xs-12 col-sm-12">
 <table  class="table table-hover" border='1' width='100%'>
 	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
@@ -29,15 +30,15 @@
 <table class="table table-hover" border='1' bordercolor='#CCCCFF' width='100%'>
 	<tr align='center' valign='middle'>
 		<th style="text-align:center">相片</th>
-		<th style="text-align:center">車輛編號</th>
+<!-- 		<th style="text-align:center">車輛編號</th> -->
 		<th style="text-align:center">車型編號</th>
-		<th style="text-align:center">車牌號碼</th>
-		<th style="text-align:center">引擎編號</th>
-		<th style="text-align:center">出廠日期</th>
-		<th style="text-align:center">里程數</th>
-		<th style="text-align:center">據點編號</th>
-		<th style="text-align:center">狀態</th>
-		<th style="text-align:center">註記</th>
+<!-- 		<th style="text-align:center">車牌號碼</th> -->
+<!-- 		<th style="text-align:center">引擎編號</th> -->
+<!-- 		<th style="text-align:center">出廠日期</th> -->
+<!-- 		<th style="text-align:center">里程數</th> -->
+<!-- 		<th style="text-align:center">據點編號</th> -->
+<!-- 		<th style="text-align:center">狀態</th> -->
+		<th style="text-align:center">介紹</th>
 	
 	</tr>
 <%-- 					begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" --%>
@@ -46,21 +47,21 @@
 		<tr align='center' valign='middle'>
 		
 			<td><img style="width:300px" src="<%=request.getContextPath()%>/backend/motor_model/mmReader.do?modtype=${motorVO.modtype}"></td>
-			<td>${motorVO.motno}</td>
+<%-- 			<td>${motorVO.motno}</td> --%>
 			<td>${motorVO.modtype}</td>
-			<td>${motorVO.plateno}</td>
-			<td>${motorVO.engno}</td>
-			<td><fmt:formatDate value="${motorVO.manudate}" pattern="yyyy年MM月dd日"/>		</td>
+<%-- 			<td>${motorVO.plateno}</td> --%>
+<%-- 			<td>${motorVO.engno}</td> --%>
+<%-- 			<td><fmt:formatDate value="${motorVO.manudate}" pattern="yyyy年MM月dd日"/>		</td> --%>
 			
-			<td>${motorVO.mile}</td>	
-			<td>${motorVO.locno}</td>	
-			<td>${motorVO.status}</td>	
+<%-- 			<td>${motorVO.mile}</td>	 --%>
+<%-- 			<td>${motorVO.locno}</td>	 --%>
+<%-- 			<td>${motorVO.status}</td>	 --%>
 			<td>${motorVO.note}</td>	
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
 			     <input type="submit" value="我要購買"> 
-			     <input type="hidden" name="sono" value="${soVO.sono}">
-			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--><!-- 目前尚未用到  -->
+			     <input type="hidden" name="motno" value="${motorVO.motno}">
+			     <input type="hidden" name="location"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--><!-- 目前尚未用到  -->
 			     <input type="hidden" name="action"	value="I_WANT_IT"></FORM>
 			</td>
 		</tr>

@@ -72,7 +72,70 @@ public class MemberServlet extends HttpServlet {
 		String location = req.getParameter("location");
 		System.out.println("我從"+location+"進來的");
 		
-		
+		if ("LoginForSecond".equals(action)) { 
+			
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+			
+			
+			
+			 try {
+				 String acc = req.getParameter("acc");
+				 String pwd = req.getParameter("pwd");
+					
+					
+
+					if (acc == null || pwd == null || (acc.trim()).length() == 0 || (pwd.trim()).length() == 0) {
+						System.out.println("error empty acc");
+						errorMsgs.add("帳號/密碼不可為空");
+					}
+
+
+					/*************************** 2.開始比對帳密會員資料 *****************************************/
+					MemberService memSvc = new MemberService();
+					MemberVO memVO = memSvc.getOneMemberByAccAndPwd(acc, pwd);
+
+					if (memVO == null) {
+						System.out.println("error empty acc");
+						errorMsgs.add("無此帳號");
+					} else {
+						if (!pwd.equals(memVO.getPwd())) {
+							System.out.println("error acc / pwd");
+							errorMsgs.add("帳號/密碼錯誤");
+						}
+					}
+					// Send the use back to the form, if there were errors
+					
+					if (!errorMsgs.isEmpty()) {
+						System.out.println("error !errorMsgs.isEmpty()");
+						req.setAttribute("error", errorMsgs.get(0));
+						RequestDispatcher failureView = req.getRequestDispatcher("/index.jsp");
+						failureView.forward(req, res);
+						return;// 程式中斷
+					}
+
+					/***************************
+					 * 3.查詢完成,準備轉交(Send the Success view) 轉交到會員專區的網頁
+					 *************/
+
+	//login後: session要帶的有 memno, memname, status 
+					req.setAttribute("memVO", memVO); // 資料庫取出的empVO物件,存入req
+					RequestDispatcher failureView = req.getRequestDispatcher(location);
+					failureView.forward(req, res);
+					
+
+					/*************************** 其他可能的錯誤處理 *************************************/
+				} catch (Exception e) {
+					errorMsgs.add("帳密錯誤:" + e.getMessage());
+					RequestDispatcher failureView = req.getRequestDispatcher(req.getRequestURI()+"#tab-1");
+					failureView.forward(req, res);
+				}
+			
+			
+			
+		}
 
 		
 		// change status
