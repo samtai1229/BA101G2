@@ -182,10 +182,10 @@
 					</p>
 					</div>
 				</div>
-
-				<table>
-					<tr>
-						<td>
+				
+				<div class="form-group">
+					<label class="col-sm-2"></label>
+				<div class="col-sm-10">
 						<input type="submit" class="btn btn-default" value="送出修改">
 						<input type="hidden" name="action" value="update"> 
 						<input type="hidden" name="modtype" value="<%=mmVO.getModtype()%>">
@@ -197,9 +197,8 @@
 								<input type="submit" name="reset" value="重置" class="btn btn-default" role="button"><input type="hidden" name="modtype" value="${mmVO.modtype}">
 								<input type="hidden" name="action" value="getOne_For_Update">
 							</FORM>
-						</td>
-					</tr>
-				</table>
+					</div>
+				</div>	
 			
 		</div><!--update區塊結束 -->
 	</div><!--右邊整塊HTML區塊結束 -->
