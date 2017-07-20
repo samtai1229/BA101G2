@@ -113,7 +113,7 @@ public class EmtListForRentOrdDAO implements EmtListForRentOrdDAO_interface {
 //		dao.insert(eVO1);
 
 		// 刪除
-//		 dao.delete("R000637", "E000050");
+		//dao.delete("R000460", "E000001");
 		
 		// 查詢 by emtno
 //		List<EmtListVO> list = dao.findByEmtno("E000010");
