@@ -72,6 +72,7 @@ String dayrange = request.getParameter("dayrange");
 String dayPicker = (String)request.getAttribute("dayPicker");
 
 String memno = (String)session.getAttribute("memno");
+String status = (String)session.getAttribute("status");
 pageContext.setAttribute("dayrange", dayrange);
 String tokens[] = dayrange.split(" - ");
 String start_time = tokens[0];
@@ -79,52 +80,56 @@ String end_time = tokens[1];
 pageContext.setAttribute("start_time", start_time);
 pageContext.setAttribute("end_time", end_time);
 pageContext.setAttribute("memno",memno);
-%>
 
-<%-- memno:<c:out value="${memno}" default="no member login" /><br>
+%>
+<%--<c:out value="${status}"></c:out>
+ memno: <c:out value="${memno}" default="no member login" /><br>
+kk: <c:out value="${status}" default="no status login" /><br>
 start_time:<c:out value="${start_time}" default="no value"/><br>
 end_time:  <c:out value="${end_time}" default="no value"/><br>
 dayPicker <c:out value="${dayPicker}" default="no value"></c:out> --%>
 
-<!-- Navigation -->
+<%-- Navigation --%>
 	<nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
-		<div class="container-fluid">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header page-scroll">
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target="#bs-example-navbar-collapse-1">
-					<span class="sr-only">Toggle navigation</span> Menu <i
-						class="fa fa-bars"></i>
-				</button>
-				<a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/index.jsp">AutoBike</a>
-			</div>
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                   <a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/index.jsp">AutoBike</a>
+            </div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav navbar-right">
-					<li class="hidden"><a href="#page-top"></a></li>
-					<li><a class="page-scroll" href="<%=request.getContextPath()%>/frontend/rental_form/rental_category.jsp">
-					<i class="glyphicon glyphicon-heart"></i>我要租車</a></li>
-					<li><a class="page-scroll" href="#news">
-					<i class="glyphicon glyphicon-alert"></i>最新消息</a></li>
-					<li><a class="page-scroll" href="#board">
-					<i class="fa fa-comments-o"></i>留言板</a></li>
-					<li><a class="page-scroll" href="#loc">
-					<i class="fa fa-search"></i>服務據點</a></li>
-					<li><a href="<%=request.getContextPath()%>/backend/member/member.do">
-					<i class="fa fa-shopping-cart"></i>二手車購買</a></li>
-					<c:if test="${not empty memno}">
-						<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">歡迎，${memname}</a></li>
-						<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout" data-toggle="modal">
-						<i class="glyphicon glyphicon-user"></i>登出</a>
+			 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				 <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                          <li><a class="page-scroll" href="<%=request.getContextPath()%>/index.jsp">
+                          	<i class="glyphicon glyphicon-home"></i>回首頁</a>
+                          </li>
+					<c:if test="${not empty memno}">	
+							<li>
+								<a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">
+									<b>會員專區</b>
+								</a>
+							</li>
+							<li><a href="#">歡迎，${(memname == null) ? '會員':memname}</a></li>
+						<li>
+							<a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout"
+							data-toggle="modal"><i class="glyphicon glyphicon-user"></i>登出</a>
+						</li>
+					</c:if>
+					<c:if test="${ empty memno}">
+						<li>
+							<a href="#modal-id" data-toggle="modal"><i class="glyphicon glyphicon-user"></i>會員登入</a>
 						</li>
 					</c:if>
 				</ul>
 			</div>
-			<!-- /.navbar-collapse -->
 		</div>
-		<!-- /.container-fluid -->
 	</nav>
+<%--end Navigation --%>
 	
 	<div id="blocker"></div>
 
@@ -173,16 +178,36 @@ dayPicker <c:out value="${dayPicker}" default="no value"></c:out> --%>
 							<c:if test="<%=memno==null%>">
 						    	<input type="hidden" name="action" value="redirect_to_login">
 						    	<input type="hidden" name="location" value="<%=request.getServletPath()%>">
+			   					<button type="submit" class="btn btn-info btn-lg">
+									<i class="glyphicon glyphicon-log-in"></i> 會員登入
+								</button>						    	
+								<a onclick="history.back()" class="btn btn-danger btn-lg">
+									<i class="glyphicon glyphicon-arrow-up"></i> 返回前頁
+								</a>						    	
 						    </c:if>
 							<c:if test="<%=memno!=null%>">
-						    	<input type="hidden" name="action" value="quick_search_product_2">
+								<c:if test="${status=='verifing'}">
+									<a onclick="history.back()" class="btn btn-info btn-lg">
+										<i class="glyphicon glyphicon-exclamation-sign"></i> 驗證中
+									</a>						    	
+							    </c:if>
+								<c:if test="${status=='confirmed'}">
+							    	<input type="hidden" name="action" value="quick_search_product_2">
+				   					<button type="submit" class="btn btn-success btn-lg">
+										<i class="glyphicon glyphicon-ok"></i>我要訂車
+									</button>
+									<a onclick="history.back()" class="btn btn-danger btn-lg">
+										<i class="glyphicon glyphicon-arrow-up"></i> 返回前頁
+									</a>						    	
+							    </c:if>							    
+								<c:if test="${status=='uncompleted'||status=='unconfirmed'}">
+									<a href="<%=request.getContextPath()%>/backend/member/member.do?addAction=frontMember&action=getOne_For_Update&memno=${memno}"
+									 class="btn btn-info btn-lg">
+										<i class="glyphicon glyphicon-edit"></i> 前往驗證
+									</a>					   					
+							    </c:if>								    
 						    </c:if>	
-		   					<button type="submit" class="btn btn-success btn-lg">
-								<i class="glyphicon glyphicon-ok"></i>我要訂車
-							</button>
-							<a onclick="history.back()" class="btn btn-danger btn-lg">
-								<i class="glyphicon glyphicon-remove"></i>返回前頁
-							</a>
+
 						</p>
 					</form>
 				</div>
