@@ -29,6 +29,7 @@ public class MotorDispListDAO implements MotorDispListDAO_interface {
 			+ "  FROM MOTOR_DISP_LIST where motno = ?";
 	//以下hiberante
 	private static final String DELETE = "delete MotorDispListVO where mdno = ?";
+	private static final String GET_MOTNO_BY_MDNO_BY_HIBERNATE = "From MotorDispListVO where mdno = ?";
 	
 	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
 	private static DataSource ds = null;
@@ -196,6 +197,23 @@ public class MotorDispListDAO implements MotorDispListDAO_interface {
 			session.getTransaction().rollback();
 			throw ex;
 		}
+	}
+	
+	@Override
+	public List<MotorDispListVO> getMotnosByMdnoByHib(String mdno){
+		List<MotorDispListVO> list = null;
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try {
+			session.beginTransaction();
+			Query query = session.createQuery(GET_MOTNO_BY_MDNO_BY_HIBERNATE);
+			query.setParameter(0, mdno);
+			list = query.list();
+			session.getTransaction().commit();
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
+		}
+		return list;
 	}
 	
 	public static void main(String[] args) {

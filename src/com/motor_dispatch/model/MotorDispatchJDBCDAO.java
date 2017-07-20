@@ -6,40 +6,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-
-import org.hibernate.Query;
-import org.hibernate.Session;
-
 import com.motor.model.MotorVO;
-import com.motor_disp_list.model.MotorDispListVO;
-import com.motor_model.model.MotorModelVO;
 import com.rent_ord.model.RentOrdVO;
 
-import hibernate.util.HibernateUtil;
-
-public class MotorDispatchDAO implements MotorDispatchDAO_interface {
-//	 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
-	private static DataSource ds = null;
-	static {
-		try {
-			Context ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/G2DB");
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
-	}
+public class MotorDispatchJDBCDAO implements MotorDispatchDAO_interface {
+	String driver = "oracle.jdbc.driver.OracleDriver";
+	String url = "jdbc:oracle:thin:@localhost:1521:XE";
+	String userid = "servlet";
+	String passwd = "123456";
 
 	private static final String INSERT_STMT = "INSERT INTO MOTOR_DISPATCH" 
-			+ " (mdno, locno) VALUES ('MD'||LPAD(TO_CHAR(mdno_seq.NEXTVAL), 6,'0'), ?)";
+			+ " (mdno, locno, filldate, closeddate, prog"
+			+ ") VALUES ('MD'||LPAD(TO_CHAR(mdno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?)";
 
 	private static final String UPDATE = "UPDATE MOTOR_DISPATCH set locno=?,"
 			+ " filldate=?, closeddate=?, prog=? where mdno = ?";
@@ -59,13 +41,9 @@ public class MotorDispatchDAO implements MotorDispatchDAO_interface {
 			+ "  closeddate, prog FROM MOTOR_DISPATCH where prog = ?";
 	
 	private static final String GET_DISPATCHABLE_DATE = 
-	"select motno from rent_ord where motno = ? and (sysdate not between STARTDATE and ENDDATE) and (sysdate+1 not between STARTDATE and ENDDATE)and (sysdate+2 not between STARTDATE and ENDDATE)";
-	//以下為hibernate用
-	private static final String GET_ALL_STMT = "from MotorDispatchVO order by mdno desc";
-	private static final String GET_BY_LOCNO = "from MotorDispatchVO where locno = ? order by mdno desc";
-	private static final String CANCEL = "update MotorDispatchVO set prog = 'canceled', closeddate = systimestamp where mdno = ?";
-	
-	
+			"select motno from rent_ord where motno = ? and (sysdate not between STARTDATE and ENDDATE) and (sysdate+1 not between STARTDATE and ENDDATE)and (sysdate+2 not between STARTDATE and ENDDATE)";
+
+
 	@Override
 	public void insert(MotorDispatchVO mdVO) {
 
@@ -74,15 +52,23 @@ public class MotorDispatchDAO implements MotorDispatchDAO_interface {
 
 		try {
 
-			// mdno, locno
+			// mdno, locno, filldate, closeddate, prog
 
-			con = ds.getConnection();
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(INSERT_STMT);
 
 			pstmt.setString(1, mdVO.getLocno());
+			pstmt.setTimestamp(2, mdVO.getFilldate());
+			pstmt.setTimestamp(3, mdVO.getCloseddate());
+			pstmt.setString(4, mdVO.getProg());
 
 			pstmt.executeUpdate();
 
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
@@ -113,7 +99,8 @@ public class MotorDispatchDAO implements MotorDispatchDAO_interface {
 
 		try {
 
-			con = ds.getConnection();
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(UPDATE);
 
 			pstmt.setString(1, mdVO.getLocno());
@@ -124,6 +111,10 @@ public class MotorDispatchDAO implements MotorDispatchDAO_interface {
 
 			pstmt.executeUpdate();
 
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
@@ -154,7 +145,8 @@ public class MotorDispatchDAO implements MotorDispatchDAO_interface {
 
 		try {
 
-			con = ds.getConnection();
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
 
 			// 1●設定於 pstmt.executeUpdate()之前
 			con.setAutoCommit(false);
@@ -167,6 +159,10 @@ public class MotorDispatchDAO implements MotorDispatchDAO_interface {
 			con.commit();
 			con.setAutoCommit(true);
 
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
 		} catch (SQLException se) {
 			if (con != null) {
 				try {
@@ -206,7 +202,8 @@ public class MotorDispatchDAO implements MotorDispatchDAO_interface {
 
 		try {
 
-			con = ds.getConnection();
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_ONE);
 
 			pstmt.setString(1, mdno);
@@ -219,6 +216,10 @@ public class MotorDispatchDAO implements MotorDispatchDAO_interface {
 				setAttirbute(mdVO, rs); // 拉出來寫成一個方法
 			}
 
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
@@ -273,7 +274,8 @@ public class MotorDispatchDAO implements MotorDispatchDAO_interface {
 
 		try {
 
-			con = ds.getConnection();
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_ALL);
 			rs = pstmt.executeQuery();
 
@@ -283,6 +285,10 @@ public class MotorDispatchDAO implements MotorDispatchDAO_interface {
 				list.add(mdVO); // Store the row in the list
 			}
 
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
@@ -321,7 +327,9 @@ public class MotorDispatchDAO implements MotorDispatchDAO_interface {
 		ResultSet rs = null;
 
 		try {
-			con = ds.getConnection();
+
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_BY_LOC);
 			pstmt.setString(1, locno);
 			rs = pstmt.executeQuery();
@@ -332,6 +340,10 @@ public class MotorDispatchDAO implements MotorDispatchDAO_interface {
 				set.add(mdVO); // Store the row in the vector
 			}
 
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
@@ -370,7 +382,9 @@ public class MotorDispatchDAO implements MotorDispatchDAO_interface {
 		ResultSet rs = null;
 
 		try {
-			con = ds.getConnection();
+
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_BY_PROG);
 			pstmt.setString(1, prog);
 			rs = pstmt.executeQuery();
@@ -381,6 +395,10 @@ public class MotorDispatchDAO implements MotorDispatchDAO_interface {
 				set.add(mdVO); // Store the row in the vector
 			}
 
+			// Handle any driver errors
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+			// Handle any SQL errors
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 		} finally {
@@ -408,7 +426,7 @@ public class MotorDispatchDAO implements MotorDispatchDAO_interface {
 		}
 		return set;
 	}
-	
+
 	@Override
 	public RentOrdVO checkDispatchableMotors(String motno) {
 
@@ -419,7 +437,8 @@ public class MotorDispatchDAO implements MotorDispatchDAO_interface {
 
 		try {
 
-			con = ds.getConnection();
+			Class.forName(driver);
+			con = DriverManager.getConnection(url, userid, passwd);
 			pstmt = con.prepareStatement(GET_DISPATCHABLE_DATE);
 
 			pstmt.setString(1, motno);
@@ -430,10 +449,12 @@ public class MotorDispatchDAO implements MotorDispatchDAO_interface {
 				// 也稱為 Domain objects
 				rentOrdVO = new RentOrdVO();
 				rentOrdVO.setMotno(rs.getString("motno"));
-				//rentOrdVO.getMotorVO().setMotno(rs.getString("motno"));上線版本!
 				
 			}
-		
+			// Handle any driver errors
+					} catch (ClassNotFoundException e) {
+						throw new RuntimeException("Couldn't load database driver. " + e.getMessage());
+
 		} catch (SQLException se) {
 			throw new RuntimeException("A database error occured. " + se.getMessage());
 			// Clean up JDBC resources
@@ -462,155 +483,76 @@ public class MotorDispatchDAO implements MotorDispatchDAO_interface {
 		}
 		return rentOrdVO;
 	}
-
-	//以下為hibernate用
-	@Override
-	public void insertByHib(MotorDispatchVO mdVO) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		try {
-			
-			session.beginTransaction();
-			session.saveOrUpdate(mdVO);
-			session.getTransaction().commit();
-		} catch (RuntimeException ex) {
-			System.out.println("insertByHib fail fail");
-			session.getTransaction().rollback();
-			throw ex;
-		}
-	}
-
-	@Override
-	public void updateByHib(MotorDispatchVO mdVO) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		try {
-			session.beginTransaction();
-			session.saveOrUpdate(mdVO);
-			session.getTransaction().commit();
-		} catch (RuntimeException ex) {
-			session.getTransaction().rollback();
-			throw ex;
-		}
-	}
-
-	@Override
-	public void deleteByHib(String mdno) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		try {
-			session.beginTransaction();
-			MotorDispatchVO mdVO = (MotorDispatchVO) session.get(MotorDispatchVO.class, mdno);
-			session.delete(mdVO);
-			session.getTransaction().commit();
-		} catch (RuntimeException ex) {
-			session.getTransaction().rollback();
-			throw ex;
-		}
-	}
-
-	@Override
-	public MotorDispatchVO findByPkByHib(String mdno) {
-		MotorDispatchVO mdVO = null;
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		try {
-			session.beginTransaction();
-			mdVO = (MotorDispatchVO) session.get(MotorDispatchVO.class, mdno);
-			session.getTransaction().commit();
-		} catch (RuntimeException ex) {
-			session.getTransaction().rollback();
-			throw ex;
-		}
-		return mdVO;
-	}
-
-	@Override
-	public List<MotorDispatchVO> getAllByHib() {
-		List<MotorDispatchVO> list = null;
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		try {
-			session.beginTransaction();
-			Query query = session.createQuery(GET_ALL_STMT);
-			list = query.list();
-			session.getTransaction().commit();
-		} catch (RuntimeException ex) {
-			session.getTransaction().rollback();
-			throw ex;
-		}
-		return list;
-	}
-
-	@Override
-	public Set<MotorDispListVO> getMdListByMdnoByHib(String mdno) {		
-		Set<MotorDispListVO> set = findByPkByHib(mdno).getMotorDispLists();
-		return set;
-	}
-	
-	@Override
-	public List<MotorDispatchVO> getByLocnoByHib(String locno){
-		List<MotorDispatchVO> list = null;
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		try {
-			session.beginTransaction();
-			Query query = session.createQuery(GET_BY_LOCNO);
-			query.setParameter(0, locno);
-			list = query.list();
-			session.getTransaction().commit();
-		} catch (RuntimeException ex) {
-			session.getTransaction().rollback();
-			throw ex;
-		}
-		return list;
-	}
-	
-	@Override
-	public void cancelByHib(String mdno){
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		try {
-			session.beginTransaction();
-			Query query = session.createQuery(CANCEL);
-			query.setParameter(0, mdno);
-			query.executeUpdate();
-			
-			session.getTransaction().commit();
-		} catch (RuntimeException ex) {
-			session.getTransaction().rollback();
-			throw ex;
-		}
-	}
 	
 	public static void main(String[] args) {
-	
-//	MotorDispatchDAO dao = new MotorDispatchDAO();
-//	MotorDispatchVO mdVO = new MotorDispatchVO(); 
-//	MotorModelVO mmVO = new MotorModelVO(); 
-//	Set<MotorDispListVO> set = new HashSet<MotorDispListVO>();
-//	
-//	MotorDispListVO mdListVO = new MotorDispListVO();
-//	int amount = 2;
-//	for(int i = 1; i <= amount; i++){
-//		mdVO.setLocno("TPE01");
-//		mmVO.setModtype("MM101");
-//		mdListVO.setMotno(String.valueOf(i));
-//	}
-//	mdListVO.setMotorDispatchVO(mdVO);
-//	mdListVO.setMotorModelVO(mmVO);
-//	set.add(mdListVO);
-//	
-//	mdVO.setMotorDispLists(set);
-//	dao.insertByHib(mdVO);
-//	
-//	
-//	
-//	List<MotorDispatchVO> list2 = dao.getAllByHib();
-//	for (MotorDispatchVO aDept : list2) {
-//		System.out.print(aDept.getMdno() + ",");
-//		System.out.print(aDept.getLocno() + ",");
-//		System.out.print(aDept.getFilldate());
-//		System.out.print(aDept.getCloseddate());
-//		System.out.print(aDept.getProg());
-//		System.out.println("\n-----------------");
-//		
-//	}
-//	
+
+		MotorDispatchJDBCDAO dao = new MotorDispatchJDBCDAO();
+		// 新增
+
+		// MotorDispatchVO mdVO1 = new MotorDispatchVO();
+		// mdVO1.setLocno("locno2");
+		// mdVO1.setFilldate(java.sql.Timestamp.valueOf("2017-01-01 10:10:10"));
+		// mdVO1.setCloseddate(java.sql.Timestamp.valueOf("2017-02-01
+		// 10:10:10"));
+		// mdVO1.setProg("closed");
+		// dao.insert(mdVO1);
+		// System.out.println("insert ok");
+		//
+		// MotorDispatchVO mdVO2 = new MotorDispatchVO();
+		// mdVO2.setLocno("locno2");
+		// mdVO2.setFilldate(java.sql.Timestamp.valueOf("2017-01-01 10:10:10"));
+		// mdVO2.setCloseddate(java.sql.Timestamp.valueOf("2017-02-01
+		// 10:10:10"));
+		// mdVO2.setProg("rejected");
+		// mdVO2.setMdno("MD000004");
+		// dao.update(mdVO2);
+		// System.out.println("update ok");
+
+		// dao.delete("MD000005");
+		// System.out.println("delete ok");
+
+		// MotorDispatchVO mdVO1 = dao.findByPrimaryKey("MD000006");
+		// System.out.println(mdVO1.getMdno() +",");
+		// System.out.println(mdVO1.getLocno() +",");
+		// System.out.println(mdVO1.getFilldate() +",");
+		// System.out.println(mdVO1.getCloseddate() +",");
+		// System.out.println(mdVO1.getProg() +",");
+		// System.out.println("query ok");
+
+//		 List<MotorDispatchVO> list = dao.getAll();
+//		 System.out.println("=======================================");
+//		 for (MotorDispatchVO aMD : list) {
+//		 printMethod(aMD);
+//		 }
+		//
+		//
+		// Set<MotorDispatchVO> set1 = dao.getMotorDispatchsByLoc("locno2");
+		// System.out.println("=======================================");
+		// for (MotorDispatchVO aMD : set1) {
+		// printMethod(aMD);
+		// }
+		//
+//		Set<MotorDispatchVO> set2 = dao.getMotorDispatchsByProg("rejected");
+//		System.out.println("=======================================");
+//		for (MotorDispatchVO aMD : set2) {
+//			printMethod(aMD);
+//		}
+		
+		 
+				 RentOrdVO roVO3 = dao.checkDispatchableMotors("M000002");
+				 System.out.println(roVO3.getMotno() +",");
+
 	}
 
-	
+//	private static void printMethod(MotorDispatchVO aMD) {
+//
+//		System.out.println("" + aMD.getMdno() + ",");
+//		System.out.println("" + aMD.getLocno() + ",");
+//		System.out.println("" + aMD.getFilldate() + ",");
+//		System.out.println("" + aMD.getCloseddate() + ",");
+//		System.out.println("" + aMD.getProg() + ",");
+//		System.out.println();
+//
+//	}
+
 }
