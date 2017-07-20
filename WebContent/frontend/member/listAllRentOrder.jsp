@@ -25,7 +25,7 @@
 
 <html>
 <head>
-<title>我的租賃單資料</title>
+<title>我的租賃單</title>
 <style type="text/css">
 
 .custab{
