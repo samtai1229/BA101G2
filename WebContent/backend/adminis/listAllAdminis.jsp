@@ -1,126 +1,139 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="BIG5"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="java.util.*"%>
-<%@ page import="com.adminis.model.*"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.sql.Timestamp"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
+<%@ page import="com.news.model.*"%>
+<!-- Е╬▄Г╚╞Г╤╡И═│Г └Е│╢И┌┼Ф╛└  Е▓▄Ф╛┼И≥░Ф▌╖Г╝║Г └Е©┘Х╕│Г┴┤Ф╝╣Г╗▀Е╪▐Г╒╪ -->
 <%@ page import="com.adminis.model.*"%>
 <%
 	AdminisService admSvc = new AdminisService();
 	List<AdminisVO> list = admSvc.getAll();
 	pageContext.setAttribute("list", list);
 %>
-<!DOCTYPE html>
+<%  AdminisService as = new AdminisService();
+	AdminisVO adminisVO= (AdminisVO)session.getAttribute("adminisVO");
+     session.setAttribute("admins", adminisVO.getName());
+     session.setAttribute("adminisVO", adminisVO);
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Backend HP</title>
-    <meta name="description" content="">
+   <meta name="description" content="">
     <meta name="keywords" content="">
     <link href="" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-    
     <link rel="stylesheet" href="Modified/backendHP_css.css">
     <link href="Modified/main.css" rel="stylesheet">
     <script src="Modified/motorKanli_js.js"></script>
     <script src="Modified/datepicker.js"></script>
-
-</head>
-   
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<title>╘р╕Ё╨ч╡z╜Ш╦Й╝ф</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/backend/motor/js/motorMgmtHqSelectPage_css.css">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>  	
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">     
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css" >
 </head>
 <body bgcolor='white'>
 
- <nav class="navbar navbar-default" role="navigation">
-        <!-- logo╟о -->
+    <nav class="navbar navbar-default" role="navigation">
+        <!-- logoЕ█─ -->
         <a class="navbar-brand" href="#" id="navA">AUTOBIKE</a>
-        <!-- ╔╙©ОЁФ -->
+        <!-- Е╥╕И│╦Е√╝ -->
         <ul class="nav navbar-nav">
-            <li><a href="#" id="navA">╚А╨щ╨ч╡z╗t╡н</a></li>
-            <!-- ╝ида -->
+            <li><a href="#" id="navA">Е╬▄Г╚╞Г╝║Г░├ГЁ╩Г╣╠</a></li>
+            <!-- Ф≥┌И░≤ -->
             <iframe scrolling="no" frameborder="no" clocktype="html5" style="overflow:hidden;border:0;margin:0;padding:0;width:120px;height:40px;" src="http://www.clocklink.com/html5embed.php?clock=004&timezone=CCT&color=yellow&size=120&Title=&Message=&Target=&From=2017,1,1,0,0,0&Color=yellow">
             </iframe>
         </ul>
-        <!-- ╔k©ОЁФ -->
+        <!-- Е▐ЁИ│╦Е√╝ -->
         <ul class="nav navbar-nav navbar-right">
         </ul>
+        <form method="post" action="<%=request.getContextPath()%>/admin.do?action=logout">
+        <input type="submit" value="Г≥╩Е┤╨" >
+<!--           <input type="hidden" name="action1" value="logout" > -->
+		<b><%= adminisVO.getName() %></b>
+       </form>
+       
     </nav>
+ <%--Д©²Г∙≥Е╞╚ФЁ∙     href="<%=request.getContextPath()%>/backend/backendRentOrd.jsp"  --%>
+<!------------------------------- Е╬▄Г╚╞Г╤╡И═│Г └Е│╢И┌┼Ф╛└  Е▓▄Ф╛┼И≥░Ф▌╖Г╝║Г └Е©┘Х╕│Г┴┤Ф╝╣Г╗▀Е╪▐Г╒╪ -->
     <div class="col-xs-12 col-sm-2 leftBar">
-        <img id="menuLogo" src="images/logo.jpg">
-        <button class="accordion accordionMenu accordion accordionMenuMenu">а`Ё║╨ч╡z╗t╡н</button>
+     	
+        <img id="menuLogo" src="<%=request.getContextPath()%>/backend/images/android_logo2.jpg">
+        <button class="accordion accordionMenu accordion accordionMenuMenu">Г╦╫И┐╗Г╝║Г░├ГЁ╩Г╣╠</button> 
         <div class="btn-group-vertical">
-            <a class="btn btn-default" href="#" role="button">╗╝╫Ь╨ч╡z</a>
-            <a class="btn btn-default" href="#" role="button">╗╝╫Ь╫у╚в</a>
-            <a class="btn btn-default" href="#" role="button">╞╡╦НЁФ╨ч╡z</a>
-            <a class="btn btn-default" href="#" role="button">╦кЁф╨ч╡z</a>
-            <a class="btn btn-default" href="#" role="button">╦кЁф╫у╚в</a>
-            <a class="btn btn-default" href="#" role="button">╬збI╨ч╡z</a>
+         <%if(adminisVO.getAuthno().equals("AC01") || adminisVO.getAuthno().equals("AC07")){%>     
+            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/motor/motorMgmtHqSelectPage.jsp"  role="button">Х╩┼Х╪⌡Г╝║Г░├</a>
+            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/motorDispatchMgmtHq.jsp"  role="button">Х╩┼Х╪⌡Х╙©Е╨╕Г╝║Г░├</a>           
+			<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/backendRentOrd.jsp" role="button">Г╖÷ХЁ┐Е√╝Г╝║Г░├</a>
+            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/equipment/emtMgmtSelectPage.jsp" role="button">Хё²Е┌≥Г╝║Г░├</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/location/listAllLocation.jsp" role="button">Ф⌠ И╩·Г╝║Г░├</a>
+         <%} %>  
         </div>
-        <button class="accordion accordionMenu">╬збI╨ч╡z╗t╡н</button>
+       
+        <button class="accordion accordionMenu">Ф⌠ И╩·Г╝║Г░├ГЁ╩Г╣╠</button>
         <div class="btn-group-vertical">
-            <a class="btn btn-default" href="#" role="button">╬збI╗╝╫Ь╨ч╡z</a>
-            <a class="btn btn-default" href="#" role="button">╔Ф╗╝╨ч╡z</a>
-            <a class="btn btn-default" href="#" role="button">аы╗╝╨ч╡z</a>
-            <a class="btn btn-default" href="#" role="button">╗╝╫Ь╫у╚в╔с╫п</a>
-            <a class="btn btn-default" href="#" role="button">╗╝╫Ь╚O╬i/╨Ш╜в╨ч╡z</a>
-            <a class="btn btn-default" href="#" role="button">╬збI╦кЁф╨ч╡z</a>
-            <a class="btn btn-default" href="#" role="button">╦кЁф╔с╫п</a>
+        <%if(adminisVO.getAuthno().equals("AC02") || adminisVO.getAuthno().equals("AC07")){%> 
+            <a class="btn btn-default" href="#" role="button">Ф⌠ И╩·Х╩┼Х╪⌡Г╝║Г░├</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/lease.jsp"  role="button">Д╨╓Х╩┼Г╝║Г░├</a>
+          	<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/return.jsp"  role="button">И┌└Х╩┼Г╝║Г░├</a>
+            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/locMotorDispatchApply.jsp" role="button">Х╩┼Х╪⌡Х╙©Е╨╕Г■ЁХ╚▀</a>
+            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/emt_dispatch/locEmtDispatchApply.jsp" role="button">Хё²Е┌≥Г■ЁХ╚▀</a>
+         <%} %>
         </div>
-        <button class="accordion accordionMenu">╓G╓Б╗╝╨ч╡z╗t╡н</button>
+         
+        <button class="accordion accordionMenu">Д╨▄Ф┴▀Х╩┼Г╝║Г░├ГЁ╩Г╣╠</button>
         <div class="btn-group-vertical">
-            <a class="btn btn-default" href="#" role="button">╓G╓Б╗╝╫Ь╨ч╡z</a>
-            <a class="btn btn-default" href="#" role="button">╓G╓Б╗╝╜qЁФ╨ч╡z</a>
-            <a class="btn btn-default" href="#" role="button">╓G╓Б╗╝╔Ф╘Ж╨ч╡z</a>
+        <%if(adminisVO.getAuthno().equals("AC05") || adminisVO.getAuthno().equals("AC07")){%>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/second_order/SaleOnOff.jsp?who=${admins}" role="button">Д╨▄Ф┴▀Х╩┼Х╪⌡Г╝║Г░├</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/second_order/listAllSecOrd.jsp" role="button">Д╨▄Ф┴▀Х╩┼Х╗┌Е√╝Г╝║Г░├</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/second_order/SaleOnOff.jsp" role="button">Д╨▄Ф┴▀Х╩┼Д╨╓Ф≤⌠Г╝║Г░├</a>
+         <%} %>
         </div>
-        <button class="accordion accordionMenu">╥|╜Ш╨ч╡z╗t╡н</button>
-        <div class="btn-group-vertical"></div>
-        <button class="accordion accordionMenu">╛║╟й╔Ь╧╨╨ч╡z╗t╡н</button>
+       <button class="accordion accordionMenu">Ф°┐Е⌠║Г╝║Г░├ГЁ╩Г╣╠</button>
         <div class="btn-group-vertical">
-            <a class="btn btn-default" href="#" role="button">╠ю╪╫╨ч╡z</a>
-            <a class="btn btn-default" href="#" role="button">╞d╗╔╙╘╨ч╡z</a>
-            <a class="btn btn-default" href="#" role="button">Ёл╥s╝Ь╝╖╨ч╡z</a>
+        <%if(adminisVO.getAuthno().equals("AC03") || adminisVO.getAuthno().equals("AC07")){%>
+             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/member/backendMember.jsp" role="button">Ф°┐Е⌠║Г╝║Г░├</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/member/addMember.jsp" role="button">Ф√╟Е╒·Ф°┐Е⌠║</a>
+         <%} %>
         </div>
-        <button class="accordion accordionMenu">╚А╨щ╨ч╡z╗t╡н</button>
+        <button class="accordion accordionMenu">Ф╢╩Е▀∙Д╪│Е┼┐Г╝║Г░├ГЁ╩Г╣╠</button>
         <div class="btn-group-vertical">
-            <a class="btn btn-default" href="#" role="button">╚А╨щеv╜╜╨ч╡z</a>
-            <a class="btn btn-default" href="#" role="button">╠юбк╢╨бI╨ч╡z</a>
-            <a class="btn btn-default" href="#" role="button">╚А╨щ╣n╓J╨ч╡z</a>
+        <%if(adminisVO.getAuthno().equals("AC06") || adminisVO.getAuthno().equals("AC07")){%>
+<!--             <a class="btn btn-default" href="#" role="button">Ф▌╗Ф▓╜Г╝║Г░├</a> -->
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/mes_board/listAllMesBoard.jsp" role="button">Г∙≥Х╗─Г┴┬Г╝║Г░├</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/news/news_select_page.jsp" role="button">Ф°─Ф√╟Ф╤┬Ф│╞Г╝║Г░├</a>
+         <%} %>
+        </div>
+        <button class="accordion accordionMenu">Е╬▄Г╚╞Г╝║Г░├ГЁ╩Г╣╠</button>
+        <div class="btn-group-vertical">
+        <%if(adminisVO.getAuthno().equals("AC04") || adminisVO.getAuthno().equals("AC07")){%>
+           <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/adminis/adm_select_page.jsp" role="button">Е╬▄Г╚╞Ф╛┼И≥░Г╝║Г░├</a>
+<!--             <a class="btn btn-default" href="#" role="button">Ф▌╗Х√╕Ф≥╞И╩·Г╝║Г░├</a> -->
+         <%} %>
         </div>
         <div class="btn-group-vertical"></div>
     </div>
+<!----------------------------------------------- Е╬▄Г╚╞Г╤╡И═│Г └Е│╢И┌┼Ф╛└  Е▓▄Ф╛┼И≥░Ф▌╖Г╝║Г └Е©┘Х╕│Г┴┤Ф╝╣Г╗▀Е╪▐Г╒╪ -->
     <div class="col-xs-12 col-sm-10 rightHTML">
 		<div class="topTitle">
-            <h1>╚А╨щеv╜╜╨ч╡z</h1>
+            <h1>Е╬▄Г╚╞Ф╛┼И≥░Г╝║Г░├</h1>
         </div>
-        
-        <div class="container-fluid">
-
-
-	<table border='1' cellpadding='5' cellspacing='0' width='800'>
-		<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
-			<td>
-				<h3>╘р╕Ё╨ч╡z╜Ш╦Й╝ф</h3> <a href="adm_select_page.jsp"><img
-					src="images/back1.gif" width="100" height="32" border="0">╕^╜╨╜╤</a>
+			<td><a
+				href="<%=request.getContextPath()%>/backend/adminis/adm_select_page.jsp">Е⌡·И╕√И═│</a>
 			</td>
-		</tr>
-	</table>
 
-	<%-- ©Ы╩~╙М╕C --%>
+	<%-- И▄╞Х╙╓Х║╗Е┬≈ --%>
 	<c:if test="${not empty errorMsgs}">
-		<font color='red'>╫п╜в╔©╔H╓U©Ы╩~:
+		<font color='red'>Х╚▀Д©╝Ф╜ёД╩╔Д╦▀И▄╞Х╙╓:
 			<ul>
 				<c:forEach var="message" items="${errorMsgs}">
 					<li>${message}</li>
@@ -131,12 +144,14 @@
 
 	<table border='1' bordercolor='#CCCCFF' width='800'>
 		<tr>
-			<th>╨ч╡z╜Ш╫s╦╧</th>
-			<th>╬збI╫s╦╧</th>
-			<th>еv╜╜цЧ╖O╫s╦╧</th>
-			<th>╨ч╡z╜Ш╘m╕W</th>
-			<th>╨ч╡z╜Ш╠b╦╧</th>
-			<th>╨ч╡z╜Ш╠K╫X</th>
+			<th>Г╝║Г░├Е⌠║Г╥╗Х≥÷</th>
+			<th>Ф⌠ И╩·Г╥╗Х≥÷</th>
+			<th>Ф╛┼И≥░И║·Е┬╔Г╥╗Х≥÷</th>
+			<th>Г╝║Г░├Е⌠║Е╖⌠Е░█</th>
+			<th>Г╝║Г░├Е⌠║Е╦ЁХ≥÷</th>
+			<th>Г╝║Г░├Е⌠║Е╞├Г╒╪</th>
+			<th>Д©╝Ф■╧</th>
+			<th>Е┬╙И≥╓</th>
 		</tr>
 		<%@ include file="page1.file"%>
 		<c:forEach var="adminisVO" items="${list}" begin="<%=pageIndex%>"
@@ -151,14 +166,14 @@
 				<td>
 					<FORM METHOD="post"
 						ACTION="<%=request.getContextPath()%>/adminis/adminis.do">
-						<input type="submit" value="╜в╖О"> <input type="hidden"
+						<input type="submit" value="Д©╝Ф■╧"> <input type="hidden"
 							name="admno" value="${adminisVO.admno}"> <input
 							type="hidden" name="action" value="getOne_For_Update">
 					</FORM>
 				</td>
 				<td>
 					<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/adminis/adminis.do">
-						<input type="submit" value="╖R╟ё"> 
+						<input type="submit" value="Е┬╙И≥╓"> 
 						<input type="hidden" name="admno" value="${adminisVO.admno}"> 
 						<input type="hidden" name="action" value="delete">
 					</FORM>
@@ -169,5 +184,10 @@
 	<%@ include file="page2.file"%>
 
 
+<!----------------------------------------------- Е╬▄Г╚╞Г╤╡И═│Г └Е│╢И┌┼Ф╛└  Е▓▄Ф╛┼И≥░Ф▌╖Г╝║Г └Е©┘Х╕│Г┴┤Ф╝╣Г╗▀Е╪▐Г╒╪ -->
+	<!--RWDИ┐╗Е┬├:Д╦▀И²╒Е┘╘Х║▄Ф┬▒Ф▀©Ф▌┴Д╦─Х║▄Е▓▄JQueryФ°┴И≈°Г └script, Д╦█Г└╤datepickerФ°┐Х║²Е┬╟  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="<%=request.getContextPath()%>/backend/Modified/motorKanli_js.js"></script>
+    <script src="<%=request.getContextPath()%>/backend/Modified/indexNew.js"></script>
 </body>
 </html>
