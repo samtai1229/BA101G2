@@ -4,6 +4,7 @@ import java.util.*;
 
 import com.equipment.model.EquipmentVO;
 
+
 public class LocationVO implements java.io.Serializable{
 	private String locno;
 	private String locname;

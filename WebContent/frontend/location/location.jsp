@@ -21,23 +21,21 @@ pageContext.setAttribute("lat", lat);
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
  <meta name="generator" content="HTML Tidy for HTML5 (experimental) for Windows https://github.com/w3c/tidy-html5/tree/c63cc39" />
-    <meta charset="utf-8" />
+<!--     <meta charset="utf-8" /> -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="" />
     <meta name="author" content="" />
     <!-- Bootstrap Core CSS -->
-    <link href="<%=request.getContextPath()%>/js/bootstrap.min.css" rel="stylesheet" />
+    <link href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="<%=request.getContextPath()%>/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css' />
     <!-- Theme CSS -->
-    <link href="<%=request.getContextPath()%>/js/gallery.css" rel="stylesheet" />
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/js/owl.carousel.min.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/js/owl.theme.default.min.css">
+<%--     <link rel="stylesheet" href="<%=request.getContextPath()%>/js/owl.theme.default.min.js"> --%>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/magnific-popup.css">
     <!-- Theme Style -->
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
-    <link href="<%=request.getContextPath()%>/js/agency.css" rel="stylesheet" />
+    <link href="<%=request.getContextPath()%>/js/agency.js" rel="stylesheet" />
     <link href="<%=request.getContextPath()%>/css/agency.min.css" rel="stylesheet" />
 	
 	<!-- Custom Fonts -->
@@ -109,11 +107,11 @@ pageContext.setAttribute("lat", lat);
         border: 2px solid #ccc;
     }
 	
-	<%-- nav{
+	 nav{
 		background-image:url(<%=request.getContextPath()%>/img/header2.jpg);
 		background-attachment: scroll;
 		background-attachment:  fixed;
-	} --%>
+	} 
 	
 	#demo{
  		width:277px;
@@ -281,20 +279,6 @@ pageContext.setAttribute("lat", lat);
 		<!-- /.container-fluid -->
 	</nav>
 	
-	<!-- 租車主軸Header -->
-	<header id="rent">
-		
-		<div class="container">
-		
-			<div class="intro-text">
-				<div class="intro-lead-in">Welcome To Autobike!</div>
-				<div class="intro-heading">The Best Bike For You!</div>
-				
-				<!-- 				<a href="rent.html" class="page-scroll btn btn-xl">點我租車</a> -->
-			</div>
-
-		</div>
-	</header>
 	
 	
         <div class="container">
@@ -361,7 +345,7 @@ pageContext.setAttribute("lat", lat);
     </footer>
 
 	<!-- jQuery -->
-	 <script src="<%=request.getContextPath()%>vendor/jquery/jquery.min.js"></script>
+	 <script src="<%=request.getContextPath()%>/vendor/jquery/jquery.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 	<script type="text/javascript"
 		src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -397,8 +381,15 @@ pageContext.setAttribute("lat", lat);
     </script>
 
 <script>
+var Lon,Lat;
+var myMap;
+var map;
+var myPosition =[];
+var i=0,j=0;
+var count;
+
 function indexclick(lon,lat){
-		var count =1;
+		 count =1;
 		 Lon = lon;
 		 Lat = lat;
 console.log("lon= "+Lon); 			
@@ -424,7 +415,7 @@ console.log("myPosition["+count+"]= "+myPosition[count]);
 var lons = "${lon}";
 var lats = "${lat}";
 
-window.addEventListener('read',indexclick(lons,lats),false);
+// window.addEventListener('read',indexclick(lons,lats),false);
 	
 </script>
 

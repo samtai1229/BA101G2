@@ -72,7 +72,7 @@ pageContext.setAttribute("lat", lat);
 	
 	<link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans:600'>
 	
- <script src="<%=request.getContextPath()%>/frontend/location/js/googlemap.js"></script>
+<%--  <script src="<%=request.getContextPath()%>/frontend/location/js/googlemap.js"></script> --%>
 
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
@@ -438,7 +438,29 @@ console.log("myPosition["+count+"]= "+myPosition[count]);
 		 count++;
 		}
 		
-		
+function changeLatLng(lon,lat){
+		var count =1;
+		 Lon = lon;
+		 Lat = lat;
+console.log("lon= "+Lon); 			
+console.log("lat= "+Lat); 	
+			myPosition[count] = new google.maps.LatLng(Lon,Lat);
+console.log("myPosition["+count+"]= "+myPosition[count]);
+			 map = new google.maps.Map(myMap,{
+	            zoom: 10,
+	            center: myPosition[count],
+	            mapTypeId: google.maps.MapTypeId.ROADMAP
+	    });
+			 
+		var markers = 'marker'+count;	 
+		 markers = new google.maps.Marker({
+				position: myPosition[count],
+				map: map,
+				animation: google.maps.Animation.DROP
+			});
+			
+		 count++;
+		}
 		
 		
 
