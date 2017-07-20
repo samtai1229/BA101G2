@@ -224,4 +224,13 @@
     <url-pattern>/backend/location/location.do</url-pattern>
   </servlet-mapping>
   
+<servlet>
+    <servlet-name>EmtDispatchServlet</servlet-name>
+    <servlet-class>com.emt_dispatch.controller.EmtDispatchServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EmtDispatchServlet</servlet-name>
+    <url-pattern>/backend/emt_dispatch/ed.do</url-pattern>
+  </servlet-mapping>
+  
 </web-app>
