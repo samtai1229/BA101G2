@@ -66,6 +66,31 @@ p{
 	color:#000;
 }
 
+/*light box  */
+/* body {
+    padding: 30px 0px;
+} */
+
+#lightbox .modal-content {
+    display: inline-block;
+    text-align: center;   
+}
+
+#lightbox .close {
+    opacity: 1;
+    color: rgb(255, 255, 255);
+    background-color: rgb(25, 25, 25);
+    padding: 5px 8px;
+    border-radius: 30px;
+    border: 2px solid rgb(255, 255, 255);
+    position: absolute;
+    top: -15px;
+    right: -55px;
+    
+    z-index:1032;
+}
+
+
 </style>
 <body>
 <%-- 
@@ -101,45 +126,49 @@ p{
 
 --%>	
 	<jsp:useBean id="mmSvc" scope="page" class="com.motor_model.model.MotorModelService" />
-	<!-- Navigation -->
+
+
+<%-- Navigation --%>
 	<nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
-		<div class="container-fluid">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header page-scroll">
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target="#bs-example-navbar-collapse-1">
-					<span class="sr-only">Toggle navigation</span> Menu <i
-						class="fa fa-bars"></i>
-				</button>
-				<a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/index.jsp">AutoBike</a>
-			</div>
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                   <a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/index.jsp">AutoBike</a>
+            </div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav navbar-right">
-					<li class="hidden"><a href="#page-top"></a></li>
-					<li><a class="page-scroll" href="<%=request.getContextPath()%>/frontend/rental_form/rental_category.jsp">
-					<i class="glyphicon glyphicon-heart"></i>и璶ó</a></li>
-					<li><a class="page-scroll" href="#news">
-					<i class="glyphicon glyphicon-alert"></i>程穝</a></li>
-					<li><a class="page-scroll" href="#board">
-					<i class="fa fa-comments-o"></i>痙ē狾</a></li>
-					<li><a class="page-scroll" href="#loc">
-					<i class="fa fa-search"></i>狝叭沮翴</a></li>
-					<li><a href="<%=request.getContextPath()%>/backend/member/member.do">
-					<i class="fa fa-shopping-cart"></i>もó潦禦</a></li>
-					<c:if test="${not empty memno}">
-						<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">舧${memname}</a></li>
-						<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout" data-toggle="modal">
-						<i class="glyphicon glyphicon-user"></i>祅</a>
+			 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				 <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                          <li><a class="page-scroll" href="<%=request.getContextPath()%>/index.jsp">
+                          	<i class="glyphicon glyphicon-home"></i></a>
+                          </li>
+					<c:if test="${not empty memno}">	
+							<li>
+								<a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">
+									<b>穦盡跋</b>
+								</a>
+							</li>
+							<li><a href="#">舧${(memname == null) ? '穦':memname}</a></li>
+						<li>
+							<a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout"
+							data-toggle="modal"><i class="glyphicon glyphicon-user"></i>祅</a>
+						</li>
+					</c:if>
+					<c:if test="${ empty memno}">
+						<li>
+							<a href="#modal-id" data-toggle="modal"><i class="glyphicon glyphicon-user"></i>穦祅</a>
 						</li>
 					</c:if>
 				</ul>
 			</div>
-			<!-- /.navbar-collapse -->
 		</div>
-		<!-- /.container-fluid -->
 	</nav>
+<%--end Navigation --%>
 
 
 	<!-- ó禸Header -->
@@ -234,8 +263,10 @@ p{
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;计秖:</div>
 											</c:if>
 											<div class="pull-left">
+											<a href="#" class="thumbnail" data-toggle="modal" data-target="#lightbox"> 
 												<img alt="Image" class="media-object" 
-												src="http://placehold.it/100x70">
+												src="<%=request.getContextPath()%>/backend/emt_cate/ecReader.do?ecno=EC01" width="50px" height="50px">
+											</a>
 											</div>
 											<div class="media-body">
 												<h4 class="media-heading">${ecSvc.getOneEmtCate("EC01").type}</h4>
@@ -270,7 +301,10 @@ p{
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;计秖:</div>
 											</c:if>
 											<div class="pull-left">
-												<img alt="Image" class="media-object" src="http://placehold.it/100x70">
+											<a href="#" class="thumbnail" data-toggle="modal" data-target="#lightbox"> 
+												<img alt="Image" class="media-object" 
+												src="<%=request.getContextPath()%>/backend/emt_cate/ecReader.do?ecno=EC02" width="50px" height="50px">
+											</a>
 											</div>
 											<div class="media-body">
 												<h4 class="media-heading">${ecSvc.getOneEmtCate("EC02").type}</h4>
@@ -304,7 +338,10 @@ p{
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;计秖:</div>
 											</c:if>
 											<div class="pull-left">
-												<img alt="Image" class="media-object" src="http://placehold.it/100x70">
+											<a href="#" class="thumbnail" data-toggle="modal" data-target="#lightbox"> 
+												<img alt="Image" class="media-object" 
+												src="<%=request.getContextPath()%>/backend/emt_cate/ecReader.do?ecno=EC03" width="50px" height="50px">
+											</a>
 											</div>
 											<div class="media-body">
 												<h4 class="media-heading">${ecSvc.getOneEmtCate("EC03").type}</h4>
@@ -338,7 +375,10 @@ p{
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;计秖:</div>
 											</c:if>
 											<div class="pull-left">
-												<img alt="Image" class="media-object" src="http://placehold.it/100x70">
+											<a href="#" class="thumbnail" data-toggle="modal" data-target="#lightbox"> 
+												<img alt="Image" class="media-object" 
+												src="<%=request.getContextPath()%>/backend/emt_cate/ecReader.do?ecno=EC04" width="50px" height="50px">
+											</a>
 											</div>
 											<div class="media-body">
 												<h4 class="media-heading">${ecSvc.getOneEmtCate("EC04").type}</h4>
@@ -347,6 +387,17 @@ p{
 										</div>
 								</label>
 							</div>
+							
+				<div id="lightbox" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+				    <div class="modal-dialog">
+				        <button type="button" class="close hidden" data-dismiss="modal" aria-hidden="true">⊙</button>
+				        <div class="modal-content">
+				            <div class="modal-body">
+				                <img src="" alt="" />
+				            </div>
+				        </div>
+				    </div>
+				</div>
 						
 					
 				
@@ -397,5 +448,32 @@ p{
 	<script src="<%=request.getContextPath()%>/js/owl.carousel.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/jquery.magnific-popup.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/agency.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+	    var $lightbox = $('#lightbox');
+	    
+	    $('[data-target="#lightbox"]').on('click', function(event) {
+	        var $img = $(this).find('img'), 
+	            src = $img.attr('src'),
+	            alt = $img.attr('alt'),
+	            css = {
+	                'maxWidth': $(window).width() - 100,
+	                'maxHeight': $(window).height() - 100
+	            };
+	    
+	        $lightbox.find('.close').addClass('hidden');
+	        $lightbox.find('img').attr('src', src);
+	        $lightbox.find('img').attr('alt', alt);
+	        $lightbox.find('img').css(css);
+	    });
+	    
+	    $lightbox.on('shown.bs.modal', function (e) {
+	        var $img = $lightbox.find('img');
+	            
+	        $lightbox.find('.modal-dialog').css({'width': $img.width()});
+	        $lightbox.find('.close').removeClass('hidden');
+	    });
+	});
+	</script>
 </body>
 </html>

@@ -11,7 +11,6 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
-
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>  	
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
@@ -27,9 +26,8 @@
 	<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.min.css" rel="stylesheet" />
 	<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.css" rel="stylesheet" />
 	<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" rel="stylesheet" />
-
+</head>
 <style type="text/css">
-
 .gallery-title {
 	font-size: 36px;
 	color: #42B32F;
@@ -116,46 +114,47 @@ body {
 
 <body>
 
-
-<!-- Navigation -->
+<%-- Navigation --%>
 	<nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
-		<div class="container-fluid">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header page-scroll">
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target="#bs-example-navbar-collapse-1">
-					<span class="sr-only">Toggle navigation</span> Menu <i
-						class="fa fa-bars"></i>
-				</button>
-				<a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/index.jsp">AutoBike</a>
-			</div>
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                   <a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/index.jsp">AutoBike</a>
+            </div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav navbar-right">
-					<li class="hidden"><a href="#page-top"></a></li>
-					<li><a class="page-scroll" href="<%=request.getContextPath()%>/frontend/rental_form/rental_category.jsp">
-					<i class="glyphicon glyphicon-heart"></i>我要租車</a></li>
-					<li><a class="page-scroll" href="#news">
-					<i class="glyphicon glyphicon-alert"></i>最新消息</a></li>
-					<li><a class="page-scroll" href="#board">
-					<i class="fa fa-comments-o"></i>留言板</a></li>
-					<li><a class="page-scroll" href="#loc">
-					<i class="fa fa-search"></i>服務據點</a></li>
-					<li><a href="<%=request.getContextPath()%>/backend/member/member.do">
-					<i class="fa fa-shopping-cart"></i>二手車購買</a></li>
-					<c:if test="${not empty memno}">
-						<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">歡迎，${memname}</a></li>
-						<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout" data-toggle="modal">
-						<i class="glyphicon glyphicon-user"></i>登出</a>
+			 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				 <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                          <li><a class="page-scroll" href="<%=request.getContextPath()%>/index.jsp">
+                          	<i class="glyphicon glyphicon-home"></i>回首頁</a>
+                          </li>
+					<c:if test="${not empty memno}">	
+							<li>
+								<a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">
+									<b>會員專區</b>
+								</a>
+							</li>
+							<li><a href="#">歡迎，${(memname == null) ? '會員':memname}</a></li>
+						<li>
+							<a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout"
+							data-toggle="modal"><i class="glyphicon glyphicon-user"></i>登出</a>
+						</li>
+					</c:if>
+					<c:if test="${ empty memno}">
+						<li>
+							<a href="#modal-id" data-toggle="modal"><i class="glyphicon glyphicon-user"></i>會員登入</a>
 						</li>
 					</c:if>
 				</ul>
 			</div>
-			<!-- /.navbar-collapse -->
 		</div>
-		<!-- /.container-fluid -->
 	</nav>
+<%--end Navigation --%>
 	
 	<div id="blocker"></div>
 
