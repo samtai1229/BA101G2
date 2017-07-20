@@ -322,7 +322,7 @@ vertical-align: middle!important;
 
 		<%----------------------------------------------------^^^^ building area ^^^^-----------------------------------------------------------%>		
 
-	<footer>
+<!-- 	<footer>
 		<div class="container-fluid topdiv">
 			<div class="col-xs-12 col-sm-4">
 				<span>地址:桃園市平鎮區中央路115號</span>
@@ -334,7 +334,9 @@ vertical-align: middle!important;
 				<span>TEL:0900-000-000</span>
 			</div>
 		</div>
-	</footer>
+	</footer> -->
+	
+	
 	<script type="text/javascript">
 		 function loadDoc() {
 		    var xhttp = new XMLHttpRequest();

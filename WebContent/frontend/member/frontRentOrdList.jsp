@@ -147,8 +147,8 @@ margin-top:5%;
 #mamberTable{
 	background-color: #111!important;
 	font-size:16px!important;
-	
 }
+
 td,th{
 text-align: center!important;
 padding:0px!important;
@@ -321,7 +321,7 @@ line-height:51px!important;
 
 		<%----------------------------------------------------^^^^ building area ^^^^-----------------------------------------------------------%>		
 
-	<footer>
+<!-- 	<footer>
 		<div class="container-fluid topdiv">
 			<div class="col-xs-12 col-sm-4">
 				<span>地址:桃園市平鎮區中央路115號</span>
@@ -333,7 +333,7 @@ line-height:51px!important;
 				<span>TEL:0900-000-000</span>
 			</div>
 		</div>
-	</footer>
+	</footer> -->
 
 <script>
 //table
