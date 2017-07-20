@@ -1,5 +1,6 @@
 package com.motor_dispatch.model;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 
@@ -38,4 +39,6 @@ public interface MotorDispatchDAO_interface {
 	Set<MotorDispListVO> getMdListByMdnoByHib(String mdno);
 
 	public List<MotorDispatchVO> getByLocnoByHib(String locno);
+
+	public void cancelByHib(String mdno);
 }

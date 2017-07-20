@@ -13,9 +13,6 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import com.motor_disp_list.model.MotorDispListVO;
-import com.rent_ord.model.RentOrdVO;
-
 public class MotorDispatchJNDIDAO implements MotorDispatchDAO_interface {
 	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
 	private static DataSource ds = null;
@@ -393,54 +390,6 @@ public class MotorDispatchJNDIDAO implements MotorDispatchDAO_interface {
 			}
 		}
 		return set;
-	}
-
-	@Override
-	public RentOrdVO checkDispatchableMotors(String motno) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void insertByHib(MotorDispatchVO mdVO) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateByHib(MotorDispatchVO mdVO) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deleteByHib(String mdno) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public MotorDispatchVO findByPkByHib(String mdno) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<MotorDispatchVO> getAllByHib() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<MotorDispListVO> getMdListByMdnoByHib(String mdno) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<MotorDispatchVO> getByLocnoByHib(String locno) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

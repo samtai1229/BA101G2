@@ -91,4 +91,8 @@ public class MotorDispatchService {
 	public List<MotorDispatchVO> getByLocnoByHib(String locno){
 		return dao.getByLocnoByHib(locno);
 	}
+	
+	public void cancelByHib(String mdno){
+		dao.cancelByHib(mdno);
+	}
 }
