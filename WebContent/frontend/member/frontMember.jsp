@@ -9,6 +9,7 @@
 
 <%
 	MemberVO memVO = (MemberVO) request.getAttribute("memVO");
+	String memno = (String)session.getAttribute("memno");
 %>
 <!DOCTYPE html>
 <html>
@@ -150,7 +151,7 @@ text-align: center!important;
 
 td{
 	/* line-height:197px!important; */
-text-align:left!important;
+text-align:center!important;
 vertical-align: middle!important;
 }
 
@@ -209,7 +210,7 @@ vertical-align: middle!important;
 					<li><a href="<%=request.getContextPath()%>/backend/member/member.do">
 					<i class="fa fa-shopping-cart"></i>二手車購買</a></li>
 					<c:if test="${not empty memno}">
-						<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">歡迎，${memname}</a></li>
+						<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">歡迎，${(memname == null) ? '會員':memname}</a></li>
 						<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout" data-toggle="modal">
 						<i class="glyphicon glyphicon-user"></i>登出</a>
 						</li>
@@ -290,10 +291,10 @@ vertical-align: middle!important;
 			</td>
 			<c:if test="${memVO.status=='uncompleted'}"><td><font color=red><b>簡易註冊</b></font></td></c:if>					
 			<c:if test="${memVO.status=='confirmed'}"><td><font color=red><b>完整認證</b></font></td></c:if>
-			<c:if test="${memVO.status=='unconfirmed'}"><td><font color=red><b>簡易認證</b></font></td></c:if>
+			<c:if test="${memVO.status=='unconfirmed'}"><td><font color=red><b>一般認證</b></font></td></c:if>
 			<c:if test="${memVO.status=='verifing'}"><td><font color=red><b>認證中</b></font></td></c:if>
 			<td class="text-center"><a class='btn btn-info btn-md' 
-			href="<%=request.getContextPath()%>/backend/member/member.do?addAction=frontMember&action=getOne_For_Update&memno=${memVO.memno}">
+			href="<%=request.getContextPath()%>/backend/member/member.do?addAction=frontMember&action=getOne_For_Update&memno=${memno}">
 			<span class="glyphicon glyphicon-edit"></span> Edit</a></td>
 
 		</tr>
@@ -301,14 +302,14 @@ vertical-align: middle!important;
 		<form METHOD="post" ACTION="<%=request.getContextPath()%>/backend/member/member.do">
 			<input type="hidden" name="addaction" value="frontend">
 			<input type="hidden" name="action" value="getAllRentOrder">
-			<input type="hidden" name="memno" value="${memVO.memno}">
+			<input type="hidden" name="memno" value="${memno}">
 			<div style="vertical-align:text-top;">
 				<p class="text-center" id="p_tag">
 					<button type="button" onclick="loadDoc()" class="btn btn-info btn-lg">二手車訂單查詢</button>
 					<button type="submit" class="btn btn-success btn-lg">
 						租賃單查詢
 					</button>
-					<a onclick="history.back()" class="btn btn-danger btn-lg">
+					<a href="<%=request.getContextPath()%>/index.jsp" class="btn btn-danger btn-lg">
 						<i class="glyphicon glyphicon-arrow-up"></i>返回上頁
 					</a>
 				</p>
@@ -342,7 +343,7 @@ vertical-align: middle!important;
 			     document.getElementById("demo").innerHTML=this.responseText;
 			    }
 			 };
-			  xhttp.open("GET","<%=request.getContextPath()%>/backend/member/member.do?addaction=frontend&action=get_second_ord_per_member&memno=${memVO.memno}", true);
+			  xhttp.open("GET","<%=request.getContextPath()%>/backend/member/member.do?addaction=frontend&action=get_second_ord_per_member&memno=${memno}", true);
 			  xhttp.send();
 			}
 	 </script>
