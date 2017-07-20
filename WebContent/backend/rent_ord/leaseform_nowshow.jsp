@@ -30,7 +30,6 @@
 
 <body>
 
-<body>
 <%
 
 String rentno = request.getParameter("rentno");
@@ -44,6 +43,12 @@ MemberVO memQueryVO = (MemberVO)request.getAttribute("memQueryVO");
 MotorModelVO mmQueryVO = (MotorModelVO)request.getAttribute("mmQueryVO");
 LocationVO slocQueryVO =  (LocationVO)request.getAttribute("slocQueryVO");
 LocationVO rlocQueryVO =  (LocationVO)request.getAttribute("rlocQueryVO");
+
+Map<String, String> statusMap = new HashMap<String, String>();
+statusMap.put("uncompleted", "簡易註冊");
+statusMap.put("unconfirmed", "還未認證");
+statusMap.put("verifing", "等待認證");
+statusMap.put("confirmed", "認證合格");	
 %>
 
 
@@ -199,16 +204,19 @@ action: <c:out value="${action}" default="no value"/><br> --%>
 									class="form-control" readonly>
 								</div>
 							</div>
+							<c:set scope="page" var="temp"><c:out value="${memQueryVO.status}"/></c:set>
+							<%String key = String.valueOf(pageContext.getAttribute("temp"));%>
 							<div class="form-group  arr1">
 								<label for="aa" class="col-xs-12 col-sm-4 control-label">
 									實名認證:
 								</label>
 								<div class="col-xs-12 col-sm-8 innerDiv">
-									<input type="text" name="status" value="${memQueryVO.status}" 
-									class="form-control" readonly>
+									<input type="text" name="status" value="<%=statusMap.get(key)%>" class="form-control" readonly>
+									<input type="hidden" name="status" value="${memQueryVO.status}">
 								</div>
 							</div>		
 						</div>
+						
 					<div class="clear"></div>
 	
 					<h3>車輛資料</h3>
@@ -383,7 +391,7 @@ action: <c:out value="${action}" default="no value"/><br> --%>
 					<hr>
 					<p class="text-center">
 					    <input type="hidden" name="action" value="after_nowshow_form">
-	    					<button type="submit" class="btn btn-success btn-lg">
+	    					<button type="submit"  onClick="return check()" class="btn btn-success btn-lg">
 								<i class="glyphicon glyphicon-ok"></i>異常結案
 							</button>
 						<a href="javascript:window.close();" class="btn btn-danger btn-lg">
@@ -397,5 +405,28 @@ action: <c:out value="${action}" default="no value"/><br> --%>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/datepicker_for_rent_ord.js"></script>
 	<script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/motorKanli_js.js"></script>
+	<script type="text/javascript">
+	
+	function check(){
+		
+		var note = document.getElementById('note').value;
+		var message = "";
+		
+		//alert(".js check on");
+		
+		//note
+		if(note.length==0){
+			message +="異常單請簡述處理狀況";
+		
+		}
+
+		//result
+		if(message.length!=0){
+			alert(message);
+			return false;
+		}
+	}
+	
+	</script>
 </body>
 </html>

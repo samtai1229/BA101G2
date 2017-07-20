@@ -44,7 +44,13 @@ MemberVO memQueryVO = (MemberVO)request.getAttribute("memQueryVO");
 MotorModelVO mmQueryVO = (MotorModelVO)request.getAttribute("mmQueryVO");
 LocationVO slocQueryVO =  (LocationVO)request.getAttribute("slocQueryVO");
 LocationVO rlocQueryVO =  (LocationVO)request.getAttribute("rlocQueryVO");
-%>
+
+Map<String, String> statusMap = new HashMap<String, String>();
+statusMap.put("uncompleted", "簡易註冊");
+statusMap.put("unconfirmed", "還未認證");
+statusMap.put("verifing", "等待認證");
+statusMap.put("confirmed", "認證合格");	
+%>	
 <c:set var="now" value="<%=new java.util.Date()%>" />
 
 
@@ -207,13 +213,15 @@ action: <c:out value="${action}" default="no value"/><br> --%>
 									class="form-control" readonly>
 								</div>
 							</div>
+							<c:set scope="page" var="temp"><c:out value="${memQueryVO.status}"/></c:set>
+							<%String key = String.valueOf(pageContext.getAttribute("temp"));%>
 							<div class="form-group  arr1">
 								<label for="aa" class="col-xs-12 col-sm-4 control-label">
 									實名認證:
 								</label>
 								<div class="col-xs-12 col-sm-8 innerDiv">
-									<input type="text" name="status" value="${memQueryVO.status}" 
-									class="form-control" readonly>
+									<input type="text" name="status" value="<%=statusMap.get(key)%>" class="form-control" readonly>
+									<input type="hidden" name="status" value="${memQueryVO.status}">
 								</div>
 							</div>		
 						</div>
@@ -229,7 +237,7 @@ action: <c:out value="${action}" default="no value"/><br> --%>
 									編號:
 								</label>
 								<div class="col-xs-12 col-sm-8 innerDiv">
-									<input type="text" name="motorVO.motno" value="${motorQueryVO.motno}" 
+									<input type="text" name="motno" value="${motorQueryVO.motno}" 
 									class="form-control" readonly>
 								</div>
 							</div>
@@ -384,59 +392,47 @@ action: <c:out value="${action}" default="no value"/><br> --%>
 	
 					<div class="clear"></div>
 					共 <%=count%> 件裝備。
-					<h3>確認項目</h3>
+					<hr>
+					<h3>交接確認項目</h3>
 					<hr>
 					
-					<div><h5>裝備領取確認:</h5></div>
+					<c:if test="<%=count!=0 %>">
+					<div><h5>請在裝備交接給客戶後，勾選下方對應欄位進行確認:</h5></div>
+					</c:if>
 						<div>
 							<c:forEach var="emtVO" items="${get_equipmentVOs_by_rentno}">
 								<label class="checkbox-inline">
-									<input type="checkbox" name="${emtVO.emtno}" id="">
-									裝備${emtVO.emtno}
+									<input type="checkbox" name="check${emtVO.emtno}" 
+									value="裝備${emtVO.emtno}-${ecSvc.getOneEmtCate(emtVO.ecno).type}交接" class="check_group">
+									裝備${emtVO.emtno}-${ecSvc.getOneEmtCate(emtVO.ecno).type}
 								</label>
-		
-								
 							</c:forEach>																							
 						</div>
-	
-					<div><h5>交車確認:</h5></div>
+						<div><h4>還車確認:</h4></div>
 						<div class="checkbox">
 							<label>
-								<input type="checkbox" name="" id="">
-								檢查項目1: <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid eos perferendis, dolores dignissimos praesentium. Deserunt enim iure ullam error suscipit.</p>
+								<input type="checkbox" name="check1" id="check1" value="檢查項目1" class="check_group">
+								檢查項目1: <p>核對會員證件與基本資料，是否與網路填寫的資料相符。</p>
 							</label>
 						</div>
 						<div class="checkbox">
 							<label>
-								<input type="checkbox" name="" id="">
-								檢查項目2: <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam ratione, rem eos quia, perspiciatis temporibus ipsum nulla quo molestiae. Nulla?</p>
+								<input type="checkbox" name="check2" id="check2"  value="檢查項目2" class="check_group">
+								檢查項目2: <p>陪同客戶確認車輛狀況: 煞車（按一按看手感）、輪胎（看胎紋）、大燈有沒有亮、發動的聲音、機車外殼..等等。</p>
 							</label>
 						</div>
 						<div class="checkbox">
 							<label>
-								<input type="checkbox" name="" id="">
-								檢查項目3: <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi, nam ullam ut nulla error minima magni eaque corporis dolores culpa.</p>
+								<input type="checkbox" name="check3" id="check3"  value="檢查項目3" class="check_group">
+								檢查項目3: <p>告知客戶車輛注意事項，如部分車輛加油指定95無鉛，不能混加..等等。</p>
 							</label>
 						</div>
 						<div class="checkbox">
 							<label>
-								<input type="checkbox" name="" id="">
-								檢查項目4: <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis laborum quisquam nesciunt ipsam sequi animi nulla nisi iusto, aliquam sint!</p>
+								<input type="checkbox" name="check4" id="check4"  value="檢查項目4" class="check_group">
+								檢查項目4: <p>告知客戶事故處理事項，如:車輛事故、拋錨時的注意事項。</p>
 							</label>
-						</div>
-						<div class="checkbox">
-							<label>
-								<input type="checkbox" name="" id="">
-								檢查項目5: <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem repudiandae consequuntur expedita officia eligendi explicabo fugiat mollitia, ipsam dignissimos, consectetur.</p>
-							</label>
-						</div>
-						<div class="checkbox">
-							<label>
-								<input type="checkbox" name="" id="">
-								檢查項目6: <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellendus fugiat exercitationem rem omnis blanditiis quia laborum necessitatibus natus corporis optio.</p>
-							</label>
-						</div>
-	
+						</div>	
 					<div class="clear"></div>
 	
 					<hr>	
@@ -448,7 +444,7 @@ action: <c:out value="${action}" default="no value"/><br> --%>
 					<hr>
 					<p class="text-center">
 					    <input type="hidden" name="action" value="after_available_form">
-	    					<button type="submit" class="btn btn-success btn-lg">
+	    					<button type="submit" onClick="return check()" class="btn btn-success btn-lg">
 								<i class="glyphicon glyphicon-ok"></i>完成取車
 							</button>
 						<a href="javascript:window.close();" class="btn btn-danger btn-lg">
@@ -462,5 +458,29 @@ action: <c:out value="${action}" default="no value"/><br> --%>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/datepicker_for_rent_ord.js"></script>
 	<script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/motorKanli_js.js"></script>
+	
+	<script type="text/javascript">
+	
+	function check(){
+		
+		var check = document.getElementsByClassName('check_group');
+		var message = "";
+
+		//checkbox
+		for(i = 0; i< check.length ; i++){
+			if(check[i].checked==false){
+				message += check[i].value+", ";
+			}
+		}
+		
+		//result:
+		if(message.length!=0){
+			message +="..等注意事項尚未勾選確認."
+			alert(message);
+			return false;
+		}
+	}
+	
+	</script>
 </body>
 </html>

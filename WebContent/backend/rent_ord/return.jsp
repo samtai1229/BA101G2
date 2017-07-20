@@ -180,6 +180,7 @@
 										<div class="InputForm">
 											<label class="title">單一查詢</label> 
 											<select name="rentno" onchange="queryRentOrdByRentOrdPK(this.value)">
+												<option value="">----------------</option>
 					 							<c:forEach var="roVO" items="${roSvc.all}">
 													<option value="${roVO.rentno}">
 														${roVO.rentno}

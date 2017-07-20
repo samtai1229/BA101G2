@@ -42,6 +42,12 @@ MemberVO memQueryVO = (MemberVO)request.getAttribute("memQueryVO");
 MotorModelVO mmQueryVO = (MotorModelVO)request.getAttribute("mmQueryVO");
 LocationVO slocQueryVO =  (LocationVO)request.getAttribute("slocQueryVO");
 LocationVO rlocQueryVO =  (LocationVO)request.getAttribute("rlocQueryVO");
+
+Map<String, String> statusMap = new HashMap<String, String>();
+statusMap.put("uncompleted", "簡易註冊");
+statusMap.put("unconfirmed", "還未認證");
+statusMap.put("verifing", "等待認證");
+statusMap.put("confirmed", "認證合格");	
 %>
 
 
@@ -202,13 +208,15 @@ action: <c:out value="${action}" default="no value"/><br> --%>
 								class="form-control" readonly>
 							</div>
 						</div>
+						<c:set scope="page" var="temp"><c:out value="${memQueryVO.status}"/></c:set>
+						<%String key = String.valueOf(pageContext.getAttribute("temp"));%>
 						<div class="form-group  arr1">
 							<label for="aa" class="col-xs-12 col-sm-4 control-label">
 								實名認證:
 							</label>
 							<div class="col-xs-12 col-sm-8 innerDiv">
-								<input type="text" name="status" value="${memQueryVO.status}" 
-								class="form-control" readonly>
+								<input type="text" name="status" value="<%=statusMap.get(key)%>" class="form-control" readonly>
+								<input type="hidden" name="status" value="${memQueryVO.status}">
 							</div>
 						</div>		
 					</div>

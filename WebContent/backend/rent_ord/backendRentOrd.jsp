@@ -13,6 +13,26 @@
      session.setAttribute("admins", adminisVO.getName());
      session.setAttribute("adminisVO", adminisVO);
 %>
+
+
+
+<%
+
+	Map<String, String> roStatusMap = new HashMap<String, String>();
+	roStatusMap.put("unpaid", "待繳費");
+	roStatusMap.put("canceled", "取消");
+	roStatusMap.put("unoccupied", "準備交車");
+	roStatusMap.put("available", "今日取車");	
+	roStatusMap.put("noshow", "逾期未取");	
+	roStatusMap.put("noreturn", "待還車");	
+	roStatusMap.put("overtime", "逾期未還");	
+	roStatusMap.put("abnormalclosed", "異常結案");	
+	roStatusMap.put("closed", "正常結案");	
+	roStatusMap.put("other", "其他");
+	
+%>
+
+
 <!-- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
 <!DOCTYPE html>
 <html>
@@ -155,15 +175,14 @@ th,td{
 							<a class="showHideColumn" data-columnindex="2">車輛編號</a> -
 							<a class="showHideColumn" data-columnindex="3">交車據點</a> -
 							<a class="showHideColumn" data-columnindex="4">還車據點</a> -
-							<a class="showHideColumn" data-columnindex="5">年份</a> -
-							<a class="showHideColumn" data-columnindex="6">填表日</a> -
-							<a class="showHideColumn" data-columnindex="7">起始日</a> -
-							<a class="showHideColumn" data-columnindex="8">結束日</a> -
-							<a class="showHideColumn" data-columnindex="9">還車日</a> -
-							<a class="showHideColumn" data-columnindex="10">罰金</a> -
-							<a class="showHideColumn" data-columnindex="11">總金額</a> -
-							<a class="showHideColumn" data-columnindex="12">評價</a> -
-							<a class="showHideColumn" data-columnindex="13">狀態</a> -
+							<a class="showHideColumn" data-columnindex="5">填表日</a> -
+							<a class="showHideColumn" data-columnindex="6">起始日</a> -
+							<a class="showHideColumn" data-columnindex="7">結束日</a> -
+							<a class="showHideColumn" data-columnindex="8">還車日</a> -
+							<a class="showHideColumn" data-columnindex="9">罰金</a> -
+							<a class="showHideColumn" data-columnindex="10">總金額</a> -
+							<a class="showHideColumn" data-columnindex="11">評價</a> -
+							<a class="showHideColumn" data-columnindex="12">狀態</a> -
 						</div>	
 						<table id="dataTable" class="stripe hover" width="80%" cellspacing="0">
 							  <thead>	
@@ -173,7 +192,6 @@ th,td{
 										<th>車輛編號</th>
 										<th>交車據點</th>				
 										<th>還車據點</th>
-										<th>年份</th>
 										<th>填表日</th>				
 										<th>起始日</th>
 										<th>結束日</th>
@@ -199,15 +217,19 @@ th,td{
 										<td>${roVO.motorVO.motno}</td>	
 										<td>${locSvc.getOneLocation(roVO.slocno).locname}</td>
 										<td>${locSvc.getOneLocation(roVO.rlocno).locname}</td>
-											<td><fmt:formatDate pattern = "yyyy" value = "${roVO.filldate}" /></td>
-										<td><fmt:formatDate pattern = "MM/dd" value = "${roVO.filldate}" /></td>
-										<td><fmt:formatDate pattern = "MM/dd" value = "${roVO.startdate}" /></td>									
-										<td><fmt:formatDate pattern = "MM/dd" value = "${roVO.enddate}" /></td>
-										<td><fmt:formatDate pattern = "MM/dd" value = "${roVO.returndate}" /></td>
+										<td><fmt:formatDate pattern = "yy/MM/dd" value = "${roVO.filldate}" /></td>
+										<td><fmt:formatDate pattern = "yy/MM/dd" value = "${roVO.startdate}" /></td>									
+										<td><fmt:formatDate pattern = "yy/MM/dd" value = "${roVO.enddate}" /></td>
+										<td><fmt:formatDate pattern = "yy/MM/dd" value = "${roVO.returndate}" /></td>
 										<td>${roVO.fine}</td>
 										<td>${roVO.total}</td>
 										<td>${roVO.rank}</td>
-										<td>${roVO.status}</td>	
+										
+										<%-- show readable-status with map --%>
+										<c:set scope="page" var="temp"><c:out value="${roVO.status}"/></c:set>
+										<% String key = String.valueOf(pageContext.getAttribute("temp")); %>
+										<td><%=roStatusMap.get(key)%></td>
+										
 										<td>
 											<form method="POST" target="print_popup" 
 					      				  		  action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do" 
