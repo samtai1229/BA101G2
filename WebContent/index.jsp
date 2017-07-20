@@ -387,7 +387,7 @@
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 text-center">
 					<h2 class="section-heading">¯d¨¥ªO</h2>
-				<h4>	<a href="#" id="general">Enter MESSAGE BOARD</a></h4>
+				<h4>	<a href="<%=request.getContextPath() %>/frontend/mes_board/listAllMesBoard.jsp" id="general">Enter MESSAGE BOARD</a></h4>
 
 
 				</div>
