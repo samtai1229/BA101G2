@@ -66,6 +66,31 @@ p{
 	color:#000;
 }
 
+/*light box  */
+/* body {
+    padding: 30px 0px;
+} */
+
+#lightbox .modal-content {
+    display: inline-block;
+    text-align: center;   
+}
+
+#lightbox .close {
+    opacity: 1;
+    color: rgb(255, 255, 255);
+    background-color: rgb(25, 25, 25);
+    padding: 5px 8px;
+    border-radius: 30px;
+    border: 2px solid rgb(255, 255, 255);
+    position: absolute;
+    top: -15px;
+    right: -55px;
+    
+    z-index:1032;
+}
+
+
 </style>
 <body>
 <%-- 
@@ -234,8 +259,10 @@ p{
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;计秖:</div>
 											</c:if>
 											<div class="pull-left">
+											<a href="#" class="thumbnail" data-toggle="modal" data-target="#lightbox"> 
 												<img alt="Image" class="media-object" 
-												src="http://placehold.it/100x70">
+												src="<%=request.getContextPath()%>/backend/emt_cate/ecReader.do?ecno=EC01" width="50px" height="50px">
+											</a>
 											</div>
 											<div class="media-body">
 												<h4 class="media-heading">${ecSvc.getOneEmtCate("EC01").type}</h4>
@@ -270,7 +297,10 @@ p{
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;计秖:</div>
 											</c:if>
 											<div class="pull-left">
-												<img alt="Image" class="media-object" src="http://placehold.it/100x70">
+											<a href="#" class="thumbnail" data-toggle="modal" data-target="#lightbox"> 
+												<img alt="Image" class="media-object" 
+												src="<%=request.getContextPath()%>/backend/emt_cate/ecReader.do?ecno=EC02" width="50px" height="50px">
+											</a>
 											</div>
 											<div class="media-body">
 												<h4 class="media-heading">${ecSvc.getOneEmtCate("EC02").type}</h4>
@@ -304,7 +334,10 @@ p{
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;计秖:</div>
 											</c:if>
 											<div class="pull-left">
-												<img alt="Image" class="media-object" src="http://placehold.it/100x70">
+											<a href="#" class="thumbnail" data-toggle="modal" data-target="#lightbox"> 
+												<img alt="Image" class="media-object" 
+												src="<%=request.getContextPath()%>/backend/emt_cate/ecReader.do?ecno=EC03" width="50px" height="50px">
+											</a>
 											</div>
 											<div class="media-body">
 												<h4 class="media-heading">${ecSvc.getOneEmtCate("EC03").type}</h4>
@@ -338,7 +371,10 @@ p{
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;计秖:</div>
 											</c:if>
 											<div class="pull-left">
-												<img alt="Image" class="media-object" src="http://placehold.it/100x70">
+											<a href="#" class="thumbnail" data-toggle="modal" data-target="#lightbox"> 
+												<img alt="Image" class="media-object" 
+												src="<%=request.getContextPath()%>/backend/emt_cate/ecReader.do?ecno=EC04" width="50px" height="50px">
+											</a>
 											</div>
 											<div class="media-body">
 												<h4 class="media-heading">${ecSvc.getOneEmtCate("EC04").type}</h4>
@@ -347,6 +383,17 @@ p{
 										</div>
 								</label>
 							</div>
+							
+				<div id="lightbox" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+				    <div class="modal-dialog">
+				        <button type="button" class="close hidden" data-dismiss="modal" aria-hidden="true">⊙</button>
+				        <div class="modal-content">
+				            <div class="modal-body">
+				                <img src="" alt="" />
+				            </div>
+				        </div>
+				    </div>
+				</div>
 						
 					
 				
@@ -397,5 +444,32 @@ p{
 	<script src="<%=request.getContextPath()%>/js/owl.carousel.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/jquery.magnific-popup.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/agency.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+	    var $lightbox = $('#lightbox');
+	    
+	    $('[data-target="#lightbox"]').on('click', function(event) {
+	        var $img = $(this).find('img'), 
+	            src = $img.attr('src'),
+	            alt = $img.attr('alt'),
+	            css = {
+	                'maxWidth': $(window).width() - 100,
+	                'maxHeight': $(window).height() - 100
+	            };
+	    
+	        $lightbox.find('.close').addClass('hidden');
+	        $lightbox.find('img').attr('src', src);
+	        $lightbox.find('img').attr('alt', alt);
+	        $lightbox.find('img').css(css);
+	    });
+	    
+	    $lightbox.on('shown.bs.modal', function (e) {
+	        var $img = $lightbox.find('img');
+	            
+	        $lightbox.find('.modal-dialog').css({'width': $img.width()});
+	        $lightbox.find('.close').removeClass('hidden');
+	    });
+	});
+	</script>
 </body>
 </html>

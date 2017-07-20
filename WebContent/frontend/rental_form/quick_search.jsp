@@ -300,7 +300,7 @@ body {
 										<li>日租價    NT$${mmSvc.findByPK(motorVO.modtype).renprice}</li>
 										<li>車輛編號 : ${motorVO.motno}</li>
 									</ul>
-									<p class="hidden-xs">Situated between fairmount park and the prestigious philadelphia cricket club, this beautiful 2+ acre property is truly ...</p>
+									<p class="hidden-xs">......</p>
 									<form method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do">
 										<input type="hidden" name="motno" value="${motorVO.motno}">		                      			
 		                      			<input type="hidden" name="modtype" value="${mmVO.modtype}">
@@ -341,7 +341,7 @@ body {
 										<li>日租價    NT$${mmSvc.findByPK(motorVO.modtype).renprice}</li>
 										<li>車輛編號 : ${motorVO.motno}</li>
 									</ul>
-									<p class="hidden-xs">Situated between fairmount park and the prestigious philadelphia cricket club, this beautiful 2+ acre property is truly ...</p>
+									<p class="hidden-xs">......</p>
 									<form method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do">
 										<input type="hidden" name="motno" value="${motorVO.motno}">		                      			
 		                      			<input type="hidden" name="modtype" value="${mmVO.modtype}">
