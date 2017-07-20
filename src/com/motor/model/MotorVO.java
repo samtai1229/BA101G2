@@ -1,8 +1,11 @@
 package com.motor.model;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.location.model.LocationVO;
+import com.motor_disp_list.model.MotorDispListVO;
 import com.motor_model.model.MotorModelVO;
 
 public class MotorVO implements java.io.Serializable {
@@ -29,6 +32,7 @@ public class MotorVO implements java.io.Serializable {
 	// 以下hibernate用
 	private MotorModelVO motorModelVO;
 	private LocationVO locationVO;
+//	private Set<MotorDispListVO> motorDispLists = new HashSet<MotorDispListVO>();
 
 	public MotorVO() {
 		checkNull();
@@ -171,4 +175,12 @@ public class MotorVO implements java.io.Serializable {
 	public void setSaleprice(Integer saleprice) {
 		this.saleprice = saleprice;
 	}
+
+//	public Set<MotorDispListVO> getMotorDispLists() {
+//		return motorDispLists;
+//	}
+//
+//	public void setMotorDispLists(Set<MotorDispListVO> motorDispLists) {
+//		this.motorDispLists = motorDispLists;
+//	}
 }

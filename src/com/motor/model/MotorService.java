@@ -107,5 +107,13 @@ public class MotorService {
 	public List<MotorVO> fuzzySearchByHib(String fuzzyValue){
 		return dao.fuzzySearchByHib(fuzzyValue);
 	}
+	
+	public List<MotorVO> getMotorsByModtypeByHib(String modtype){
+		return dao.getMotorsByModtypeByHib(modtype);
+	}
+	
+	public void updateStatusByHib(String motno, String status){
+		dao.updateStatusByHib(motno, status);
+	}
 
 }

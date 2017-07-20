@@ -43,4 +43,10 @@ public interface MotorDAO_interface {
 	public List<MotorVO> getAllByHib();
 
 	public List<MotorVO> fuzzySearchByHib(String fuzzyValue);
+
+	public List<MotorVO> getMotorsByModtypeByHib(String modtype);
+
+	public void updateStatusByHib(String motno, String status);
+	
+	
 }
