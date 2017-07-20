@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.emt_dispatch.model.EmtDispatchVO" table="emt_dispatch" >
+        
+     <id name="edno" column="edno">
+     	<generator class="generator.EdnoGenerator"/>
+     </id>
+     
+     <property name="locno" column="locno" />
+     <property name="demanddate" column="demanddate" />
+     <property name="closeddate" column="closeddate" />
+     <property name="prog" column="prog" />
+     
+     <set name="emtDispLists" table = "emt_disp_list" lazy="false" cascade="all" inverse="true" order-by="edno asc">
+     	<key><column name="edno"/></key>
+     	<one-to-many class="com.emt_disp_list.model.EmtDispListVO"/>
+     </set>
+        
+    </class>
+</hibernate-mapping>
+

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.equipment.model.EquipmentVO" table="equipment" >
+        
+        <id name="emtno" column="emtno">
+            <generator class="generator.EmtnoGenerator"/>
+        </id>
+        
+        <property name="purchdate" column="purchdate"  />
+        <property name="status" column="status" />
+        <property name="note" column="note" />
+        
+        <many-to-one name="emtCateVO" class="com.emt_cate.model.EmtCateVO" lazy="false">
+            <column name="ecno" />
+        </many-to-one>
+        <many-to-one name="locationVO" class="com.location.model.LocationVO" lazy="false">
+            <column name="locno" />
+        </many-to-one>
+        
+    </class>
+</hibernate-mapping>
+

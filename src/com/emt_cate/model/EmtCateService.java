@@ -3,6 +3,7 @@ package com.emt_cate.model;
 import java.util.List;
 import java.util.Set;
 import com.equipment.model.EquipmentVO;
+import com.motor_model.model.MotorModelVO;
 
 public class EmtCateService {
 	private EmtCateDAO_interface dao;
@@ -50,7 +51,11 @@ public class EmtCateService {
 		return dao.getAll();
 	}
 	
-	public Set<EquipmentVO> getEqptsByEcno(String ecno) {
-		return dao.getEqptsByEcno(ecno);
+	public Set<EquipmentVO> getEmtsByEcno(String ecno) {
+		return dao.getEmtsByEcno(ecno);
 	}
+	
+	public List<EmtCateVO> getAllByHib(){
+		return dao.getAllByHib();
+	};
 }

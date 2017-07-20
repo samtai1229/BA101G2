@@ -275,7 +275,7 @@ public class EmtCateJDBCDAO implements EmtCateDAO_interface {
 	}
 	
 	@Override
-	public Set<EquipmentVO> getEqptsByEcno(String ecno) {
+	public Set<EquipmentVO> getEmtsByEcno(String ecno) {
 		Set<EquipmentVO> set = new LinkedHashSet<EquipmentVO>();
 		EquipmentVO eqptVO = null;
 	
@@ -380,7 +380,7 @@ public class EmtCateJDBCDAO implements EmtCateDAO_interface {
 //		}
 			
 		// 用ECNO查equipment
-			Set<EquipmentVO> set = dao.getEqptsByEcno("EC01");
+			Set<EquipmentVO> set = dao.getEmtsByEcno("EC01");
 			for (EquipmentVO aEqpt : set) {
 				System.out.print(aEqpt.getEmtno() + ",");
 				System.out.print(aEqpt.getEcno() + ",");

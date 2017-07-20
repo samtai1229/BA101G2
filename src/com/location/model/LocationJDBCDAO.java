@@ -13,14 +13,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.member.model.MemberVO;
 
 public class LocationJDBCDAO implements LocationDAO_interface{
 
 	String driver = "oracle.jdbc.driver.OracleDriver";
 	String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	String userid = "ba101g2";
-	String passwd = "ba101g2";
+	String userid = "servlet";
+	String passwd = "123456";
 
 	private static final String INSERT_STMT = 
 			"INSERT INTO LOCATION (locno,locname,tel,addr,pic,lon,lat,status) "
@@ -305,23 +304,22 @@ public class LocationJDBCDAO implements LocationDAO_interface{
 		LocationJDBCDAO dao = new LocationJDBCDAO();
 		
 		// 新增locno,locname,tel,addr,pic,lon,lat,status
-//		LocationVO locationVO1 = new LocationVO();
-//		locationVO1.setLocname("台北");
-//		locationVO1.setTel("0471236467");
-//		locationVO1.setAddr("東坡谷");
-//		byte[] picture;
-//		try {
-//			picture = getPictureByteArray("C://Users//Java//Pictures//mouse.png");
-//			locationVO1.setPic(picture);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		locationVO1.setLon(122.133f);
-//		locationVO1.setLat(226.824f);
-//		locationVO1.setStatus("closed");
-//		dao.insert(locationVO1);
-//		System.out.println("已新增一筆據點資料");
+/*		LocationVO locationVO1 = new LocationVO();
+		locationVO1.setLocname("台北");
+		locationVO1.setTel("0471236467");
+		locationVO1.setAddr("東坡谷");
+		byte[] picture;
+		try {
+			picture = getPictureByteArray("C://Users//Java//Pictures//mouse.png");
+			locationVO1.setPic(picture);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		locationVO1.setLon(122.133f);
+		locationVO1.setLat(226.824f);
+		locationVO1.setStatus("closed");
+		dao.insert(locationVO1);
+		System.out.println("已新增一筆據點資料");*/
 		
 		//修改
 //		LocationVO location2 = new LocationVO();
@@ -397,10 +395,5 @@ public class LocationJDBCDAO implements LocationDAO_interface{
 		fis.close();
 
 		return baos.toByteArray();
-	}
-	@Override
-	public List<LocationVO> getAllStatusOpen() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

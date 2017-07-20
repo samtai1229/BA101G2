@@ -8,12 +8,19 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+
+
+import hibernate.util.HibernateUtil;
 
 public class EquipmentDAO implements EquipmentDAO_interface {
 	// 一個應用程式中,針對一個資料庫 ,共用一個DataSource即可
@@ -32,8 +39,16 @@ public class EquipmentDAO implements EquipmentDAO_interface {
 	private static final String DELETE = "DELETE FROM EQUIPMENT where EMTNO = ?";
 	private static final String UPDATE = "UPDATE EQUIPMENT set ECNO=?, LOCNO=?, PURCHDATE=?, STATUS=?, NOTE=? where EMTNO = ?";
 
+	//以下為Hibernate用
+		private static final String GET_ALL_BY_HIBERNATE = "from EquipmentVO order by ecno";
+		private static final String GET_BY_ECNO_BY_HIBERNATE = "from EquipmentVO where ecno = ? order by emtno";
+		private static final String UPDATE_STATUS_BY_HIBERNATE = "update EquipmentVO set status = ? where emtno = ?";
+		private static final String GET_ECNO_BY_LOCNO = "SELECT distinct emtCateVO.ecno FROM EquipmentVO where locationVO.locno <> ? order by ecno";
+		private static final String GET_BY_ECNO_AND_LOCNO = "FROM EquipmentVO where emtCateVO.ecno = ? and locationVO.locno <> ? and status in ('leasable','unleasable')";
+		
+		
 	@Override
-	public void insert(EquipmentVO equipmentVO) {
+	public void insert(EquipmentVO emtVO) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -43,9 +58,9 @@ public class EquipmentDAO implements EquipmentDAO_interface {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(INSERT_STMT);
 
-			pstmt.setString(1, equipmentVO.getEcno());
-			pstmt.setTimestamp(2, equipmentVO.getPurchdate());
-			pstmt.setString(3, equipmentVO.getNote());
+			pstmt.setString(1, emtVO.getEcno());
+			pstmt.setTimestamp(2, emtVO.getPurchdate());
+			pstmt.setString(3, emtVO.getNote());
 
 			pstmt.executeUpdate();
 
@@ -73,7 +88,7 @@ public class EquipmentDAO implements EquipmentDAO_interface {
 	}
 
 	@Override
-	public void update(EquipmentVO equipmentVO) {
+	public void update(EquipmentVO emtVO) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -82,12 +97,12 @@ public class EquipmentDAO implements EquipmentDAO_interface {
 
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE);
-			pstmt.setString(1, equipmentVO.getEcno());
-			pstmt.setString(2, equipmentVO.getLocno());
-			pstmt.setTimestamp(3, equipmentVO.getPurchdate());
-			pstmt.setString(4, equipmentVO.getStatus());
-			pstmt.setString(5, equipmentVO.getNote());
-			pstmt.setString(6, equipmentVO.getEmtno());
+			pstmt.setString(1, emtVO.getEcno());
+			pstmt.setString(2, emtVO.getLocno());
+			pstmt.setTimestamp(3, emtVO.getPurchdate());
+			pstmt.setString(4, emtVO.getStatus());
+			pstmt.setString(5, emtVO.getNote());
+			pstmt.setString(6, emtVO.getEmtno());
 			pstmt.executeUpdate();
 			
 			// Handle any SQL errors
@@ -154,7 +169,7 @@ public class EquipmentDAO implements EquipmentDAO_interface {
 	@Override
 	public EquipmentVO findByPrimaryKey(String emtno) {
 
-		EquipmentVO equipmentVO = null;
+		EquipmentVO emtVO = null;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -169,14 +184,14 @@ public class EquipmentDAO implements EquipmentDAO_interface {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				// equipmentVO 也稱為 Domain objects
-				equipmentVO = new EquipmentVO();
-				equipmentVO.setEmtno(rs.getString("emtno"));
-				equipmentVO.setEcno(rs.getString("ecno"));
-				equipmentVO.setLocno(rs.getString("locno"));
-				equipmentVO.setPurchdate(rs.getTimestamp("purchdate"));
-				equipmentVO.setStatus(rs.getString("status"));
-				equipmentVO.setNote(rs.getString("note"));
+				// emtVO 也稱為 Domain objects
+				emtVO = new EquipmentVO();
+				emtVO.setEmtno(rs.getString("emtno"));
+				emtVO.setEcno(rs.getString("ecno"));
+				emtVO.setLocno(rs.getString("locno"));
+				emtVO.setPurchdate(rs.getTimestamp("purchdate"));
+				emtVO.setStatus(rs.getString("status"));
+				emtVO.setNote(rs.getString("note"));
 			}
 
 			// Handle any SQL errors
@@ -206,13 +221,13 @@ public class EquipmentDAO implements EquipmentDAO_interface {
 				}
 			}
 		}
-		return equipmentVO;
+		return emtVO;
 	}
 
 	@Override
 	public List<EquipmentVO> getAll() {
 		List<EquipmentVO> list = new ArrayList<EquipmentVO>();
-		EquipmentVO equipmentVO = null;
+		EquipmentVO emtVO = null;
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -225,15 +240,15 @@ public class EquipmentDAO implements EquipmentDAO_interface {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				// equipmentVO 也稱為 Domain objects
-				equipmentVO = new EquipmentVO();
-				equipmentVO.setEmtno(rs.getString("emtno"));
-				equipmentVO.setEcno(rs.getString("ecno"));
-				equipmentVO.setLocno(rs.getString("locno"));
-				equipmentVO.setPurchdate(rs.getTimestamp("purchdate"));
-				equipmentVO.setStatus(rs.getString("status"));
-				equipmentVO.setNote(rs.getString("note"));
-				list.add(equipmentVO); // Store the row in the list
+				// emtVO 也稱為 Domain objects
+				emtVO = new EquipmentVO();
+				emtVO.setEmtno(rs.getString("emtno"));
+				emtVO.setEcno(rs.getString("ecno"));
+				emtVO.setLocno(rs.getString("locno"));
+				emtVO.setPurchdate(rs.getTimestamp("purchdate"));
+				emtVO.setStatus(rs.getString("status"));
+				emtVO.setNote(rs.getString("note"));
+				list.add(emtVO); // Store the row in the list
 			}
 
 			// Handle any SQL errors
@@ -267,54 +282,264 @@ public class EquipmentDAO implements EquipmentDAO_interface {
 		return list;
 	}
 
-	public static void main(String[] args) throws IOException {
+	//以下為hibernate用
+		@Override
+		public void insertByHib(EquipmentVO emtVO) {
 
-		EquipmentJDBCDAO dao = new EquipmentJDBCDAO();
-		DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+			Session session = HibernateUtil.getSessionFactory().getCurrentSession();//取得session的最佳寫法
+			try {
+				session.beginTransaction();
+				
+				session.saveOrUpdate(emtVO);
+				
+				session.getTransaction().commit();
+			} catch (RuntimeException ex) {
+				session.getTransaction().rollback();
+				throw ex;
+			}
+			//session及sessionFactory不用、也不能close()
+		}
 
-		// 新增
-		// EquipmentVO equipmentVO1 = new EquipmentVO();
-		// equipmentVO1.setEcno("EC000001");
-		// equipmentVO1.setLocno("L000001");
-		// equipmentVO1.setPurchdate(Timestamp.valueOf("2017-01-01 11:11:11"));
-		// equipmentVO1.setStatus("leasable");
-		// equipmentVO1.setNote("none");
-		// dao.insert(equipmentVO1);
+		@Override
+		public void updateByHib(EquipmentVO emtVO) {
+			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+			try {
+				session.beginTransaction();
+				session.saveOrUpdate(emtVO);
+				session.getTransaction().commit();
+			} catch (RuntimeException ex) {
+				session.getTransaction().rollback();
+				throw ex;
+			}
+		}
 
-		// 修改
-		// EquipmentVO equipmentVO2 = new EquipmentVO();
-		// equipmentVO2.setEcno("EC000004");
-		// equipmentVO2.setLocno("L000004");
-		// equipmentVO2.setPurchdate(Timestamp.valueOf("2017-01-01 11:11:11"));
-		// equipmentVO2.setStatus("leasable");
-		// equipmentVO2.setNote("しな人");
-		// equipmentVO2.setEmtno("E000027");
-		// dao.update(equipmentVO2);
+		@Override
+		public void deleteByHib(String emtno) {
+			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+			try {
+				session.beginTransaction();
 
-		// 刪除
-		// dao.delete("E000027");
+//	        【此時多方(宜)可採用HQL刪除】
+				Query query = session.createQuery("delete EquipmentVO where emtno=?");
+				query.setParameter(0, emtno);
+				System.out.println("刪除的筆數=" + query.executeUpdate());
 
-		// 查詢
-		EquipmentVO equipmentVO3 = dao.findByPrimaryKey("E000001");
-		System.out.print(equipmentVO3.getEmtno() + ",");
-		System.out.print(equipmentVO3.getEcno() + ",");
-		System.out.print(equipmentVO3.getLocno() + ",");
-		System.out.print(sdf.format(equipmentVO3.getPurchdate()) + ",");
-		System.out.print(equipmentVO3.getStatus() + ",");
-		System.out.print(equipmentVO3.getNote());
-		System.out.println("---------------------");
+//	        【或此時多方(也)可採用去除關聯關係後，再刪除的方式】
+//				EquipmentVO emtVO = new EquipmentVO();
+//				emtVO.setMotno(emtno);
+//				session.delete(emtVO);
 
-		// 查詢
-		// List<EquipmentVO> list = dao.getAll();
-		// for (EquipmentVO aEquipment : list) {
-		// System.out.print(aEquipment.getEmtno() + ",");
-		// System.out.print(aEquipment.getEcno() + ",");
-		// System.out.print(aEquipment.getLocno() + ",");
-		// System.out.print(sdf.format(aEquipment.getPurchdate()) + ",");
-		// System.out.print(aEquipment.getStatus() + ",");
-		// System.out.print(aEquipment.getNote());
-		// System.out.println();
-		// }
-	}
+//	        【此時多方不可(不宜)採用cascade聯級刪除】
+//	        【多方emp2.hbm.xml如果設為 cascade="all"或 cascade="delete"將會刪除所有相關資料-包括所屬部門與同部門的其它員工將會一併被刪除】
+//				EquipmentVO emtVO = (EquipmentVO) session.get(EquipmentVO.class, emtno);
+//				session.delete(emtVO);
 
+				session.getTransaction().commit();
+			} catch (RuntimeException ex) {
+				session.getTransaction().rollback();
+				throw ex;
+			}
+		}
+		
+		@Override
+		public EquipmentVO findByPkByHib(String emtno) {
+			EquipmentVO emtVO = null;
+			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+			try {
+				session.beginTransaction();
+				emtVO = (EquipmentVO) session.get(EquipmentVO.class, emtno);
+				session.getTransaction().commit();
+			} catch (RuntimeException ex) {
+				session.getTransaction().rollback();
+				throw ex;
+			}
+			return emtVO;
+		}
+		
+		@Override
+		public List<EquipmentVO> getAllByHib() {
+			List<EquipmentVO> list = null;
+			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+			try {
+				session.beginTransaction();
+				Query query = session.createQuery(GET_ALL_BY_HIBERNATE);
+				list = query.list();
+				session.getTransaction().commit();
+			} catch (RuntimeException ex) {
+				session.getTransaction().rollback();
+				throw ex;
+			}
+			return list;
+		}
+		
+		
+		@Override
+		public List<EquipmentVO> getEmtsByEcnoByHib(String ecno) {
+			List<EquipmentVO> list = null;
+			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+			try {
+				session.beginTransaction();
+				Query query = session.createQuery(GET_BY_ECNO_BY_HIBERNATE);
+				query.setParameter(0, ecno);
+				list = query.list();
+				session.getTransaction().commit();
+			} catch (RuntimeException ex) {
+				session.getTransaction().rollback();
+				throw ex;
+			}
+			return list;
+		}
+		
+		@Override
+		public void updateStatusByHib(String emtno, String status){
+			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+			try {
+				session.beginTransaction();
+				Query query = session.createQuery(UPDATE_STATUS_BY_HIBERNATE);
+				query.setParameter(0, status);
+				query.setParameter(1, emtno);
+				int updateCount = query.executeUpdate();
+				System.out.println("updateStatusByHib: " + updateCount);
+				
+				session.getTransaction().commit();
+			} catch (RuntimeException ex) {
+				session.getTransaction().rollback();
+				throw ex;
+			}
+		}
+		
+		@Override
+		public List<String> getEcnoByLocnoByHib(String locno) {
+			List<String> list = null;
+			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+			try {
+				session.beginTransaction();
+				Query query = session.createQuery(GET_ECNO_BY_LOCNO);
+				query.setParameter(0, locno);
+				list =  query.list();
+				
+				
+				session.getTransaction().commit();
+			} catch (RuntimeException ex) {
+				session.getTransaction().rollback();
+				throw ex;
+			}
+			return list;
+		}
+		
+		@Override
+		public List<EquipmentVO> getEmtsByEcnoAndLocnoByHib(String ecno, String locno) {
+			List<EquipmentVO> list = null;
+			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+			try {
+				session.beginTransaction();
+				Query query = session.createQuery(GET_BY_ECNO_AND_LOCNO);
+				query.setParameter(0, ecno);
+				query.setParameter(1, locno);
+				list =  query.list();
+				session.getTransaction().commit();
+			} catch (RuntimeException ex) {
+				session.getTransaction().rollback();
+				throw ex;
+			}
+			return list;
+		}
+		
+		
+		public static void main(String[] args) {
+
+			EquipmentDAO dao = new EquipmentDAO();
+			List<String> list = dao.getEcnoByLocnoByHib("TPE00");
+			for (String aEmt : list) {
+				System.out.println(aEmt);
+				
+				//String xx = aEmp.getEmtCateVO().getEcno();
+//			System.out.print(aEmp.getEmtno() + ",");
+		//	System.out.print(xx + ",");
+//			System.out.print(aEmp.getPlateno() + ",");
+//			System.out.print(aEmp.getEngno() + ",");
+//			System.out.print(aEmp.getManudate() + ",");
+//			System.out.print(aEmp.getMile() + ",");
+//			System.out.print(aEmp.getLocno() + ",");
+//			System.out.print(aEmp.getStatus() + ",");
+//			System.out.print(aEmp.getNote() + ",");
+//			 注意以下三行的寫法 (優!)
+//			System.out.print(aEmp.getEquipmentModelVO().getModtype() + ",");
+//			System.out.print(aEmp.getEquipmentModelVO().getRenprice() + ",");
+//			System.out.print(aEmp.getDeptVO().getDname() + ",");
+//			System.out.print(aEmp.getDeptVO().getLoc());
+//			System.out.println();
+		}
+//			dao.updateStatusByHib("M000001", "dispatching");
+			//● 新增
+//			EquipmentModelVO mmVO = new EquipmentModelVO(); // 部門POJO
+//			mmVO.setModtype("MM102");
+
+//			EquipmentVO empVO1 = new EquipmentVO();
+//			empVO1.setPlateno("ABC123");
+//			empVO1.setEngno("DF123456");
+//			empVO1.setMile(1000);
+//			empVO1.setLocno("TPE01");
+//			empVO1.setManudate(java.sql.Timestamp.valueOf("2016-01-01 10:10:10"));
+//			empVO1.setEquipmentModelVO(mmVO);
+//			dao.insertByHib(empVO1);
+
+
+
+			//● 修改
+//			EquipmentVO mVO = new EquipmentVO();
+//			mVO.setMotno("M000053");
+//			mVO.setPlateno("BDC321");
+//			mVO.setEngno("DF654321");
+//			mVO.setMile(2111);
+//			mVO.setLocno("TPE00");
+//			mVO.setManudate(java.sql.Timestamp.valueOf("2016-01-01 10:10:10"));
+//			mVO.setEquipmentModelVO(mmVO);
+//			dao.updateByHib(mVO);
+
+
+
+			//● 刪除(小心cascade - 多方emp2.hbm.xml如果設為 cascade="all"或
+			// cascade="delete"將會刪除所有相關資料-包括所屬部門與同部門的其它員工將會一併被刪除)
+//			dao.deleteByHib("M000053");
+
+
+
+			//● 查詢-findByPrimaryKey (多方emp2.hbm.xml必須設為lazy="false")(優!)
+//			EmpVO empVO3 = dao.findByPrimaryKey(7001);
+//			System.out.print(empVO3.getEmpno() + ",");
+//			System.out.print(empVO3.getEname() + ",");
+//			System.out.print(empVO3.getJob() + ",");
+//			System.out.print(empVO3.getHiredate() + ",");
+//			System.out.print(empVO3.getSal() + ",");
+//			System.out.print(empVO3.getComm() + ",");
+//			// 注意以下三行的寫法 (優!)
+//			System.out.print(empVO3.getDeptVO().getDeptno() + ",");
+//			System.out.print(empVO3.getDeptVO().getDname() + ",");
+//			System.out.print(empVO3.getDeptVO().getLoc());
+//			System.out.println("\n---------------------");
+
+
+
+			//● 查詢-getAll (多方emp2.hbm.xml必須設為lazy="false")(優!)
+//			List<EquipmentVO> list = dao.getAllByHib();
+//			for (EquipmentVO aEmp : list) {
+//				System.out.print(aEmp.getEmtno() + ",");
+//				System.out.print(aEmp.getEcno() + ",");
+//				System.out.print(aEmp.getPlateno() + ",");
+//				System.out.print(aEmp.getEngno() + ",");
+//				System.out.print(aEmp.getManudate() + ",");
+//				System.out.print(aEmp.getMile() + ",");
+//				System.out.print(aEmp.getLocno() + ",");
+//				System.out.print(aEmp.getStatus() + ",");
+//				System.out.print(aEmp.getNote() + ",");
+				// 注意以下三行的寫法 (優!)
+//				System.out.print(aEmp.getEquipmentModelVO().getModtype() + ",");
+//				System.out.print(aEmp.getEquipmentModelVO().getRenprice() + ",");
+//				System.out.print(aEmp.getDeptVO().getDname() + ",");
+//				System.out.print(aEmp.getDeptVO().getLoc());
+//				System.out.println();
+//			}
+		}
 }
+	

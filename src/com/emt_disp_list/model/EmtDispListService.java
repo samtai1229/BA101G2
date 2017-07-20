@@ -27,7 +27,7 @@ public class EmtDispListService {
 
 		emtDispListVO.setEdno(edno);
 		emtDispListVO.setEmtno(emtno);
-		
+
 		dao.update(emtDispListVO);
 
 		return emtDispListVO;
@@ -43,5 +43,10 @@ public class EmtDispListService {
 
 	public List<EmtDispListVO> getAll() {
 		return dao.getAll();
+	}
+
+	// 以下hibernate
+	public void deleteByHib(String edno) {
+		dao.deleteByHib(edno);
 	}
 }

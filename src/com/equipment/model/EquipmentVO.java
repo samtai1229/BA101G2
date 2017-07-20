@@ -1,16 +1,27 @@
 package com.equipment.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class EquipmentVO {
+import com.emt_cate.model.EmtCateVO;
+import com.location.model.LocationVO;
+
+
+public class EquipmentVO implements Serializable{
+	private static final long serialVersionUID = -2050144125915023005L;
+	
 	private String emtno;
 	private String ecno;
 	private String locno;
 	private Timestamp purchdate;
 	private String status;
 	private String note;
+
+	// 以下hibernate用
+	private EmtCateVO emtCateVO;
+	private LocationVO locationVO;
 	
-	
+
 	public EquipmentVO() {
 		super();
 	}
@@ -62,4 +73,21 @@ public class EquipmentVO {
 	public void setNote(String note) {
 		this.note = note;
 	}
+
+	public EmtCateVO getEmtCateVO() {
+		return emtCateVO;
+	}
+
+	public void setEmtCateVO(EmtCateVO emtCateVO) {
+		this.emtCateVO = emtCateVO;
+	}
+
+	public LocationVO getLocationVO() {
+		return locationVO;
+	}
+
+	public void setLocationVO(LocationVO locationVO) {
+		this.locationVO = locationVO;
+	}
+
 }

@@ -10,9 +10,14 @@ import javax.servlet.http.*;
 import com.emt_disp_list.model.EmtDispListService;
 import com.emt_disp_list.model.EmtDispListVO;
 import com.emt_dispatch.model.*;
+import com.equipment.model.EquipmentService;
 import com.equipment.model.EquipmentVO;
+import com.motor_disp_list.model.MotorDispListVO;
+import com.motor_dispatch.model.MotorDispatchService;
+import com.motor_dispatch.model.MotorDispatchVO;
 
-public class EmtDispatchServlet extends HttpServlet  {
+public class EmtDispatchServlet extends HttpServlet {
+	private static final long serialVersionUID = -2541820793843626192L;
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req, res);
@@ -22,18 +27,29 @@ public class EmtDispatchServlet extends HttpServlet  {
 
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
+		System.out.println("開始執行 EmtDispatchServlet.java");
+		System.out.println("action: " + action);
 
-// getOne_For_Display
+		// getOne_For_Display
 		if ("getOne_For_Display".equals(action)) { // 來自EdMgmtSelectPage.jsp的請求
 
-			List<String> errorMsgs = new LinkedList<String>();// Store this set in the request scope, in case we need to send the ErrorPage view.
+			List<String> errorMsgs = new LinkedList<String>();// Store this set
+																// in the
+																// request
+																// scope, in
+																// case we need
+																// to send the
+																// ErrorPage
+																// view.
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			String requestURL = req.getParameter("requestURL");
 			String url = requestURL;
 
 			try {
-				/***************************** 1.接收請求參數 - 輸入格式的錯誤處理 **********************/
+				/*****************************
+				 * 1.接收請求參數 - 輸入格式的錯誤處理
+				 **********************/
 				String str = req.getParameter("edno");
 				if (str == null || (str.trim()).length() == 0) {
 					errorMsgs.add("請輸入裝備調度單編號");
@@ -61,11 +77,11 @@ public class EmtDispatchServlet extends HttpServlet  {
 				/*************************** 2.開始查詢資料 *****************************************/
 				EmtDispatchService edSvc = new EmtDispatchService();
 				EmtDispListService edListSvc = new EmtDispListService();
-				
-				String emtno= req.getParameter("emtno").trim();
+
+				String emtno = req.getParameter("emtno").trim();
 				EmtDispatchVO edVO = edSvc.getOneEmtDispatch(edno);
 				EmtDispListVO edListVO = edListSvc.getOneEmtDispList(edno, emtno);
-				
+
 				if (edVO == null) {
 					errorMsgs.add("查無裝備調度單資料");
 				}
@@ -76,7 +92,9 @@ public class EmtDispatchServlet extends HttpServlet  {
 					return;// 程式中斷
 				}
 
-				/**************************** 3.查詢完成,準備轉交(Send the Success view) *************/
+				/****************************
+				 * 3.查詢完成,準備轉交(Send the Success view)
+				 *************/
 				req.setAttribute("edVO", edVO); // 資料庫取出的edVO物件,存入req
 				RequestDispatcher successView = req.getRequestDispatcher("/backend/emt_dispatch/listOneEd.jsp"); // 成功轉交listOneEd.jsp
 				successView.forward(req, res);
@@ -89,14 +107,17 @@ public class EmtDispatchServlet extends HttpServlet  {
 			}
 		}
 
-// getOne_For_Update
-		if ("getOne_For_Update".equals(action)) { // 來自listAllEd.jsp 或/emt_dispatch/listEd_ByEdno.jsp的請求
+		// getOne_For_Update
+		if ("getOne_For_Update".equals(action)) { // 來自listAllEd.jsp
+													// 或/emt_dispatch/listEd_ByEdno.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to send the ErrorPage view.
+			// Store this set in the request scope, in case we need to send the
+			// ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 
-			String requestURL = req.getParameter("requestURL"); // 送出修改的來源網頁路徑:可能為【/emt_dispatch/listAllEd.jsp】或【/dept/listEmps_ByDeptno.jsp】或 【/dept/listAllDept.jsp】
+			String requestURL = req.getParameter("requestURL"); // 送出修改的來源網頁路徑:可能為【/emt_dispatch/listAllEd.jsp】或【/dept/listEmps_ByDeptno.jsp】或
+																// 【/dept/listAllDept.jsp】
 
 			try {
 				/*************************** 1.接收請求參數 ****************************************/
@@ -106,11 +127,13 @@ public class EmtDispatchServlet extends HttpServlet  {
 				/*************************** 2.開始查詢資料 ****************************************/
 				EmtDispatchService edSvc = new EmtDispatchService();
 				EmtDispListService edListSvc = new EmtDispListService();
-				
+
 				EmtDispatchVO edVO = edSvc.getOneEmtDispatch(edno);
 				EmtDispListVO edListVO = edListSvc.getOneEmtDispList(edno, emtno);
 
-				/**************************** 3.查詢完成,準備轉交(Send the Success view)************/
+				/****************************
+				 * 3.查詢完成,準備轉交(Send the Success view)
+				 ************/
 				req.setAttribute("edVO", edVO); // 資料庫取出的edVO物件,存入req
 				String url = "/emt_dispatch/update_ed_input.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交update_ed_input.jsp
@@ -124,35 +147,39 @@ public class EmtDispatchServlet extends HttpServlet  {
 			}
 		}
 
-// update
+		// update
 		if ("update".equals(action)) { // 來自update_ed_input.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to send the ErrorPage view.
+			// Store this set in the request scope, in case we need to send the
+			// ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 
-			String requestURL = req.getParameter("requestURL"); // 送出修改的來源網頁路徑:可能為【/emt_cate/listAllEc.jsp】或【/emt_cate/listEc_ByEcno.jsp】或 【/emt_cate/listAllEc.jsp】
+			String requestURL = req.getParameter("requestURL"); // 送出修改的來源網頁路徑:可能為【/emt_cate/listAllEc.jsp】或【/emt_cate/listEc_ByEcno.jsp】或
+																// 【/emt_cate/listAllEc.jsp】
 			String url = requestURL;
 			try {
-				/**************************** 1.接收請求參數 - 輸入格式的錯誤處理**********************/
+				/****************************
+				 * 1.接收請求參數 - 輸入格式的錯誤處理
+				 **********************/
 				String edno = req.getParameter("edno").trim();
 				String locno = req.getParameter("locno").trim();
 				String prog = req.getParameter("prog").trim();
-				String emtno= req.getParameter("emtno").trim();
-				
+				String emtno = req.getParameter("emtno").trim();
+
 				Timestamp demanddate = null;
 				try {
 					demanddate = Timestamp.valueOf(req.getParameter("demanddate").trim());
 				} catch (IllegalArgumentException e) {
-					demanddate = new Timestamp (System.currentTimeMillis());
+					demanddate = new Timestamp(System.currentTimeMillis());
 					errorMsgs.add("請輸入日期!");
 				}
-				
+
 				Timestamp closeddate = null;
 				try {
 					closeddate = Timestamp.valueOf(req.getParameter("closeddate").trim());
 				} catch (IllegalArgumentException e) {
-					closeddate = new Timestamp (System.currentTimeMillis());
+					closeddate = new Timestamp(System.currentTimeMillis());
 					errorMsgs.add("請輸入日期!");
 				}
 
@@ -180,11 +207,14 @@ public class EmtDispatchServlet extends HttpServlet  {
 				edVO = edSvc.updateEmtDispatch(edno, locno, demanddate, closeddate, prog);
 				edListVO = edListSvc.updateEmtDispList(edno, emtno);
 
-				/**************************** 3.修改完成,準備轉交(Send the Success view)*************/
-				//暫時用不到
-//				 if(requestURL.equals("/dept/listEmps_ByDeptno.jsp") || requestURL.equals("/dept/listAllDept.jsp"))
-//				 req.setAttribute("listEmps_ByDeptno",deptSvc.getEmpsByDeptno(deptno));
-				 // 資料庫取出的list物件,存入request
+				/****************************
+				 * 3.修改完成,準備轉交(Send the Success view)
+				 *************/
+				// 暫時用不到
+				// if(requestURL.equals("/dept/listEmps_ByDeptno.jsp") ||
+				// requestURL.equals("/dept/listAllDept.jsp"))
+				// req.setAttribute("listEmps_ByDeptno",deptSvc.getEmpsByDeptno(deptno));
+				// 資料庫取出的list物件,存入request
 
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交回送出修改的來源網頁
 				successView.forward(req, res);
@@ -197,7 +227,7 @@ public class EmtDispatchServlet extends HttpServlet  {
 			}
 		}
 
-// insert
+		// insert
 		if ("insert".equals(action)) { // 來自addEmtDispatch.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
@@ -209,17 +239,19 @@ public class EmtDispatchServlet extends HttpServlet  {
 			String url = requestURL;
 
 			try {
-				/************************ 1.接收請求參數 - 輸入格式的錯誤處理 *************************/
+				/************************
+				 * 1.接收請求參數 - 輸入格式的錯誤處理
+				 *************************/
 				String locno = req.getParameter("locno").trim();
 				String edno = req.getParameter("edno").trim();
-				String emtno= req.getParameter("emtno").trim();
+				String emtno = req.getParameter("emtno").trim();
 
 				EmtDispatchVO edVO = new EmtDispatchVO();
 				EmtDispListVO edListVO = new EmtDispListVO();
 				edVO.setLocno(locno);
 				edListVO.setEdno(edno);
 				edListVO.setEmtno(emtno);
-				
+
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
 					req.setAttribute("edVO", edVO); // 含有輸入格式錯誤的edVO物件,也存入req
@@ -234,7 +266,9 @@ public class EmtDispatchServlet extends HttpServlet  {
 				edVO = edSvc.addEmtDispatch(locno);
 				edListVO = edListSvc.addEmtDispList(edno, emtno);
 
-				/**************************** 3.新增完成,準備轉交(Send the Success view)***********/
+				/****************************
+				 * 3.新增完成,準備轉交(Send the Success view)
+				 ***********/
 
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交listAllEd.jsp
 				successView.forward(req, res);
@@ -247,7 +281,7 @@ public class EmtDispatchServlet extends HttpServlet  {
 			}
 		}
 
-// delete
+		// delete
 		if ("delete_Ed".equals(action)) { // 來自/emt_dispatch/listAllEd.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
@@ -259,7 +293,7 @@ public class EmtDispatchServlet extends HttpServlet  {
 			try {
 				/*************************** 1.接收請求參數 ***************************************/
 				String edno = req.getParameter("edno").trim();
-				String emtno= req.getParameter("emtno").trim();
+				String emtno = req.getParameter("emtno").trim();
 
 				/*************************** 2.開始刪除資料 ***************************************/
 				EmtDispatchService edSvc = new EmtDispatchService();
@@ -267,7 +301,9 @@ public class EmtDispatchServlet extends HttpServlet  {
 				edSvc.deleteEmtDispatch(edno);
 				edListSvc.deleteEmtDispList(edno, emtno);
 
-				/**************************** 3.刪除完成,準備轉交(Send the Success view)***********/
+				/****************************
+				 * 3.刪除完成,準備轉交(Send the Success view)
+				 ***********/
 				// String url = "/dept/listAllDept.jsp";//我直接回傳呼叫他的網址了
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
@@ -278,6 +314,129 @@ public class EmtDispatchServlet extends HttpServlet  {
 				RequestDispatcher failureView = req.getRequestDispatcher(url);
 				failureView.forward(req, res);
 			}
-		}
+		} // end of delete
+
+		// chooseLoc
+		if ("chooseLoc".equals(action)) {
+
+			List<String> errorMsgs = new LinkedList<String>();
+			// Store this set in the request scope, in case we need to
+			// send the ErrorPage view.
+			req.setAttribute("errorMsgs", errorMsgs);
+			String requestURL = req.getParameter("requestURL");
+			String url = "/backend/emt_dispatch/locEmtDispatchApply.jsp";
+
+			try {
+				/********* 1.接收請求參數 - 輸入格式的錯誤處理 **********/
+				String locno = req.getParameter("locno");
+				System.out.println(locno);
+
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher(url);
+					failureView.forward(req, res);
+					return;// 程式中斷
+				}
+
+				/******* 2.開始查詢資料 *******/
+				System.out.println("getEcnoByLocno 開始查詢資料");
+				EquipmentService emtSvc = new EquipmentService();
+
+				// 以地點編號，取出該地點以外所有"裝備類別編號ecno"並刪除重複
+				List<String> ecnoList = emtSvc.getEcnoByLocnoByHib(locno);
+
+				if (ecnoList == null) {
+					errorMsgs.add("查無資料");
+				}
+
+				// 該地點以外所有裝備的ecno
+				String ecno = null;
+				List<EquipmentVO> list = new ArrayList<EquipmentVO>();
+				for (String ecnoX : ecnoList) {
+					ecno = ecnoX;
+					System.out.println("ecno: " + ecno);
+					list.addAll(emtSvc.getEmtsByEcnoAndLocnoByHib(ecno, locno));
+				}
+				System.out.println("list" + list);
+
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher(url);
+					failureView.forward(req, res);
+					return;// 程式中斷
+				}
+
+				/********* 3.查詢完成,準備轉交(Send the Success view) ******/
+				req.setAttribute("ecnoList", ecnoList);
+				req.setAttribute("dispatchableEmts", list);
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+				System.out.println("getEcnoByLocno成功");
+
+				/*************************** 其他可能的錯誤處理 *************************************/
+			} catch (Exception e) {
+				System.out.println("getEcnoeByLocno失敗");
+				errorMsgs.add("無法取得資料:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher(url);
+				failureView.forward(req, res);
+			}
+		} // end of chooseLoc
+
+		// chooseLocForList
+		if ("chooseLocForList".equals(action)) {
+
+			List<String> errorMsgs = new LinkedList<String>();
+			
+			req.setAttribute("errorMsgs", errorMsgs);
+			String requestURL = req.getParameter("requestURL");
+
+			try {
+				/********* 1.接收請求參數 - 輸入格式的錯誤處理 **********/
+				String locno = req.getParameter("locno");
+				System.out.println(locno);
+
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher(requestURL);
+					failureView.forward(req, res);
+					return;// 程式中斷
+				}
+
+				/******* 2.開始查詢資料 *******/
+				System.out.println("chooseLocForList 開始查詢資料");
+				EmtDispatchService edSvc = new EmtDispatchService();
+
+				List<EmtDispatchVO> list = edSvc.getByLocnoByHib(locno);
+
+				if (list == null) {
+					errorMsgs.add("查無資料");
+				}
+
+				Set<EmtDispListVO> motorDispLists = new HashSet<MotorDispListVO>();
+				for (MotorDispatchVO mdVO : list) {
+					motorDispLists = mdVO.getMotorDispLists();
+				}
+
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher(requestURL);
+					failureView.forward(req, res);
+					return;// 程式中斷
+				}
+
+				/********* 3.查詢完成,準備轉交(Send the Success view) ******/
+				req.setAttribute("getByLocnoByHib", list);
+				RequestDispatcher successView = req
+						.getRequestDispatcher("/backend/loc_motor_dispatch/locMotorDispatchForm.jsp");
+				successView.forward(req, res);
+				System.out.println("getByLocnoByHib成功");
+
+				/*************************** 其他可能的錯誤處理 *************************************/
+			} catch (Exception e) {
+				System.out.println("getByLocnoByHib失敗");
+				errorMsgs.add("無法取得資料:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher(requestURL);
+				failureView.forward(req, res);
+			}
+		} // end of chooseLocForList
+
 	}
 }

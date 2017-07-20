@@ -2,6 +2,11 @@ package com.emt_dispatch.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.emt_disp_list.model.EmtDispListVO;
+
 
 public class EmtDispatchVO implements Serializable{
 	private static final long serialVersionUID = -9000862051131910969L;
@@ -10,9 +15,19 @@ public class EmtDispatchVO implements Serializable{
 	private Timestamp demanddate;
 	private Timestamp closeddate;
 	private String prog;
+	private Set<EmtDispListVO> emtDispLists = new HashSet<EmtDispListVO>();
 	
 	public EmtDispatchVO() {
-		super();
+		checkNull();
+	}
+	private void checkNull() {//若為空值則給預設值
+		if (demanddate == null) {
+			demanddate = new Timestamp(System.currentTimeMillis());
+		}
+		if (prog == null) {
+			prog = "request";
+			return;
+		}
 	}
 
 	public String getEdno() {
@@ -53,6 +68,14 @@ public class EmtDispatchVO implements Serializable{
 
 	public void setProg(String prog) {
 		this.prog = prog;
+	}
+
+	public Set<EmtDispListVO> getEmtDispLists() {
+		return emtDispLists;
+	}
+
+	public void setEmtDispLists(Set<EmtDispListVO> emtDispLists) {
+		this.emtDispLists = emtDispLists;
 	}
 
 }
