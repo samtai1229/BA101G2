@@ -71,8 +71,8 @@
 		<div class="btn-group-vertical" style="display: block;">
 			<a class="btn btn-default"
 				href="${pageContext.request.contextPath}/backend/motor/motorMgmtHqSelectPage.jsp"
-				role="button"  style="background-color: #ddd;">車輛管理</a> <a class="btn btn-default" href="#"
-				role="button">車輛調度</a> <a class="btn btn-default" href="#"
+				role="button"  style="background-color: #ddd;">車輛管理</a> <a class="btn btn-default" 
+				href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/motorDispatchMgmtHq.jsp" role="button">車輛調度</a> <a class="btn btn-default" href="#"
 				role="button">租賃單管理</a> <a class="btn btn-default"
 				href="${pageContext.request.contextPath}/backend/equipment/emtMgmtSelectPage.jsp"
 				role="button">裝備管理</a> <a
@@ -87,7 +87,7 @@
 				class="btn btn-default" href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/locMotorDispatchApply.jsp" role="button">車輛調度申請</a> <a
 				class="btn btn-default" href="#" role="button">車輛保養/維修管理</a> <a
 				class="btn btn-default" href="#" role="button">據點裝備管理</a> <a
-				class="btn btn-default" href="#" role="button">裝備申請</a>
+				class="btn btn-default" href="${pageContext.request.contextPath}/backend/emt_dispatch/locEmtDispatchApply.jsp" role="button">裝備申請</a>
 		</div>
 		<button class="accordion accordionMenu">二手車管理系統</button>
 		<div class="btn-group-vertical">
