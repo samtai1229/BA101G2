@@ -40,7 +40,6 @@
         </ul>
     </nav>
     <div class="col-xs-12 col-sm-2 leftBar">
-
         <img id="menuLogo" src="<%=request.getContextPath()%>/backend/images/android_logo2.jpg">
         <button class="accordion accordionMenu accordion accordionMenuMenu">總部管理系統</button>
         <div class="btn-group-vertical">
