@@ -104,7 +104,7 @@ height: 500px;
 --%>
 
  	<%
-		MotorVO motorQueryVO = (MotorVO) request.getAttribute("motorQueryVO");
+		MotorForRentOrdVO motorQueryVO = (MotorForRentOrdVO) request.getAttribute("motorQueryVO");
 		//String startday = (String)request.getAttribute("startday");
 		//String endday = (String)request.getAttribute("endday");
 		String dayPicker = (String) request.getAttribute("dayPicker");
