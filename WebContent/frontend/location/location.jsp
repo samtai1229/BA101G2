@@ -6,10 +6,21 @@
 <%@ page import="com.news.model.*"%>
 
 
-<!--  	LocationService locationSvc = new LocationService();
+<!--LocationService locationSvc = new LocationService();
  	List<LocationVO> list = locationSvc.getAll();
  	pageContext.setAttribute("list",list); -->
 <%
+
+LocationService locSvcc = new LocationService();
+	List<LocationVO> list = locSvcc.getAllStatusOpen();
+	int size = list.size();
+	LocationVO[] locArray = new LocationVO[size];
+	for(int i=0 ;i<size ;i++)
+	{
+		locArray[i]=list.get(i);
+		System.out.println(locArray[i].getAddr());
+	}
+	//pageContext.setAttribute("locArray",locArray);
 Float lon = (Float)request.getAttribute("lon");
 Float lat = (Float)request.getAttribute("lat");
 pageContext.setAttribute("lon", lon);
@@ -70,7 +81,7 @@ pageContext.setAttribute("lat", lat);
 	
 	<link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans:600'>
 	
-<script src="<%=request.getContextPath()%>/frontend/location/js/googlemap.js"></script>
+<%-- <script src="<%=request.getContextPath()%>/frontend/location/js/googlemap.js"></script> --%>
 
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
@@ -108,6 +119,7 @@ pageContext.setAttribute("lat", lat);
     }
 	
 	 nav{
+/* 	 	background-color:transparent; */
 		background-image:url(<%=request.getContextPath()%>/img/header2.jpg);
 		background-attachment: scroll;
 		background-attachment:  fixed;
@@ -304,6 +316,10 @@ pageContext.setAttribute("lat", lat);
 	<div id="myMap" style="width:800px;height:800px;"></div>
 </div>
 
+
+
+
+
 <div class="col-xs-12 col-sm-6">
 		<table id="location" class="table">
 			<tr text-align="center">
@@ -374,11 +390,10 @@ pageContext.setAttribute("lat", lat);
 	<script src="<%=request.getContextPath()%>/js/moment.min.js"></script>
     <script src="<%=request.getContextPath()%>/js/daterangepicker.js"></script>
 </body>
-<!-- <script src="http://maps.google.com/maps/api/js"></script> -->
 
- <script async defer
+ <script 
      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-fsKJXrclxXV39v3nt_zjC8RaS454leM&libraries=visualization">  
-    </script>
+ </script>
 
 <script>
 var Lon,Lat;
@@ -388,6 +403,59 @@ var myPosition =[];
 var i=0,j=0;
 var count;
 
+// var secretMessages = ['This', 'is', 'the', 'secret', 'message','QUITE'];
+
+var secretMessages = ['123123123'+
+'<h2><%=locArray[0].getLocname()%></h2><br>'+
+'<%=locArray[0].getAddr()%><br>'+
+'<%=locArray[0].getLon()%><br>'+
+'<%=locArray[0].getLat()%><br>'+
+'<%=locArray[0].getTel()%><br>'+
+'<img class="infoImg" src="<%=request.getContextPath()%>/frontend/location/locReader.do?locno=<%=locArray[0].getLocno()%>"><br>'
+,'123123123'+
+'<h2><%=locArray[1].getLocname()%></h2><br>'+
+'<%=locArray[1].getAddr()%><br>'+
+'<%=locArray[1].getLon()%><br>'+
+'<%=locArray[1].getLat()%><br>'+
+'<%=locArray[1].getTel()%><br>'+
+	'<img class="infoImg" src="<%=request.getContextPath()%>/frontend/location/locReader.do?locno=<%=locArray[1].getLocno()%>"><br>'
+,'123123123'+
+'<h2><%=locArray[2].getLocname()%></h2><br>'+
+'<%=locArray[2].getAddr()%><br>'+
+'<%=locArray[2].getLon()%><br>'+
+'<%=locArray[2].getLat()%><br>'+
+'<%=locArray[2].getTel()%><br>'+
+'<img class="infoImg" src="<%=request.getContextPath()%>/frontend/location/locReader.do?locno=<%=locArray[2].getLocno()%>"><br>'
+,'123123123'+
+'<h2><%=locArray[3].getLocname()%></h2><br>'+
+'<%=locArray[3].getAddr()%><br>'+
+'<%=locArray[3].getLon()%><br>'+
+'<%=locArray[3].getLat()%><br>'+
+'<%=locArray[3].getTel()%><br>'+
+'<img class="infoImg" src="<%=request.getContextPath()%>/frontend/location/locReader.do?locno=<%=locArray[3].getLocno()%>"><br>'
+,'123123123'+
+'<h2><%=locArray[4].getLocname()%></h2><br>'+
+'<%=locArray[4].getAddr()%><br>'+
+'<%=locArray[4].getLon()%><br>'+
+'<%=locArray[4].getLat()%><br>'+
+'<%=locArray[4].getTel()%><br>'+
+'<img class="infoImg" src="<%=request.getContextPath()%>/frontend/location/locReader.do?locno=<%=locArray[4].getLocno()%>"><br>'
+,'123123123'+
+'<h2><%=locArray[5].getLocname()%></h2><br>'+
+'<%=locArray[5].getAddr()%><br>'+
+'<%=locArray[5].getLon()%><br>'+
+'<%=locArray[5].getLat()%><br>'+
+'<%=locArray[5].getTel()%><br>'+
+'<img class="infoImg" src="<%=request.getContextPath()%>/frontend/location/locReader.do?locno=<%=locArray[5].getLocno()%>"><br>'
+,'123123123'+
+'<h2><%=locArray[6].getLocname()%></h2><br>'+
+'<%=locArray[6].getAddr()%><br>'+
+'<%=locArray[6].getLon()%><br>'+
+'<%=locArray[6].getLat()%><br>'+
+'<%=locArray[6].getTel()%><br>'+
+'<img class="infoImg" src="<%=request.getContextPath()%>/frontend/location/locReader.do?locno=<%=locArray[6].getLocno()%>"><br>'
+									];
+	
 function indexclick(lon,lat){
 		 count =1;
 		 Lon = lon;
@@ -412,10 +480,119 @@ console.log("myPosition["+count+"]= "+myPosition[count]);
 		 count++;
 		}
 		
-var lons = "${lon}";
-var lats = "${lat}";
+	 	function doFirst(){
+	         myMap = document.getElementById('myMap');
+	         Lon = 24.01;
+	         Lat = 121.1;
+	         myPosition = new google.maps.LatLng(Lon,Lat);
+	         var a=2;
+	         var b=3;
+	         var c=6;
+	         var lon = new Array(1);
+	         var lat = new Array(1);
+	         map = new google.maps.Map(myMap,{
+		    	 zoom: 8,
+		    	 center:  myPosition,
+		    	 mapTypeId: google.maps.MapTypeId.ROADMAP
+		     });
+	         //建立地圖 marker 的集合
+		     var marker_config = new Array();
+		     var markers = [];
+	         while(($("tr td:eq("+(a+i*c)+")").text()) != ""){
+	        	 
+	        	 
+	console.log( "lons["+i+"]= "+$("tr td:eq("+(a+i*c)+")").text()  );
+	console.log( "lats["+j+"]= "+$("tr td:eq("+(b+j*c)+")").text()  );
 
-// window.addEventListener('read',indexclick(lons,lats),false);
+			     lon[i] = $("tr td:eq("+(a+i*c)+")").text();
+			     lat[j] = $("tr td:eq("+(b+j*c)+")").text();
+			     myPosition=new google.maps.LatLng(lon[i],lat[j]);
+			     console.log("myPosition="+myPosition);
+			     //建立地圖 marker 的集合
+			     marker_config[i] = {
+			       position: myPosition,
+			       map: map
+			     };
+			     
+		         i++;
+		         j++;
+	         }
+	         
+	         
+	         
+	         //標出 marker
+		       marker_config.forEach(function(e,k){
+			       markers[k] = new google.maps.Marker(e);
+			       markers[k].setMap(map);
+			       console.log("markers["+k+"]= "+markers[k]);
+			       attachSecretMessage(markers[k], secretMessages[k]);//每筆標記地點訊息
+		       }); 
+		       
+	 	
+	 	
+	 	//點擊顯示據點資料
+//	 				markers[k].addListener('click',function(){
+	//console.log("xxxxxconsolelogxxxxxxxxxxxxxx");
+//	 					$.ajax({
+//	 						type:"GET",
+//	 						url:"location.do",
+//	 						data:{action:"getJson",Lon:"Lon",Lat:"Lat"},
+//	 						dataType:"json",
+//	 						success:function (data){
+//	 							drawTable(data);
+//	 						},
+//	 						error:function(){alert("error")}
+//	 					})
+//	 				});
+//		     }); 
+	 	}	
+	 	
+	 	
+	 	
+	 	//標記地點訊息
+	 	var infowindowopen = false; 
+	 	
+	 	function attachSecretMessage(marker, secretMessage) {
+	        var infowindow = new google.maps.InfoWindow({
+	          content: secretMessage
+	        });
+
+	        marker.addListener('click', function() {
+	        	if(infowindowopen){
+	        		infowindowopen.close();
+	        	}
+	        	infowindowopen = infowindow;
+	        	infowindow.open(marker.get('map'), marker);
+	        });
+	      }
+	 	
+	 	
+	 	function changeLatLng(lon,lat){
+	 		count =1;
+	 		 Lon = lon;
+	 		 Lat = lat;
+	console.log("lon= "+Lon); 			
+	console.log("lat= "+Lat); 	
+			myPosition[count] = new Array();
+	 			myPosition[count] = new google.maps.LatLng(Lon,Lat);
+	console.log("myPosition["+count+"]= "+myPosition[count]);
+	 			 map = new google.maps.Map(myMap,{
+	 	            zoom: 10,
+	 	            center: myPosition[count],
+	 	            mapTypeId: google.maps.MapTypeId.ROADMAP //地圖種類
+	 	    });
+	 			 
+	 		var markers = 'marker'+count;	 
+	 		 markers = new google.maps.Marker({
+	 				position: myPosition[count],
+	 				map: map,
+	 				animation: google.maps.Animation.DROP
+	 			});
+	 		 count++;
+	 		}
+
+//   window.addEventListener('read',indexclick(lons,lats),false);
+   window.addEventListener('load',doFirst,false);
 	
 </script>
 

@@ -329,9 +329,6 @@ pageContext.setAttribute("lat", lat);
 							</td>
 						</tr>
 			</c:forEach>
-						<tr><td>${lon}</td>
-							<td>${lat}</td>
-						</tr>
 		</table>
 	</div>
 
@@ -392,6 +389,7 @@ var myMap;
 var map;
 var myPosition =[];
 var i=0,j=0;
+var count;
  	function doFirst(){
          myMap = document.getElementById('myMap');
          Lon = 24.01;
@@ -415,7 +413,7 @@ var i=0,j=0;
 
 
 function indexclick(lon,lat){
-		var count =1;
+		 count =1;
 		 Lon = lon;
 		 Lat = lat;
 console.log("lon= "+Lon); 			
