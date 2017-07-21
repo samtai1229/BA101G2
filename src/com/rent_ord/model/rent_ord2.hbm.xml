@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping  >
+<hibernate-mapping >
     <class name="com.rent_ord.model.RentOrdVO" table="RENT_ORD" >
         <id name="rentno" column="rentno">
             <generator class="sequence" >

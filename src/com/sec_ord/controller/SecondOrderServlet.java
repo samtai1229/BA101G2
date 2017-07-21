@@ -52,31 +52,6 @@ public class SecondOrderServlet extends HttpServlet {
 		
 		
 		
-		if("newOrder".equals(action)){
-			
-			String location = req.getParameter("location");
-			System.out.println("我來自~~~"+location);
-			String motno = req.getParameter("motno");
-			System.out.println("想買的車輛編號是~~~"+motno);
-			String memno = req.getParameter("memno");
-			System.out.println("我是會員 編號是~~~~"+memno);
-			
-			
-			 req.setAttribute("memno", memno);
-			 req.setAttribute("motno", motno);
-			 
-			 SecOrdService soSvc = new SecOrdService();
-			 soSvc.addSecOrd(memno, motno);
-			 MotorService motorSvc = new MotorService();
-			 MotorVO motorVO = motorSvc.findByPK(motno);
-			 motorSvc.
-			 String url = "/frontend/second_order/payMoney.jsp";
-			 RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
-		     successView.forward(req, res); 
-			
-		}
-		
-		
 		
 		
 		

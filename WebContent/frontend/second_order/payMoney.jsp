@@ -116,7 +116,7 @@
 	 	</div>
 	 </nav> 
   
-
+ <form action="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
 <div class="col-xs-12 col-sm-12">
     <div class="row">
         <!-- You can make it whatever width you want. I'm making it full width
@@ -135,7 +135,7 @@
                     </div>                    
                 </div>
                 <div class="panel-body">
-                    <form role="form" id="payment-form" method="POST" action="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
+                    <form role="form" id="payment-form" method="POST" action="javascript:void(0);">
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="form-group">
@@ -202,12 +202,6 @@
                                 <p class="payment-errors"></p>
                             </div>
                         </div>
-                        
-                        
-                      <input type="hidden" name="action" value="newOrder">  
-                      <input type="hidden" name="memno" value="${memVO.memno}">  
-                      <input type="hidden" name="motno" value="${motorVO.motno}">   
-                      <input type="hidden" name="modtype" value="${mm.modtype}">  
                     </form>
                 </div>
             </div>            
@@ -215,7 +209,7 @@
             
             
         </div>   
-               
+          </form>         
         <div class="col-xs-12 col-sm-8">
         
           <table  class="table table-hover" border='1' bordercolor='#CCCCFF' width='100%' height="288px" >
