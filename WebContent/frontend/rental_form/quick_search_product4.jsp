@@ -54,7 +54,7 @@ margin-top:100px;
 <body>
 <%-- 
 	從RentOrdServlet.java過來:
-	 進這jsp的參數有  MotorVO motorQueryVO, dayPicker, 
+	 進這jsp的參數有  MotorForRentOrdVO motorQueryVO, dayPicker, 
 	
 	應該要從這個頁面送出去的資料有(next -> servlet -> 2.jsp)
 	memno, motno, confirmed_rentday
@@ -62,7 +62,7 @@ margin-top:100px;
 
 
 <%
-MotorVO motorQueryVO = (MotorVO)request.getAttribute("motorQueryVO");
+MotorForRentOrdVO motorQueryVO = (MotorForRentOrdVO)request.getAttribute("motorQueryVO");
 String dayPicker = (String)request.getAttribute("dayPicker");
 String defday = (String)request.getAttribute("defday");
 pageContext.setAttribute("start_time", defday);

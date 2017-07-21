@@ -103,7 +103,7 @@ p{
 --%>
 
 	<%
-		MotorVO motorQueryVO = (MotorVO) request.getAttribute("motorQueryVO");
+		MotorForRentOrdVO motorQueryVO = (MotorForRentOrdVO) request.getAttribute("motorQueryVO");
 		String dayPicker = (String) request.getAttribute("dayPicker");
 		String confirmed_rentday = (String)request.getAttribute("confirmed_rentday");
 		
