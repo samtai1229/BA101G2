@@ -40,7 +40,7 @@ String differDate = request.getParameter("differDate");
 pageContext.setAttribute("action", action);
 pageContext.setAttribute("differDate", differDate);
 
-MotorVO motorQueryVO = (MotorVO)request.getAttribute("motorQueryVO");
+MotorForRentOrdVO motorQueryVO = (MotorForRentOrdVO)request.getAttribute("motorQueryVO");
 RentOrdVO roQueryVO = (RentOrdVO)request.getAttribute("roQueryVO");
 MemberVO memQueryVO = (MemberVO)request.getAttribute("memQueryVO");
 MotorModelVO mmQueryVO = (MotorModelVO)request.getAttribute("mmQueryVO");
