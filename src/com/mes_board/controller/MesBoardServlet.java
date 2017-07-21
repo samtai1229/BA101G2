@@ -201,11 +201,11 @@ public void doPost(HttpServletRequest req, HttpServletResponse res)
 	}
 
     if ("insert".equals(action)) { 
-		System.out.println("!!!!!!!!!");
 		List<String> errorMsgs = new LinkedList<String>();
 		// Store this set in the request scope, in case we need to
 		// send the ErrorPage view.
 		req.setAttribute("errorMsgs", errorMsgs);
+		String requestURL=req.getParameter("requestURL");
 		try {
 			/**************************** 1.接受請求參數-輸入格式的錯誤處理 **********************/
 			String memno = req.getParameter("memno").trim();
@@ -218,38 +218,36 @@ public void doPost(HttpServletRequest req, HttpServletResponse res)
 		    } catch (Exception e) {
 		     e.printStackTrace();
 		    }
-			String status = req.getParameter("status").trim();
+			//String status = req.getParameter("status").trim();
 			
 
 			MesBoardVO mesboardVO = new MesBoardVO();
 			mesboardVO.setMemno(memno);
 			mesboardVO.setCont(cont);
 			mesboardVO.setPic(pic);
-			mesboardVO.setStatus(status);
-
+			//mesboardVO.setStatus(status);
 			// Send the use back to the form, if there were errors
 			if (!errorMsgs.isEmpty()) {
 				req.setAttribute("mesboardVO", mesboardVO);
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/backend/mes_board/addMesBoard.jsp");
+						.getRequestDispatcher(requestURL);
+				//backend/mes_board/addMesBoard.jsp
 				failureView.forward(req, res);
 				return;
 			}
-			
 			/*************************** 2.開始新增資料 ***************************************/
 			MesBoardService mesboardSvc = new MesBoardService();
-			mesboardVO = mesboardSvc.addMesBoard(memno,cont, pic, status);
-			
+			mesboardVO = mesboardSvc.addMesBoard(memno,cont, pic);
 			/***************************** 3.修改完成,準備轉交(Send the Success view)*************/
-			String url = "/backend/mes_board/listAllMesBoard.jsp";
-			RequestDispatcher successView = req.getRequestDispatcher(url);
+			String url = "/forntend/mes_board/listAllMesBoard.jsp";
+			RequestDispatcher successView = req.getRequestDispatcher(requestURL);
 			successView.forward(req, res);				
 			
 			/***************************** 其他可能的錯誤處理 ********************************/
 		} catch (Exception e) {
 			errorMsgs.add(e.getMessage());
 			RequestDispatcher failureView = req
-					.getRequestDispatcher("/backend/mes_board/addMesBoard.jsp");
+					.getRequestDispatcher(requestURL);
 			failureView.forward(req, res);
 		}
 	}
