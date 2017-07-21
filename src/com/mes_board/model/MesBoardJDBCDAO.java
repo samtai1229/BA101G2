@@ -19,7 +19,7 @@ public class MesBoardJDBCDAO implements MesBoardDAO_interface {
 	String userid = "ba101g2";
 	String passwd = "ba101g2";
 
-	private static final String INSERT_STMT = "INSERT INTO mes_board(mesno,memno,cont,pic,status) VALUES('MB'||lpad(to_char(mesno_seq.NEXTVAL),3,'0'),?, ?, ?, ?)";
+	private static final String INSERT_STMT = "INSERT INTO mes_board(mesno,memno,cont,pic) VALUES('MB'||lpad(to_char(mesno_seq.NEXTVAL),3,'0'),?, ?, ?)";
 	private static final String GET_ALL_STMT = "SELECT * FROM mes_board order by mesno";
 	private static final String GET_ONE_STMT = "SELECT * FROM mes_board where mesno = ?";
 	private static final String DELETE = "DELETE FROM mes_board where mesno = ?";
@@ -38,7 +38,6 @@ public class MesBoardJDBCDAO implements MesBoardDAO_interface {
 			pstmt.setString(1, mesboardvo.getMemno());
 			pstmt.setString(2, mesboardvo.getCont());
 			pstmt.setBytes(3, mesboardvo.getPic());
-			pstmt.setString(4, mesboardvo.getStatus());
 			pstmt.executeUpdate();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
