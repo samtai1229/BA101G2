@@ -29,17 +29,18 @@
 		<mapping resource="com/rent_ord/model/equipment2.hbm.xml" />
 		<mapping resource="com/rent_ord/model/rent_ord2.hbm.xml" />
 		<mapping resource="com/rent_ord/model/emt_list2.hbm.xml" />
+		
 		<mapping resource="com/member/model/member.hbm.xml" />
 		
-	<mapping resource="com/motor/model/motor.hbm.xml" />
-  <mapping resource="com/motor_model/model/motor_model.hbm.xml" />
-  <mapping resource="com/motor_dispatch/model/motor_dispatch.hbm.xml" />
-  <mapping resource="com/motor_disp_list/model/motor_disp_list.hbm.xml" />
-  <mapping resource="com/equipment/model/equipment.hbm.xml" />
-  <mapping resource="com/emt_cate/model/emt_cate.hbm.xml" />
-  <mapping resource="com/emt_dispatch/model/emt_dispatch.hbm.xml" />
-  <mapping resource="com/emt_disp_list/model/emt_disp_list.hbm.xml" />
-  <mapping resource="com/location/model/location.hbm.xml" />
+		<mapping resource="com/motor/model/motor.hbm.xml" />
+	  	<mapping resource="com/motor_model/model/motor_model.hbm.xml" />
+	  	<mapping resource="com/motor_dispatch/model/motor_dispatch.hbm.xml" />
+	  	<mapping resource="com/motor_disp_list/model/motor_disp_list.hbm.xml" />
+	  	<mapping resource="com/equipment/model/equipment.hbm.xml" />
+	  	<mapping resource="com/emt_cate/model/emt_cate.hbm.xml" />
+	 	<mapping resource="com/emt_dispatch/model/emt_dispatch.hbm.xml" />
+	 	<mapping resource="com/emt_disp_list/model/emt_disp_list.hbm.xml" />
+	  	<mapping resource="com/location/model/location.hbm.xml" />
 		
 		
 	</session-factory>
