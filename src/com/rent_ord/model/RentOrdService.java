@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 
-import com.rent_ord.model.EquipmentVO;
+import com.rent_ord.model.EquipmentForRentOrdVO;
 
 public class RentOrdService {
 	private RentOrdDAO_interface dao;
@@ -125,7 +125,7 @@ public class RentOrdService {
 		return dao.getRentalOrdersForReturnView(rlocno);
 	};
 	
-	public Set<EquipmentVO> getEquipmentVOsByRentno(String rentno){
+	public Set<EquipmentForRentOrdVO> getEquipmentVOsByRentno(String rentno){
 		return dao.getEquipmentVOsByRentno(rentno);
 	}
 	
@@ -177,7 +177,7 @@ public class RentOrdService {
 		return dao.differDateCalculator(rentno);
 	};
 	
-	public List<MotorVO> getMotnoInRentOrdByRentalPeriod(Timestamp start_time, Timestamp end_time){
+	public List<MotorForRentOrdVO> getMotnoInRentOrdByRentalPeriod(Timestamp start_time, Timestamp end_time){
 		return dao.getMotnoInRentOrdByRentalPeriod(start_time, end_time);
 	}
 	
@@ -189,7 +189,7 @@ public class RentOrdService {
 		return dao.getRentnoByMemnoAndStartdate(memno, start_time);
 	}
 	
-	public List<EquipmentVO> getEmtnoByRentno(String rentno){
+	public List<EquipmentForRentOrdVO> getEmtnoByRentno(String rentno){
 		return dao.getEmtnoByRentno(rentno);
 	};
 	

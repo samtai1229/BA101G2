@@ -3,8 +3,7 @@ package com.rent_ord.model;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
-
-import com.rent_ord.model.EquipmentVO;
+import com.rent_ord.model.EquipmentForRentOrdVO;
 
 public interface RentOrdDAO_interface {
 	
@@ -40,13 +39,13 @@ public interface RentOrdDAO_interface {
 	
 	public Set<RentOrdVO> getRentalOrdersForReturnView(String rlocno);
 	
-	public Set<EquipmentVO> getEquipmentVOsByRentno(String rentno);
+	public Set<EquipmentForRentOrdVO> getEquipmentVOsByRentno(String rentno);
 	
-	public List<MotorVO> getMotnoInRentOrdByRentalPeriod(Timestamp start_time, Timestamp end_time);
+	public List<MotorForRentOrdVO> getMotnoInRentOrdByRentalPeriod(Timestamp start_time, Timestamp end_time);
 	
 	public List<String> getRentnoByRentalPeriod(Timestamp start_time, Timestamp end_time);
 	
-	public List<EquipmentVO> getEmtnoByRentno(String rentno);
+	public List<EquipmentForRentOrdVO> getEmtnoByRentno(String rentno);
 	
 	public void updateEmtsStatusAfterAvailable(String emtno, String action);
 	

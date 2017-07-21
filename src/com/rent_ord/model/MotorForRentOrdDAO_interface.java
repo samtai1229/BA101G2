@@ -4,17 +4,17 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 
-import com.rent_ord.model.MotorVO;
+import com.rent_ord.model.MotorForRentOrdVO;
 
 public interface MotorForRentOrdDAO_interface {
 
-	public List<MotorVO> getAll();
+	public List<MotorForRentOrdVO> getAll();
 	public List<String> getMotnosByModelType(String modtype);
-	public List<MotorVO> getMotorsByRentalSide();
-	public Set<MotorVO> getMotorsByModelType(String modtype);
-	public Set<MotorVO> getMotorsByLocNo(String locno);
-	public Set<MotorVO> getMotorsByManuDate(Timestamp start_time, Timestamp end_time);
+	public List<MotorForRentOrdVO> getMotorsByRentalSide();
+	public Set<MotorForRentOrdVO> getMotorsByModelType(String modtype);
+	public Set<MotorForRentOrdVO> getMotorsByLocNo(String locno);
+	public Set<MotorForRentOrdVO> getMotorsByManuDate(Timestamp start_time, Timestamp end_time);
 	public List<String> getMotnosByAllRentalStatus();
-	public MotorVO findByPrimaryKey(String motno);
+	public MotorForRentOrdVO findByPrimaryKey(String motno);
 	
 }

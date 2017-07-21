@@ -8,11 +8,9 @@ import java.util.Set;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
-import com.rent_ord.model.EquipmentVO;
-import com.rent_ord.model.MotorVO;
+import com.rent_ord.model.EquipmentForRentOrdVO;
+import com.rent_ord.model.MotorForRentOrdVO;
 
 import hibernate.util.HibernateUtil;
 
@@ -67,10 +65,10 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	
 	
 	private static final String GET_EMTNOs_BY_RENTNO_IN_EMT_LIST= 
-			" SELECT emtVO FROM EmtListVO where rentno = ? ";
+			" SELECT emtVO FROM EmtListForRentOrdVO where rentno = ? ";
 	
 	private static final String GET_EMPVOs_BY_EMTNOs_IN_EQUIPMENT=
-			" from EquipmentVO where emtno = ? ";
+			" from EquipmentForRentOrdVO where emtno = ? ";
 
 	//DIFFER_DATE_CALCULATOR
 		private static final String DIFFER_DATE_CALCULATOR = 
@@ -124,7 +122,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 			  +" or  ( enddate > ? and enddate < ? ) order by startdate";
 	
 	private static final String GET_EMTNO_FROM_EMT_LIST_BY_RENTNO = 
-			"SELECT emtVO FROM EmtListVO where rentno = ? ";
+			"SELECT emtVO FROM EmtListForRentOrdVO where rentno = ? ";
 	
 	private static final String GET_roVOs_BY_STARTDAY_ENDDAY_MONTO=
 			"from RentOrdVO where  (( startdate > ? and startdate <? )"
@@ -176,8 +174,8 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	}
 
 	@Override
-	public List<EquipmentVO> getEmtnoByRentno(String rentno) {
-		List<EquipmentVO> list = null;
+	public List<EquipmentForRentOrdVO> getEmtnoByRentno(String rentno) {
+		List<EquipmentForRentOrdVO> list = null;
 
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		
@@ -283,9 +281,9 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 
 
 	@Override
-	public List<MotorVO> getMotnoInRentOrdByRentalPeriod(Timestamp start_time, Timestamp end_time) {
+	public List<MotorForRentOrdVO> getMotnoInRentOrdByRentalPeriod(Timestamp start_time, Timestamp end_time) {
 
-		List<MotorVO> list = null;
+		List<MotorForRentOrdVO> list = null;
 		
 		System.out.println("start_time in RentOrdDAO : " + start_time);
 		System.out.println("end_time in RentOrdDAO : " + end_time);
@@ -440,8 +438,8 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 		try {
 			session.beginTransaction();
 			
-			MotorVO motorVO = (MotorVO) session.get(MotorVO.class, motno);
-			motorVO.setStatus("leasable");
+			MotorForRentOrdVO motorVO = (MotorForRentOrdVO) session.get(MotorForRentOrdVO.class, motno);
+			motorVO.setStatus("unleasable");
 
 			session.getTransaction().commit();
 			
@@ -462,7 +460,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 		try {
 			session.beginTransaction();
 			
-			MotorVO motorVO = (MotorVO) session.get(MotorVO.class, motno);
+			MotorForRentOrdVO motorVO = (MotorForRentOrdVO) session.get(MotorForRentOrdVO.class, motno);
 			motorVO.setStatus("unleasable");
 			motorVO.setMile(mile);
 			motorVO.setLocno(rlocno);
@@ -486,7 +484,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 		try {
 			session.beginTransaction();
 			
-			MotorVO motorVO = (MotorVO) session.get(MotorVO.class, motno);
+			MotorForRentOrdVO motorVO = (MotorForRentOrdVO) session.get(MotorForRentOrdVO.class, motno);
 			motorVO.setStatus("occupied");
 
 			session.getTransaction().commit();
@@ -508,7 +506,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 		try {
 			session.beginTransaction();
 			
-			EquipmentVO emtVO = (EquipmentVO) session.get(EquipmentVO.class, emtno);
+			EquipmentForRentOrdVO emtVO = (EquipmentForRentOrdVO) session.get(EquipmentForRentOrdVO.class, emtno);
 			emtVO.setLocno(rlocno);
 			emtVO.setStatus("unleasable");
 
@@ -530,8 +528,8 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 		try {
 			session.beginTransaction();
 			
-			EquipmentVO emtVO = (EquipmentVO) session.get(EquipmentVO.class, emtno);
-			emtVO.setStatus("leasable");
+			EquipmentForRentOrdVO emtVO = (EquipmentForRentOrdVO) session.get(EquipmentForRentOrdVO.class, emtno);
+			emtVO.setStatus("unleasable");
 
 			session.getTransaction().commit();
 			
@@ -551,7 +549,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 		try {
 			session.beginTransaction();
 			
-			EquipmentVO emtVO = (EquipmentVO) session.get(EquipmentVO.class, emtno);
+			EquipmentForRentOrdVO emtVO = (EquipmentForRentOrdVO) session.get(EquipmentForRentOrdVO.class, emtno);
 			emtVO.setStatus("occupied");
 
 			session.getTransaction().commit();
@@ -699,9 +697,9 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 	}
 
 	@Override
-	public Set<EquipmentVO> getEquipmentVOsByRentno(String rentno) {
+	public Set<EquipmentForRentOrdVO> getEquipmentVOsByRentno(String rentno) {
 
-		Set<EquipmentVO> set = null;
+		Set<EquipmentForRentOrdVO> set = null;
 	
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		
@@ -710,12 +708,12 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 			
 			Query query = session.createQuery(GET_EMTNOs_BY_RENTNO_IN_EMT_LIST);
 //			private static final String GET_EMTNOs_BY_RENTNO_IN_EMT_LIST= 
-//					" SELECT emtno FROM EmtListVO where rentno = ? ";
+//					" SELECT emtno FROM EmtListForRentOrdVO where rentno = ? ";
 			
 			query.setParameter(0, rentno);
 			
 			List list = query.list();
-			set = new LinkedHashSet<EquipmentVO>(list);
+			set = new LinkedHashSet<EquipmentForRentOrdVO>(list);
 			session.getTransaction().commit();
 			
 //聯合映射前:
@@ -725,9 +723,9 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 //						query = session.createQuery(GET_EMPVOs_BY_EMTNOs_IN_EQUIPMENT);
 //						query.setParameter(0, emtno);
 //						
-//						List<EquipmentVO> list2 = query.list();
+//						List<EquipmentForRentOrdVO> list2 = query.list();
 //						
-//						for(EquipmentVO eVO: list2){
+//						for(EquipmentForRentOrdVO eVO: list2){
 //							set.add(eVO);
 //						}
 //					}	
@@ -963,7 +961,6 @@ Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		
 //		updateStatusByRentno
 //		dao.updateStatusByRentno("unoccupied", "R000640");
-		
 		//getRoVOsByDatePrioidAndMotno(Timestamp start_time, Timestamp end_time, String motno)
 //		Set<RentOrdVO> set = dao.getRoVOsByDatePrioidAndMotno(java.sql.Timestamp.valueOf("2017-07-02 10:10:10"),
 //				java.sql.Timestamp.valueOf("2017-09-09 10:10:10"), "M000001");
@@ -973,10 +970,9 @@ Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 			
 			
 		//getEmtnoByRentno
-//			List<EquipmentVO> list = dao.getEmtnoByRentno("R000610");
-//			for(EquipmentVO eVO:list)
+//			List<EquipmentForRentOrdVO> list = dao.getEmtnoByRentno("R000610");
+//			for(EquipmentForRentOrdVO eVO:list)
 //				System.out.println("emtno: "+ eVO.getEmtno());
-			
 			
 //		//getRentnoByRentalPeriod
 //			List<String> list = dao.getRentnoByRentalPeriod(java.sql.Timestamp.valueOf("2017-07-02 10:10:10"),
@@ -984,7 +980,6 @@ Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 //			for(String rentno :list)
 //				System.out.println("rentno: "+ rentno);	
 //			System.out.println("=================================");
-//		
 //		//getRentnoByMemnoAndStartdate
 //		String str = dao.getRentnoByMemnoAndStartdate("MEM000002",
 //				java.sql.Timestamp.valueOf("2017-07-18 23:00:00"));
@@ -998,11 +993,10 @@ Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 //			System.out.println("roVO startday :"+roVO.getStartdate());
 //		}
 //		System.out.println("=================================");
-		
-		//getMotnoInRentOrdByRentalPeriod
-//			List<MotorVO> list = dao.getMotnoInRentOrdByRentalPeriod(java.sql.Timestamp.valueOf("2017-08-02 10:10:10"),
+//		//getMotnoInRentOrdByRentalPeriod
+//			List<MotorForRentOrdVO> list2 = dao.getMotnoInRentOrdByRentalPeriod(java.sql.Timestamp.valueOf("2017-08-02 10:10:10"),
 //					java.sql.Timestamp.valueOf("2017-09-09 10:10:10"));
-//			for(MotorVO mVO :list)
+//			for(MotorForRentOrdVO mVO :list2)
 //				System.out.println("motno: "+ mVO.getMotno());	
 			
 
@@ -1012,14 +1006,14 @@ Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 //					100, "2", "test", "update");
 			
 		//updateRentOrdAfterNoreturn
-//			dao.updateRentOrdAfterNoreturn("R000628", 1000, java.sql.Timestamp.valueOf("2017-09-10 10:10:10"), 
+//			dao.updateRentOrdAfterNoreturn("R000640", 1000, java.sql.Timestamp.valueOf("2017-09-10 10:10:10"), 
 //					100, "3", "test", "update2");
 			
 		//updateRentOrdStatusAfterAvailable
-//			dao.updateRentOrdStatusAfterAvailable("R000635", "ttava", "wow");
+//			dao.updateRentOrdStatusAfterAvailable("R000640", "ttava", "wow");
 			
 		//updateRentOrdStatusAfterNoshow
-//			dao.updateRentOrdStatusAfterNoshow("R000634", "ttava", "wow2");
+//			dao.updateRentOrdStatusAfterNoshow("R000640", "ttava", "wow2");
 			
 		//updateMotorStatusAfterNoshow
 //			dao.updateMotorStatusAfterNoshow("M000010", "action");
@@ -1073,7 +1067,7 @@ Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 //		  roVO2.setRank("5");
 //		  roVO2.setStatus("unoccupied"); 
 //		  roVO2.setNote("test3");
-//		  roVO2.setRentno("R000639"); 
+//		  roVO2.setRentno("R000682"); 
 //		  dao.update(roVO2);	
 
 		//delete
@@ -1089,12 +1083,12 @@ Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 //		System.out.println(list.size());
 		
 		//findbyPK
-//		RentOrdVO roVO =dao.findByPrimaryKey("R000638");
+//		RentOrdVO roVO =dao.findByPrimaryKey("R000682");
 //		System.out.println("rentno: "+ roVO.getRentno()+", monto"+ roVO.getMotorVO().getMotno());
 		
 		//getEquipmentVOsByRentno
-//		Set<EquipmentVO> set = dao.getEquipmentVOsByRentno("R000573");
-//		for(EquipmentVO eVO:set)
+//		Set<EquipmentForRentOrdVO> set = dao.getEquipmentVOsByRentno("R000460");
+//		for(EquipmentForRentOrdVO eVO:set)
 //			System.out.println(eVO.getEmtno()+", "+eVO.getLocno());
 		
 		//getRentalOrdersByStatus(String status)

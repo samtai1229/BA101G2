@@ -2,8 +2,8 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping auto-import="false">
-    <class name="com.rent_ord.model.EquipmentVO" table="EQUIPMENT" >
+<hibernate-mapping>
+    <class name="com.rent_ord.model.EquipmentForRentOrdVO" table="EQUIPMENT" >
         <id name="emtno" column="emtno">
             <generator class="sequence" >
               <param name="sequence">emtno_seq</param>
@@ -19,7 +19,7 @@
 			<key>
 				<column name="emtno" />
 			</key>
-			<one-to-many class="com.rent_ord.model.EmtListVO" />
+			<one-to-many class="com.rent_ord.model.EmtListForRentOrdVO" />
 		</set>      
                
     </class>

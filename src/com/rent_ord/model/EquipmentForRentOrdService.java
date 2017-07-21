@@ -1,7 +1,7 @@
 package com.rent_ord.model;
 import java.util.List;
 
-import com.rent_ord.model.EquipmentVO;
+import com.rent_ord.model.EquipmentForRentOrdVO;
 
 
 public class EquipmentForRentOrdService {
@@ -11,15 +11,15 @@ public class EquipmentForRentOrdService {
 		dao = new EquipmentForRentOrdDAO();
 	}
 
-	public EquipmentVO getOneEquipment(String emtno) {
+	public EquipmentForRentOrdVO getOneEquipment(String emtno) {
 		return dao.findByPrimaryKey(emtno);
 	}
 
-	public List<EquipmentVO> getAll() {
+	public List<EquipmentForRentOrdVO> getAll() {
 		return dao.getAll();
 	}
 	
-	public List<EquipmentVO> getEquipsByEcno(String ecno){
+	public List<EquipmentForRentOrdVO> getEquipsByEcno(String ecno){
 		return dao.getEquipsByEcno(ecno);
 	}
 	
