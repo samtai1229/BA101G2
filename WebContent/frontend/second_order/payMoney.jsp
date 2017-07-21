@@ -34,7 +34,6 @@
 		<style type="text/css">
 			
           /* Padding - just for asthetics on Bootsnipp.com */
-body { margin-top:20px; }
 
 /* CSS for Credit Card Payment form */
 .credit-card-box .panel-title {
@@ -82,11 +81,42 @@ body { margin-top:20px; }
 
 		</style>
 	</head>
-	<body>
+	<body >
 		
-	 
+	<nav class="navbar navbar-default" role="navigation">
+	 	<div class="container">
+	 		<div class="navbar-header">
+	 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+	 				<span class="sr-only">選單切換</span>
+	 				<span class="icon-bar"></span>
+	 				<span class="icon-bar"></span>
+	 				<span class="icon-bar"></span>
+	 			</button>
+	 			<a class="navbar-brand" href="#">付款區</a>
+	 		</div>
+	 		
+	 		<!-- 手機隱藏選單區 -->
+	 		<div class="collapse navbar-collapse navbar-ex1-collapse">
+	 			<!-- 左選單 -->
+	 			<ul class="nav navbar-nav">
+	 				<li class="active"><a href="#">信用卡付款</a></li>
+	 				<li><a href="<%=request.getContextPath()%>/index.jsp">回首頁</a></li>
+	 			</ul>
+	 		
+	 			
+	 		
+	 			<!-- 右選單 -->
+	 			<ul class="nav navbar-nav navbar-right">
+	 				<li><a href="#">${memVO.memname} 您好</a></li>
+	 				<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout"
+              								data-toggle="modal">登出</a></li>
+	 			</ul>
+	 		</div>
+	 		<!-- 手機隱藏選單區結束 -->
+	 	</div>
+	 </nav> 
   
-
+ <form action="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
 <div class="col-xs-12 col-sm-12">
     <div class="row">
         <!-- You can make it whatever width you want. I'm making it full width
@@ -109,7 +139,7 @@ body { margin-top:20px; }
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="form-group">
-                                    <label for="cardNumber">CARD NUMBER</label>
+                                    <label for="cardNumber">卡號</label>
                                     <div class="input-group">
                                         <input 
                                             type="tel"
@@ -127,7 +157,7 @@ body { margin-top:20px; }
                         <div class="row">
                             <div class="col-xs-7 col-md-7">
                                 <div class="form-group">
-                                    <label for="cardExpiry"><span class="hidden-xs">EXPIRATION</span><span class="visible-xs-inline">EXP</span> DATE</label>
+                                    <label for="cardExpiry"><span class="hidden-xs">卡片到期日</span><span class="visible-xs-inline">EXP</span> DATE</label>
                                     <input 
                                         type="tel" 
                                         class="form-control" 
@@ -152,17 +182,19 @@ body { margin-top:20px; }
                                 </div>
                             </div>
                         </div>
+<!--                         <div class="row"> -->
+<!--                             <div class="col-xs-12"> -->
+<!--                                 <div class="form-group"> -->
+<!--                                     <label for="couponCode">COUPON CODE</label> -->
+<!--                                     <input type="text" class="form-control" name="couponCode" /> -->
+<!--                                 </div> -->
+<!--                             </div>                         -->
+<!--                         </div> -->
                         <div class="row">
                             <div class="col-xs-12">
-                                <div class="form-group">
-                                    <label for="couponCode">COUPON CODE</label>
-                                    <input type="text" class="form-control" name="couponCode" />
-                                </div>
-                            </div>                        
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <button class="subscribe btn btn-success btn-lg btn-block" type="button">Start Subscription</button>
+                           
+                                <input class="subscribe btn btn-success btn-lg btn-block" type="submit" value="送出">
+                          
                             </div>
                         </div>
                         <div class="row" style="display:none;">
@@ -176,12 +208,60 @@ body { margin-top:20px; }
             <!-- CREDIT CARD FORM ENDS HERE -->
             
             
-        </div>            
-        <div class="col-xs-12 col-sm-8"></div>
+        </div>   
+          </form>         
+        <div class="col-xs-12 col-sm-8">
+        
+          <table  class="table table-hover" border='1' bordercolor='#CCCCFF' width='100%' height="288px" >
+	<tr>
+<!-- 		<th>車輛編號</th> -->
+<!-- 		<th>車型編號</th> -->
+<!-- 		<th>車牌號碼</th> -->
+		<th style="text-align:center">圖片</th>
+		<th style="text-align:center">廠牌</th>
+		<th style="text-align:center">型號</th>
+		<th style="text-align:center">排氣量</th>
+		<th style="text-align:center">介紹</th>
+<!-- 		<th>引擎編號</th> -->
+<!-- 		<th>出廠日期</th> -->
+<!-- 		<th>里程數</th> -->
+		<th style="text-align:center">售價(NTD)</th>
+<!-- 		<th>據點</th> -->
+<!-- 		<th>status</th> -->
+<!-- 		<th>note</th> -->
+	</tr>
+<%-- 					begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" --%>
+
+		<tr  align='center' valign='middle'>
+		
+<%-- 			<td>${motorVO.motno}</td> --%>
+<%-- 			<td>${motorVO.modtype}</td> --%>
+<%-- 			<td>${motorVO.plateno}</td> --%>
+			<td><img src="<%=request.getContextPath()%>/backend/motor_model/mmReader.do?modtype=${motorVO.modtype}" width='200' height='180'></td>
+           
+<%-- 			<td>${motorVO.engno}</td> --%>
+<%-- 			<td><fmt:formatDate value="${motorVO.manudate}" pattern="yyyy年MM月dd日"/></td>		 --%>
+<%-- 			<td>${motorVO.mile}</td> --%>
+		
+			   <td>${mm.brand}</td>	
+			   <td>${mm.name}</td>	
+			   <td>${mm.displacement}</td>
+			   <td><span>${mm.intro}</span></td>	
+			   <td>${mm.saleprice}</td>	
+			
+		</tr>
+
+
+</table>
+        
+        
+        
+        </div>
       
         
     </div>
 </div>
+
 
 
 
