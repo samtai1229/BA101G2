@@ -119,8 +119,8 @@ pageContext.setAttribute("lat", lat);
     }
 	
 	 nav{
-/* 	 	background-color:transparent; */
-		background-image:url(<%=request.getContextPath()%>/img/header2.jpg);
+/*  	 	background-color:transparent;  */
+<%-- 		background-image:url(<%=request.getContextPath()%>/img/header2.jpg); --%>
 		background-attachment: scroll;
 		background-attachment:  fixed;
 	} 
@@ -291,7 +291,20 @@ pageContext.setAttribute("lat", lat);
 		<!-- /.container-fluid -->
 	</nav>
 	
-	
+	<!-- 租車主軸Header -->
+	<header id="rent">
+		
+		<div class="container">
+		
+			<div class="intro-text">
+				<div class="intro-lead-in">Welcome To Autobike!</div>
+				<div class="intro-heading">The Best Bike For You!</div>
+				
+				<!-- 				<a href="rent.html" class="page-scroll btn btn-xl">點我租車</a> -->
+			</div>
+
+		</div>
+	</header>
 	
         <div class="container">
             <div class="row container-fluid">
@@ -447,13 +460,6 @@ var secretMessages = ['123123123'+
 '<%=locArray[5].getLat()%><br>'+
 '<%=locArray[5].getTel()%><br>'+
 '<img class="infoImg" src="<%=request.getContextPath()%>/frontend/location/locReader.do?locno=<%=locArray[5].getLocno()%>"><br>'
-,'123123123'+
-'<h2><%=locArray[6].getLocname()%></h2><br>'+
-'<%=locArray[6].getAddr()%><br>'+
-'<%=locArray[6].getLon()%><br>'+
-'<%=locArray[6].getLat()%><br>'+
-'<%=locArray[6].getTel()%><br>'+
-'<img class="infoImg" src="<%=request.getContextPath()%>/frontend/location/locReader.do?locno=<%=locArray[6].getLocno()%>"><br>'
 									];
 	
 function indexclick(lon,lat){
