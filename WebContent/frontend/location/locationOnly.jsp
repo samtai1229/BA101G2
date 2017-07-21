@@ -10,6 +10,12 @@
  	List<LocationVO> list = locationSvc.getAll();
  	pageContext.setAttribute("list",list); -->
 <%
+//  String locno = (String)pageContext.getAttribute("locno");
+//  pageContext.setAttribute("locno", locno);
+// LocationService locSvcc = new LocationService();
+// LocationVO locationVO = locSvcc.getOneLocation(locno);
+LocationVO locationVO = (LocationVO)request.getAttribute("locationVO");
+pageContext.setAttribute("locationVO",locationVO);
 Float lon = (Float)request.getAttribute("lon");
 Float lat = (Float)request.getAttribute("lat");
 pageContext.setAttribute("lon", lon);
@@ -27,17 +33,17 @@ pageContext.setAttribute("lat", lat);
     <meta name="description" content="" />
     <meta name="author" content="" />
     <!-- Bootstrap Core CSS -->
-    <link href="<%=request.getContextPath()%>/js/bootstrap.min.css" rel="stylesheet" />
+    <link href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="<%=request.getContextPath()%>/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css' />
     <!-- Theme CSS -->
-    <link href="<%=request.getContextPath()%>/js/gallery.css" rel="stylesheet" />
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/js/owl.carousel.min.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/js/owl.theme.default.min.css">
+    <link href="<%=request.getContextPath()%>/css/gallery.css" rel="stylesheet" />
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.theme.default.min.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/magnific-popup.css">
     <!-- Theme Style -->
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
-    <link href="<%=request.getContextPath()%>/js/agency.css" rel="stylesheet" />
+    <link href="<%=request.getContextPath()%>/css/agency.css" rel="stylesheet" />
     <link href="<%=request.getContextPath()%>/css/agency.min.css" rel="stylesheet" />
 	
 	<!-- Custom Fonts -->
@@ -325,7 +331,7 @@ pageContext.setAttribute("lat", lat);
 							<td>${locationVO.tel}</td>
 							<td > 
 							<img id="address" name="address" src="<%=request.getContextPath()%>/frontend/location/locReader.do?locno=${locationVO.locno}"
-										class="img-responsive img-circle" alt="" width="100" height="100" onclick=changeLatLng('${locationVO.lon}','${locationVO.lat}') />
+										class="img-responsive img-circle" alt="" width="100" height="100" onclick=changeLatLng('${locationVO.locname}','${locationVO.addr}','${locationVO.lon}','${locationVO.lat}','${locationVO.tel}'),'${locationVO.locno}' ) />
 							</td>
 						</tr>
 			</c:forEach>
@@ -383,13 +389,16 @@ pageContext.setAttribute("lat", lat);
 
 var lons = "${lon}";
 var lats = "${lat}";
+var locationVO = "${locationVO}";
 
-var Lon,Lat;
+var Lon,Lat,Name,Addr,Tel,Pic;
 var myMap;
 var map;
 var myPosition =[];
 var i=0,j=0;
 var count;
+var marker;
+var infowindowopen = false;
  	function doFirst(){
          myMap = document.getElementById('myMap');
          Lon = 24.01;
@@ -408,10 +417,11 @@ var count;
          console.log("lons= "+lons);
          console.log("lats= "+lats);
 		indexclick(lons,lats);
-
+		
  	}
 
-
+// var secretMessage = '123456';
+var secretMessage ;
 function indexclick(lon,lat){
 		 count =1;
 		 Lon = lon;
@@ -425,40 +435,69 @@ console.log("myPosition["+count+"]= "+myPosition[count]);
 	            center: myPosition[count],
 	            mapTypeId: google.maps.MapTypeId.ROADMAP
 	    });
-			 
-		var markers = 'marker'+count;	 
-		 markers = new google.maps.Marker({
+	 	 secretMessage = '<h2>${locationVO.locname}</h2><br>'+'${locationVO.addr}<br>'+'${locationVO.lon}<br>'+'${locationVO.lat}<br>'+'${locationVO.tel}<br>'+'<img class="infoImg" src="<%=request.getContextPath()%>/frontend/location/locReader.do?locno="+Pic> <br>';	 
+		 marker = 'marker'+count;	 
+		 marker = new google.maps.Marker({
 				position: myPosition[count],
 				map: map,
 				animation: google.maps.Animation.DROP
 			});
-			
+		 attachSecretMessage(marker, secretMessage);
 		 count++;
 		}
 		
-function changeLatLng(lon,lat){
-		var count =1;
-		 Lon = lon;
-		 Lat = lat;
+		
+function changeLatLng(name,addr,lon,lat,tel,pic){
+	infowindowopen = false;
+	 count =1;
+	 Name = name;
+	 Addr = addr;
+	 Lon = lon;
+	 Lat = lat;
+	 Tel = tel;
+	 Pic = pic;
+console.log("Name= "+name); 			
+console.log("Addr= "+addr); 			
 console.log("lon= "+Lon); 			
 console.log("lat= "+Lat); 	
-			myPosition[count] = new google.maps.LatLng(Lon,Lat);
+console.log("Pic= "+pic);
+		myPosition[count] = new google.maps.LatLng(Lon,Lat);
 console.log("myPosition["+count+"]= "+myPosition[count]);
-			 map = new google.maps.Map(myMap,{
-	            zoom: 10,
-	            center: myPosition[count],
-	            mapTypeId: google.maps.MapTypeId.ROADMAP
-	    });
-			 
-		var markers = 'marker'+count;	 
-		 markers = new google.maps.Marker({
-				position: myPosition[count],
-				map: map,
-				animation: google.maps.Animation.DROP
-			});
-			
-		 count++;
-		}
+		 map = new google.maps.Map(myMap,{
+            zoom: 10,
+            center: myPosition[count],
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+		 
+	 marker = 'marker'+count;	 
+	 marker = new google.maps.Marker({
+			position: myPosition[count],
+			map: map,
+			animation: google.maps.Animation.DROP
+		});
+	 secretMessage = '<h2>'+Name+'</h2><br>'+Addr+'<br>'+Lon+'<br>'+Lat+'<br>'+Tel+'<br>'+'<img class="infoImg" src="<%=request.getContextPath()%>/frontend/location/locReader.do?locno=${locationVO.locno}"><br>';
+	 attachSecretMessage(marker, secretMessage);
+	 count++;
+	}
+		
+//標記地點訊息
+	 
+	
+	function attachSecretMessage(markers, secretMessage) {
+    var infowindow = new google.maps.InfoWindow({
+      content: secretMessage
+    });
+
+    marker.addListener('click', function() {
+    	if(infowindowopen){
+    		infowindowopen.close();
+    	}
+    	infowindowopen = infowindow;
+    	infowindow.open(marker.get('map'), marker);
+    });
+  }
+
+
 		
 		
 
