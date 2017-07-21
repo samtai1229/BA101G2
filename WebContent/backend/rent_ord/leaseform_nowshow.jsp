@@ -37,7 +37,7 @@ String status = request.getParameter("status");
 String action = request.getParameter("action");
 pageContext.setAttribute("action", action);
 
-MotorVO motorQueryVO = (MotorVO)request.getAttribute("motorQueryVO");
+MotorForRentOrdVO motorQueryVO = (MotorForRentOrdVO)request.getAttribute("motorQueryVO");
 RentOrdVO roQueryVO = (RentOrdVO)request.getAttribute("roQueryVO");
 MemberVO memQueryVO = (MemberVO)request.getAttribute("memQueryVO");
 MotorModelVO mmQueryVO = (MotorModelVO)request.getAttribute("mmQueryVO");
