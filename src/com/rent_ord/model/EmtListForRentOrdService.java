@@ -10,9 +10,9 @@ public class EmtListForRentOrdService {
 		dao = new EmtListForRentOrdDAO();
 	}
 
-	public EmtListVO addEmtList(String rentno, String emtno) {
+	public EmtListForRentOrdVO addEmtList(String rentno, String emtno) {
 
-		EmtListVO emtListVO = new EmtListVO();
+		EmtListForRentOrdVO emtListVO = new EmtListForRentOrdVO();
 		
 		emtListVO.setEmtVO(new EquipmentForRentOrdService().getOneEquipment(emtno));
 		emtListVO.setRoVO(new RentOrdService().findByPK(rentno));
@@ -24,15 +24,15 @@ public class EmtListForRentOrdService {
 		dao.delete(rentno, emtno);
 	}
 	
-    public List<EmtListVO> findByRentno(String rentno){
+    public List<EmtListForRentOrdVO> findByRentno(String rentno){
     	return dao.findByRentno(rentno);
     }
     
-    public List<EmtListVO> findByEmtno(String emtno){
+    public List<EmtListForRentOrdVO> findByEmtno(String emtno){
     	return dao.findByEmtno(emtno);
     }
 	
-	public List<EmtListVO> getAll() {
+	public List<EmtListForRentOrdVO> getAll() {
 		return dao.getAll();
 	}
 }

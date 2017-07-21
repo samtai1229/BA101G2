@@ -12,12 +12,12 @@ import java.io.IOException;
 public class EmtListForRentOrdDAO implements EmtListForRentOrdDAO_interface {
 
 	@Override
-	public void insert(EmtListVO emtListVO) {
+	public void insert(EmtListForRentOrdVO EmtListForRentOrdVO) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 			session.beginTransaction();
 			
-			session.saveOrUpdate(emtListVO);
+			session.saveOrUpdate(EmtListForRentOrdVO);
 			
 			session.getTransaction().commit();
 		} catch (RuntimeException ex) {
@@ -33,7 +33,7 @@ public class EmtListForRentOrdDAO implements EmtListForRentOrdDAO_interface {
 			session.beginTransaction();
 
         //【此時多方(宜)可採用HQL刪除】
-			Query query = session.createQuery("delete EmtListVO where rentno = ? and emtno = ?");
+			Query query = session.createQuery("delete EmtListForRentOrdVO where rentno = ? and emtno = ?");
 			query.setParameter(0, rentno);
 			query.setParameter(1, emtno);
 			System.out.println("刪除的筆數=" + query.executeUpdate());
@@ -46,13 +46,13 @@ public class EmtListForRentOrdDAO implements EmtListForRentOrdDAO_interface {
 	}
 
 	@Override
-	public List<EmtListVO> findByRentno(String rentno) {
+	public List<EmtListForRentOrdVO> findByRentno(String rentno) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		List<EmtListVO> eList = null;
+		List<EmtListForRentOrdVO> eList = null;
 		try {
 			session.beginTransaction();
 			
-			Query query = session.createQuery("from EmtListVO where rentno = ?");
+			Query query = session.createQuery("from EmtListForRentOrdVO where rentno = ?");
 			query.setParameter(0, rentno);
 			eList = query.list();
 			
@@ -65,13 +65,13 @@ public class EmtListForRentOrdDAO implements EmtListForRentOrdDAO_interface {
 	}
 
 	@Override
-	public List<EmtListVO> findByEmtno(String emtno) {
+	public List<EmtListForRentOrdVO> findByEmtno(String emtno) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		List<EmtListVO> eList = null;
+		List<EmtListForRentOrdVO> eList = null;
 		try {
 			session.beginTransaction();
 			
-			Query query = session.createQuery("from EmtListVO where emtno = ?");
+			Query query = session.createQuery("from EmtListForRentOrdVO where emtno = ?");
 			query.setParameter(0, emtno);
 			eList = query.list();
 			
@@ -86,13 +86,13 @@ public class EmtListForRentOrdDAO implements EmtListForRentOrdDAO_interface {
 
 
 	@Override
-	public List<EmtListVO> getAll() {
-		List<EmtListVO> list = null;
+	public List<EmtListForRentOrdVO> getAll() {
+		List<EmtListForRentOrdVO> list = null;
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		try {
 
 			session.beginTransaction();
-			Query query = session.createQuery("from EmtListVO");
+			Query query = session.createQuery("from EmtListForRentOrdVO");
 			list = query.list();
 			session.getTransaction().commit();
 
@@ -104,37 +104,36 @@ public class EmtListForRentOrdDAO implements EmtListForRentOrdDAO_interface {
 	}
 
 	public static void main(String[] args) throws IOException {
-		EmtListForRentOrdDAO dao = new EmtListForRentOrdDAO();
-
+//		EmtListForRentOrdDAO dao = new EmtListForRentOrdDAO();
 		// 新增
-//		EmtListVO eVO1 = new EmtListVO();
+//		EmtListForRentOrdVO eVO1 = new EmtListForRentOrdVO();
 //		eVO1.setEmtVO(new EquipmentForRentOrdService().getOneEquipment("E000050"));
-//		eVO1.setRoVO(new RentOrdService().findByPK("R000637"));
+//		eVO1.setRoVO(new RentOrdService().findByPK("R000676"));
 //		dao.insert(eVO1);
 
 		// 刪除
-		//dao.delete("R000460", "E000001");
+//		dao.delete("R000676", "E000050");
 		
 		// 查詢 by emtno
-//		List<EmtListVO> list = dao.findByEmtno("E000010");
+//		List<EmtListForRentOrdVO> list = dao.findByEmtno("E000010");
 //		System.out.println("list.size: "+list.size());
-//		for(EmtListVO evo: list){
+//		for(EmtListForRentOrdVO evo: list){
 //			System.out.println("eVO.emtno: "+evo.getRoVO().getRentno());
 //		}
 		
 		// 查詢 by rentno
-//		List<EmtListVO> list = dao.findByRentno("R000629");
+//		List<EmtListForRentOrdVO> list = dao.findByRentno("R000629");
 //		System.out.println("list.size: "+list.size());
-//		for(EmtListVO evo: list){
+//		for(EmtListForRentOrdVO evo: list){
 //			System.out.println("Rentno:"+evo.getRoVO().getRentno()+" eVO.emtno: "+evo.getEmtVO().getEmtno());
 //		}		
 
 		// 查詢 get all
-//		List<EmtListVO> list = dao.getAll();
+//		List<EmtListForRentOrdVO> list = dao.getAll();
 //		System.out.println("list.size: "+list.size());
-//		for(EmtListVO evo: list){
+//		for(EmtListForRentOrdVO evo: list){
 //			System.out.println("Rentno:"+evo.getRoVO().getRentno()+" eVO.emtno: "+evo.getEmtVO().getEmtno());
-//		}		
-
+//		}
+		
 	}
 }

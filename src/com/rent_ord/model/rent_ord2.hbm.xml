@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping >
+<hibernate-mapping>
     <class name="com.rent_ord.model.RentOrdVO" table="RENT_ORD" >
         <id name="rentno" column="rentno">
             <generator class="sequence" >
@@ -25,7 +25,7 @@
         <property name="status" column="status" />
         <property name="note" column="note" />
 
-        <many-to-one name="motorVO" class="com.rent_ord.model.MotorVO" lazy="false">
+        <many-to-one name="motorVO" class="com.rent_ord.model.MotorForRentOrdVO" lazy="false">
             <column name="motno" />
         </many-to-one>        
 
@@ -33,7 +33,7 @@
 			<key>
 				<column name="rentno" />
 			</key>
-			<one-to-many class="com.rent_ord.model.EmtListVO" />
+			<one-to-many class="com.rent_ord.model.EmtListForRentOrdVO" />
 		</set>
     </class>
 </hibernate-mapping>
