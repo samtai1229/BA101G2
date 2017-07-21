@@ -441,7 +441,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 			session.beginTransaction();
 			
 			MotorVO motorVO = (MotorVO) session.get(MotorVO.class, motno);
-			motorVO.setStatus("unleasable");
+			motorVO.setStatus("leasable");
 
 			session.getTransaction().commit();
 			
@@ -531,7 +531,7 @@ public class RentOrdDAO implements RentOrdDAO_interface {
 			session.beginTransaction();
 			
 			EquipmentVO emtVO = (EquipmentVO) session.get(EquipmentVO.class, emtno);
-			emtVO.setStatus("unleasable");
+			emtVO.setStatus("leasable");
 
 			session.getTransaction().commit();
 			
