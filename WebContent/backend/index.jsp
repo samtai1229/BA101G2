@@ -31,7 +31,18 @@
 
 	<title>Backend HP</title>	
 </head>
-<body>
+<style>
+#mainPageLogo{
+
+display:block; 
+margin:auto;
+
+valign:center;
+}
+
+</style>
+
+<body background="<%=request.getContextPath()%>/backend/images/landspace.jpg">
 
     <nav class="navbar navbar-default" role="navigation">
         <!-- logo區 -->
@@ -114,7 +125,7 @@
     </div>
 <!----------------------------------------------- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
     <div class="col-xs-12 col-sm-10 rightHTML" id="demo">
-		<img src="images/android_logo.png" id="mainPageLogo" style="vertical-align:middle">
+		<%-- <img src="<%=request.getContextPath()%>/backend/images/android_logo.png" id="mainPageLogo"> --%>
     </div><!-- sm-10 rightHTML  -->
 
 	<!--RWD部分:下面兩行我拿掉一行和JQuery有關的script, 不然datepicker會衝到  -->
