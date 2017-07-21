@@ -23,8 +23,8 @@ import javax.servlet.http.HttpSession;
 import com.emt_cate.model.EmtCateService;
 import com.emt_list.model.EmtListService;
 
-import com.rent_ord.model.EquipmentVO;
-import com.rent_ord.model.MotorVO;
+import com.rent_ord.model.EquipmentForRentOrdVO;
+import com.rent_ord.model.MotorForRentOrdVO;
 import com.rent_ord.model.RentOrdVO;
 import com.rent_ord.model.EquipmentForRentOrdService;
 import com.rent_ord.model.MotorForRentOrdService;
@@ -192,7 +192,7 @@ public class RentOrdServlet extends HttpServlet {
 				System.out.println("minday: "+minday);
 				System.out.println("motno: "+motno);
 
-				MotorVO motorQueryVO = motorSvc.findByPK(motno);
+				MotorForRentOrdVO motorQueryVO = motorSvc.findByPK(motno);
 				Set<RentOrdVO> set = roSvc.getBymotno(motno);
 				System.out.println("set: "+set.size());
 				
@@ -478,7 +478,7 @@ public class RentOrdServlet extends HttpServlet {
 
 			//1
 			MotorForRentOrdService motorSvc = new MotorForRentOrdService();
-			MotorVO motorQueryVO = motorSvc.findByPK(motno);
+			MotorForRentOrdVO motorQueryVO = motorSvc.findByPK(motno);
 			
 			MotorModelService mmSvc = new MotorModelService();
 			MotorModelVO mmVO = mmSvc.findByPK(motorQueryVO.getModtype());			
@@ -486,15 +486,15 @@ public class RentOrdServlet extends HttpServlet {
 			
 			//2
 			EquipmentForRentOrdService efro = new EquipmentForRentOrdService();
-			List<EquipmentVO> templist = new ArrayList<EquipmentVO>();
+			List<EquipmentForRentOrdVO> templist = new ArrayList<EquipmentForRentOrdVO>();
 
 			
-			List<EquipmentVO> eVOList = new ArrayList<EquipmentVO>();
+			List<EquipmentForRentOrdVO> eVOList = new ArrayList<EquipmentForRentOrdVO>();
 			
-			List<EquipmentVO> ecno1_List = new ArrayList<EquipmentVO>();
-			List<EquipmentVO> ecno2_List = new ArrayList<EquipmentVO>();
-			List<EquipmentVO> ecno3_List = new ArrayList<EquipmentVO>();
-			List<EquipmentVO> ecno4_List = new ArrayList<EquipmentVO>();
+			List<EquipmentForRentOrdVO> ecno1_List = new ArrayList<EquipmentForRentOrdVO>();
+			List<EquipmentForRentOrdVO> ecno2_List = new ArrayList<EquipmentForRentOrdVO>();
+			List<EquipmentForRentOrdVO> ecno3_List = new ArrayList<EquipmentForRentOrdVO>();
+			List<EquipmentForRentOrdVO> ecno4_List = new ArrayList<EquipmentForRentOrdVO>();
 			
 			String emtno_list_str = "";
 			StringBuilder str= new StringBuilder();
@@ -537,16 +537,16 @@ public class RentOrdServlet extends HttpServlet {
 			}
 			
 			
-			Set<EquipmentVO> offdutyEquipmentVOSet = new LinkedHashSet<EquipmentVO>();
+			Set<EquipmentForRentOrdVO> offdutyEquipmentVOSet = new LinkedHashSet<EquipmentForRentOrdVO>();
 			List<String> rentnolist = roSvc.getRentnoByRentalPeriod(start_time2, end_time2);
-			Set<EquipmentVO> tempSet = new LinkedHashSet<EquipmentVO>();
+			Set<EquipmentForRentOrdVO> tempSet = new LinkedHashSet<EquipmentForRentOrdVO>();
 			
 			//找出所有時段內不可再租借的裝備   offdutyEquipmentVOSet
 			for(String rentno : rentnolist){
 				tempSet = roSvc.getEquipmentVOsByRentno(rentno);
-				for(EquipmentVO tempVO : tempSet){
+				for(EquipmentForRentOrdVO tempVO : tempSet){
 					int count =0;
-					for(EquipmentVO offeVO:offdutyEquipmentVOSet){
+					for(EquipmentForRentOrdVO offeVO:offdutyEquipmentVOSet){
 						if(offeVO.getEmtno().equals(tempVO.getEmtno())){
 							count++;
 							break;
@@ -562,10 +562,10 @@ public class RentOrdServlet extends HttpServlet {
 			
 		
 			templist = efro.getEquipsByEcno("EC01");			
-			for(EquipmentVO tempVO: templist){
+			for(EquipmentForRentOrdVO tempVO: templist){
 				if(ecno1_List.size()<ecno1){
 					int count=0;
-					for(EquipmentVO t2VO : offdutyEquipmentVOSet){
+					for(EquipmentForRentOrdVO t2VO : offdutyEquipmentVOSet){
 						if(t2VO.getEmtno().equals(tempVO.getEmtno())){
 							count++;
 							break;
@@ -580,10 +580,10 @@ public class RentOrdServlet extends HttpServlet {
 			}
 			
 			templist = efro.getEquipsByEcno("EC02");			
-			for(EquipmentVO tempVO: templist){
+			for(EquipmentForRentOrdVO tempVO: templist){
 				if(ecno2_List.size()<ecno2){
 					int count=0;
-					for(EquipmentVO t2VO : offdutyEquipmentVOSet){
+					for(EquipmentForRentOrdVO t2VO : offdutyEquipmentVOSet){
 						if(t2VO.getEmtno().equals(tempVO.getEmtno())){
 							count++;
 							break;
@@ -598,10 +598,10 @@ public class RentOrdServlet extends HttpServlet {
 			}
 			
 			templist = efro.getEquipsByEcno("EC03");			
-			for(EquipmentVO tempVO: templist){
+			for(EquipmentForRentOrdVO tempVO: templist){
 				if(ecno3_List.size()<ecno3){
 					int count=0;
-					for(EquipmentVO t2VO : offdutyEquipmentVOSet){
+					for(EquipmentForRentOrdVO t2VO : offdutyEquipmentVOSet){
 						if(t2VO.getEmtno().equals(tempVO.getEmtno())){
 							count++;
 							break;
@@ -616,10 +616,10 @@ public class RentOrdServlet extends HttpServlet {
 			}
 			
 			templist = efro.getEquipsByEcno("EC04");			
-			for(EquipmentVO tempVO: templist){
+			for(EquipmentForRentOrdVO tempVO: templist){
 				if(ecno4_List.size()<ecno4){
 					int count=0;
-					for(EquipmentVO t2VO : offdutyEquipmentVOSet){
+					for(EquipmentForRentOrdVO t2VO : offdutyEquipmentVOSet){
 						if(t2VO.getEmtno().equals(tempVO.getEmtno())){
 							count++;
 							break;
@@ -634,7 +634,7 @@ public class RentOrdServlet extends HttpServlet {
 			}
 			
 			EmtCateService ecSvc = new EmtCateService();		
-			for(EquipmentVO eVO : eVOList){
+			for(EquipmentForRentOrdVO eVO : eVOList){
 				total += ecSvc.getOneEmtCate(eVO.getEcno()).getPrice() * totalday;
 			}
 			
@@ -715,7 +715,7 @@ public class RentOrdServlet extends HttpServlet {
 
 			//1
 			MotorForRentOrdService motorSvc = new MotorForRentOrdService();
-			MotorVO motorQueryVO = motorSvc.findByPK(motno);
+			MotorForRentOrdVO motorQueryVO = motorSvc.findByPK(motno);
 			
 			//2
 			System.out.println("confirmed_rentday"+ dayrange);
@@ -770,18 +770,18 @@ public class RentOrdServlet extends HttpServlet {
 			}	
 			
 			RentOrdService roSvc = new RentOrdService();
-			Set<EquipmentVO> tempSet = new LinkedHashSet<EquipmentVO>();
+			Set<EquipmentForRentOrdVO> tempSet = new LinkedHashSet<EquipmentForRentOrdVO>();
 			
 			
-			Set<EquipmentVO> offdutyEquipmentVOSet = new LinkedHashSet<EquipmentVO>();
+			Set<EquipmentForRentOrdVO> offdutyEquipmentVOSet = new LinkedHashSet<EquipmentForRentOrdVO>();
 			List<String> rentnolist = roSvc.getRentnoByRentalPeriod(start_time2, end_time2);
 			
 			//找出所有時段內不可再租借的裝備   offdutyEquipmentVOSet
 			for(String rentno : rentnolist){
 				tempSet = roSvc.getEquipmentVOsByRentno(rentno);
-				for(EquipmentVO tempVO : tempSet){
+				for(EquipmentForRentOrdVO tempVO : tempSet){
 					int count =0;
-					for(EquipmentVO offeVO:offdutyEquipmentVOSet){
+					for(EquipmentForRentOrdVO offeVO:offdutyEquipmentVOSet){
 						if(offeVO.getEmtno().equals(tempVO.getEmtno())){
 							count++;
 							break;
@@ -796,21 +796,21 @@ public class RentOrdServlet extends HttpServlet {
 			System.out.println("offdutySet.size = "+offdutyEquipmentVOSet.size());
 
 			EquipmentForRentOrdService eSvc = new EquipmentForRentOrdService();
-			List<EquipmentVO> templist = new ArrayList<EquipmentVO>();
+			List<EquipmentForRentOrdVO> templist = new ArrayList<EquipmentForRentOrdVO>();
 			
-			List<EquipmentVO> ecno1_List = new ArrayList<EquipmentVO>();
-			List<EquipmentVO> ecno2_List = new ArrayList<EquipmentVO>();
-			List<EquipmentVO> ecno3_List = new ArrayList<EquipmentVO>();
-			List<EquipmentVO> ecno4_List = new ArrayList<EquipmentVO>();
+			List<EquipmentForRentOrdVO> ecno1_List = new ArrayList<EquipmentForRentOrdVO>();
+			List<EquipmentForRentOrdVO> ecno2_List = new ArrayList<EquipmentForRentOrdVO>();
+			List<EquipmentForRentOrdVO> ecno3_List = new ArrayList<EquipmentForRentOrdVO>();
+			List<EquipmentForRentOrdVO> ecno4_List = new ArrayList<EquipmentForRentOrdVO>();
 			StringBuilder str = new StringBuilder();
 			String availableEmtnoList = "";
 			
 		
 			templist = eSvc.getEquipsByEcno("EC01");			
-			for(EquipmentVO tempVO: templist){
+			for(EquipmentForRentOrdVO tempVO: templist){
 				if(ecno1_List.size()<2){
 					int count=0;
-					for(EquipmentVO t2VO : offdutyEquipmentVOSet){
+					for(EquipmentForRentOrdVO t2VO : offdutyEquipmentVOSet){
 						if(t2VO.getEmtno().equals(tempVO.getEmtno())){
 							count++;
 							break;
@@ -824,10 +824,10 @@ public class RentOrdServlet extends HttpServlet {
 			}
 			
 			templist = eSvc.getEquipsByEcno("EC02");			
-			for(EquipmentVO tempVO: templist){
+			for(EquipmentForRentOrdVO tempVO: templist){
 				if(ecno2_List.size()<2){
 					int count=0;
-					for(EquipmentVO t2VO : offdutyEquipmentVOSet){
+					for(EquipmentForRentOrdVO t2VO : offdutyEquipmentVOSet){
 						if(t2VO.getEmtno().equals(tempVO.getEmtno())){
 							count++;
 							break;
@@ -841,10 +841,10 @@ public class RentOrdServlet extends HttpServlet {
 			}
 			
 			templist = eSvc.getEquipsByEcno("EC03");			
-			for(EquipmentVO tempVO: templist){
+			for(EquipmentForRentOrdVO tempVO: templist){
 				if(ecno3_List.size()<2){
 					int count=0;
-					for(EquipmentVO t2VO : offdutyEquipmentVOSet){
+					for(EquipmentForRentOrdVO t2VO : offdutyEquipmentVOSet){
 						if(t2VO.getEmtno().equals(tempVO.getEmtno())){
 							count++;
 							break;
@@ -858,10 +858,10 @@ public class RentOrdServlet extends HttpServlet {
 			}
 			
 			templist = eSvc.getEquipsByEcno("EC04");			
-			for(EquipmentVO tempVO: templist){
+			for(EquipmentForRentOrdVO tempVO: templist){
 				if(ecno4_List.size()<2){
 					int count=0;
-					for(EquipmentVO t2VO : offdutyEquipmentVOSet){
+					for(EquipmentForRentOrdVO t2VO : offdutyEquipmentVOSet){
 						if(t2VO.getEmtno().equals(tempVO.getEmtno())){
 							count++;
 							break;
@@ -928,7 +928,7 @@ public class RentOrdServlet extends HttpServlet {
 			MotorForRentOrdService motorSvc = new MotorForRentOrdService();
 			RentOrdService roSvc = new RentOrdService();
 			
-			MotorVO motorQueryVO = motorSvc.findByPK(motno);
+			MotorForRentOrdVO motorQueryVO = motorSvc.findByPK(motno);
 			Set<RentOrdVO> set = roSvc.getBymotno(motno);
 			
 			
@@ -1059,16 +1059,16 @@ public class RentOrdServlet extends HttpServlet {
 				
 				RentOrdService roSvc = new RentOrdService();
 				MotorForRentOrdService mfroSvc = new MotorForRentOrdService();
-				Set<MotorVO> availableMotorVO= new LinkedHashSet<MotorVO>();
+				Set<MotorForRentOrdVO> availableMotorVO= new LinkedHashSet<MotorForRentOrdVO>();
 				
-				List<MotorVO> allMotorList = mfroSvc.getMotorsByRentalSide();
+				List<MotorForRentOrdVO> allMotorList = mfroSvc.getMotorsByRentalSide();
 				System.out.println("allMotorList.size()"+allMotorList.size());
-				List<MotorVO> notAllowMotorList = roSvc.getMotnoInRentOrdByRentalPeriod(start_time, end_time);
+				List<MotorForRentOrdVO> notAllowMotorList = roSvc.getMotnoInRentOrdByRentalPeriod(start_time, end_time);
 				
-				for(MotorVO mVO : allMotorList){
+				for(MotorForRentOrdVO mVO : allMotorList){
 					int count = 0;
 					//System.out.println("allMotorVO motno: " + mVO.getMotno());
-					for(MotorVO mVO2 : notAllowMotorList){
+					for(MotorForRentOrdVO mVO2 : notAllowMotorList){
 						//System.out.println("ngMotor: " + ngMotor);
 						
 						if(mVO2.getMotno().equals(mVO.getMotno())){
@@ -1083,7 +1083,7 @@ public class RentOrdServlet extends HttpServlet {
 					if(count==0){
 						//System.out.println("mVO.getMotno() IN COUNT AREA :"+ mVO.getMotno());
 						int count2 = 0;
-						for(MotorVO mVO2 : availableMotorVO){
+						for(MotorForRentOrdVO mVO2 : availableMotorVO){
 							
 							if(mVO.getModtype().equals(mVO2.getModtype())){
 								count2++;
@@ -1159,12 +1159,12 @@ public class RentOrdServlet extends HttpServlet {
 				RentOrdService roSvc = new RentOrdService();
 				RentOrdVO roQueryVO = roSvc.findByPK(rentno);
 
-				Set<EquipmentVO> set = roSvc.getEquipmentVOsByRentno(rentno);
+				Set<EquipmentForRentOrdVO> set = roSvc.getEquipmentVOsByRentno(rentno);
 				
 				String differDate = roSvc.differDateCalculator(rentno);
 				
 				MotorForRentOrdService motorSvc = new MotorForRentOrdService();
-				MotorVO motorQueryVO = motorSvc.findByPK(roQueryVO.getMotorVO().getMotno());
+				MotorForRentOrdVO motorQueryVO = motorSvc.findByPK(roQueryVO.getMotorVO().getMotno());
 
 				MemberService memSvc = new MemberService();
 				MemberVO memQueryVO = memSvc.getOneMember(roQueryVO.getMemno());
@@ -1242,10 +1242,10 @@ public class RentOrdServlet extends HttpServlet {
 						RentOrdService roSvc = new RentOrdService();
 						RentOrdVO roQueryVO = roSvc.findByPK(rentno);
 
-						Set<EquipmentVO> set = roSvc.getEquipmentVOsByRentno(rentno);
+						Set<EquipmentForRentOrdVO> set = roSvc.getEquipmentVOsByRentno(rentno);
 
 						MotorForRentOrdService motorSvc = new MotorForRentOrdService();
-						MotorVO motorQueryVO = motorSvc.findByPK(roQueryVO.getMotorVO().getMotno());
+						MotorForRentOrdVO motorQueryVO = motorSvc.findByPK(roQueryVO.getMotorVO().getMotno());
 
 						MemberService memSvc = new MemberService();
 						MemberVO memQueryVO = memSvc.getOneMember(roQueryVO.getMemno());
@@ -1606,7 +1606,7 @@ public class RentOrdServlet extends HttpServlet {
 				System.out.println("query-started");
 				RentOrdService roSvc = new RentOrdService();
 				RentOrdVO roQueryVO = roSvc.findByPK(rentno);
-				Set<EquipmentVO> set = roSvc.getEquipmentVOsByRentno(rentno);
+				Set<EquipmentForRentOrdVO> set = roSvc.getEquipmentVOsByRentno(rentno);
 				
 				if (roQueryVO == null) {
 					errorMsgs.add("查無資料");
