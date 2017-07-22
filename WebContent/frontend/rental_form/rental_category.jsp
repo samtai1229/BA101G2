@@ -11,21 +11,18 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
-	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>  	
-	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>	
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">     
+
+ 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/jquery_ui_1_10_3_theme.css"/>	
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.css">        
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css" >
-
-	<%-- basic --%>
-	<link href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-	<link href="<%=request.getContextPath()%>/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-	<link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css' />
-	<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.min.css" rel="stylesheet" />
-	<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.css" rel="stylesheet" />
-	<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" rel="stylesheet" />
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/vendor/font-awesome/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/google_family_kaushan_script.css" />
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.min.css" />
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.css" />
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" />
+	
 </head>
 <style type="text/css">
 .gallery-title {
@@ -110,44 +107,51 @@ body {
 	    background-size: cover;
 }
 
+.navTextTag{
+	font-size:16px!important;
+}
+
 </style>
 
 <body>
 
 <%-- Navigation --%>
 	<nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header page-scroll">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
-                </button>
-                   <a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/index.jsp">AutoBike</a>
-            </div>
-
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header page-scroll">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+				</button>
+				<a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/index.jsp">AutoBike</a>
+			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
-			 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				 <ul class="nav navbar-nav navbar-right">
-                    <li class="hidden">
-                        <a href="#page-top"></a>
-                          <li><a class="page-scroll" href="<%=request.getContextPath()%>/index.jsp">
-                          	<i class="glyphicon glyphicon-home"></i>回首頁</a>
-                          </li>
+					<li class="hidden"><a href="#page-top"></a></li>
+					<li><a class="page-scroll navTextTag" href="<%=request.getContextPath()%>/index.jsp">
+						<i class="glyphicon glyphicon-home"></i>
+						回首頁</a>
+					</li>
+					<li>
+						<a class="page-scroll navTextTag" href="<%=request.getContextPath()%>/frontend/rental_form/rental_category.jsp">
+						<i class="glyphicon glyphicon-heart"></i>
+						我要租車</a>
+					</li>
+					<li>
+						<a class="navTextTag" href="<%=request.getContextPath()%>/frontend/second_order/listAllSecond.jsp">
+						<i class="fa fa-shopping-cart"></i>
+						二手車購買</a>
+					</li>
 					<c:if test="${not empty memno}">	
-							<li>
-								<a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">
-									<b>會員專區</b>
-								</a>
-							</li>
-							<li><a href="#">歡迎，${(memname == null) ? '會員':memname}</a></li>
 						<li>
-							<a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout"
-							data-toggle="modal"><i class="glyphicon glyphicon-user"></i>登出</a>
+							<a class="navTextTag" href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">
+							會員專區</a>
 						</li>
-					</c:if>
-					<c:if test="${ empty memno}">
+						<li><a class="navTextTag" href="#" class="disabled">歡迎，${(memname == null) ? '會員':memname}</a></li>
 						<li>
-							<a href="#modal-id" data-toggle="modal"><i class="glyphicon glyphicon-user"></i>會員登入</a>
+							<a class="navTextTag" href="<%=request.getContextPath()%>/backend/member/member.do?action=logout" data-toggle="modal"><i class="glyphicon glyphicon-user"></i>
+							登出</a>
 						</li>
 					</c:if>
 				</ul>
@@ -162,10 +166,6 @@ body {
 	<!-- 租車主軸Header -->
 
 <%----------------------------------------------------VVVV building area VVVV-----------------------------------------------------------%>
-	
-
-
-
 
 <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 
@@ -179,7 +179,6 @@ body {
 				<button class="btn btn-default filter-button" data-filter="all">全部車種</button>
 				<button class="btn btn-default filter-button" data-filter="light">輕旅租車</button>
 				<button class="btn btn-default filter-button" data-filter="heavy">重機專區</button>
- 				<!-- <button class="btn btn-default filter-button" data-filter="new" disabled>新車上架</button> -->
 			</div>
 			<br />
 
@@ -250,41 +249,38 @@ body {
 			</div>
 		</div>
 	</footer>
-	
-	
-	
-
-	
+	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_1_10_1_min.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/agency.min.js"></script>
 	<script type="text/javascript">
 	
 //動態過濾功能		
 
-		$(document).ready(function() {
+	$(document).ready(function() {
 
-			$(".filter-button").click(function() {
-				var value = $(this).attr('data-filter');
+		$(".filter-button").click(function() {
+			var value = $(this).attr('data-filter');
 
-				if (value == "all") {
-					//$('.filter').removeClass('hidden');
-					$('.filter').show('1000');
-				} else {
-					//            $('.filter[filter-item="'+value+'"]').removeClass('hidden');
-					//            $(".filter").not('.filter[filter-item="'+value+'"]').addClass('hidden');
-					$(".filter").not('.' + value).hide('3000');
-					$('.filter').filter('.' + value).show('3000');
+			if (value == "all") {
+				//$('.filter').removeClass('hidden');
+				$('.filter').show('1000');
+			} else {
+				//            $('.filter[filter-item="'+value+'"]').removeClass('hidden');
+				//            $(".filter").not('.filter[filter-item="'+value+'"]').addClass('hidden');
+				$(".filter").not('.' + value).hide('3000');
+				$('.filter').filter('.' + value).show('3000');
 
-				}
-			});
-
-			if ($(".filter-button").removeClass("active")) {
-				$(this).removeClass("active");
 			}
-			$(this).addClass("active");
-
 		});
+
+		if ($(".filter-button").removeClass("active")) {
+			$(this).removeClass("active");
+		}
+		$(this).addClass("active");
+
+	});
 		
 //end 動態過濾功能		
-		
 		
 //回到上頁功能		
 		// When the user scrolls down 20px from the top of the document, show the button
@@ -305,25 +301,5 @@ body {
 		}
 //end 回到上頁功能		
 	</script>
-	
-	
-	<script src="https://code.jquery.com/jquery.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://raw.githack.com/JaapMoolenaar/bootstrap-daterangepicker/master/moment.js"></script>
-    <script type="text/javascript" src="https://raw.githack.com/JaapMoolenaar/bootstrap-daterangepicker/master/daterangepicker.js"></script>
-
-		<!-- basic -->
-
-	<script src="<%=request.getContextPath()%>/js/owl.carousel.min.js"></script>
-	<script src="<%=request.getContextPath()%>/js/jquery.magnific-popup.min.js"></script>
-	<script src="<%=request.getContextPath()%>/js/agency.min.js"></script>
-	
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="<%=request.getContextPath()%>/backend/motor_model/Modified/paging_for_mm.js"></script>
-    <script src="<%=request.getContextPath()%>/backend/motor_model/Modified/motorModelNew.js"></script>   
-    <script src="<%=request.getContextPath()%>/backend/motor_model/Modified/motorKanli_for_mm.js"></script>
-    <script src="<%=request.getContextPath()%>/backend/motor_model/Modified/upload.js"></script> 
 </body>
 </html>

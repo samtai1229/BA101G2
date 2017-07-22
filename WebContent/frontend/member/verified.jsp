@@ -105,8 +105,7 @@
 <input type="hidden" name="action" value="update">
 <input type="hidden" name="memno" value="<%=memVO.getMemno()%>">
 <input type="hidden" name="status" value="<%=memVO.getStatus()%>">
-<input type="hidden" name="credate" value="<fmt:formatDate pattern = "yyyy-MM-dd HH:mm:ss" 
- value = "${memVO.credate}" />">
+<input type="hidden" name="credate" value="<fmt:formatDate pattern = "yyyy-MM-dd HH:mm:ss" value = "${memVO.credate}" />">
 <input type="submit" value="°e¥X­×§ï">
 </div>
 </FORM>
