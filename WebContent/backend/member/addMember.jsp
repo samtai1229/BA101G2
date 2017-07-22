@@ -20,14 +20,11 @@ MemberVO memVO = (MemberVO) request.getAttribute("memVO");
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
 
-	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>	
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">     
+ 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/jquery_ui_1_10_3_theme.css"/>	
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.css">       
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css" >
-	<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
-	<script type="text/javascript" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/dataTables.min.css">
 	
 <title>會員資料新增 - addSpot.jsp</title>
 </head>
@@ -236,6 +233,9 @@ textarea{
 		</div>
 	</div>
 </body>
+	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_1_10_1_min.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_ui_1_10_3.js"></script>
+	<script src="<%=request.getContextPath()%>/js/dataTables.min.js"></script>
 <script>
 function doFirst(){
 	document.getElementById('myFile').onchange = fileChange;
