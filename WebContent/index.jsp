@@ -4,7 +4,6 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.location.model.*"%>
 <%@ page import="com.news.model.*"%>
-<%-- 此頁練習採用 EL 的寫法取值 --%>
 
 <%
 	LocationService locSvc = new LocationService();
@@ -23,12 +22,11 @@
 	pageContext.setAttribute("newslist", newslist);
 	pageContext.setAttribute("error", error);
 	pageContext.setAttribute("listnormal",listnormal);
-	
 	pageContext.setAttribute("listsize",list.size());
 %>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta name="generator" content="HTML Tidy for HTML5 (experimental) for Windows https://github.com/w3c/tidy-html5/tree/c63cc39" />
 <meta charset="utf-8" />
@@ -40,11 +38,6 @@
 
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/news.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/twitter_bootstrap_3_3_7_min.css">
-
-<!-- Bootstrap Core CSS -->
-<link rel="stylesheet" href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css" />
-
-
 <!-- Custom Fonts -->
 <link rel="stylesheet" href="<%=request.getContextPath()%>/vendor/font-awesome/css/font-awesome.min.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/google_family_droid_serif.css" />
@@ -178,7 +171,6 @@
 							<input type="hidden" name="action" value="quick_search">
 							<input style="background-color: transparent; color:#fff;" type="submit" class="form-control" value="快速查詢">
 						</form>
-
               			<ul class="nav navbar-nav navbar-right">
        	                    <li class="hidden">
        	                    	<a href="#page-top"></a>
@@ -230,7 +222,6 @@
        							</li>
        						</c:if>
        					</ul>
-    
 			</div>
 			<!-- /.navbar-collapse -->
 		</div>
