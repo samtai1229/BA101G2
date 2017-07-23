@@ -13,17 +13,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 <title>Title Page</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" />
-<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/daterangepicker.css" />
 
-<%-- basic --%>
-<link href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-<link href="<%=request.getContextPath()%>/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-<link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css' />
-<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.min.css" rel="stylesheet" />
-<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.css" rel="stylesheet" />
-<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" rel="stylesheet" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" media="all" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/daterangepicker.css" media="all" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/vendor/font-awesome/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/google_family_kaushan_script.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.min.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" />
 
 </head>
 <style type="text/css">
@@ -90,6 +88,9 @@ p{
     z-index:1032;
 }
 
+.navTextTag{
+	font-size:16px!important;
+}
 
 </style>
 <body>
@@ -130,38 +131,41 @@ p{
 
 <%-- Navigation --%>
 	<nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header page-scroll">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
-                </button>
-                   <a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/index.jsp">AutoBike</a>
-            </div>
-
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header page-scroll">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+				</button>
+				<a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/index.jsp">AutoBike</a>
+			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
-			 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				 <ul class="nav navbar-nav navbar-right">
-                    <li class="hidden">
-                        <a href="#page-top"></a>
-                          <li><a class="page-scroll" href="<%=request.getContextPath()%>/index.jsp">
-                          	<i class="glyphicon glyphicon-home"></i>回首頁</a>
-                          </li>
+					<li class="hidden"><a href="#page-top"></a></li>
+					<li><a class="page-scroll navTextTag" href="<%=request.getContextPath()%>/index.jsp">
+						<i class="glyphicon glyphicon-home"></i>
+						回首頁</a>
+					</li>
+					<li>
+						<a class="page-scroll navTextTag" href="<%=request.getContextPath()%>/frontend/rental_form/rental_category.jsp">
+						<i class="glyphicon glyphicon-heart"></i>
+						我要租車</a>
+					</li>
+					<li>
+						<a class="navTextTag" href="<%=request.getContextPath()%>/frontend/second_order/listAllSecond.jsp">
+						<i class="fa fa-shopping-cart"></i>
+						二手車購買</a>
+					</li>
 					<c:if test="${not empty memno}">	
-							<li>
-								<a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">
-									<b>會員專區</b>
-								</a>
-							</li>
-							<li><a href="#">歡迎，${(memname == null) ? '會員':memname}</a></li>
 						<li>
-							<a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout"
-							data-toggle="modal"><i class="glyphicon glyphicon-user"></i>登出</a>
+							<a class="navTextTag" href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">
+							會員專區</a>
 						</li>
-					</c:if>
-					<c:if test="${ empty memno}">
+						<li><a class="navTextTag" href="#" class="disabled">歡迎，${(memname == null) ? '會員':memname}</a></li>
 						<li>
-							<a href="#modal-id" data-toggle="modal"><i class="glyphicon glyphicon-user"></i>會員登入</a>
+							<a class="navTextTag" href="<%=request.getContextPath()%>/backend/member/member.do?action=logout" data-toggle="modal"><i class="glyphicon glyphicon-user"></i>
+							登出</a>
 						</li>
 					</c:if>
 				</ul>
@@ -280,17 +284,17 @@ p{
 								<label for="check_2">
 										<div class="media">
 											<div class="pull-right">
-											<c:if test="${ecno2_List_size!=0}">
-												<select name="ecno2" id="number">
-													<option>0</option>
-												<c:if test="${ecno2_List_size>0}">
-													<option>1</option>
+												<c:if test="${ecno2_List_size!=0}">
+													<select name="ecno2" id="number">
+														<option>0</option>
+													<c:if test="${ecno2_List_size>0}">
+														<option>1</option>
+													</c:if>
+													<c:if test="${ecno2_List_size>1}">
+														<option>2</option>
+													</c:if>
+													</select>
 												</c:if>
-												<c:if test="${ecno2_List_size>1}">
-													<option>2</option>
-												</c:if>
-												</select>
-											</c:if>
 											</div>
 											<c:if test="${ecno2_List_size==0}">
 												<div class="pull-right">目前無庫存</div>
@@ -301,10 +305,10 @@ p{
 												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;數量:</div>
 											</c:if>
 											<div class="pull-left">
-											<a href="#" class="thumbnail" data-toggle="modal" data-target="#lightbox"> 
-												<img alt="Image" class="media-object" 
-												src="<%=request.getContextPath()%>/backend/emt_cate/ecReader.do?ecno=EC02" width="50px" height="50px">
-											</a>
+												<a href="#" class="thumbnail" data-toggle="modal" data-target="#lightbox"> 
+													<img alt="Image" class="media-object" 
+													src="<%=request.getContextPath()%>/backend/emt_cate/ecReader.do?ecno=EC02" width="50px" height="50px">
+												</a>
 											</div>
 											<div class="media-body">
 												<h4 class="media-heading">${ecSvc.getOneEmtCate("EC02").type}</h4>
@@ -439,11 +443,8 @@ p{
 		</div>
 	</footer>
 
-	<script src="https://code.jquery.com/jquery.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-		<!-- basic -->
-	
+	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_1_10_1_min.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.js"></script>
 	<script src="<%=request.getContextPath()%>/frontend/rental_form/Modified/quick_search_product.js"></script>
 	<script src="<%=request.getContextPath()%>/js/owl.carousel.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/jquery.magnific-popup.min.js"></script>
