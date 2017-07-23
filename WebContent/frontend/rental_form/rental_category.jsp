@@ -100,15 +100,31 @@
 }
 
 body {
-       background: url(/BA101G2/img/header1.jpg) no-repeat center center fixed; 
+       background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ),url(/BA101G2/img/header1.jpg) no-repeat center center fixed; 
 	    -webkit-background-size: cover;
 	    -moz-background-size: cover;
 	    -o-background-size: cover;
 	    background-size: cover;
 }
 
+
 .navTextTag{
 	font-size:16px!important;
+}
+
+
+
+#main:after {
+    content : "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: url(/BA101G2/img/header1.jpg); 
+    width: 100%;
+    height: 100%;
+    opacity : 0.2;
+    z-index: -1;
 }
 
 </style>
@@ -186,13 +202,6 @@ body {
 
 
 	 		<c:forEach var="mmVO" items="${mmSvc.all}">
-<%-- 	 			<c:set scope="page" var="displacementStr">
-					<c:out value="${mmVO.displacement}"/>
-				</c:set>
-				<%
-					int displacement = Integer.parseInt(String.valueOf(pageContext.getAttribute("displacementStr")));
-				%>
- --%>
 	  			<c:if test="${mmVO.displacement <=150}">
 					<div class="thumbnail col-lg-4 col-md-4 col-sm-6 col-xs-12  filter light">
 	                    <img src="<%=request.getContextPath()%>/backend/motor_model/mmReader.do?modtype=${mmVO.modtype}"
@@ -258,6 +267,7 @@ body {
 
 	$(document).ready(function() {
 
+
 		$(".filter-button").click(function() {
 			var value = $(this).attr('data-filter');
 
@@ -269,6 +279,7 @@ body {
 				//            $(".filter").not('.filter[filter-item="'+value+'"]').addClass('hidden');
 				$(".filter").not('.' + value).hide('3000');
 				$('.filter').filter('.' + value).show('3000');
+
 
 			}
 		});

@@ -39,9 +39,7 @@ select {
   line-height: 60px;
 }
 
-.media-object{
-	margin-left:20px;
-}
+.media-object{ margin-left:20px;}
 
 .btn{
 	margin-top:5px;
@@ -50,24 +48,11 @@ select {
 	
 }
 
-.t1{
+.t1{ margin-top:100px; }
 
-margin-top:100px;
+p{ height:20px; }
 
-}
-
-p{
-	height:20px;
-}
-
-.list-group-item, .InputForm{
-	color:#000;
-}
-
-/*light box  */
-/* body {
-    padding: 30px 0px;
-} */
+.list-group-item, .InputForm{ color:#000; }
 
 #lightbox .modal-content {
     display: inline-block;
@@ -84,13 +69,13 @@ p{
     position: absolute;
     top: -15px;
     right: -55px;
-    
     z-index:1032;
 }
 
-.navTextTag{
-	font-size:16px!important;
-}
+
+.navTextTag{ font-size:16px!important; }
+.btn{margin-top:20px;}
+
 
 </style>
 <body>
@@ -199,14 +184,13 @@ p{
 								</c:if>
 								<div class="dynamic-text">${mmSvc.findByPK(motorQueryVO.modtype).displacement}c.c.</div>
 							</div>
-							<div class="product-desc">The Corsair Gaming Series GS600
-								is the ideal price/performance choice for mid-spec gaming PC</div>
+							<div class="product-desc"></div>
 							<hr>
 							<div class="product-price">ら基  NT$${mmSvc.findByPK(motorQueryVO.modtype).renprice}</div>
 							<div class="dynamic-text">ó进絪腹 : ${motorQueryVO.motno}</div>
 							<div class="dynamic-text">癬﹍丁 : <mark>${startday}</mark></div>
 							<div class="dynamic-text">挡丁 : <mark>${endday}</mark></div>
-							<div class="dynamic-text">参璸 : <mark>${totalday}ぱ *  ${mmSvc.findByPK(motorQueryVO.modtype).renprice} NT$/ぱ
+							<div class="product-price">参璸 : <mark>${totalday}ぱ *  ${mmSvc.findByPK(motorQueryVO.modtype).renprice} NT$/ぱ
 							= NT$ ${mmSvc.findByPK(motorQueryVO.modtype).renprice * totalday}</mark></div>
 							<hr>
 

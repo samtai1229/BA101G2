@@ -113,7 +113,7 @@ color: #000;
 
 
 body {
-       background: url(/BA101G2/img/header1.jpg) no-repeat center center fixed; 
+       background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ),url(/BA101G2/img/header1.jpg) no-repeat center center fixed; 
 	    -webkit-background-size: cover;
 	    -moz-background-size: cover;
 	    -o-background-size: cover;
@@ -158,6 +158,25 @@ vertical-align: middle!important;
 
 .navTextTag{
 	font-size:16px!important;
+}
+
+#myBtn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  border: none;
+  outline: none;
+  background-color: red;
+  color: white;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+#myBtn:hover {
+  background-color: #555;
 }
 
 /****end 自已加的 ****/
@@ -237,6 +256,7 @@ vertical-align: middle!important;
 	String addStatus = (String)request.getAttribute("addStatus");
 %>
 
+<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 
 <div class="col-xs-12 col-sm-12" id="mamberDiv">
 		<c:if test="${memVO.status=='unconfirmed'||memVO.status=='uncompleted'}">
@@ -343,6 +363,22 @@ vertical-align: middle!important;
 			  xhttp.open("GET","<%=request.getContextPath()%>/backend/member/member.do?addaction=frontend&action=get_second_ord_per_member&memno=${memno}", true);
 			  xhttp.send();
 			}
+		 
+		 window.onscroll = function() {scrollFunction()};
+
+		 function scrollFunction() {
+		     if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+		         document.getElementById("myBtn").style.display = "block";
+		     } else {
+		         document.getElementById("myBtn").style.display = "none";
+		     }
+		 }
+
+		 // When the user clicks on the button, scroll to the top of the document
+		 function topFunction() {
+		     document.body.scrollTop = 0;
+		     document.documentElement.scrollTop = 0;
+		 }
 	 </script>
 
 

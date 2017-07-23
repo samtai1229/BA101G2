@@ -458,7 +458,6 @@ height: 500px;
 
 	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_1_10_1_min.js"></script>
 	<script src="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.js"></script>
-	<script src="<%=request.getContextPath()%>/frontend/rental_form/Modified/quick_search_product.js"></script>
 	<script src="<%=request.getContextPath()%>/js/owl.carousel.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/jquery.magnific-popup.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/agency.min.js"></script>

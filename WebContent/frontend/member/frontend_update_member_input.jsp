@@ -131,7 +131,7 @@ label{
 }
 
 body {
-       background: url(/BA101G2/img/header1.jpg) no-repeat center center fixed; 
+       background: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(/BA101G2/img/header1.jpg) no-repeat center center fixed; 
 	    -webkit-background-size: cover;
 	    -moz-background-size: cover;
 	    -o-background-size: cover;

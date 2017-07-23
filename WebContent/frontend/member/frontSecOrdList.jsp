@@ -63,31 +63,29 @@ td{
 <div class="col-xs-12 col-sm-12">
 <jsp:useBean id="motorSvc" scope="page" class="com.motor.model.MotorService"/>
 <jsp:useBean id="mmSvc" scope="page" class="com.motor_model.model.MotorModelService"/>
-<%@ include file="pages/page1.file" %> 
-<table class="table table-striped" border='1' width='100%' id="SOTable">
-	<tr>
-		<th style="text-align:center">二手車訂單編號</th>
-		<th style="text-align:center">會員編號</th>
-		<th style="text-align:center">車輛編號</th>
-		<th style="text-align:center">廠牌型號</th>
-		<th style="text-align:center">車輛圖片</th>
-		<th style="text-align:center">售價</th>
-		<th style="text-align:center">訂單成立時間</th>
-	</tr>
-	<c:forEach var="soVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" >
-		<tr align='center' valign='middle'>
-			<td>${soVO.sono}</td>
-			<td>${soVO.memno}</td>
-			<td>${soVO.motorno}</td>
-			<td>${mmSvc.findByPK(motorSvc.findByPK(soVO.motorno).modtype).brand} - ${mmSvc.findByPK(motorSvc.findByPK(soVO.motorno).modtype).name}</td>
-			<td><img src='<%=request.getContextPath()%>/backend/motor_model/mmReader.do?modtype=${motorSvc.findByPK(soVO.motorno).modtype}' width='200' height='200'></td>
-			<td>NT$ ${mmSvc.findByPK(motorSvc.findByPK(soVO.motorno).modtype).saleprice}</td>
-			<td><fmt:formatDate pattern = "yyyy-MM-dd hh:mm" value = "${soVO.buildtime}" /></td>
+	<table class="table table-striped" border='1' width='100%' id="SOTable">
+		<tr>
+			<th style="text-align:center">二手車訂單編號</th>
+			<th style="text-align:center">會員編號</th>
+			<th style="text-align:center">車輛編號</th>
+			<th style="text-align:center">廠牌型號</th>
+			<th style="text-align:center">車輛圖片</th>
+			<th style="text-align:center">售價</th>
+			<th style="text-align:center">訂單成立時間</th>
 		</tr>
-	</c:forEach>
-</table>
-<%@ include file="pages/page2.file" %>
-   </div>
+		<c:forEach var="soVO" items="${list}" >
+			<tr align='center' valign='middle'>
+				<td>${soVO.sono}</td>
+				<td>${soVO.memno}</td>
+				<td>${soVO.motorno}</td>
+				<td>${mmSvc.findByPK(motorSvc.findByPK(soVO.motorno).modtype).brand} - ${mmSvc.findByPK(motorSvc.findByPK(soVO.motorno).modtype).name}</td>
+				<td><img src='<%=request.getContextPath()%>/backend/motor_model/mmReader.do?modtype=${motorSvc.findByPK(soVO.motorno).modtype}' width='200' height='200'></td>
+				<td>NT$ ${mmSvc.findByPK(motorSvc.findByPK(soVO.motorno).modtype).saleprice}</td>
+				<td><fmt:formatDate pattern = "yyyy-MM-dd hh:mm" value = "${soVO.buildtime}" /></td>
+			</tr>
+		</c:forEach>
+	</table>
+</div>
 </body>
 
 	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_1_10_1_min.js"></script>

@@ -83,12 +83,17 @@ pageContext.setAttribute("end_time", end_time);
 pageContext.setAttribute("memno",memno);
 
 %>
-<%--<c:out value="${status}"></c:out>
- memno: <c:out value="${memno}" default="no member login" /><br>
-kk: <c:out value="${status}" default="no status login" /><br>
-start_time:<c:out value="${start_time}" default="no value"/><br>
-end_time:  <c:out value="${end_time}" default="no value"/><br>
-dayPicker <c:out value="${dayPicker}" default="no value"></c:out> --%>
+<%--
+
+	<c:out value="${status}"></c:out>
+	 memno: <c:out value="${memno}" default="no member login" /><br>
+	kk: <c:out value="${status}" default="no status login" /><br>
+	start_time:<c:out value="${start_time}" default="no value"/><br>
+	end_time:  <c:out value="${end_time}" default="no value"/><br>
+	dayPicker <c:out value="${dayPicker}" default="no value"></c:out> 
+
+--%>
+
 
 
 

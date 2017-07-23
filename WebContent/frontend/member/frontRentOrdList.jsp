@@ -118,7 +118,7 @@ li{
 } */
 
 body {
-       background: url(/BA101G2/img/header1.jpg) no-repeat center center fixed; 
+       background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url(/BA101G2/img/header1.jpg) no-repeat center center fixed; 
 	    -webkit-background-size: cover;
 	    -moz-background-size: cover;
 	    -o-background-size: cover;
@@ -155,6 +155,10 @@ padding:0px!important;
 line-height:51px!important;
 }
 
+th{
+	color:#fff;
+}
+
 
 .paginate_button{
 	background-color: #fff!important;
@@ -168,6 +172,11 @@ line-height:51px!important;
 .navTextTag{
 	font-size:16px!important;
 }
+
+
+td{min-width:50px;}
+tr.dataTr:nth-child(2n+1) {background: rgba(255, 255, 255, 0.95)!important;}
+tr.dataTr:nth-child(2n) {background: rgba(230, 230, 230, 0.95)!important;}
 
 
 /****end 自已加的 ****/
@@ -281,15 +290,15 @@ line-height:51px!important;
 		<th>取車時間</th>
 		<th>還車時間</th>
 		<th>租金</th>
-		<th>罰金</th>
 		<th>評價</th>
 		<th>租單狀態</th>
+		<th>其它</th>
 		</tr>
 	</thead>
 	<tbody>
 		<c:forEach var="roVO" items="${list}" >
 			<c:if test="${memno==roVO.memno}">
-				<tr align='center' valign='middle'>
+				<tr align='center' valign='middle' class="dataTr">
 					<td>
 						<form method="POST" target="print_popup" 
       				  		  action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do" 
@@ -307,7 +316,6 @@ line-height:51px!important;
 					<td><fmt:formatDate pattern = "yyyy/MM/dd hh:mm a" value = "${roVO.startdate}" /></td>
 					<td><fmt:formatDate pattern = "yyyy/MM/dd hh:mm a" value = "${roVO.returndate}" /></td>				
 					<td>${roVO.total}</td>
-					<td>${roVO.fine}</td>
 					<td>${roVO.rank}</td>
 					
 					<c:set scope="page" var="temp">
@@ -319,6 +327,19 @@ line-height:51px!important;
 					%>
 					<td><%=statusMap.get(key)%></td>
 					<%};%>
+					<!-- onsubmit="window.open('about:blank','print_popup','width=1000,height=900');" -->
+					<td>
+						<c:if test="${roVO.status == 'unpaid' || roVO.status =='unoccupied'}">
+							<form method="POST" target="print_popup" 
+	      				  		  action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do" 
+	       						  >
+								<input type="hidden" name="rentno" value="${roVO.rentno}">
+								<input type="hidden" name="status" value="canceled">
+								<input type="hidden" name="action" value="member_cancel_rentord">
+								<input type="submit" class="btn btn-default queryTag" onClick="return repeat_click_check()" id="submitBtn" value="申請取消">
+							</form>
+						</c:if>
+					</td>
 				</tr>
 			</c:if>
 		</c:forEach>
@@ -342,6 +363,19 @@ line-height:51px!important;
 	<script src="<%=request.getContextPath()%>/js/dataTables.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/agency.min.js"></script>
 <script>
+
+count=0;
+function repeat_click_check(){
+
+	//result
+	if(count!=0){
+		alert("該筆訂單已點擊過取消申請，請勿重覆點擊。");
+		return false;
+	}else{
+		window.open('about:blank','print_popup','width=1000,height=900');
+	}
+	count++;
+}
 //table
 $(document).ready(function(){
 	var datatableInstance = $('#dataTable').DataTable({

@@ -125,7 +125,7 @@ color: #000;
 
 
 body {
-       background: url(/BA101G2/img/header1.jpg) no-repeat center center fixed; 
+       background:  linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url(/BA101G2/img/header1.jpg) no-repeat center center fixed; 
 	    -webkit-background-size: cover;
 	    -moz-background-size: cover;
 	    -o-background-size: cover;
