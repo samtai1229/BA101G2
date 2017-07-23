@@ -9,15 +9,18 @@
 
 <!DOCTYPE html>
 <html>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" media="all" href="https://raw.githack.com/JaapMoolenaar/bootstrap-daterangepicker/master/daterangepicker.css" />
-
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/twitter_bootstrap_3_3_7_min.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/daterangepicker.css" />
 <head>
 <style>
 .control-label, .form-control{
 
 font-size:18px;
 
+}
+
+.navTextTag{
+	font-size:16px!important;
 }
 
 </style>
@@ -35,11 +38,7 @@ font-size:18px;
 				</div>
 				<div class="panel-body">
 				
-				
-				
-				
-					<form method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do"><%-----------------------------------------------------------------form --%>	
-						
+					<form method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do">
 						<div id="div_rentno" class="form-group required">
 							<label for="id_rentno"
 								class="control-label col-md-3  requiredField">
@@ -71,7 +70,8 @@ font-size:18px;
 							</label>
 							<div class="controls col-md-9 ">
 								<input class="input-md  textinput textInput form-control"
-									id="id_motno" maxlength="30" name="motno" value="${roQueryVO.motorVO.motno}&nbsp;&nbsp;&nbsp;${mmSvc.findByPK(roQueryVO.motorVO.modtype).brand}&nbsp;&nbsp;&nbsp;${mmSvc.findByPK(roQueryVO.motorVO.modtype).name}"
+									id="id_motno" maxlength="30" name="motno" 
+									value="${roQueryVO.motorVO.motno}&nbsp;&nbsp;&nbsp;${mmSvc.findByPK(roQueryVO.motorVO.modtype).brand}&nbsp;&nbsp;&nbsp;${mmSvc.findByPK(roQueryVO.motorVO.modtype).name}"
 									placeholder="請填入車輛編號"
 									style="margin-bottom: 10px" type="text" placeholder="no data" disabled/>
 							</div>
@@ -320,89 +320,11 @@ font-size:18px;
 								</div>
 							</div>
 						</div>
-												
 					</form>
-					
-					
 					
 				</div>
 			</div>
 		</div>
 	</div>
-
-
 </body>
-<script src="https://code.jquery.com/jquery.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="https://raw.githack.com/JaapMoolenaar/bootstrap-daterangepicker/master/moment.js"></script>
-<script type="text/javascript" src="https://raw.githack.com/JaapMoolenaar/bootstrap-daterangepicker/master/daterangepicker.js"></script>
-<script type="text/javascript">
-
-<%--timepicker--%>	
-$(document).ready(function() {
-    $('.timer').daterangepicker({
-        "autoUpdateInput": false,
-        "singleDatePicker": true,
-        "timePicker": true,
-        "timePicker24Hour": true,
-        "timePickerIncrement": 30,
-        locale: {
-            cancelLabel: 'Clear'
-        }
-    });
-
-    $('.timer').on('apply.daterangepicker', function(ev, picker) {
-        $(this).val(picker.startDate.format('MM/DD/YYYY  H:mm'));
-    });
-
-    $('.timer').on('cancel.daterangepicker', function(ev, picker) {
-        $(this).val('');
-    });
-    
-});	
-	
-	
-$(document).ready(function() {
-    var enrollType;	
-	function toggleLearnerTrainer() {
-
-	if (memberType == 'P' || enrollType=='company') {
-		$("#cityField").hide();
-		$("#providerType").show();
-		$(".provider").show();
-		$(".locationField").show();
-		if(enrollType=='INSTITUTE'){
-			$(".individ").hide();
-		}
-	
-	} 
-    else {
-		$("#providerType").hide();
-		$(".provider").hide();
-		$('#name').show();
-		$("#cityField").hide();
-		$(".locationField").show();
-		$("#instituteName").hide();
-		$("#cityField").show();
-		
-	}
-    }
-    function toggleIndividInfo(){
-
-	if(((typeof memberType!=='undefined' && memberType == 'TRAINER')||enrollType=='INSTITUTE') && providerType=='INDIVIDUAL'){
-		$("#instituteName").hide();
-		$(".individ").show();
-		$('#name').show();
-	}
-    else if((typeof memberType!=='undefined' && memberType == 'TRAINER')|| enrollType=='INSTITUTE'){
-		$('#name').hide();
-		$("#instituteName").show();
-		$(".individ").hide();
-	}
-    }
-   
- });
-
-</script>
 </html>

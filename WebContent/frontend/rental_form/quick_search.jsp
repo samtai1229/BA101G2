@@ -11,21 +11,18 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-<title>Title Page</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" />
-<link rel="stylesheet" type="text/css" media="all" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/daterangepicker.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
-<%-- basic --%>
-<link href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-<link href="<%=request.getContextPath()%>/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-<link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css' />
-<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.min.css" rel="stylesheet" />
-<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.css" rel="stylesheet" />
-<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" rel="stylesheet" />
+<title>Title Page</title>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/twitter_bootstrap_3_3_7_min.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" media="all" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/daterangepicker.css" media="all" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/vendor/font-awesome/css/font-awesome.min.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/google_family_kaushan_script.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.min.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" />
 
 </head>
 <style>
@@ -128,7 +125,7 @@ color: #000;
 
 
 body {
-       background: url(/BA101G2/img/header1.jpg) no-repeat center center fixed; 
+       background:  linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url(/BA101G2/img/header1.jpg) no-repeat center center fixed; 
 	    -webkit-background-size: cover;
 	    -moz-background-size: cover;
 	    -o-background-size: cover;
@@ -194,6 +191,11 @@ body {
   text-align: center;
 }
 
+
+.navTextTag{
+	font-size:16px!important;
+}
+
 /****end 自已加的 ****/
 </style>
 <%
@@ -208,43 +210,43 @@ body {
 
 <div style="display:none;" id="myDiv" class="animate-bottom"></div>
 
-
-
-
 <%-- Navigation --%>
 	<nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header page-scroll">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
-                </button>
-                   <a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/index.jsp">AutoBike</a>
-            </div>
-
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header page-scroll">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+				</button>
+				<a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/index.jsp">AutoBike</a>
+			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
-			 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				 <ul class="nav navbar-nav navbar-right">
-                    <li class="hidden">
-                        <a href="#page-top"></a>
-                          <li><a class="page-scroll" href="<%=request.getContextPath()%>/index.jsp">
-                          	<i class="glyphicon glyphicon-home"></i>回首頁</a>
-                          </li>
+					<li class="hidden"><a href="#page-top"></a></li>
+					<li><a class="page-scroll navTextTag" href="<%=request.getContextPath()%>/index.jsp">
+						<i class="glyphicon glyphicon-home"></i>
+						回首頁</a>
+					</li>
+					<li>
+						<a class="page-scroll navTextTag" href="<%=request.getContextPath()%>/frontend/rental_form/rental_category.jsp">
+						<i class="glyphicon glyphicon-heart"></i>
+						我要租車</a>
+					</li>
+					<li>
+						<a class="navTextTag" href="<%=request.getContextPath()%>/frontend/second_order/listAllSecond.jsp">
+						<i class="fa fa-shopping-cart"></i>
+						二手車購買</a>
+					</li>
 					<c:if test="${not empty memno}">	
-							<li>
-								<a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">
-									<b>會員專區</b>
-								</a>
-							</li>
-							<li><a href="#">歡迎，${(memname == null) ? '會員':memname}</a></li>
 						<li>
-							<a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout"
-							data-toggle="modal"><i class="glyphicon glyphicon-user"></i>登出</a>
+							<a class="navTextTag" href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">
+							會員專區</a>
 						</li>
-					</c:if>
-					<c:if test="${ empty memno}">
+						<li><a class="navTextTag" href="#" class="disabled">歡迎，${(memname == null) ? '會員':memname}</a></li>
 						<li>
-							<a href="#modal-id" data-toggle="modal"><i class="glyphicon glyphicon-user"></i>會員登入</a>
+							<a class="navTextTag" href="<%=request.getContextPath()%>/backend/member/member.do?action=logout" data-toggle="modal"><i class="glyphicon glyphicon-user"></i>
+							登出</a>
 						</li>
 					</c:if>
 				</ul>
@@ -254,19 +256,14 @@ body {
 <%--end Navigation --%>
 	
 	
-	<div id="blocker"></div>
+<div id="blocker"></div>
 
 
-	<!-- 租車主軸Header -->
+<!-- 租車主軸Header -->
 
 <%----------------------------------------------------VVVV building area VVVV-----------------------------------------------------------%>
 	
 	
-	
-
-
-
-
 <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 	
 		<div class="container container-pad" id="property-listings">
@@ -295,7 +292,7 @@ body {
 									<a href="#" target="_parent"></a>
 									<h4 class="media-heading"><a href="#" target="_parent">${mmSvc.findByPK(motorVO.modtype).name}
 									<small class="pull-right"></small></a></h4>
-									<ul class="list-inline mrg-0 btm-mrg-10 clr-535353"><%-- reference: ${ecSvc.getOneEmtCate(emtVO.ecno).type} --%>
+									<ul class="list-inline mrg-0 btm-mrg-10 clr-535353">
 										<li>${mmSvc.findByPK(motorVO.modtype).brand}</li><br>
 										<li>${mmSvc.findByPK(motorVO.modtype).displacement}c.c.</li>
 										<c:if test="${mmSvc.findByPK(motorVO.modtype).displacement > 150}">
@@ -381,20 +378,14 @@ body {
 		</div>
 	</footer>
 	
-	
-	<script src="https://code.jquery.com/jquery.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://raw.githack.com/JaapMoolenaar/bootstrap-daterangepicker/master/moment.js"></script>
-    <script type="text/javascript" src="https://raw.githack.com/JaapMoolenaar/bootstrap-daterangepicker/master/daterangepicker.js"></script>
-
-		<!-- basic -->
-
+	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_1_10_1_min.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/moment.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/daterangepicker.js"></script>
 	<script src="<%=request.getContextPath()%>/js/owl.carousel.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/jquery.magnific-popup.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/agency.min.js"></script>
 	
-
 </body>
 <script>
 
@@ -409,8 +400,6 @@ function showPage() {
   document.getElementById("loader").style.display = "none";
   document.getElementById("myDiv").style.display = "block";
 }
-
-
 
 //When the user scrolls down 20px from the top of the document, show the button
 window.onscroll = function() {scrollFunction()};
@@ -430,5 +419,4 @@ function topFunction() {
 }
 
 </script>
-
 </html>

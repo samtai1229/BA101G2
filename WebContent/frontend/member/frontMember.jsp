@@ -113,7 +113,7 @@ color: #000;
 
 
 body {
-       background: url(/BA101G2/img/header1.jpg) no-repeat center center fixed; 
+       background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ),url(/BA101G2/img/header1.jpg) no-repeat center center fixed; 
 	    -webkit-background-size: cover;
 	    -moz-background-size: cover;
 	    -o-background-size: cover;
@@ -156,7 +156,28 @@ vertical-align: middle!important;
 }
 
 
+.navTextTag{
+	font-size:16px!important;
+}
 
+#myBtn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  border: none;
+  outline: none;
+  background-color: red;
+  color: white;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+#myBtn:hover {
+  background-color: #555;
+}
 
 /****end 自已加的 ****/
 </style>
@@ -165,62 +186,65 @@ vertical-align: middle!important;
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 <title>Title Page</title>
-	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>  	
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">     
 
-
-<%-- basic --%>
-<link href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-<link href="<%=request.getContextPath()%>/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-<link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css' />
-<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.min.css" rel="stylesheet" />
-<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.css" rel="stylesheet" />
-<link href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" rel="stylesheet" />
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/jquery_ui_1_10_3_theme.css"/>
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/twitter_bootstrap_3_3_7_min.css">   
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/vendor/font-awesome/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/google_family_kaushan_script.css" />
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.min.css"  />
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.css" />
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" />
 
 </head>
 <title>會員資料 - listOneMember.jsp</title>
 
 <body>
 
-<!-- Navigation -->
+<%-- Navigation --%>
 	<nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
 		<div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header page-scroll">
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target="#bs-example-navbar-collapse-1">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 					<span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
 				</button>
 				<a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/index.jsp">AutoBike</a>
 			</div>
-
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav navbar-right">
+				 <ul class="nav navbar-nav navbar-right">
 					<li class="hidden"><a href="#page-top"></a></li>
-					<li><a class="page-scroll" href="<%=request.getContextPath()%>/frontend/rental_form/rental_category.jsp">
-					<i class="glyphicon glyphicon-heart"></i>我要租車</a></li>
-					<li><a class="page-scroll" href="#news">
-					<i class="glyphicon glyphicon-alert"></i>最新消息</a></li>
-					<li><a class="page-scroll" href="#board">
-					<i class="fa fa-comments-o"></i>留言板</a></li>
-					<li><a class="page-scroll" href="#loc">
-					<i class="fa fa-search"></i>服務據點</a></li>
-					<li><a href="<%=request.getContextPath()%>/backend/member/member.do">
-					<i class="fa fa-shopping-cart"></i>二手車購買</a></li>
-					<c:if test="${not empty memno}">
-						<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">歡迎，${(memname == null) ? '會員':memname}</a></li>
-						<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout" data-toggle="modal">
-						<i class="glyphicon glyphicon-user"></i>登出</a>
+					<li><a class="page-scroll navTextTag" href="<%=request.getContextPath()%>/index.jsp">
+						<i class="glyphicon glyphicon-home"></i>
+						回首頁</a>
+					</li>
+					<li>
+						<a class="page-scroll navTextTag" href="<%=request.getContextPath()%>/frontend/rental_form/rental_category.jsp">
+						<i class="glyphicon glyphicon-heart"></i>
+						我要租車</a>
+					</li>
+					<li>
+						<a class="navTextTag" href="<%=request.getContextPath()%>/frontend/second_order/listAllSecond.jsp">
+						<i class="fa fa-shopping-cart"></i>
+						二手車購買</a>
+					</li>
+					<c:if test="${not empty memno}">	
+						<li>
+							<a class="navTextTag" href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">
+							會員專區</a>
+						</li>
+						<li><a class="navTextTag" href="#" class="disabled">歡迎，${(memname == null) ? '會員':memname}</a></li>
+						<li>
+							<a class="navTextTag" href="<%=request.getContextPath()%>/backend/member/member.do?action=logout" data-toggle="modal"><i class="glyphicon glyphicon-user"></i>
+							登出</a>
 						</li>
 					</c:if>
 				</ul>
 			</div>
-			<!-- /.navbar-collapse -->
 		</div>
-		<!-- /.container-fluid -->
 	</nav>
+<%--end Navigation --%>
 	
 	<div id="blocker"></div>
 
@@ -232,6 +256,7 @@ vertical-align: middle!important;
 	String addStatus = (String)request.getAttribute("addStatus");
 %>
 
+<button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
 
 <div class="col-xs-12 col-sm-12" id="mamberDiv">
 		<c:if test="${memVO.status=='unconfirmed'||memVO.status=='uncompleted'}">
@@ -322,21 +347,11 @@ vertical-align: middle!important;
 
 		<%----------------------------------------------------^^^^ building area ^^^^-----------------------------------------------------------%>		
 
-<!-- 	<footer>
-		<div class="container-fluid topdiv">
-			<div class="col-xs-12 col-sm-4">
-				<span>地址:桃園市平鎮區中央路115號</span>
-			</div>
-			<div class="col-xs-12 col-sm-4">
-				<span>EMAIL:taic@oregonstate.edu</span>
-			</div>
-			<div class="col-xs-12 col-sm-4">
-				<span>TEL:0900-000-000</span>
-			</div>
-		</div>
-	</footer> -->
-	
-	
+	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_1_10_1_min.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_ui_1_10_3.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/moment.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/daterangepicker.js"></script>
 	<script type="text/javascript">
 		 function loadDoc() {
 		    var xhttp = new XMLHttpRequest();
@@ -348,12 +363,24 @@ vertical-align: middle!important;
 			  xhttp.open("GET","<%=request.getContextPath()%>/backend/member/member.do?addaction=frontend&action=get_second_ord_per_member&memno=${memno}", true);
 			  xhttp.send();
 			}
+		 
+		 window.onscroll = function() {scrollFunction()};
+
+		 function scrollFunction() {
+		     if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+		         document.getElementById("myBtn").style.display = "block";
+		     } else {
+		         document.getElementById("myBtn").style.display = "none";
+		     }
+		 }
+
+		 // When the user clicks on the button, scroll to the top of the document
+		 function topFunction() {
+		     document.body.scrollTop = 0;
+		     document.documentElement.scrollTop = 0;
+		 }
 	 </script>
-	<script src="https://code.jquery.com/jquery.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://raw.githack.com/JaapMoolenaar/bootstrap-daterangepicker/master/moment.js"></script>
-    <script type="text/javascript" src="https://raw.githack.com/JaapMoolenaar/bootstrap-daterangepicker/master/daterangepicker.js"></script>
+
 
 </body>
 </html>

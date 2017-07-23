@@ -254,7 +254,7 @@ fieldset[disabled] .btn-xl:hover {
 }
 
 header {
-    background-image: url(../../../img/header1.jpg);
+    background-image: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ),url(../../../img/header1.jpg);
     /*background-repeat: no-repeat;*/
     background-attachment: scroll;
     background-position: center center;
