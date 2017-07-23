@@ -202,6 +202,7 @@
                                 <p class="payment-errors"></p>
                             </div>
                         </div>
+                    
                     </form>
                 </div>
             </div>            
