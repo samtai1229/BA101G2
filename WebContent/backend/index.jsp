@@ -17,7 +17,7 @@
      session.setAttribute("admins", adminisVO.getName());
      session.setAttribute("adminisVO", adminisVO);
      
-     String backendLogo = (String) new javax.naming.InitialContext().lookup("java:comp/env/backendLogo");
+   
 %>
 <!-- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
 <!DOCTYPE html>
@@ -77,7 +77,7 @@
 <!------------------------------- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
     <div class="col-xs-12 col-sm-2 leftBar">
      	
-        <img id="menuLogo" src="<%=request.getContextPath()%><%=backendLogo%>">
+           <img id="menuLogo" src="<%=request.getContextPath()%>/backend/images/android_logo2.jpg">
         <button class="accordion accordionMenu accordion accordionMenuMenu">總部管理系統</button> 
         <div class="btn-group-vertical">
          <%if(adminisVO.getAuthno().equals("AC01") || adminisVO.getAuthno().equals("AC07")){%>     
