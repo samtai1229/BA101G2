@@ -693,7 +693,7 @@ public class RentOrdServlet extends HttpServlet {
 
 		try {
 			/***************************1.接收請求參數 **********************/
-			if(session.getAttribute("motno")!=null){
+			if(session.getAttribute("motno")!=null&&req.getParameter("motno")==null){
 				motno = (String)session.getAttribute("motno");
 				dayrange = (String)session.getAttribute("dayrange");
 				System.out.println("in session range motno="+motno+", dayrange = "+dayrange);
@@ -1573,10 +1573,10 @@ public class RentOrdServlet extends HttpServlet {
 //		} // after_available_form end
 		
 		
-		// query
+		// query 
 		if ("query".equals(action) || "lease_ord_form".equals(action)
 				||"query_for_update".equals(action)||"query_for_member".equals(action)
-				||"query_for_member_frontend".equals(action)) {
+				||"query_for_member_frontend".equals(action)||"member_cancel_rentord".equals(action)) {
 
 			System.out.println("ro query in");
 			List<String> errorMsgs = new LinkedList<String>();
@@ -1613,9 +1613,7 @@ public class RentOrdServlet extends HttpServlet {
 				}
 				// Send the use back to the form, if there were errors
 				if (!errorMsgs.isEmpty()) {
-					RequestDispatcher failureView = req
-							.getRequestDispatcher("/backend/rent_ord/get_rent_ord_by_pk.jsp");
-					failureView.forward(req, res);
+					req.getRequestDispatcher("/backend/rent_ord/get_rent_ord_by_pk.jsp").forward(req, res);
 					return;// 程式中斷
 				}
 
@@ -1639,6 +1637,8 @@ public class RentOrdServlet extends HttpServlet {
 					req.getRequestDispatcher("/backend/member/rent_ord_query_form.jsp").forward(req, res);
 				}else if ("query_for_member_frontend".equals(action)){
 					req.getRequestDispatcher("/frontend/member/rent_ord_query_form.jsp").forward(req, res);
+				}else if ("member_cancel_rentord".equals(action)){
+					req.getRequestDispatcher("/frontend/member/rent_ord_cancel_form.jsp").forward(req, res);
 				}
 				
 
