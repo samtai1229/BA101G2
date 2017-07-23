@@ -17,6 +17,11 @@
 	height: 22px;
 	margin-bottom:3px;
 }
+
+.sizeTag:nth-child(4n+1) {background: #EEE;}
+.sizeTag:nth-child(4n+2) {background: #EEE;}
+#checkBtn{margin-top:10px; text-align:center;}
+
 </style>
 <body>
 
@@ -78,47 +83,49 @@
 		<div class="col-xs-12 col-sm-7 sizeTag"><c:out value="${roQueryVO.note}" /></div>
 	</div>
 	
-	<div class="col-xs-12 col-sm-12">
-	<form method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do" target="_blank">
-							
-		<input type="hidden" name="rentno" value="${roQueryVO.rentno}">
-		
-        <c:if test="${(roQueryVO.status == 'unpaid')}">					
-			<input type="hidden" name="status" value="unpaid">
-			<input type="hidden" name="action" value="leaseform_default">	
-			<input type="submit" value="尚未繳費" class="btn btn-primary"/>
-		</c:if>
-		<c:if test="${(roQueryVO.status =='unoccupied')}">					
-			<input type="hidden" name="status" value="unoccupied">
-			<input type="hidden" name="action" value="leaseform_default">	
-			<input type="submit" value="完成繳費" class="btn btn-success"/>
-		</c:if>				
-		<c:if test="${roQueryVO.status == 'available'}">
-			<input type="hidden" name="status" value="available">
-			<input type="hidden" name="action" value="leaseform_available">
-			<input type="submit" value="等待取車" class="btn btn-warning"/>
-		</c:if>					
-		<c:if test="${roQueryVO.status == 'canceled'}">
-			<input type="hidden" name="status" value="canceled">
-			<input type="hidden" name="action" value="leaseform_noshow">
-			<input type="submit" value="訂單取消" class="btn btn-info"/>
-		</c:if>					
-		<c:if test="${roQueryVO.status =='noshow'}">
-			<input type="hidden" name="status" value="noshow">
-			<input type="hidden" name="action" value="leaseform_noshow">	
-			<input type="submit" value="逾期未取" class="btn btn-danger"/>
-		</c:if>				
-		<c:if test="${roQueryVO.status =='noreturn'}">
-			<input type="hidden" name="comeFrom" value="noreturn">
-			<input type="hidden" name="action" value="returnform_noreturn">								
-			<input type="submit" value="等待還車" class="btn btn-warning"/>
-		</c:if>				
-		<c:if test="${roQueryVO.status =='overtime'}">	
-			<input type="hidden" name="comeFrom" value="overtime">
-			<input type="hidden" name="action" value="returnform_overtime">	
-			<input type="submit" value="逾期未還" class="btn btn-danger"/>
-		</c:if>	
-	</form>	
+
+
+	<div class="col-xs-12 col-sm-12" id="checkBtn">
+		<form method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do" target="_blank">
+								
+			<input type="hidden" name="rentno" value="${roQueryVO.rentno}">
+			
+	        <c:if test="${(roQueryVO.status == 'unpaid')}">					
+				<input type="hidden" name="status" value="unpaid">
+				<input type="hidden" name="action" value="leaseform_default">	
+				<input type="submit" value="尚未繳費" class="btn btn-primary btn-lg"/>
+			</c:if>
+			<c:if test="${(roQueryVO.status =='unoccupied')}">					
+				<input type="hidden" name="status" value="unoccupied">
+				<input type="hidden" name="action" value="leaseform_default">	
+				<input type="submit" value="完成繳費" class="btn btn-success btn-lg"/>
+			</c:if>				
+			<c:if test="${roQueryVO.status == 'available'}">
+				<input type="hidden" name="status" value="available">
+				<input type="hidden" name="action" value="leaseform_available">
+				<input type="submit" value="等待取車" class="btn btn-warning btn-lg"/>
+			</c:if>					
+			<c:if test="${roQueryVO.status == 'canceled'}">
+				<input type="hidden" name="status" value="canceled">
+				<input type="hidden" name="action" value="leaseform_noshow">
+				<input type="submit" value="訂單取消" class="btn btn-info btn-lg"/>
+			</c:if>					
+			<c:if test="${roQueryVO.status =='noshow'}">
+				<input type="hidden" name="status" value="noshow">
+				<input type="hidden" name="action" value="leaseform_noshow">	
+				<input type="submit" value="逾期未取" class="btn btn-danger btn-lg"/>
+			</c:if>				
+			<c:if test="${roQueryVO.status =='noreturn'}">
+				<input type="hidden" name="comeFrom" value="noreturn">
+				<input type="hidden" name="action" value="returnform_noreturn">								
+				<input type="submit" value="等待還車" class="btn btn-warning btn-lg"/>
+			</c:if>				
+			<c:if test="${roQueryVO.status =='overtime'}">	
+				<input type="hidden" name="comeFrom" value="overtime">
+				<input type="hidden" name="action" value="returnform_overtime">	
+				<input type="submit" value="逾期未還" class="btn btn-danger btn-lg"/>
+			</c:if>	
+		</form>	
 	</div>				
  
 </body>

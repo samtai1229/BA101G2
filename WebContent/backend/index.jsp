@@ -26,6 +26,8 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
 
+
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/google_family_kaushan_script.css" />
  	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/jquery_ui_1_10_3_theme.css"/>	
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.css">    
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css"> 
@@ -35,38 +37,44 @@
 </head>
 <style>
 #mainPageLogo{
+		display:block; 
+	margin:auto;
+	valign:center;
+}
 
-display:block; 
-margin:auto;
-
-valign:center;
+#logoutBtn{
+	float:right;
+	margin-top:7px;
+	margin-right:20px;
 }
 
 </style>
 
 <body background="<%=request.getContextPath()%>/backend/images/landspace.jpg">
 
+<%--nav start --%>
     <nav class="navbar navbar-default" role="navigation">
         <!-- logo區 -->
-        <a class="navbar-brand" href="#" id="navA">AUTOBIKE</a>
+        <a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/backend/index.jsp" id="navA">AUTOBIKE</a>
         <!-- 左選單 -->
         <ul class="nav navbar-nav">
             <li><a href="#" id="navA">後端管理系統</a></li>
             <!-- 時鐘 -->
-            <iframe scrolling="no" frameborder="no" clocktype="html5" style="overflow:hidden;border:0;margin:0;padding:0;width:120px;height:40px;" src="http://www.clocklink.com/html5embed.php?clock=004&timezone=CCT&color=yellow&size=120&Title=&Message=&Target=&From=2017,1,1,0,0,0&Color=yellow">
+            <iframe scrolling="no" frameborder="no" clocktype="html5" style="overflow:hidden;border:0;margin:0;margin-top:5px;padding:0;width:120px;height:40px;" src="http://www.clocklink.com/html5embed.php?clock=004&timezone=CCT&color=yellow&size=120&Title=&Message=&Target=&From=2017,1,1,0,0,0&Color=yellow">
             </iframe>
         </ul>
         <!-- 右選單 -->
         <ul class="nav navbar-nav navbar-right">
         </ul>
-        <form method="post" action="<%=request.getContextPath()%>/admin.do?action=logout">
-        <input type="submit" value="登出" >
-<!--           <input type="hidden" name="action1" value="logout" > -->
-		<b><%= adminisVO.getName() %></b>
-       </form>
-       
+        <div id="logoutBtn">
+	        <form method="post" action="<%=request.getContextPath()%>/admin.do?action=logout">
+	        	<input type="submit" value="登出" class="btn btn-default">
+				<b><%=adminisVO.getName() %></b>
+	       </form>
+       </div>
     </nav>
- <%--保留寫法     href="<%=request.getContextPath()%>/backend/backendRentOrd.jsp"  --%>
+<%--nav end --%>
+    
 <!------------------------------- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
     <div class="col-xs-12 col-sm-2 leftBar">
      	

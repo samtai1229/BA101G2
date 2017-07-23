@@ -12,11 +12,6 @@
 	System.out.println("!!!!!!!!!!!"+adminisVO.getName());
      session.setAttribute("admins", adminisVO.getName());
      session.setAttribute("adminisVO", adminisVO);
-%>
-
-
-
-<%
 
 	Map<String, String> roStatusMap = new HashMap<String, String>();
 	roStatusMap.put("unpaid", "待繳費");
@@ -51,21 +46,28 @@
 
 <style>
 
-#myDiv {
-  display: none;
-  text-align: center;
-}
+	#myDiv {
+	  display: none;
+	  text-align: center;
+	}
 
-th,td{
-	height:20px;
-
-}
+	th,td{
+		height:20px;
+	
+	}
 
 /*自定*/
 	 th, tr{
-		/*死都不換行*/
+		/*不換行*/
 		white-space:nowrap;
 	} 
+	
+	#logoutBtn{
+		float:right;
+		margin-top:7px;
+		margin-right:20px;
+	}	
+	
 </style>
 
 <body>
@@ -74,24 +76,25 @@ th,td{
 <%--nav start --%>
     <nav class="navbar navbar-default" role="navigation">
         <!-- logo區 -->
-        <a class="navbar-brand" href="#" id="navA">AUTOBIKE</a>
+        <a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/backend/index.jsp" id="navA">AUTOBIKE</a>
         <!-- 左選單 -->
         <ul class="nav navbar-nav">
             <li><a href="#" id="navA">後端管理系統</a></li>
             <!-- 時鐘 -->
-            <iframe scrolling="no" frameborder="no" clocktype="html5" style="overflow:hidden;border:0;margin:0;padding:0;width:120px;height:40px;" src="http://www.clocklink.com/html5embed.php?clock=004&timezone=CCT&color=yellow&size=120&Title=&Message=&Target=&From=2017,1,1,0,0,0&Color=yellow">
+            <iframe scrolling="no" frameborder="no" clocktype="html5" style="overflow:hidden;border:0;margin:0;margin-top:5px;padding:0;width:120px;height:40px;" src="http://www.clocklink.com/html5embed.php?clock=004&timezone=CCT&color=yellow&size=120&Title=&Message=&Target=&From=2017,1,1,0,0,0&Color=yellow">
             </iframe>
         </ul>
         <!-- 右選單 -->
         <ul class="nav navbar-nav navbar-right">
         </ul>
-        <form method="post" action="<%=request.getContextPath()%>/admin.do?action=logout">
-        <input type="submit" value="登出" >
-		<b><%= adminisVO.getName() %></b>
-       </form>
+        <div id="logoutBtn">
+	        <form method="post" action="<%=request.getContextPath()%>/admin.do?action=logout">
+	        	<input type="submit" value="登出" class="btn btn-default">
+				<b><%=adminisVO.getName() %></b>
+	       </form>
+       </div>
     </nav>
 <%--nav end --%>
-
 
 <!------------------------------- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
     <div class="col-xs-12 col-sm-2 leftBar">
