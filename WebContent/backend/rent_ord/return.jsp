@@ -21,37 +21,44 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
 
-	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>  	
-	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>	
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">     
+ 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/jquery_ui_1_10_3_theme.css"/>	
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.css">       
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css" >
 
 	<title>AutoBike 還車</title>
 </head>
+<style>
+#logoutBtn{
+	float:right;
+	margin-top:7px;
+	margin-right:20px;
+}
 
+#block3{margin-top:45px;}
+</style>
 <body>
 
 <%--nav start --%>
     <nav class="navbar navbar-default" role="navigation">
         <!-- logo區 -->
-        <a class="navbar-brand" href="#" id="navA">AUTOBIKE</a>
+        <a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/backend/index.jsp" id="navA">AUTOBIKE</a>
         <!-- 左選單 -->
         <ul class="nav navbar-nav">
             <li><a href="#" id="navA">後端管理系統</a></li>
             <!-- 時鐘 -->
-            <iframe scrolling="no" frameborder="no" clocktype="html5" style="overflow:hidden;border:0;margin:0;padding:0;width:120px;height:40px;" src="http://www.clocklink.com/html5embed.php?clock=004&timezone=CCT&color=yellow&size=120&Title=&Message=&Target=&From=2017,1,1,0,0,0&Color=yellow">
+            <iframe scrolling="no" frameborder="no" clocktype="html5" style="overflow:hidden;border:0;margin:0;margin-top:5px;padding:0;width:120px;height:40px;" src="http://www.clocklink.com/html5embed.php?clock=004&timezone=CCT&color=yellow&size=120&Title=&Message=&Target=&From=2017,1,1,0,0,0&Color=yellow">
             </iframe>
         </ul>
         <!-- 右選單 -->
         <ul class="nav navbar-nav navbar-right">
         </ul>
-        <form method="post" action="<%=request.getContextPath()%>/admin.do?action=logout">
-        <input type="submit" value="登出" >
-		<b><%= adminisVO.getName() %></b>
-       </form>
+        <div id="logoutBtn">
+	        <form method="post" action="<%=request.getContextPath()%>/admin.do?action=logout">
+	        	<input type="submit" value="登出" class="btn btn-default">
+				<b><%=adminisVO.getName() %></b>
+	       </form>
+       </div>
     </nav>
 <%--nav end --%>
 
@@ -202,17 +209,6 @@
 						          		<blockquote>客戶已自取車據點取車，請還車據點人員注意。</blockquote>
 									</fieldset>
 							  </div>
-<!-- 						  <div role="tabpanel" class="tab-pane" id="tab3">
-					          		<fieldset>
-		 			        		<legend>依??查詢</legend>
-										<form method="post" action="rentOrd.do">
-											<div class="InputForm">
-												<label class="title">???</label> 										
-											</div>
-										</form>
-									</fieldset>
-							  </div>							  
- -->							  
 							  
 <!--標籤面板 內容區結束 -->      </div>
 <!--標籤面板 結束 -->		   </div>
@@ -222,13 +218,12 @@
 						<img src="<%=request.getContextPath()%>/backend/images/android_logo.png" id="PageLogo"
 						 style="display:block; margin:auto;">
 					</div>
-<!--end: block3 --> 	
 <!--container--></div>	
-
     </div><!-- sm-10 rightHTML  -->
  
-<!--RWD部分:下面兩行我拿掉一行和JQuery有關的script, 不然datepicker會衝到  -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_1_10_1_min.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_ui_1_10_3.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.js"></script>
 	<script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/datepicker_for_ro.js"></script>
  	<script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/motorKanli_for_ro.js"></script>    
     <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/rentOrdNew.js"></script>

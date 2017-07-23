@@ -6,6 +6,9 @@
 <%@	page import="java.text.SimpleDateFormat"%>
 <%@	page import="java.text.DateFormat"%>
 <%@ page import="com.motor.model.*"%>
+<%@ page import="javax.naming.*" %>
+
+
 <!-- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
 <%@ page import="com.adminis.model.*"%>
 <%  AdminisService as = new AdminisService();
@@ -13,6 +16,8 @@
 	System.out.println("!!!!!!!!!!!"+adminisVO.getName());
      session.setAttribute("admins", adminisVO.getName());
      session.setAttribute("adminisVO", adminisVO);
+     
+     String backendLogo = (String) new javax.naming.InitialContext().lookup("java:comp/env/backendLogo");
 %>
 <!-- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
 <!DOCTYPE html>
@@ -21,54 +26,58 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
 
-	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>  	
-	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>	
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">     
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/google_family_kaushan_script.css" />
+ 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/jquery_ui_1_10_3_theme.css"/>	
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.css">    
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css"> 
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css" >
 
 	<title>Backend HP</title>	
 </head>
 <style>
 #mainPageLogo{
+		display:block; 
+	margin:auto;
+	valign:center;
+}
 
-display:block; 
-margin:auto;
-
-valign:center;
+#logoutBtn{
+	float:right;
+	margin-top:7px;
+	margin-right:20px;
 }
 
 </style>
 
 <body background="<%=request.getContextPath()%>/backend/images/landspace.jpg">
 
+<%--nav start --%>
     <nav class="navbar navbar-default" role="navigation">
         <!-- logo區 -->
-        <a class="navbar-brand" href="#" id="navA">AUTOBIKE</a>
+        <a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/backend/index.jsp" id="navA">AUTOBIKE</a>
         <!-- 左選單 -->
         <ul class="nav navbar-nav">
             <li><a href="#" id="navA">後端管理系統</a></li>
             <!-- 時鐘 -->
-            <iframe scrolling="no" frameborder="no" clocktype="html5" style="overflow:hidden;border:0;margin:0;padding:0;width:120px;height:40px;" src="http://www.clocklink.com/html5embed.php?clock=004&timezone=CCT&color=yellow&size=120&Title=&Message=&Target=&From=2017,1,1,0,0,0&Color=yellow">
+            <iframe scrolling="no" frameborder="no" clocktype="html5" style="overflow:hidden;border:0;margin:0;margin-top:5px;padding:0;width:120px;height:40px;" src="http://www.clocklink.com/html5embed.php?clock=004&timezone=CCT&color=yellow&size=120&Title=&Message=&Target=&From=2017,1,1,0,0,0&Color=yellow">
             </iframe>
         </ul>
         <!-- 右選單 -->
         <ul class="nav navbar-nav navbar-right">
         </ul>
-        <form method="post" action="<%=request.getContextPath()%>/admin.do?action=logout">
-        <input type="submit" value="登出" >
-<!--           <input type="hidden" name="action1" value="logout" > -->
-		<b><%= adminisVO.getName() %></b>
-       </form>
-       
+        <div id="logoutBtn">
+	        <form method="post" action="<%=request.getContextPath()%>/admin.do?action=logout">
+	        	<input type="submit" value="登出" class="btn btn-default">
+				<b><%=adminisVO.getName() %></b>
+	       </form>
+       </div>
     </nav>
- <%--保留寫法     href="<%=request.getContextPath()%>/backend/backendRentOrd.jsp"  --%>
+<%--nav end --%>
+    
 <!------------------------------- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
     <div class="col-xs-12 col-sm-2 leftBar">
      	
-        <img id="menuLogo" src="<%=request.getContextPath()%>/backend/images/android_logo2.jpg">
+        <img id="menuLogo" src="<%=request.getContextPath()%><%=backendLogo%>">
         <button class="accordion accordionMenu accordion accordionMenuMenu">總部管理系統</button> 
         <div class="btn-group-vertical">
          <%if(adminisVO.getAuthno().equals("AC01") || adminisVO.getAuthno().equals("AC07")){%>     
@@ -128,8 +137,8 @@ valign:center;
 		<%-- <img src="<%=request.getContextPath()%>/backend/images/android_logo.png" id="mainPageLogo"> --%>
     </div><!-- sm-10 rightHTML  -->
 
-	<!--RWD部分:下面兩行我拿掉一行和JQuery有關的script, 不然datepicker會衝到  -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_1_10_1_min.js"></script>
+    <script src="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.js"></script>
     <script src="<%=request.getContextPath()%>/backend/Modified/motorKanli_js.js"></script>
     <script src="<%=request.getContextPath()%>/backend/Modified/indexNew.js"></script>
 </body>

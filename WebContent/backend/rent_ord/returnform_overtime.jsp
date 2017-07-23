@@ -15,12 +15,8 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
 
-	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>  	
-	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>	
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">     
-<%--<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css"> --%>
+ 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/jquery_ui_1_10_3_theme.css"/>	
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.css">     
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css" >
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/form.css" >
 
@@ -504,21 +500,24 @@ rentPerDay = motorPrice + equipsPrice;
 						<input type="hidden" name="rlocno" value="${roQueryVO.rlocno}">
 					    <input type="hidden" name="action" value="after_overtime_form">
 	    					<button type="submit" onClick="return check()" class="btn btn-success btn-lg">
-								<i class="glyphicon glyphicon-ok"></i>異常結案
+								異常結案
 							</button>
 						<a href="javascript:window.close();" class="btn btn-danger btn-lg">
-						<i class="glyphicon glyphicon-remove"></i>取消動作</a>
+							取消動作
+						</a>
 					</p>
 				</form>
 			</div>
 		</div>
 	</div>
-	<script src="https://code.jquery.com/jquery.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/datepicker_for_rent_ord.js"></script>
-	<script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/motorKanli_js.js"></script>
-	<script type="text/javascript">
 	
+	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_1_10_1_min.js"></script>	
+	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_ui_1_10_3.js"></script>  	
+	<script src="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/datepicker_for_ro.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/motorKanli_for_ro.js"></script>
+
+	<script type="text/javascript">	
 	function check(){
 		
 		var check = document.getElementsByClassName('check_group');

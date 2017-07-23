@@ -12,11 +12,6 @@
 	System.out.println("!!!!!!!!!!!"+adminisVO.getName());
      session.setAttribute("admins", adminisVO.getName());
      session.setAttribute("adminisVO", adminisVO);
-%>
-
-
-
-<%
 
 	Map<String, String> roStatusMap = new HashMap<String, String>();
 	roStatusMap.put("unpaid", "待繳費");
@@ -40,35 +35,39 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
 
-	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>	
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">     
+ 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/jquery_ui_1_10_3_theme.css"/>	
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.css">        
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css" >
-	<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
-	<script type="text/javascript" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/dataTables.min.css">
 
    <title>租賃單管理-AutoBike</title>
 </head>
 
 <style>
 
-#myDiv {
-  display: none;
-  text-align: center;
-}
+	#myDiv {
+	  display: none;
+	  text-align: center;
+	}
 
-th,td{
-	height:20px;
-
-}
+	th,td{
+		height:20px;
+	
+	}
 
 /*自定*/
 	 th, tr{
-		/*死都不換行*/
+		/*不換行*/
 		white-space:nowrap;
 	} 
+	
+	#logoutBtn{
+		float:right;
+		margin-top:7px;
+		margin-right:20px;
+	}	
+	
 </style>
 
 <body>
@@ -77,24 +76,25 @@ th,td{
 <%--nav start --%>
     <nav class="navbar navbar-default" role="navigation">
         <!-- logo區 -->
-        <a class="navbar-brand" href="#" id="navA">AUTOBIKE</a>
+        <a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/backend/index.jsp" id="navA">AUTOBIKE</a>
         <!-- 左選單 -->
         <ul class="nav navbar-nav">
             <li><a href="#" id="navA">後端管理系統</a></li>
             <!-- 時鐘 -->
-            <iframe scrolling="no" frameborder="no" clocktype="html5" style="overflow:hidden;border:0;margin:0;padding:0;width:120px;height:40px;" src="http://www.clocklink.com/html5embed.php?clock=004&timezone=CCT&color=yellow&size=120&Title=&Message=&Target=&From=2017,1,1,0,0,0&Color=yellow">
+            <iframe scrolling="no" frameborder="no" clocktype="html5" style="overflow:hidden;border:0;margin:0;margin-top:5px;padding:0;width:120px;height:40px;" src="http://www.clocklink.com/html5embed.php?clock=004&timezone=CCT&color=yellow&size=120&Title=&Message=&Target=&From=2017,1,1,0,0,0&Color=yellow">
             </iframe>
         </ul>
         <!-- 右選單 -->
         <ul class="nav navbar-nav navbar-right">
         </ul>
-        <form method="post" action="<%=request.getContextPath()%>/admin.do?action=logout">
-        <input type="submit" value="登出" >
-		<b><%= adminisVO.getName() %></b>
-       </form>
+        <div id="logoutBtn">
+	        <form method="post" action="<%=request.getContextPath()%>/admin.do?action=logout">
+	        	<input type="submit" value="登出" class="btn btn-default">
+				<b><%=adminisVO.getName() %></b>
+	       </form>
+       </div>
     </nav>
 <%--nav end --%>
-
 
 <!------------------------------- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
     <div class="col-xs-12 col-sm-2 leftBar">
@@ -250,7 +250,6 @@ th,td{
 												<input type="submit" value="刪除" class="btn btn-danger" disabled/>
 											</form> 
 										</td> 
-																	
 									</tr>
 								</c:forEach>							
 						  </tbody>	 	  								
@@ -258,6 +257,15 @@ th,td{
 					</div>
 <!--end: block3 --> 	
 <!--container--></div>	
+
+	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_1_10_1_min.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_ui_1_10_3.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/dataTables.min.js"></script>
+    <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/rentOrdNew.js"></script>
+    <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/motorKanli_for_ro.js"></script>
+    <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/datepicker_for_ro.js"></script>
+    
 <script>
 //table
 $(document).ready(function(){
@@ -274,11 +282,6 @@ $(document).ready(function(){
 
 </script>  
 
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/rentOrdNew.js"></script>
-    <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/motorKanli_for_ro.js"></script>
-    <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/datepicker_for_ro.js"></script>
 </body>
 </html>
 

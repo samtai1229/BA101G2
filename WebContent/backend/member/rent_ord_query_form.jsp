@@ -9,8 +9,8 @@
 
 <!DOCTYPE html>
 <html>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" media="all" href="https://raw.githack.com/JaapMoolenaar/bootstrap-daterangepicker/master/daterangepicker.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/twitter_bootstrap_3_3_7_min.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/daterangepicker.css" />
 
 <head>
 <style>
@@ -332,11 +332,10 @@ font-size:18px;
 
 
 </body>
-<script src="https://code.jquery.com/jquery.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="https://raw.githack.com/JaapMoolenaar/bootstrap-daterangepicker/master/moment.js"></script>
-<script type="text/javascript" src="https://raw.githack.com/JaapMoolenaar/bootstrap-daterangepicker/master/daterangepicker.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_1_10_1_min.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/moment.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/daterangepicker.js"></script>
 <script type="text/javascript">
 
 <%--timepicker--%>	
