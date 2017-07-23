@@ -11,6 +11,9 @@ import org.slf4j.Marker;
 
 import com.location.model.LocationService;
 import com.location.model.LocationVO;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)
 public class LocationServlet extends HttpServlet {
 
@@ -25,6 +28,44 @@ public class LocationServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		
+		
+		if("getJson".equals(req.getParameter("action"))){
+			LocationService locationSvc = new LocationService();
+			List<LocationVO> list = locationSvc.getAll();
+			LocationVO location = new LocationVO();
+			location.setLocname(location.getLocname());
+System.out.println("locname= "+location.getLocname());
+			location.setAddr(location.getAddr());
+			location.setLon(location.getLon());
+			location.setLat(location.getLat());
+			location.setTel(location.getTel());
+			list.add(location);
+			
+            
+			JSONArray array = new JSONArray();
+			for(LocationVO locations:list){
+				JSONObject obj = new JSONObject();
+				try{
+					obj.put("Locname", locations.getLocname());
+					obj.put("Addr", locations.getAddr());
+					obj.put("Lon", locations.getLon());
+					obj.put("Lat", locations.getLat());
+					obj.put("Tel", locations.getTel());
+				}catch(Exception e){}
+				array.add(obj);
+			}
+			res.setContentType("text/plain");
+			res.setCharacterEncoding("UTF-8");
+			PrintWriter out = res.getWriter();
+			out.write(array.toString());
+			out.flush();
+			out.close();
+		}
+		
+		
+		
+		
+		
 		if("marker".equals(action)){
 			
 			System.out.println("!!!!!!!!!!!!!!!!!!!!!!");
@@ -34,12 +75,19 @@ public class LocationServlet extends HttpServlet {
 				LocationService locationSvc = new LocationService(); 
 				String locno = req.getParameter("locno");
 				System.out.println(locno);
-				LocationVO location = locationSvc.getOneLocation(locno);
-				Float lon = location.getLon();
+				LocationVO locationVO = locationSvc.getOneLocation(locno);
+				String locname = locationVO.getLocname();
+				System.out.println("locname= "+locname);
+				String addr = locationVO.getAddr();
+				Float lon = locationVO.getLon();
 				System.out.println(lon);
-				Float lat = location.getLat();
+				Float lat = locationVO.getLat();
 				System.out.println(lat);
+				String tel = locationVO.getTel();
+				
 				/***************************2.查詢經緯度(Send the Success view)*************/
+				req.setAttribute("locationVO", locationVO);
+				System.out.println("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
 				req.setAttribute("lon", lon);
 				System.out.println("XXXXXXXXXXXXXXXXXXXXXXX");
 				req.setAttribute("lat", lat);
