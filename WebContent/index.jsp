@@ -44,6 +44,7 @@
 <!-- Bootstrap Core CSS -->
 <link rel="stylesheet" href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css" />
 
+
 <!-- Custom Fonts -->
 <link rel="stylesheet" href="<%=request.getContextPath()%>/vendor/font-awesome/css/font-awesome.min.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/google_family_droid_serif.css" />
@@ -170,8 +171,6 @@
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-               
-             
 <!-- search bar  -->					
 						<form  method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do" class="navbar-form navbar-left" role="search">
 							<input id="demo" name="dayrange" class="form-control" type="text" style="background-color: transparent; color:#fff;" >							
@@ -180,41 +179,58 @@
 							<input style="background-color: transparent; color:#fff;" type="submit" class="form-control" value="快速查詢">
 						</form>
 
-              					 <ul class="nav navbar-nav navbar-right">
-              	                    <li class="hidden">
-              	                        <a href="#page-top"></a>
-              	                    </li>
-              					<li><a class="page-scroll" href="<%=request.getContextPath()%>/frontend/rental_form/rental_category.jsp"><i class="glyphicon glyphicon-heart"></i>我要租車</a></li>
-              						<li><a class="page-scroll" href="#news"><i
-              								class="glyphicon glyphicon-alert"></i>最新消息</a></li>
-              						<li><a class="page-scroll" href="#board"><i
-              								class="fa fa-comments-o"></i>留言板</a></li>
-              						<li><a class="page-scroll" href="#loc"><i
-              								class="fa fa-search"></i>服務據點</a></li>
-              						<li><a href="<%=request.getContextPath()%>/frontend/second_order/listAllSecond.jsp"><i class="fa fa-shopping-cart"></i>二手車購買</a>
-              						</li>
-              						
-              						<c:if test="${not empty memno}">	
-              						<li><a href="#">歡迎，${memname}</a></li>		
-              							<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">
-              							<b>會員專區</b></a>
-              						</li>
-            									<li>
-            										<a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout"
-            										data-toggle="modal"><i class="glyphicon glyphicon-user"></i>登出</a>
-            									</li>
-              			
-              						
-              						</c:if>
-              						
-              						<c:if test="${ empty memno}">
-              							<li>
-              								<a href="#modal-id"
-              								data-toggle="modal"><i class="glyphicon glyphicon-user"></i>會員登入</a>
-              							</li>
-              						</c:if>
-              					</ul>
-            
+              			<ul class="nav navbar-nav navbar-right">
+       	                    <li class="hidden">
+       	                    	<a href="#page-top"></a>
+       	                    </li>
+           					<li>
+           						<a class="page-scroll" href="<%=request.getContextPath()%>/frontend/rental_form/rental_category.jsp">
+            						<i class="glyphicon glyphicon-heart"></i>
+            						我要租車
+           						</a>
+           					</li>
+       						<li>
+        						<a class="page-scroll" href="#news">
+         						<i class="glyphicon glyphicon-alert"></i>
+         						最新消息
+        						</a>
+       						</li>
+       						<li>
+       							<a class="page-scroll" href="#board">
+       								<i class="fa fa-comments-o"></i>
+       								留言板
+       							</a>
+       						</li>
+       						<li>
+       							<a class="page-scroll" href="#loc">
+       								<i class="fa fa-search"></i>
+       								服務據點
+       							</a>
+       						</li>
+       						<li>
+       							<a href="<%=request.getContextPath()%>/frontend/second_order/listAllSecond.jsp">
+       								<i class="fa fa-shopping-cart"></i>
+       								二手車購買
+       							</a>
+       						</li>
+       						<c:if test="${not empty memno}">	
+        						<li><a href="#">歡迎，${memname}</a></li>		
+        							<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">
+        							<b>會員專區</b></a>
+        						</li>
+									<li>
+										<a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout" data-toggle="modal"><i class="glyphicon glyphicon-user">
+										</i>登出</a>
+									</li>
+       						</c:if>
+       						<c:if test="${ empty memno}">
+       							<li>
+       								<a href="#modal-id"
+       								data-toggle="modal"><i class="glyphicon glyphicon-user"></i>會員登入</a>
+       							</li>
+       						</c:if>
+       					</ul>
+    
 			</div>
 			<!-- /.navbar-collapse -->
 		</div>
@@ -255,7 +271,7 @@
       <div class="col-sm-4">
        <div class="news">
         <div class="img-figure">
-         <img src=<%=request.getContextPath()%>/backend/news/newsread.do?newsno=<%=listnormal.get(0).getNewsno()%>
+         <img src="<%=request.getContextPath()%>/backend/news/newsread.do?newsno=<%=listnormal.get(0).getNewsno()%>"
          class="img-responsive"  alt="Responsive image">
         </div>
 
@@ -283,7 +299,7 @@
       <div class="col-sm-4">
        <div class="news">
         <div class="img-figure">
-         <img src=<%=request.getContextPath()%>/backend/news/newsread.do?newsno=<%=listnormal.get(1).getNewsno()%> class="img-responsive">
+         <img src="<%=request.getContextPath()%>/backend/news/newsread.do?newsno=<%=listnormal.get(1).getNewsno()%>" class="img-responsive">
         </div>
 
         <div class="title">
@@ -308,7 +324,7 @@
      
        <div class="news">
         <div class="img-figure">
-         <img src=<%=request.getContextPath()%>/backend/news/newsread.do?newsno=<%=listnormal.get(2).getNewsno()%> 
+         <img src="<%=request.getContextPath()%>/backend/news/newsread.do?newsno=<%=listnormal.get(2).getNewsno()%>" 
          class="img-responsive">
         </div>
 
@@ -524,7 +540,6 @@
 		</div>
 	</footer>
 	<!-- jQuery -->
-	<!--  <script src="vendor/jquery/jquery.min.js"></script> -->
 	<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/jquery_min_1_10_2.js"></script>
 	<!-- Bootstrap Core JavaScript -->
@@ -551,51 +566,36 @@
     <script src="<%=request.getContextPath()%>/js/daterangepicker.js"></script>
 </body>
 
-    <script>
-    $('#demo').daterangepicker({
-        "timePicker": true,
-        "timePicker24Hour": true,
-        "timePickerIncrement": 30,
-        "startDate": moment().add(3, 'days'),
-        "endDate": moment().add(6, 'days'),
-        "opens": "center",
-        "applyClass": "btn-success",
-        "cancelClass": "btn-primary",
-        "minDate": moment().add(2, 'days'),
-        "maxDate": moment().add(60, 'days'),
-        locale: {
-            format: 'MM/DD/YYYY H:mm'
-        }
-    }, function(start, end, label) {
-      console.log("New date range selected: ' + start.format('MM/DD/YYYY H:mm') + ' to ' + end.format('MM/DD/YYYY H:mm') + ' (predefined range: ' + label + ')");
-    });
-    
-    
-    
-  
-    </script>
-    <script type="text/javascript">
-      
-
-    function doFirst()
-    {
-    	var error = "${error}";
-        console.log(error);
-    	if(error)
-    	{
-    		alert(error+"，請重新登入");
-    		$("#modal-id").modal();
-    	}
-    	
-    	
-    	
+<script>
+$('#demo').daterangepicker({
+    "timePicker": true,
+    "timePicker24Hour": true,
+    "timePickerIncrement": 30,
+    "startDate": moment().add(3, 'days'),
+    "endDate": moment().add(6, 'days'),
+    "opens": "center",
+    "applyClass": "btn-success",
+    "cancelClass": "btn-primary",
+    "minDate": moment().add(2, 'days'),
+    "maxDate": moment().add(60, 'days'),
+    locale: {
+        format: 'MM/DD/YYYY H:mm'
     }
-    window.addEventListener('load',doFirst,false);
-    
-    
-    
-    </script>
-    
-    
+}, function(start, end, label) {
+  console.log("New date range selected: ' + start.format('MM/DD/YYYY H:mm') + ' to ' + end.format('MM/DD/YYYY H:mm') + ' (predefined range: ' + label + ')");
+});
 
+function doFirst()
+{
+	var error = "${error}";
+    console.log(error);
+	if(error)
+	{
+		alert(error+"，請重新登入");
+		$("#modal-id").modal();
+	}
+}
+window.addEventListener('load',doFirst,false);
+
+</script>
 </html>
