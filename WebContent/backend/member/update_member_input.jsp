@@ -65,9 +65,7 @@ input[type="file"] {
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
 
-	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.css">    
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css" >
 	<title>會員資料修改 - update_member_input.jsp</title>
@@ -313,8 +311,9 @@ input[type="file"] {
 
     </div><!-- sm-10 rightHTML  -->
 
-	<script src="https://code.jquery.com/jquery.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_1_10_1_min.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_ui_1_10_3.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.js"></script>
     <script src="<%=request.getContextPath()%>/backend/Modified/motorKanli_js.js"></script>
     <script src="<%=request.getContextPath()%>/backend/Modified/indexNew.js"></script>
 <script>

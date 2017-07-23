@@ -82,7 +82,6 @@
 			<td>${memVO.acc}</td>
 			<td>${memVO.pwd}</td>	
 <!-- 正面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard1'  width=200' height='180'></td>	
-			
 <!-- 反面 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=idcard2'  width=200' height='180'></td>				
 <!-- 駕照 --><td><img src='<%=request.getContextPath()%>/backend/member/memReader.do?memno=${memVO.memno}&card=license'  width=200' height='180'></td>							
 			<td><fmt:formatDate pattern = "yyyy年MM月dd號" 

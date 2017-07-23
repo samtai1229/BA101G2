@@ -9,100 +9,117 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
 
-	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>  	
-	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>	
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">     
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css">
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css" >
-	
-    <title>車輛查詢-AutoBike</title>
-</head>
+<head></head>
+
+<style>
+.sizeTag{
+	height: 22px;
+	margin-bottom:3px;
+}
+</style>
 <body>
 
 	<%
 		RentOrdVO roQueryVO = (RentOrdVO)request.getAttribute("roQueryVO");
-	%>
-	租賃單號:<c:out value="${roQueryVO.rentno}" default="無資料"/><br>
-	會員編號:<c:out value="${roQueryVO.memno}" default="無資料"/><br>
-	車輛編號:<c:out value="${roQueryVO.motorVO.motno}" default="無資料"/><br>
-	交車據點:<c:out value="${roQueryVO.slocno}" default="無資料"/><br>
-            還車據點:<c:out value="${roQueryVO.rlocno}" default="無資料"/><br>
-	起始里程:<c:out value="${roQueryVO.milstart}" default="無資料"/><br>
-	結束里程:<c:out value="${roQueryVO.milend}" default="無資料"/><br>
-	填表日期:<fmt:formatDate pattern = "yyyy-MM-dd" value = "${roQueryVO.filldate}" /><br>
-	起始時間:<fmt:formatDate pattern = "yyyy-MM-dd" value = "${roQueryVO.startdate}" /><br>
-	結束日期:<fmt:formatDate pattern = "yyyy-MM-dd" value = "${roQueryVO.enddate}" /><br>
-	還車日期:<fmt:formatDate pattern = "yyyy-MM-dd" value = "${roQueryVO.returndate}" /><br>
-	        罰金:<c:out value="${roQueryVO.fine}" default="無資料"/><br>
-	    總金額:<c:out value="${roQueryVO.total}" default="無資料"/><br>
-	        評價:<c:out value="${roQueryVO.rank}" default="無資料"/><br>
-	        狀態:<c:out value="${roQueryVO.status}" default="無資料"/><br>
-	        備註:<c:out value="${roQueryVO.note}" default="無資料"/><br>
-	        
+	
+		Map<String, String> roStatusMap = new HashMap<String, String>();
+		roStatusMap.put("unpaid", "待繳費");
+		roStatusMap.put("canceled", "取消");
+		roStatusMap.put("unoccupied", "準備交車");
+		roStatusMap.put("available", "今日取車");	
+		roStatusMap.put("noshow", "逾期未取");	
+		roStatusMap.put("noreturn", "待還車");	
+		roStatusMap.put("overtime", "逾期未還");	
+		roStatusMap.put("abnormalclosed", "異常結案");	
+		roStatusMap.put("closed", "正常結案");	
+		roStatusMap.put("other", "其他");
+	%>	
+	
+	<jsp:useBean id="locSvc" scope="page" class="com.location.model.LocationService"/>
+	
+	<div>
+		<div class="col-xs-12 col-sm-5 sizeTag">租賃單號:</div>
+		<div class="col-xs-12 col-sm-7 sizeTag"><c:out value="${roQueryVO.rentno}" /></div>
+		<div class="col-xs-12 col-sm-5 sizeTag">會員編號:</div>
+		<div class="col-xs-12 col-sm-7 sizeTag"><c:out value="${roQueryVO.memno}" /></div>
+		<div class="col-xs-12 col-sm-5 sizeTag">車輛編號:</div>
+		<div class="col-xs-12 col-sm-7 sizeTag"><c:out value="${roQueryVO.motorVO.motno}" /></div>
+		<div class="col-xs-12 col-sm-5 sizeTag">交車據點:</div>
+		<div class="col-xs-12 col-sm-7 sizeTag"><c:out value="${locSvc.getOneLocation(roQueryVO.slocno).locname}營業所" /></div>
+	    <div class="col-xs-12 col-sm-5 sizeTag">還車據點:</div>
+	    <div class="col-xs-12 col-sm-7 sizeTag"><c:out value="${locSvc.getOneLocation(roQueryVO.rlocno).locname}營業所" /></div>
+		<div class="col-xs-12 col-sm-5 sizeTag">起始里程:</div>
+		<div class="col-xs-12 col-sm-7 sizeTag"><c:out value="${roQueryVO.milstart}" /></div>
+		<div class="col-xs-12 col-sm-5 sizeTag">結束里程:</div>
+		<div class="col-xs-12 col-sm-7 sizeTag"><c:out value="${roQueryVO.milend}" /></div>
+		<div class="col-xs-12 col-sm-5 sizeTag">填表日期:</div>
+		<div class="col-xs-12 col-sm-7 sizeTag"><fmt:formatDate pattern = "yyyy / MM / dd" value = "${roQueryVO.filldate}" /></div>
+		<div class="col-xs-12 col-sm-5 sizeTag">起始時間:</div>
+		<div class="col-xs-12 col-sm-7 sizeTag"><fmt:formatDate pattern = "yyyy / MM / dd" value = "${roQueryVO.startdate}" /></div>
+		<div class="col-xs-12 col-sm-5 sizeTag">結束日期:</div>
+		<div class="col-xs-12 col-sm-7 sizeTag"><fmt:formatDate pattern = "yyyy / MM / dd" value = "${roQueryVO.enddate}" /></div>
+		<div class="col-xs-12 col-sm-5 sizeTag">還車日期:</div>
+		<div class="col-xs-12 col-sm-7 sizeTag"><fmt:formatDate pattern = "yyyy / MM / dd" value = "${roQueryVO.returndate}" /></div>
+		<div class="col-xs-12 col-sm-5 sizeTag">罰金:</div>
+		<div class="col-xs-12 col-sm-7 sizeTag"><c:out value="${roQueryVO.fine}" /></div>
+		<div class="col-xs-12 col-sm-5 sizeTag">總金額:</div>
+		<div class="col-xs-12 col-sm-7 sizeTag"><c:out value="${roQueryVO.total}" /></div>
+		<div class="col-xs-12 col-sm-5 sizeTag">評價:</div>
+		<div class="col-xs-12 col-sm-7 sizeTag"><c:out value="${roQueryVO.rank}" /></div>
+		
+		<%-- show readable-status with map --%>
+		<c:set scope="page" var="temp"><c:out value="${roQueryVO.status}"/></c:set>
+		<% String key = String.valueOf(pageContext.getAttribute("temp")); %>
+		
+		<div class="col-xs-12 col-sm-5 sizeTag">狀態:</div>
+		<div class="col-xs-12 col-sm-7 sizeTag"><c:out value="<%=roStatusMap.get(key)%>" /></div>
+		<div class="col-xs-12 col-sm-5 sizeTag">備註:</div>
+		<div class="col-xs-12 col-sm-7 sizeTag"><c:out value="${roQueryVO.note}" /></div>
+	</div>
+	
+	<div class="col-xs-12 col-sm-12">
+	<form method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do" target="_blank">
+							
+		<input type="hidden" name="rentno" value="${roQueryVO.rentno}">
+		
         <c:if test="${(roQueryVO.status == 'unpaid')}">					
-				<form method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do" target="_blank">	
-					<input type="hidden" name="rentno" value="${roQueryVO.rentno}">
-					<input type="hidden" name="status" value="unpaid">
-					<input type="hidden" name="action" value="leaseform_default">	
-					<input type="submit" value="尚未繳費" class="btn btn-primary"/>
-				</form>								
+			<input type="hidden" name="status" value="unpaid">
+			<input type="hidden" name="action" value="leaseform_default">	
+			<input type="submit" value="尚未繳費" class="btn btn-primary"/>
 		</c:if>
 		<c:if test="${(roQueryVO.status =='unoccupied')}">					
-			<form method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do" target="_blank">	
-				<input type="hidden" name="rentno" value="${roQueryVO.rentno}">
-				<input type="hidden" name="status" value="unoccupied">
-				<input type="hidden" name="action" value="leaseform_default">	
-				<input type="submit" value="完成繳費" class="btn btn-success"/>
-			</form>								
-		</c:if>
+			<input type="hidden" name="status" value="unoccupied">
+			<input type="hidden" name="action" value="leaseform_default">	
+			<input type="submit" value="完成繳費" class="btn btn-success"/>
+		</c:if>				
 		<c:if test="${roQueryVO.status == 'available'}">
-			<form method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do" target="_blank">						
-				<input type="hidden" name="rentno" value="${roQueryVO.rentno}">
-				<input type="hidden" name="status" value="available">
-				<input type="hidden" name="action" value="leaseform_available">
-				<input type="submit" value="等待取車" class="btn btn-warning"/>
-			</form>					
-		</c:if>	
+			<input type="hidden" name="status" value="available">
+			<input type="hidden" name="action" value="leaseform_available">
+			<input type="submit" value="等待取車" class="btn btn-warning"/>
+		</c:if>					
 		<c:if test="${roQueryVO.status == 'canceled'}">
-			<form method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do" target="_blank" target="_blank">						
-				<input type="hidden" name="rentno" value="${roQueryVO.rentno}">
-				<input type="hidden" name="status" value="canceled">
-				<input type="hidden" name="action" value="leaseform_noshow">
-				<input type="submit" value="訂單取消" class="btn btn-info"/>
-			</form>					
-		</c:if>			
+			<input type="hidden" name="status" value="canceled">
+			<input type="hidden" name="action" value="leaseform_noshow">
+			<input type="submit" value="訂單取消" class="btn btn-info"/>
+		</c:if>					
 		<c:if test="${roQueryVO.status =='noshow'}">
-			<form method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do" target="_blank">						
-				<input type="hidden" name="rentno" value="${roQueryVO.rentno}">
-				<input type="hidden" name="status" value="noshow">
-				<input type="hidden" name="action" value="leaseform_noshow">	
-				<input type="submit" value="逾期未取" class="btn btn-danger"/>
-			</form>					
-		</c:if>
+			<input type="hidden" name="status" value="noshow">
+			<input type="hidden" name="action" value="leaseform_noshow">	
+			<input type="submit" value="逾期未取" class="btn btn-danger"/>
+		</c:if>				
 		<c:if test="${roQueryVO.status =='noreturn'}">
-			<form method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do" target="_blank">						
-				<input type="hidden" name="rentno" value="${roQueryVO.rentno}">
-				<input type="hidden" name="comeFrom" value="noreturn">
-				<input type="hidden" name="action" value="returnform_noreturn">								
-				<input type="submit" value="等待還車" class="btn btn-warning"/>
-			</form>					
-		</c:if>
-		<c:if test="${roQueryVO.status =='overtime'}">
-			<form method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do" target="_blank">						
-				<input type="hidden" name="rentno" value="${roQueryVO.rentno}">
-				<input type="hidden" name="comeFrom" value="overtime">
-				<input type="hidden" name="action" value="returnform_overtime">	
-				<input type="submit" value="逾期未還" class="btn btn-danger"/>
-			</form>					
+			<input type="hidden" name="comeFrom" value="noreturn">
+			<input type="hidden" name="action" value="returnform_noreturn">								
+			<input type="submit" value="等待還車" class="btn btn-warning"/>
+		</c:if>				
+		<c:if test="${roQueryVO.status =='overtime'}">	
+			<input type="hidden" name="comeFrom" value="overtime">
+			<input type="hidden" name="action" value="returnform_overtime">	
+			<input type="submit" value="逾期未還" class="btn btn-danger"/>
 		</c:if>	
-
-    <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/motorKanli_for_ro.js"></script>
-    <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/datepicker_for_ro.js"></script>	
+	</form>	
+	</div>				
+ 
 </body>
 </html>

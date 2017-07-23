@@ -40,14 +40,11 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
 
-	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>	
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">     
+ 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/jquery_ui_1_10_3_theme.css"/>	
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.css">        
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css" >
-	<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
-	<script type="text/javascript" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/dataTables.min.css">
 
    <title>租賃單管理-AutoBike</title>
 </head>
@@ -250,7 +247,6 @@ th,td{
 												<input type="submit" value="刪除" class="btn btn-danger" disabled/>
 											</form> 
 										</td> 
-																	
 									</tr>
 								</c:forEach>							
 						  </tbody>	 	  								
@@ -258,6 +254,15 @@ th,td{
 					</div>
 <!--end: block3 --> 	
 <!--container--></div>	
+
+	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_1_10_1_min.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_ui_1_10_3.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/dataTables.min.js"></script>
+    <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/rentOrdNew.js"></script>
+    <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/motorKanli_for_ro.js"></script>
+    <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/datepicker_for_ro.js"></script>
+    
 <script>
 //table
 $(document).ready(function(){
@@ -274,11 +279,6 @@ $(document).ready(function(){
 
 </script>  
 
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/rentOrdNew.js"></script>
-    <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/motorKanli_for_ro.js"></script>
-    <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/datepicker_for_ro.js"></script>
 </body>
 </html>
 
