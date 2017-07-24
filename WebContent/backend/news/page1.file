@@ -31,5 +31,8 @@
          }
     } 
 %>
-
+<%if (pageNumber>0){%>
+<b><font color= red>第<%=whichPage%>/<%=pageNumber%>頁　</font></b>
+<%}%>
+<b>●符 合 查 詢 條 件 如 下 所 示: 共<font color=red><%=rowNumber%></font>筆</b>
 
