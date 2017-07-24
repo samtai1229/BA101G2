@@ -267,16 +267,16 @@
         </div>
 
         <div class="title">
-         <h1><%=listnormal.get(0).getTitle()%></h1>
+        <table align="center">
+         <tr><th><h1><%=listnormal.get(0).getTitle()%></h1></th><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><th><h1><fmt:formatDate  pattern="yyyy-MM-dd" value="${listnormal.get(0).getNewsdate()}"/></h1></th></tr>
+        </table>
         </div>
+        
         <p class="description">
-         <%=listnormal.get(0).getCont()%>
+         <font size="4"><%=listnormal.get(0).getCont()%></font>
         </p>
 
-        <p class="more">
-         <a href="#">read more</a><i class="fa fa-angle-right"
-          aria-hidden="true"></i>
-        </p>
+      
        </div>
 
 
@@ -294,14 +294,16 @@
         </div>
 
         <div class="title">
-         <h1><%=listnormal.get(1).getTitle()%></h1>
+        <table align="center">
+         <tr><th><h1><%=listnormal.get(1).getTitle()%></h1></th><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><th><h1><fmt:formatDate  pattern="yyyy-MM-dd" value="${listnormal.get(1).getNewsdate()}"/></h1></th></tr>
+        </table>
         </div>
-        <p class="description"><%=listnormal.get(1).getCont()%></p>
-
-        <p class="more">
-         <a href="#">read more</a><i class="fa fa-angle-right"
-          aria-hidden="true"></i>
+        
+        <p class="description">
+         <font size="4"><%=listnormal.get(1).getCont()%></font>
         </p>
+
+        
        </div>
 
 
@@ -320,14 +322,16 @@
         </div>
 
         <div class="title">
-         <h1><%=listnormal.get(2).getTitle()%></h1>
+         <table align="center">
+         <tr><th><h1><%=listnormal.get(2).getTitle()%></h1></th><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><th><h1><fmt:formatDate  pattern="yyyy-MM-dd" value="${listnormal.get(2).getNewsdate()}"/></h1></th></tr>
+        </table>
         </div>
-        <p class="description"><%=listnormal.get(2).getCont()%></p>
-
-        <p class="more">
-         <a href="#">read more</a><i class="fa fa-angle-right"
-          aria-hidden="true"></i>
+        
+        <p class="description">
+         <font size="4"><%=listnormal.get(2).getCont()%></font>
         </p>
+
+        
        </div>
 
 
