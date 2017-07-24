@@ -1,5 +1,5 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<table border="0">    
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>	
+     
  <tr>
   <%if (rowsPerPage<rowNumber) {%>
     <%if(pageIndex>=rowsPerPage){%>
@@ -12,15 +12,13 @@
         <td><A href="<%=request.getRequestURI()%>?whichPage=<%=pageNumber%>">至最後一頁</A>&nbsp;</td>
     <%}%>
   <%}%>  
- </tr>
-</table>    
+
+ 
 <%if ( pageNumber > 1) {%>
-<table border="0">   
- <tr> 
-        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        </td>
-   <FORM METHOD="post" ACTION="<%=request.getRequestURI()%>">   
+
+ 
+
+   <FORM METHOD="post" style="display:inline;" ACTION="<%=request.getRequestURI()%>">   
         <td>
            <select size="1" name="whichPage">
         <%for (int i=1; i<=pageNumber; i++){%>
@@ -31,5 +29,4 @@
         </td>
    </FORM>
  </tr>
-</table>
 <%}%>
