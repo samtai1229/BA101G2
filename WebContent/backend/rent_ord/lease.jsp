@@ -35,8 +35,7 @@ p{
 .btn{
 	margin:0px;
 }
-<<<<<<< HEAD
-=======
+
 #logoutBtn{
 	float:right;
 	margin-top:7px;
@@ -45,7 +44,6 @@ p{
 
 #block3{margin-top:45px;}
 
->>>>>>> 4590c4a84e1b39124ec111696fd3bc77f34430d0
 </style>
 <body>
 
