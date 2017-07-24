@@ -62,8 +62,7 @@
             </iframe>
         </ul>
         <!-- 右選單 -->
-        <ul class="nav navbar-nav navbar-right">
-        </ul>
+        
         <ul class="nav navbar-nav navbar-right">
         
 			<li><a href="#" id="navA">哈囉! <%= adminisVO.getName() %></a></li>
