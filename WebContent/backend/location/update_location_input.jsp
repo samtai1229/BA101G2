@@ -44,7 +44,7 @@
 </c:if>
 
 <FORM METHOD="post" ACTION="location.do" name="form1" enctype="multipart/form-data">
-<table border="0">
+<table border="1" width='500' align='center' valign='middle'>
 	<tr>
 		<td>¾ÚÂI½s¸¹:<font color=red><b>*</b></font></td>
 		<td><%=locationVO.getLocno()%></td>
@@ -86,13 +86,20 @@
 </table>
 
 <script>
-var sta = "<%=locationVO.getStatus()%>";
-var selectOpts = document.querySelectorAll("#selectStatus > option");
-for(var i = 0;  i < selectOpts.length; i++){
-	if( selectOpts[i].value ==  sta ){
-		selectOpts[i].selected = "selected";
+window.onload =
+	function init(){
+		var sta = "<%=locationVO.getStatus()%>";
+		console.log("sta= "+sta);
+		var selectOpts = document.querySelectorAll("#selectStatus > option");
+		for(var i = 0;  i < selectOpts.length; i++){
+			if( selectOpts[i].value ==  sta ){
+				selectOpts[i].selected = "selected";
+			}
+			if(	selectOpts[i].value.equal("preparing")){
+				selectOpts[i].selected = "close";
+			}
+		}
 	}
-}
 </script>
 
 <br>
