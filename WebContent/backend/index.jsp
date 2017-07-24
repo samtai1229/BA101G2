@@ -11,12 +11,17 @@
 
 <!-- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
 <%@ page import="com.adminis.model.*"%>
-<%  AdminisService as = new AdminisService();
+<%  
+	AdminisService as = new AdminisService();
 	AdminisVO adminisVO= (AdminisVO)session.getAttribute("adminisVO");
-     session.setAttribute("admins", adminisVO.getName());
-     session.setAttribute("adminisVO", adminisVO);
-     
-   
+	
+	if(adminisVO==null){
+		request.getRequestDispatcher("/backend/index.jsp").forward(request, response);
+	}else{
+		System.out.println("!!!!!!!!!!!"+adminisVO.getName());
+	    session.setAttribute("admins", adminisVO.getName());     
+	    session.setAttribute("adminisVO", adminisVO);
+	}
 %>
 <!-- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
 <!DOCTYPE html>
@@ -51,6 +56,7 @@
 <body background="<%=request.getContextPath()%>/backend/images/landspace.jpg">
 
 <%--nav start --%>
+<c:if test="<%=adminisVO!=null %>">
     <nav class="navbar navbar-default" role="navigation">
         <!-- logo區 -->
         <a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/backend/index.jsp" id="navA">AUTOBIKE</a>
@@ -155,6 +161,7 @@
        		<%} %>
         <div class="btn-group-vertical"></div>
     </div>
+</c:if> 
 <!----------------------------------------------- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
     <div class="col-xs-12 col-sm-10 rightHTML" id="demo">
 		<%-- <img src="<%=request.getContextPath()%>/backend/images/android_logo.png" id="mainPageLogo"> --%>
