@@ -331,7 +331,7 @@ pageContext.setAttribute("lat", lat);
 							<td>${locationVO.tel}</td>
 							<td > 
 							<img id="address" name="address" src="<%=request.getContextPath()%>/frontend/location/locReader.do?locno=${locationVO.locno}"
-										class="img-responsive img-circle" alt="" width="100" height="100" onclick=changeLatLng('${locationVO.locname}','${locationVO.addr}','${locationVO.lon}','${locationVO.lat}','${locationVO.tel}'),'${locationVO.locno}' ) />
+										class="img-responsive img-circle" alt="" width="100" height="100" onclick=changeLatLng('${locationVO.locname}','${locationVO.addr}','${locationVO.lon}','${locationVO.lat}','${locationVO.tel}','${locationVO.locno}') />
 							</td>
 						</tr>
 			</c:forEach>
@@ -391,7 +391,7 @@ var lons = "${lon}";
 var lats = "${lat}";
 var locationVO = "${locationVO}";
 
-var Lon,Lat,Name,Addr,Tel,Pic;
+var Lon,Lat,Name,Addr,Tel,No;
 var myMap;
 var map;
 var myPosition =[];
@@ -435,7 +435,7 @@ console.log("myPosition["+count+"]= "+myPosition[count]);
 	            center: myPosition[count],
 	            mapTypeId: google.maps.MapTypeId.ROADMAP
 	    });
-	 	 secretMessage = '<h2>${locationVO.locname}</h2><br>'+'${locationVO.addr}<br>'+'${locationVO.lon}<br>'+'${locationVO.lat}<br>'+'${locationVO.tel}<br>'+'<img class="infoImg" src="<%=request.getContextPath()%>/frontend/location/locReader.do?locno="+Pic> <br>';	 
+	 	 secretMessage = '<h2>${locationVO.locname}</h2><br>'+'${locationVO.addr}<br>'+'${locationVO.lon}<br>'+'${locationVO.lat}<br>'+'${locationVO.tel}<br>'+'<img class="infoImg" src="<%=request.getContextPath()%>/frontend/location/locReader.do?locno=${locationVO.locno}"> <br>';	 
 		 marker = 'marker'+count;	 
 		 marker = new google.maps.Marker({
 				position: myPosition[count],
@@ -447,7 +447,7 @@ console.log("myPosition["+count+"]= "+myPosition[count]);
 		}
 		
 		
-function changeLatLng(name,addr,lon,lat,tel,pic){
+function changeLatLng(name,addr,lon,lat,tel,no){
 	infowindowopen = false;
 	 count =1;
 	 Name = name;
@@ -455,12 +455,12 @@ function changeLatLng(name,addr,lon,lat,tel,pic){
 	 Lon = lon;
 	 Lat = lat;
 	 Tel = tel;
-	 Pic = pic;
+	 No = no;
 console.log("Name= "+name); 			
 console.log("Addr= "+addr); 			
 console.log("lon= "+Lon); 			
 console.log("lat= "+Lat); 	
-console.log("Pic= "+pic);
+console.log("No= "+No);
 		myPosition[count] = new google.maps.LatLng(Lon,Lat);
 console.log("myPosition["+count+"]= "+myPosition[count]);
 		 map = new google.maps.Map(myMap,{
@@ -475,7 +475,12 @@ console.log("myPosition["+count+"]= "+myPosition[count]);
 			map: map,
 			animation: google.maps.Animation.DROP
 		});
-	 secretMessage = '<h2>'+Name+'</h2><br>'+Addr+'<br>'+Lon+'<br>'+Lat+'<br>'+Tel+'<br>'+'<img class="infoImg" src="<%=request.getContextPath()%>/frontend/location/locReader.do?locno=${locationVO.locno}"><br>';
+	 secretMessage = '<h2>'+Name+'</h2><br>'+
+	 						Addr+'<br>'+
+	 						Lon+'<br>'+
+	 						Lat+'<br>'+
+	 						Tel+'<br>'+
+	 						'<img class="infoImg" src="<%=request.getContextPath()%>/frontend/location/locReader.do?locno='+No+'"> ';
 	 attachSecretMessage(marker, secretMessage);
 	 count++;
 	}
