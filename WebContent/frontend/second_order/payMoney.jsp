@@ -7,8 +7,11 @@
 <%@ page import="com.member.model.*" %>
 <%@ page import="java.util.*" %>
 <% 
-   MotorVO motorVO = (MotorVO) request.getAttribute("motorVO");
-   MotorModelVO mmVO = (MotorModelVO) request.getAttribute("mmVO");
+   String motno = (String)request.getAttribute("motno");
+   MotorService mSvc = new MotorService();
+   MotorVO motorVO = mSvc.findByPK(motno);
+   MotorModelService  mmSvc = new MotorModelService();
+   MotorModelVO mmVO = mmSvc.findByPK(motorVO.getModtype());
    String memno = (String) session.getAttribute("memno");
    String memname = (String) session.getAttribute("memname");
    MemberService memSvc = new MemberService();
