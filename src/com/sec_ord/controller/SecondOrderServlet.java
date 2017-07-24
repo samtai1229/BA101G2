@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.member.model.MemberService;
 import com.motor.model.MotorService;
 import com.motor.model.MotorVO;
 import com.motor_model.model.MotorModelService;
@@ -45,9 +46,10 @@ public class SecondOrderServlet extends HttpServlet {
 			MotorService motorSvc = new MotorService();
 			motorSvc.updateStatusByHib(motno, "secsaled");
 			SecOrdVO soVO = soSvc.addSecOrd(memno, motno);
-			
+			MemberService memSvc = new MemberService();
 			 req.setAttribute("memno", memno);
 			 req.setAttribute("motno", motno);
+			 req.setAttribute("memVO", memSvc.getOneMember(memno));
 			 req.setAttribute("soVO", soVO);
 			 String url = "/frontend/member/frontMember.jsp";
 			 RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp

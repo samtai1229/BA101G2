@@ -140,7 +140,7 @@
         <button class="accordion accordionMenu">活動企劃管理系統</button>
         <div class="btn-group-vertical">
             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/mes_board/listAllMesBoard.jsp" role="button">留言版管理</a>
-            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/news/news_select_page.jsp" role="button">最新消息管理</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/news/listAllNews.jsp" role="button">最新消息管理</a>
         </div>
         <%} %><%else {%>
         <div>
@@ -151,7 +151,7 @@
          <%if(adminisVO.getAuthno().equals("AC04") || adminisVO.getAuthno().equals("AC07")){%>
         <button class="accordion accordionMenu">後端管理系統</button>
         <div class="btn-group-vertical">
-       		<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/adminis/adm_select_page.jsp" role="button">後端權限管理</a>
+       		<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/adminis/listAllAdminis.jsp" role="button">後端權限管理</a>
 <!--             <a class="btn btn-default" href="#" role="button">推薦景點管理</a> -->
         </div>
          <%} %><%else {%>

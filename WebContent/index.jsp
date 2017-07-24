@@ -24,6 +24,7 @@
 	pageContext.setAttribute("newslist", newslist);
 	pageContext.setAttribute("error", error);
 	pageContext.setAttribute("error2", error2);
+	pageContext.setAttribute("location", location);
 	pageContext.setAttribute("listnormal",listnormal);
 	pageContext.setAttribute("listsize",list.size());
 %>
@@ -108,7 +109,7 @@
                     <div class="group">
                         <input type="submit" class="button" value="Sign In">
                         <input type="hidden" name="action" value="login">
-                        <input type="hidden" name="location" value="<%=location%>">
+                        <input type="hidden" name="location" value="<%=request.getServletPath()%>">
                     </div>
                     <div class="hr"></div>
                     <div class="foot-lnk">
@@ -138,7 +139,7 @@
                     <div class="group">
                         <input type="submit" class="button" value="Sign Up">
                         <input type="hidden" name="action" value="register">
-                        <input type="hidden" name="location" value="<%=location%>">
+                        <input type="hidden" name="location" value="<%=request.getServletPath()%>">
                     </div>
                     <div class="hr"></div>
                     <div class="foot-lnk">
@@ -582,7 +583,7 @@ $('#demo').daterangepicker({
 function doFirst()
 {
 	var error = "${error}";
-	var error2 = "${error2}";
+
     console.log(error);
 	if(error)
 	{
