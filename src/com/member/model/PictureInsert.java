@@ -71,15 +71,15 @@ public class PictureInsert {
 
 			MemberVO mmVO1 = new MemberVO();
 
-			byte[] pic;
+			byte[] pic1 ,pic2,pic3;
 
 			try {
-				pic = getPictureByteArray("C://IDCARD//F1.jpg"); //正面圖	
-//				pic = getPictureByteArray("C://IDCARD//B1.jpg"); //背面圖
-//				pic = getPictureByteArray("C://IDCARD//L1.jpg");
-				mmVO1.setIdcard1(pic);  //正面
-//	           mmVO1.setIdcard2(pic);  //背面			
-//	         mmVO1.setLicense(pic); //駕照
+				pic1 = getPictureByteArray("DB_Image//idcard//F1.jpg"); //正面圖	
+				pic2 = getPictureByteArray("DB_Image//idcard//B1.jpg"); //背面圖
+				pic3 = getPictureByteArray("DB_Image//idcard//L1.jpg");
+				mmVO1.setIdcard1(pic1);  //正面
+	           mmVO1.setIdcard2(pic2);  //背面			
+	         mmVO1.setLicense(pic3); //駕照
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
