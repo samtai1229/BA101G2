@@ -31,6 +31,36 @@ public class SecondOrderServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		String action = req.getParameter("action");
 		
+		if("buildOrder".equals(action)){
+			
+			
+			String location = req.getParameter("location");
+			System.out.println("我來自~~~"+location);
+			String motno = req.getParameter("motno");
+			System.out.println("想買的車輛編號是~~~"+motno);
+			String memno = req.getParameter("memno");
+			System.out.println("我是會員 編號是~~~~"+memno);
+			
+			SecOrdService soSvc = new SecOrdService();
+			MotorService motorSvc = new MotorService();
+			motorSvc.updateStatusByHib(motno, "secsaled");
+			SecOrdVO soVO = soSvc.addSecOrd(memno, motno);
+			
+			 req.setAttribute("memno", memno);
+			 req.setAttribute("motno", motno);
+			 req.setAttribute("soVO", soVO);
+			 String url = "/frontend/member/frontMember.jsp";
+			 RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
+		     successView.forward(req, res); 
+			
+			
+			  
+		}
+		
+		
+		
+		
+		
 		
 		if("DEAL".equals(action)){
 			
@@ -70,10 +100,10 @@ public class SecondOrderServlet extends HttpServlet {
 			 {
 				  errorMsgs.add("沒登入");
 				  req.setAttribute("error", errorMsgs.get(0));
-				    String url = "/index.jsp";
-				    
-					RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
-					successView.forward(req, res);
+				  String url = "/index.jsp";
+				  req.setAttribute("location", location);  
+				  RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交listOneEmp.jsp
+				  successView.forward(req, res);
 			 }
 			 else
 			 {

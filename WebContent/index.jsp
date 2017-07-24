@@ -6,6 +6,7 @@
 <%@ page import="com.news.model.*"%>
 
 <%
+    String location = (String)request.getAttribute("location");
 	LocationService locSvc = new LocationService();
 	NewsService newSvc = new NewsService();
 	List<NewsVO> listnormal = newSvc.getAllnormal();
@@ -14,6 +15,7 @@
 	String memno = (String)session.getAttribute("memno");
 	String memname = (String)session.getAttribute("memname");
 	String error = (String)request.getAttribute("error");
+	String error2 = (String)request.getAttribute("error2");
 	System.out.println(memno);
 	System.out.println(memname);
 	pageContext.setAttribute("list",list);
@@ -21,6 +23,7 @@
 	pageContext.setAttribute("memname",memname);
 	pageContext.setAttribute("newslist", newslist);
 	pageContext.setAttribute("error", error);
+	pageContext.setAttribute("error2", error2);
 	pageContext.setAttribute("listnormal",listnormal);
 	pageContext.setAttribute("listsize",list.size());
 %>
@@ -105,7 +108,7 @@
                     <div class="group">
                         <input type="submit" class="button" value="Sign In">
                         <input type="hidden" name="action" value="login">
-                        <input type="hidden" name="location" value="<%=request.getServletPath()%>">
+                        <input type="hidden" name="location" value="<%=location%>">
                     </div>
                     <div class="hr"></div>
                     <div class="foot-lnk">
@@ -135,7 +138,7 @@
                     <div class="group">
                         <input type="submit" class="button" value="Sign Up">
                         <input type="hidden" name="action" value="register">
-                        <input type="hidden" name="location" value="<%=request.getServletPath()%>">
+                        <input type="hidden" name="location" value="<%=location%>">
                     </div>
                     <div class="hr"></div>
                     <div class="foot-lnk">
@@ -579,10 +582,17 @@ $('#demo').daterangepicker({
 function doFirst()
 {
 	var error = "${error}";
+	var error2 = "${error2}";
     console.log(error);
 	if(error)
 	{
-		alert(error+"，請重新登入");
+		alert(error+"，請登入");
+		$("#modal-id").modal();
+	}
+	
+	if(error2)
+	{
+		alert(error2+"，請註冊不同名稱");
 		$("#modal-id").modal();
 	}
 }

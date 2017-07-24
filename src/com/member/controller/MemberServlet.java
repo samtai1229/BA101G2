@@ -353,6 +353,7 @@ public class MemberServlet extends HttpServlet {
 					errorMsgs.add("該帳號已存在");
 					System.out.println("該帳號已存在");
 					 memVO = memSvc.getOneMemberByAcc(acc);
+					 req.setAttribute("error2", errorMsgs.get(0));
 				}
 
 				if (!errorMsgs.isEmpty()) {

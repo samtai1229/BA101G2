@@ -17,19 +17,46 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=BIG5">
 <title>Insert title here</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
 
-<div class="col-xs-12 col-sm-12">
-<table  class="table table-hover" border='1' width='100%'>
-	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
-		<td>
-		<h3>二手車出售區</h3>
-		<a href="<%=request.getContextPath()%>/index.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a>
-		</td>
-	</tr>
-</table>
-</div>
+
+<nav class="navbar navbar-default" role="navigation">
+	 	<div class="container">
+	 		<div class="navbar-header">
+	 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+	 				<span class="sr-only">選單切換</span>
+	 				<span class="icon-bar"></span>
+	 				<span class="icon-bar"></span>
+	 				<span class="icon-bar"></span>
+	 			</button>
+	 			<a class="navbar-brand" href="#">二手車交易區</a>
+	 		</div>
+	 		
+	 		<!-- 手機隱藏選單區 -->
+	 		<div class="collapse navbar-collapse navbar-ex1-collapse">
+	 			<!-- 左選單 -->
+	 			<ul class="nav navbar-nav">
+	 				<li class="active"><a href="#">選擇你喜歡的車</a></li>
+	 				<li><a href="<%=request.getContextPath()%>/index.jsp">回首頁</a></li>
+	 			</ul>
+	 		
+	 			
+	 		
+	 			<!-- 右選單 -->
+	 			<c:if test="${not empty memVO}">
+	 			<ul class="nav navbar-nav navbar-right">
+	 				<li><a href="#">${memVO.memname} 您好</a></li>
+	 				<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout"
+              								data-toggle="modal">登出</a></li>
+	 			</ul>
+	 			</c:if>
+	 			
+	 		</div>
+	 		<!-- 手機隱藏選單區結束 -->
+	 	</div>
+	 </nav> 
 <table class="table table-hover" border='1' bordercolor='#CCCCFF' width='100%'>
 	<tr align='center' valign='middle'>
 		<th style="text-align:center">相片</th>
@@ -58,7 +85,7 @@
 <%-- 			<td>${motorVO.locno}</td>	 --%>
 <%-- 			<td>${motorVO.status}</td>	 --%>
 			
-			<td>
+			<td valign='middle'>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
 			     <input type="submit" value="我有興趣"> 
 			     <input type="hidden" name="motno" value="${motorVO.motno}">
@@ -72,6 +99,7 @@
 
 
 
-
+<script src="https://code.jquery.com/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>

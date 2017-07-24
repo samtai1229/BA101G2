@@ -138,7 +138,7 @@
                     </div>                    
                 </div>
                 <div class="panel-body">
-                    <form role="form" id="payment-form" method="POST" action="javascript:void(0);">
+                    <form role="form" id="payment-form" method="POST" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="form-group">
@@ -196,7 +196,7 @@
                         <div class="row">
                             <div class="col-xs-12">
                            
-                                <input class="subscribe btn btn-success btn-lg btn-block" type="submit" value="送出">
+                                <input class="subscribe btn btn-success btn-lg btn-block" type="submit" onclick="ShowSuccess();" value="送出">
                           
                             </div>
                         </div>
@@ -205,7 +205,11 @@
                                 <p class="payment-errors"></p>
                             </div>
                         </div>
-                    
+                     <input type="hidden" name="memno" value="${memVO.memno}">
+                     <input type="hidden" name="motno" value="${motorVO.motno}">
+                     <input type="hidden" name="modtype" value="${mm.modtype}">
+                     <input type="hidden" name="location" value="<%=request.getServletPath()%>">
+                     <input type="hidden" name="action" value="buildOrder">
                     </form>
                 </div>
             </div>            
@@ -406,6 +410,13 @@ var readyInterval = setInterval(function() {
         clearInterval(readyInterval);
     }
 }, 250);
+
+  function ShowSuccess()
+  {
+	  alert("訂單成立，請去會員專區查詢!");
+  }
+
+
 			
 		</script>
 	</body>
