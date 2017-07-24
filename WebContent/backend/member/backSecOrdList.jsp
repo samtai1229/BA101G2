@@ -5,14 +5,19 @@
 <%@ page import="com.sec_ord.model.*"%>
 <!-- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
 <%@ page import="com.adminis.model.*"%>
-<%  AdminisService as = new AdminisService();
+<%  
+	AdminisService as = new AdminisService();
 	AdminisVO adminisVO= (AdminisVO)session.getAttribute("adminisVO");
-	System.out.println("!!!!!!!!!!!"+adminisVO.getName());
-     session.setAttribute("admins", adminisVO.getName());
-     session.setAttribute("adminisVO", adminisVO);
+	
+	if(adminisVO==null){
+		request.getRequestDispatcher("/backend/index.jsp").forward(request, response);
+	}else{
+		System.out.println("!!!!!!!!!!!"+adminisVO.getName());
+	    session.setAttribute("admins", adminisVO.getName());     
+	    session.setAttribute("adminisVO", adminisVO);
+	}
 %>
 <!-- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
-
 <%
 	SecOrdService soSvc = new SecOrdService();
     String status = request.getParameter("status");
