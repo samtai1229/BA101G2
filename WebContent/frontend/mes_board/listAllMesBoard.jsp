@@ -6,22 +6,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page import="com.adminis.model.*"%>
-<%  AdminisService adms = new AdminisService();
-	AdminisVO adminisVO= (AdminisVO)session.getAttribute("adminisVO");
-     session.setAttribute("admins", adminisVO.getName());
-     session.setAttribute("adminisVO", adminisVO);
-     
-   
-%>
-
 <%
 	MesBoardVO mesboardVO = (MesBoardVO) request.getAttribute("mesboardVO");
 %>
 <%
 	MemberService as = new MemberService();
 	MemberVO memberVO = (MemberVO) session.getAttribute("memberVO");
-
 	String memno = (String) session.getAttribute("memno");
 	String memname = (String) session.getAttribute("memname");
 %>
@@ -82,7 +72,7 @@ body {
 
 
 
-<div class="col-xs-12 col-sm-12" align="right" style="background-color:	#000000;height:50px;" ><div><font style="color:#FFAA33" size="4">哈囉! <%= adminisVO.getName() %></font><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><input type="button"   style="width:100px;height:30px;font-size:20px;"  value="回首頁"  class="btn btn-primary"  onclick="location.href='<%=request.getContextPath()%>/index.jsp'"></div></div>
+<div class="col-xs-12 col-sm-12" align="right" style="background-color:	#000000;height:50px;" ><div><font style="color:#FFAA33" size="4">哈囉! <%= memname %></font><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><input type="button"   style="width:100px;height:30px;font-size:20px;"  value="回首頁"  class="btn btn-primary"  onclick="location.href='<%=request.getContextPath()%>/index.jsp'"></div></div>
 
 	
 	<%@ include file="page1.file"%>
