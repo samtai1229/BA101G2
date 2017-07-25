@@ -32,6 +32,8 @@ MemberVO memVO = (MemberVO) request.getAttribute("memVO");
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css" >
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/dataTables.min.css">
 	
+	
+	
 <title>會員資料新增 - addSpot.jsp</title>
 </head>
 <style>
@@ -166,8 +168,6 @@ textarea{
 <!----------------------------------------------- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
     
     
-    
-    
     <div class="col-xs-12 col-sm-10 rightHTML">
 
 		<div class="topTitle">
@@ -277,6 +277,10 @@ textarea{
 	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_1_10_1_min.js"></script>
 	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_ui_1_10_3.js"></script>
 	<script src="<%=request.getContextPath()%>/js/dataTables.min.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.js"></script>
+    <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/rentOrdNew.js"></script>
+    <script src="<%=request.getContextPath()%>/backend/rent_ord/Modified/motorKanli_for_ro.js"></script>	
+    
 <script>
 function doFirst(){
 	document.getElementById('myFile').onchange = fileChange;

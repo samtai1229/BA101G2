@@ -1,5 +1,20 @@
 <%@ page contentType="text/html; charset=Big5"%>
 <%@ page import="com.location.model.*"%>
+<!-- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
+<%@ page import="com.adminis.model.*"%>
+<%  
+	AdminisService as = new AdminisService();
+	AdminisVO adminisVO= (AdminisVO)session.getAttribute("adminisVO");
+	
+	if(adminisVO==null){
+		request.getRequestDispatcher("/backend/index.jsp").forward(request, response);
+	}else{
+		System.out.println("!!!!!!!!!!!"+adminisVO.getName());
+	    session.setAttribute("admins", adminisVO.getName());     
+	    session.setAttribute("adminisVO", adminisVO);
+	}
+%>
+<!-- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
 <%
 LocationVO locationVO = (LocationVO) request.getAttribute("locationVO"); //EmpServlet.java(Concroller), 存入req的empVO物件
 %>
