@@ -15,25 +15,31 @@ public class PictureInsert {
 	String userid = "ba101g2";
 	String passwd = "ba101g2";
 
-	private static final String UPDATE_F = "UPDATE MEMBER set " + "  IDCARD1=?  where MEMNO = ?";
-	private static final String UPDATE_B = "UPDATE MEMBER set " + "  IDCARD2=?  where MEMNO = ?";
-	private static final String UPDATE_L = "UPDATE MEMBER set " + "  LICENSE=?  where MEMNO = ?";
+	private static final String UPDATE = "UPDATE MEMBER set " + "  IDCARD1=? , IDCARD2=? , LICENSE=? where MEMNO = ?";
+
 	public void update(MemberVO memVO) {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
+		PreparedStatement pstmt3 = null;
 
 		try {
 
 			Class.forName(driver);
 			con = DriverManager.getConnection(url, userid, passwd);
-			pstmt = con.prepareStatement(UPDATE_F); //正面
-//			pstmt = con.prepareStatement(UPDATE_B); //背面		
-//            pstmt = con.prepareStatement(UPDATE_L);  //駕照
+			pstmt = con.prepareStatement(UPDATE); //正面
+//			pstmt2 = con.prepareStatement(UPDATE_B); //背面		
+//            pstmt3 = con.prepareStatement(UPDATE_L);  //駕照
 			pstmt.setBytes(1, memVO.getIdcard1()); //拿到正背面 or 駕照
-			pstmt.setString(2, memVO.getMemno());
-
-
+//			pstmt1.setString(2, memVO.getMemno());
+			pstmt.setBytes(2, memVO.getIdcard2()); //拿到正背面 or 駕照
+//			pstmt2.setString(2, memVO.getMemno());
+			pstmt.setBytes(3, memVO.getLicense()); //拿到正背面 or 駕照
+			pstmt.setString(4, memVO.getMemno());
+//
+//			pstmt1.executeUpdate();
+//			pstmt2.executeUpdate();
 			pstmt.executeUpdate();
 			//con.commit();
 			// Handle any driver errors
