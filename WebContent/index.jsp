@@ -192,7 +192,7 @@
         						</a>
        						</li>
        						<li>
-       							<a class="page-scroll" href="#board">
+       							<a class="page-scroll" href="<%=request.getContextPath()%>/frontend/mes_board/listAllMesBoard.jsp">
        								<i class="fa fa-comments-o"></i>
        								留言板
        							</a>
@@ -347,90 +347,51 @@
  </div>
  </div>
  </section>
-	<!--  <section id="board" class="col-xs-12 col-sm-12">
-      
-            <div class="row">
-                <br/>
-                <div class="col-xs-12 col-sm-12 text-center">
-                    <h2 class="intro-lead-in">留言板</h2>
-                    <h3 class="intro-heading">記錄感動的每一刻</h3>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 col-sm-4 aa">
-                    <br/>
-                    <div class="col-xs-12 col-sm-12">
-                        <a href="leave_message_Page.html"> <img src="https://api.fnkr.net/testimg/450x200/00CED1/FFF/?text=img+placeholder" class="img-responsive img-circle  img-centered"></a>
-                    </div>
-                    <div class="col-xs-12 col-sm-12  text-center">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-4 aa ">
-                    <br/>
-                    <div class="col-xs-12 col-sm-12">
-                        <a href="leave_message_Page.html"><img src="https://api.fnkr.net/testimg/450x200/00CED1/FFF/?text=img+placeholder" class="img-responsive img-circle  img-centered"></a>
-                    </div>
-                    <div class="col-xs-12 col-sm-12  text-center">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-4 aa ">
-                    <br/>
-                    <div class="col-xs-12 col-sm-12">
-                        <a href="contact.html"> <img src="https://api.fnkr.net/testimg/450x200/00CED1/FFF/?text=img+placeholder" class="img-responsive img-circle  img-centered"></a>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 text-center">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </div>
-                </div>
-            </div>
-        
-    </section> -->
-	<section id="board">
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-xs-12 col-sm-12 text-center">
-					<h2 class="section-heading">留言板</h2>
-				<h4>	<a href="#" id="general">Enter MESSAGE BOARD</a></h4>
+	
+<!-- 	<section id="board"> -->
+<!-- 		<div class="container-fluid"> -->
+<!-- 			<div class="row"> -->
+<!-- 				<div class="col-xs-12 col-sm-12 text-center"> -->
+<!-- 					<h2 class="section-heading">留言板</h2> -->
+<!-- 				<h4>	<a href="#" id="general">Enter MESSAGE BOARD</a></h4> -->
 
 
-				</div>
-			</div>
-			<div class="row text-center">
-				<div class="col-md-4">
-					<span class="fa-stack fa-4x"> <i
-						class="fa fa-circle fa-stack-2x text-primary"></i> <i
-						class="fa fa-shopping-cart fa-stack-1x fa-inverse"></i>
-					</span>
-					<h4 class="service-heading">E-Commerce</h4>
-					<p class="text-muted">Lorem ipsum dolor sit amet, consectetur
-						adipisicing elit. Minima maxime quam architecto quo inventore
-						harum ex magni, dicta impedit.</p>
-				</div>
-				<div class="col-md-4">
-					<span class="fa-stack fa-4x"> <i
-						class="fa fa-circle fa-stack-2x text-primary"></i> <i
-						class="fa fa-laptop fa-stack-1x fa-inverse"></i>
-					</span>
-					<h4 class="service-heading">Responsive Design</h4>
-					<p class="text-muted">Lorem ipsum dolor sit amet, consectetur
-						adipisicing elit. Minima maxime quam architecto quo inventore
-						harum ex magni, dicta impedit.</p>
-				</div>
-				<div class="col-md-4">
-					<span class="fa-stack fa-4x"> <i
-						class="fa fa-circle fa-stack-2x text-primary"></i> <i
-						class="fa fa-lock fa-stack-1x fa-inverse"></i>
-					</span>
-					<h4 class="service-heading">Web Security</h4>
-					<p class="text-muted">Lorem ipsum dolor sit amet, consectetur
-						adipisicing elit. Minima maxime quam architecto quo inventore
-						harum ex magni, dicta impedit.</p>
-				</div>
-			</div>
-		</div>
-	</section>
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 			<div class="row text-center"> -->
+<!-- 				<div class="col-md-4"> -->
+<!-- 					<span class="fa-stack fa-4x"> <i -->
+<!-- 						class="fa fa-circle fa-stack-2x text-primary"></i> <i -->
+<!-- 						class="fa fa-shopping-cart fa-stack-1x fa-inverse"></i> -->
+<!-- 					</span> -->
+<!-- 					<h4 class="service-heading">E-Commerce</h4> -->
+<!-- 					<p class="text-muted">Lorem ipsum dolor sit amet, consectetur -->
+<!-- 						adipisicing elit. Minima maxime quam architecto quo inventore -->
+<!-- 						harum ex magni, dicta impedit.</p> -->
+<!-- 				</div> -->
+<!-- 				<div class="col-md-4"> -->
+<!-- 					<span class="fa-stack fa-4x"> <i -->
+<!-- 						class="fa fa-circle fa-stack-2x text-primary"></i> <i -->
+<!-- 						class="fa fa-laptop fa-stack-1x fa-inverse"></i> -->
+<!-- 					</span> -->
+<!-- 					<h4 class="service-heading">Responsive Design</h4> -->
+<!-- 					<p class="text-muted">Lorem ipsum dolor sit amet, consectetur -->
+<!-- 						adipisicing elit. Minima maxime quam architecto quo inventore -->
+<!-- 						harum ex magni, dicta impedit.</p> -->
+<!-- 				</div> -->
+<!-- 				<div class="col-md-4"> -->
+<!-- 					<span class="fa-stack fa-4x"> <i -->
+<!-- 						class="fa fa-circle fa-stack-2x text-primary"></i> <i -->
+<!-- 						class="fa fa-lock fa-stack-1x fa-inverse"></i> -->
+<!-- 					</span> -->
+<!-- 					<h4 class="service-heading">Web Security</h4> -->
+<!-- 					<p class="text-muted">Lorem ipsum dolor sit amet, consectetur -->
+<!-- 						adipisicing elit. Minima maxime quam architecto quo inventore -->
+<!-- 						harum ex magni, dicta impedit.</p> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 	</section> -->
 	<aside id="loc">
   <div class="container-fluid bg-light-gray">
    
