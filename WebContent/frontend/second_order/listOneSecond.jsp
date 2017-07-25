@@ -81,7 +81,7 @@
 <!-- 		<th>出廠日期</th> -->
 <!-- 		<th>里程數</th> -->
 		<th style="text-align:center">售價(NTD)</th>
-<!-- 		<th>據點</th> -->
+		<th  style="text-align:center">購買</th>
 <!-- 		<th>status</th> -->
 <!-- 		<th>note</th> -->
 	</tr>

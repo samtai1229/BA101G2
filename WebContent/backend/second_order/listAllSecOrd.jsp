@@ -109,7 +109,11 @@
 			<td>${soVO.motorno}</td>
 			<td><fmt:formatDate pattern = "yyyy-MM-dd hh:mm" 
          value = "${soVO.buildtime}" /></td>
-			<td>${soVO.status}</td>		 
+			<td><select  name="Order_Status">
+	       	   <option ${soVO.status == 'unpaid' ? 'selected="selected"' : ''} value="unpaid">未付款
+	       	   <option ${soVO.status == 'paid' ? 'selected="selected"' : ''} value="paid">已付款
+	       	   <option ${soVO.status == 'closed' ? 'selected="selected"' : ''} value="closed">已交車
+			    </select></td>		 
 			
 			<td>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
@@ -118,20 +122,21 @@
 			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--><!-- 目前尚未用到  -->
 			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
 			</td>
-			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
-			    <input type="submit" value="刪除">
-			    <input type="hidden" name="sono" value="${soVO.sono}">
-			    <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller-->
-			    <input type="hidden" name="action"value="delete"></FORM>
-			</td>
+<!-- 			<td> -->
+<%-- 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do"> --%>
+<!-- 			    <input type="submit" value="刪除"> -->
+<%-- 			    <input type="hidden" name="sono" value="${soVO.sono}"> --%>
+<%-- 			    <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--> --%>
+<!-- 			    <input type="hidden" name="action"value="delete"></FORM> -->
+<!-- 			</td> -->
 		</tr>
 	</c:forEach>
 </table>
 <%@ include file="pages/page2.file" %>
 
-<br>本網頁的路徑:<br><b>
-   <font color=blue>request.getServletPath():</font> <%= request.getServletPath()%><br>
-   <font color=blue>request.getRequestURI(): </font> <%= request.getRequestURI()%> </b>
+<!-- <br>本網頁的路徑:<br><b> -->
+<%--    <font color=blue>request.getServletPath():</font> <%= request.getServletPath()%><br> --%>
+<%--    <font color=blue>request.getRequestURI(): </font> <%= request.getRequestURI()%> </b> --%>
 </body>
+
 </html>

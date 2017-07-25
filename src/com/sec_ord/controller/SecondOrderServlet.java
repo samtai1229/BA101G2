@@ -44,7 +44,7 @@ public class SecondOrderServlet extends HttpServlet {
 			
 			SecOrdService soSvc = new SecOrdService();
 			MotorService motorSvc = new MotorService();
-			motorSvc.updateStatusByHib(motno, "secsaled");
+			motorSvc.updateStatusByHib(motno, "secreserved");
 			SecOrdVO soVO = soSvc.addSecOrd(memno, motno);
 			MemberService memSvc = new MemberService();
 			 req.setAttribute("memno", memno);
@@ -90,7 +90,7 @@ public class SecondOrderServlet extends HttpServlet {
 		if("I_WANT_IT".equals(action))
 		{
 			String memno = (String)req.getSession().getAttribute("memno");
-			String memname = (String)req.getSession().getAttribute("memname");
+			String status = (String)req.getSession().getAttribute("status");
 			String motno = req.getParameter("motno");
 			String location = req.getParameter("location");
 			System.out.println(location);
@@ -98,9 +98,9 @@ public class SecondOrderServlet extends HttpServlet {
 			// Store this set in the request scope, in case we need to
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
-			 if(memno == null || memname==null)
+			 if(memno == null || !status.equals("confirmed"))
 			 {
-				  errorMsgs.add("沒登入");
+				  errorMsgs.add("沒有購買資格，請登入並完成認證程序");
 				  req.setAttribute("error", errorMsgs.get(0));
 				  String url = "/index.jsp";
 				  req.setAttribute("location", location);  
@@ -358,17 +358,19 @@ public class SecondOrderServlet extends HttpServlet {
 
 			try {
 				/*************************** 1.接收請求參數 ****************************************/
-				
+				String status = req.getParameter("Order_Status");
 				String sono = req.getParameter("sono");
 				/*************************** 2.開始查詢資料 ****************************************/
 				SecOrdService soSvc = new SecOrdService();
 				SecOrdVO soVO = soSvc.getOneSecOrdBySono(sono);
-
+                soSvc.updateSecOrd(soVO.getMemno(), soVO.getMotorno(),
+                		soVO.getBuildtime(),status,sono);
 				/***************************
 				 * 3.查詢完成,準備轉交(Send the Success view)
 				 ************/
+                req.setAttribute("status", status);
 				req.setAttribute("soVO", soVO); // 資料庫取出的empVO物件,存入req
-				String url = "/frontend/second_order/update_SecOrd_input.jsp";
+				String url = "/backend/second_order/update_SecOrd_input.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 成功轉交update_emp_input.jsp
 				successView.forward(req, res);
 
@@ -394,16 +396,9 @@ public class SecondOrderServlet extends HttpServlet {
 				String memno = req.getParameter("memno").trim();
 				Timestamp sodate =Timestamp.valueOf( req.getParameter("sodate"));
 				String status = req.getParameter("status");
-				SecOrdVO soVO = new SecOrdVO();
+				SecOrdVO soVO = null;
 
-				// Send the use back to the form, if there were errors
-				if (!errorMsgs.isEmpty()) {
-					req.setAttribute("soVO", soVO); // 含有輸入格式錯誤的empVO物件,也存入req
-					RequestDispatcher failureView = req
-							.getRequestDispatcher("/frontend/second_order/listOneSecOrd.jsp");
-					failureView.forward(req, res);
-					return; // 程式中斷
-				}
+			
 
 				/*************************** 2.開始修改資料 *****************************************/
 				SecOrdService soSvc = new SecOrdService();
@@ -413,7 +408,7 @@ public class SecondOrderServlet extends HttpServlet {
 				 * 3.修改完成,準備轉交(Send the Success view)
 				 *************/
 				req.setAttribute("soVO", soVO); // 資料庫update成功後,正確的的empVO物件,存入req
-				String url = "/frontend/second_order/listOneSecOrd.jsp";
+				String url = "/backend/second_order/listOneSecOrd.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url); // 修改成功後,轉交listOneEmp.jsp
 				successView.forward(req, res);
 
@@ -421,7 +416,7 @@ public class SecondOrderServlet extends HttpServlet {
 			} catch (Exception e) {
 				errorMsgs.add("修改資料失敗:" + e.getMessage());
 				RequestDispatcher failureView = req
-						.getRequestDispatcher("/frontend/second_order/update_SecOrd_input.jsp");
+						.getRequestDispatcher("/backend/second_order/update_SecOrd_input.jsp");
 				failureView.forward(req, res);
 			}
 		}

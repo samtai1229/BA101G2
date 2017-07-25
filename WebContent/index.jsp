@@ -587,17 +587,17 @@ $('#demo').daterangepicker({
 function doFirst()
 {
 	var error = "${error}";
-
+	var error2 = "${error2}";
     console.log(error);
 	if(error)
 	{
-		alert(error+"，請登入");
+		alert(error);
 		$("#modal-id").modal();
 	}
 	
 	if(error2)
 	{
-		alert(error2+"，請註冊不同名稱");
+		alert(error2);
 		$("#modal-id").modal();
 	}
 }

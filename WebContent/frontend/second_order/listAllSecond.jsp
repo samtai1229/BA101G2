@@ -58,7 +58,7 @@
 	 	</div>
 	 </nav> 
 <table class="table table-hover" border='1' bordercolor='#CCCCFF' width='100%'>
-	<tr align='center' valign='middle'>
+	<tr>
 		<th style="text-align:center">相片</th>
 <!-- 		<th style="text-align:center">車輛編號</th> -->
 <!-- 		<th style="text-align:center">車牌號碼</th> -->
@@ -87,7 +87,7 @@
 			
 			<td valign='middle'>
 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
-			     <input type="submit" value="我有興趣"> 
+			     <input class="btn btn-success" type="submit" value="我有興趣"> 
 			     <input type="hidden" name="motno" value="${motorVO.motno}">
 			     <input type="hidden" name="location"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--><!-- 目前尚未用到  -->
 			     <input type="hidden" name="action"	value="I_WANT_IT"></FORM>
