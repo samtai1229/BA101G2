@@ -1,176 +1,573 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
-<%@	page import="java.sql.Timestamp"%>
-<%@	page import="java.text.SimpleDateFormat"%>
-<%@	page import="java.text.DateFormat"%>
-<%@ page import="com.motor.model.*"%>
-<%@ page import="javax.naming.*" %>
+<%@ page import="com.location.model.*"%>
+<%@ page import="com.news.model.*"%>
 
-
-<!-- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
-<%@ page import="com.adminis.model.*"%>
-<%  
-	AdminisService as = new AdminisService();
-	AdminisVO adminisVO= (AdminisVO)session.getAttribute("adminisVO");
-	
-	if(adminisVO==null){
-		request.getRequestDispatcher("/backend/index.jsp").forward(request, response);
-	}else{
-		System.out.println("!!!!!!!!!!!"+adminisVO.getName());
-	    session.setAttribute("admins", adminisVO.getName());     
-	    session.setAttribute("adminisVO", adminisVO);
-	}
+<%
+    String location = (String)request.getAttribute("location");
+	LocationService locSvc = new LocationService();
+	NewsService newSvc = new NewsService();
+	List<NewsVO> listnormal = newSvc.getAllnormal();
+	List<NewsVO> newslist = newSvc.getAll();
+	List<LocationVO> list = locSvc.getAllStatusOpen();
+	String memno = (String)session.getAttribute("memno");
+	String memname = (String)session.getAttribute("memname");
+	String error = (String)request.getAttribute("error");
+	String error2 = (String)request.getAttribute("error2");
+	System.out.println(memno);
+	System.out.println(memname);
+	pageContext.setAttribute("list",list);
+	pageContext.setAttribute("memno",memno);
+	pageContext.setAttribute("memname",memname);
+	pageContext.setAttribute("newslist", newslist);
+	pageContext.setAttribute("error", error);
+	pageContext.setAttribute("error2", error2);
+	pageContext.setAttribute("location", location);
+	pageContext.setAttribute("listnormal",listnormal);
+	pageContext.setAttribute("listsize",list.size());
 %>
-<!-- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
+
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
+<meta name="generator" content="HTML Tidy for HTML5 (experimental) for Windows https://github.com/w3c/tidy-html5/tree/c63cc39" />
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>AutoBike Homepage</title>
 
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/google_family_kaushan_script.css" />
- 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/jquery_ui_1_10_3_theme.css"/>	
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.css">    
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/backendHP_css.css"> 
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css" >
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/news.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/twitter_bootstrap_3_3_7_min.css">
+<!-- Custom Fonts -->
+<link rel="stylesheet" href="<%=request.getContextPath()%>/vendor/font-awesome/css/font-awesome.min.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/google_family_droid_serif.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/google_family_kaushan_script.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/google_family_montserrat.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/google_family_roboto_slab.css" />
+<!-- Theme CSS -->
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/gallery.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.carousel.min.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.theme.default.min.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/magnific-popup.css" />
+<!-- Theme Style -->
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/agency.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/agency.min.css" />
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/daterangepicker.css" />
 
-	<title>Backend HP</title>	
-</head>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style_login.css">
+<link rel='stylesheet prefetch' href="<%=request.getContextPath()%>/css/google_family_open_sans.css">
+
 <style>
-#mainPageLogo{
-		display:block; 
-	margin:auto;
-	valign:center;
-}
 
-#logoutBtn{
-	float:right;
-	margin-top:7px;
-	margin-right:20px;
-}
+ #demo{
+ width:277px;
+ }
+ </style>
+</head>
 
-</style>
+<body id="page-top" class="index">
+	<!-- �|���n�J�O�c -->
+	<div class="modal fade" id="modal-id">
+		<div class="modal-dialog">
+			<div >
+			<!-- 	<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title">�n�J�|��</h4>
+				</div> -->
+				<div class="modal-body">
+				   <button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					
 
-<body background="<%=request.getContextPath()%>/backend/images/landspace.jpg">
-
-<%--nav start --%>
-<c:if test="<%=adminisVO!=null %>">
-    <nav class="navbar navbar-default" role="navigation">
-        <!-- logo區 -->
-        <a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/backend/index.jsp" id="navA">AUTOBIKE</a>
-        <!-- 左選單 -->
-        <ul class="nav navbar-nav">
-            <li><a href="#" id="navA">後端管理系統</a></li>
-            <!-- 時鐘 -->
-            <iframe scrolling="no" frameborder="no" clocktype="html5" style="overflow:hidden;border:0;margin:0;margin-top:5px;padding:0;width:120px;height:40px;" src="http://www.clocklink.com/html5embed.php?clock=004&timezone=CCT&color=yellow&size=120&Title=&Message=&Target=&From=2017,1,1,0,0,0&Color=yellow">
-            </iframe>
-        </ul>
-        <!-- 右選單 -->
-        
-        <ul class="nav navbar-nav navbar-right">
-        
-			<li><a href="#" id="navA">哈囉! <%= adminisVO.getName() %></a></li>
-			<li><a href="<%=request.getContextPath()%>/admin.do?action=logout" id="navA"><i
-					class="glyphicon glyphicon-log-out"></i>登出</a></li>
-		</ul>
-    </nav>
-<%--nav end --%>
-    
-<!------------------------------- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
-    <div class="col-xs-12 col-sm-2 leftBar">
-     	<img id="menuLogo" src="<%=request.getContextPath()%>/backend/images/android_logo2.jpg">
-       		<%if(adminisVO.getAuthno().equals("AC01") || adminisVO.getAuthno().equals("AC07")){%>     
-        <button class="accordion accordionMenu accordion accordionMenuMenu">總部管理系統</button> 
-        <div class="btn-group-vertical">
-            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/motor/motorMgmtHqSelectPage.jsp"  role="button">車輛管理</a>
-            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/motorDispatchMgmtHq.jsp"  role="button">車輛調度管理</a>           
-			<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/backendRentOrd.jsp" role="button">租賃單管理</a>
-            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/equipment/emtMgmtSelectPage.jsp" role="button">裝備管理</a>
-            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/location/listAllLocation.jsp" role="button">據點管理</a>
+										<div class="login-wrap">
+        <div class="login-html" style="width:100% height:1000px">
+            <input id="tab-1" type="radio" name="tab" class="sign-in" checked>
+            <label for="tab-1" class="tab">�n�J</label>
+            <input id="tab-2" type="radio" name="tab" class="sign-up">
+            <label for="tab-2" class="tab">���U</label>
+            <div class="login-form">
+            <form method="post" action="<%=request.getContextPath()%>/backend/member/member.do">
+                <div class="sign-in-htm">
+                    <div class="group">
+                        <label for="acc" class="label">�b��</label>
+                        <input id="acc" name="acc" type="text" class="input">
+                    </div>
+                    <div class="group">
+                        <label for="pwd" class="label">�K�X</label>
+                        <input id="pwd" name="pwd" type="password" class="input" data-type="password">
+                    </div>
+                    <div class="group">
+                        <input id="check" name="check" type="checkbox" class="check" checked>
+                        <label for="check"><span class="icon"></span>�O����</label>
+                    </div>
+                    <div class="group">
+                        <input type="submit" class="button" value="Sign In">
+                        <input type="hidden" name="action" value="login">
+                        <input type="hidden" name="location" value="<%=request.getServletPath()%>">
+                    </div>
+                    <div class="hr"></div>
+                    <div class="foot-lnk">
+                        <a href="#forgot">�ѰO�K�X?</a>
+                    </div>
+                   
+                </div>
+				</form>
+                <form method="post" action="<%=request.getContextPath()%>/backend/member/member.do">
+                <div class="sign-up-htm">
+                    <div class="group">
+                        <label for="new_acc" class="label">�b��</label>
+                        <input name="new_acc" type="text" class="input">
+                    </div>
+                    <div class="group">
+                        <label for="new_pwd" class="label">�K�X</label>
+                        <input name="new_pwd" type="password" class="input" data-type="password">
+                    </div>
+                    <div class="group">
+                        <label for="pass" class="label">�T�{�K�X</label>
+                        <input name="pass" type="password" class="input" data-type="password">
+                    </div>
+                    <div class="group">
+                        <label for="mail" class="label">�H�c</label>
+                        <input id="mail" name="mail" type="email" class="input">
+                    </div>
+                    <div class="group">
+                        <input type="submit" class="button" value="Sign Up">
+                        <input type="hidden" name="action" value="register">
+                        <input type="hidden" name="location" value="<%=request.getServletPath()%>">
+                    </div>
+                    <div class="hr"></div>
+                    <div class="foot-lnk">
+                        <label for="tab-1">�w�g�O�|��?</label>
+                    </div>
+                </div>
+                </form>
+            </div>
         </div>
-       		<%} %><%else {%>
-        <div>
-        	<button class="accordion accordionMenu accordion accordionMenuMenu" style="background-color:pink;">總部管理系統</button>		
-        </div>
-       		<%} %>
-       		
-     	<%if(adminisVO.getAuthno().equals("AC02") || adminisVO.getAuthno().equals("AC07")){%> 
-        <button class="accordion accordionMenu">據點管理系統</button>
-        <div class="btn-group-vertical">
-        	<a class="btn btn-default" href="#" role="button">據點車輛管理</a>
-        	<a class="btn btn-default" href="${pageContext.request.contextPath}/backend/equipment/locEmtMgmtSelectPage.jsp" role="button">據點裝備管理</a>
-            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/lease.jsp"  role="button">交車管理</a>
-          	<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/return.jsp"  role="button">還車管理</a>
-            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/locMotorDispatchApply.jsp" role="button">車輛調度申請</a>
-            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/emt_dispatch/locEmtDispatchApply.jsp" role="button">裝備申請</a>
-         </div>
-         <%} %><%else {%>
-        <div>
-        	<button class="accordion accordionMenu accordion accordionMenuMenu" style="background-color:pink;">據點管理系統</button>		
-        </div>
-       		<%} %>
-       		
-       		 <%if(adminisVO.getAuthno().equals("AC05") || adminisVO.getAuthno().equals("AC07")){%>
-        <button class="accordion accordionMenu">二手車管理系統</button>
-        <div class="btn-group-vertical">
-       		<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/second_order/SaleOnOff.jsp?who=${admins}" role="button">二手車輛管理</a>
-            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/second_order/listAllSecOrd.jsp" role="button">二手交易管理</a>
-<%--             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/second_order/SaleOnOff.jsp" role="button">二手車交易管理</a> --%>
-        </div>
-         <%} %><%else {%>
-        <div>
-        	<button class="accordion accordionMenu accordion accordionMenuMenu" style="background-color:pink;">二手車管理系統</button>		
-        </div>
-       		<%} %>
-       		
-       		 <%if(adminisVO.getAuthno().equals("AC03") || adminisVO.getAuthno().equals("AC07")){%>
-       <button class="accordion accordionMenu">會員管理系統</button>
-        <div class="btn-group-vertical">
-       		<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/member/backendMember.jsp" role="button">會員管理</a>
-            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/member/addMember.jsp" role="button">新增會員</a>
-         </div>
-        <%} %><%else {%>
-        <div>
-        	<button class="accordion accordionMenu accordion accordionMenuMenu" style="background-color:pink;">會員管理系統</button>		
-        </div>
-       		<%} %>
-       		
-       		<%if(adminisVO.getAuthno().equals("AC06") || adminisVO.getAuthno().equals("AC07")){%>
-        <button class="accordion accordionMenu">活動企劃管理系統</button>
-        <div class="btn-group-vertical">
-            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/mes_board/listAllMesBoard.jsp" role="button">留言版管理</a>
-            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/news/listAllNews.jsp" role="button">最新消息管理</a>
-        </div>
-        <%} %><%else {%>
-        <div>
-        	<button class="accordion accordionMenu accordion accordionMenuMenu" style="background-color:pink;">活動企劃管理系統</button>		
-        </div>
-       		<%} %>
-       		
-         <%if(adminisVO.getAuthno().equals("AC04") || adminisVO.getAuthno().equals("AC07")){%>
-        <button class="accordion accordionMenu">後端管理系統</button>
-        <div class="btn-group-vertical">
-       		<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/adminis/listAllAdminis.jsp" role="button">後端權限管理</a>
-<!--             <a class="btn btn-default" href="#" role="button">推薦景點管理</a> -->
-        </div>
-         <%} %><%else {%>
-        <div>
-        	<button class="accordion accordionMenu accordion accordionMenuMenu" style="background-color:pink;">後端管理系統</button>		
-        </div>
-       		<%} %>
-        <div class="btn-group-vertical"></div>
     </div>
-</c:if> 
-<!----------------------------------------------- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
-    <div class="col-xs-12 col-sm-10 rightHTML" id="demo">
-		<%-- <img src="<%=request.getContextPath()%>/backend/images/android_logo.png" id="mainPageLogo"> --%>
-    </div><!-- sm-10 rightHTML  -->
 
-	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_1_10_1_min.js"></script>
-    <script src="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.js"></script>
-    <script src="<%=request.getContextPath()%>/backend/Modified/motorKanli_js.js"></script>
-    <script src="<%=request.getContextPath()%>/backend/Modified/indexNew.js"></script>
+				</div>
+			</div>
+		</div>
+		</div>
+	<!-- Navigation -->
+	<nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                   <a class="navbar-brand page-scroll" href="#page-top">AutoBike</a>
+            </div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+<!-- search bar  -->					
+						<form  method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do" class="navbar-form navbar-left" role="search">
+							<input id="demo" name="dayrange" class="form-control" type="text" style="background-color: transparent; color:#fff;" >							
+						<%-- 	<jsp:useBean id="locSvc" scope="page" class="com.location.model.LocationService"/> --%>
+							<input type="hidden" name="action" value="quick_search">
+							<input style="background-color: transparent; color:#fff;" type="submit" class="form-control" value="�ֳt�d��">
+						</form>
+              			<ul class="nav navbar-nav navbar-right">
+       	                    <li class="hidden">
+       	                    	<a href="#page-top"></a>
+       	                    </li>
+           					<li>
+           						<a class="page-scroll" href="<%=request.getContextPath()%>/frontend/rental_form/rental_category.jsp">
+            						<i class="glyphicon glyphicon-heart"></i>
+            						�ڭn����
+           						</a>
+           					</li>
+       						<li>
+        						<a class="page-scroll" href="#news">
+         						<i class="glyphicon glyphicon-alert"></i>
+         						�̷s����
+        						</a>
+       						</li>
+       						<li>
+       							<a class="page-scroll" href="<%=request.getContextPath()%>/frontend/mes_board/listAllMesBoard.jsp">
+       								<i class="fa fa-comments-o"></i>
+       								�d���O
+       							</a>
+       						</li>
+       						<li>
+       							<a class="page-scroll" href="#loc">
+       								<i class="fa fa-search"></i>
+       								�A�Ⱦ��I
+       							</a>
+       						</li>
+       						<li>
+       							<a href="<%=request.getContextPath()%>/frontend/second_order/listAllSecond.jsp">
+       								<i class="fa fa-shopping-cart"></i>
+       								�G�⨮�ʶR
+       							</a>
+       						</li>
+       						<c:if test="${not empty memno}">	
+        						<li><a href="#">�w��A${(memname == null) ? '�|��':memname}</a></li>		
+        							<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">
+        							<b>�|���M��</b></a>
+        						</li>
+									<li>
+										<a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout" data-toggle="modal"><i class="glyphicon glyphicon-user">
+										</i>�n�X</a>
+									</li>
+       						</c:if>
+       						<c:if test="${ empty memno}">
+       							<li>
+       								<a href="#modal-id"
+       								data-toggle="modal"><i class="glyphicon glyphicon-user"></i>�|���n�J</a>
+       							</li>
+       						</c:if>
+       					</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+	<!-- �����D�bHeader -->
+	<header id="rent">
+		
+		<div class="container">
+		
+			<div class="intro-text">
+				<div class="intro-lead-in">Welcome To Autobike!</div>
+				<div class="intro-heading">The Best Bike For You!</div>
+				
+				<!-- 				<a href="rent.html" class="page-scroll btn btn-xl">�I�گ���</a> -->
+			</div>
+
+		</div>
+	</header>
+	<!-- news Section -->
+	<section id="news">
+  <div class="container-fluid">
+   <div class="row ">
+    <div class="col-xs-12 col-sm-12 text-center">
+     <h2 class="section-heading">�̷s����</h2>
+
+    </div>
+
+   </div>
+ </div>
+<div style= margin-right:45px;>
+
+   <div class="container">
+  <div class="row">
+   <div class="col-xs-12 col-sm-4">
+    <div class="container">
+     <div class="row">
+      <div class="col-sm-4">
+       <div class="news">
+        <div class="img-figure">
+         <img src="<%=request.getContextPath()%>/backend/news/newsread.do?newsno=<%=listnormal.get(0).getNewsno()%>"
+         class="img-responsive"  alt="Responsive image">
+        </div>
+
+        <div class="title">
+        <table align="center">
+         <tr><th><h1><%=listnormal.get(0).getTitle()%></h1></th><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><th><h1><fmt:formatDate  pattern="yyyy-MM-dd" value="${listnormal.get(0).getNewsdate()}"/></h1></th></tr>
+        </table>
+        </div>
+        
+        <p class="description">
+         <font size="4"><%=listnormal.get(0).getCont()%></font>
+        </p>
+
+      
+       </div>
+
+
+      </div>
+     </div>
+    </div>
+   </div>
+   <div class="col-xs-12 col-sm-4">
+    <div class="container">
+     <div class="row">
+      <div class="col-sm-4">
+       <div class="news">
+        <div class="img-figure">
+         <img src="<%=request.getContextPath()%>/backend/news/newsread.do?newsno=<%=listnormal.get(1).getNewsno()%>" class="img-responsive">
+        </div>
+
+        <div class="title">
+        <table align="center">
+         <tr><th><h1><%=listnormal.get(1).getTitle()%></h1></th><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><th><h1><fmt:formatDate  pattern="yyyy-MM-dd" value="${listnormal.get(1).getNewsdate()}"/></h1></th></tr>
+        </table>
+        </div>
+        
+        <p class="description">
+         <font size="4"><%=listnormal.get(1).getCont()%></font>
+        </p>
+
+        
+       </div>
+
+
+      </div>
+     </div>
+    </div>
+   </div>
+   <div class="col-xs-12 col-sm-4">
+
+    
+     
+       <div class="news">
+        <div class="img-figure">
+         <img src="<%=request.getContextPath()%>/backend/news/newsread.do?newsno=<%=listnormal.get(2).getNewsno()%>" 
+         class="img-responsive">
+        </div>
+
+        <div class="title">
+         <table align="center">
+         <tr><th><h1><%=listnormal.get(2).getTitle()%></h1></th><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><th><h1><fmt:formatDate  pattern="yyyy-MM-dd" value="${listnormal.get(2).getNewsdate()}"/></h1></th></tr>
+        </table>
+        </div>
+        
+        <p class="description">
+         <font size="4"><%=listnormal.get(2).getCont()%></font>
+        </p>
+
+        
+       </div>
+
+
+      
+     
+   
+   </div>
+  </div>
+ </div>
+ </div>
+ </section>
+	
+<!-- 	<section id="board"> -->
+<!-- 		<div class="container-fluid"> -->
+<!-- 			<div class="row"> -->
+<!-- 				<div class="col-xs-12 col-sm-12 text-center"> -->
+<!-- 					<h2 class="section-heading">�d���O</h2> -->
+<!-- 				<h4>	<a href="#" id="general">Enter MESSAGE BOARD</a></h4> -->
+
+
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 			<div class="row text-center"> -->
+<!-- 				<div class="col-md-4"> -->
+<!-- 					<span class="fa-stack fa-4x"> <i -->
+<!-- 						class="fa fa-circle fa-stack-2x text-primary"></i> <i -->
+<!-- 						class="fa fa-shopping-cart fa-stack-1x fa-inverse"></i> -->
+<!-- 					</span> -->
+<!-- 					<h4 class="service-heading">E-Commerce</h4> -->
+<!-- 					<p class="text-muted">Lorem ipsum dolor sit amet, consectetur -->
+<!-- 						adipisicing elit. Minima maxime quam architecto quo inventore -->
+<!-- 						harum ex magni, dicta impedit.</p> -->
+<!-- 				</div> -->
+<!-- 				<div class="col-md-4"> -->
+<!-- 					<span class="fa-stack fa-4x"> <i -->
+<!-- 						class="fa fa-circle fa-stack-2x text-primary"></i> <i -->
+<!-- 						class="fa fa-laptop fa-stack-1x fa-inverse"></i> -->
+<!-- 					</span> -->
+<!-- 					<h4 class="service-heading">Responsive Design</h4> -->
+<!-- 					<p class="text-muted">Lorem ipsum dolor sit amet, consectetur -->
+<!-- 						adipisicing elit. Minima maxime quam architecto quo inventore -->
+<!-- 						harum ex magni, dicta impedit.</p> -->
+<!-- 				</div> -->
+<!-- 				<div class="col-md-4"> -->
+<!-- 					<span class="fa-stack fa-4x"> <i -->
+<!-- 						class="fa fa-circle fa-stack-2x text-primary"></i> <i -->
+<!-- 						class="fa fa-lock fa-stack-1x fa-inverse"></i> -->
+<!-- 					</span> -->
+<!-- 					<h4 class="service-heading">Web Security</h4> -->
+<!-- 					<p class="text-muted">Lorem ipsum dolor sit amet, consectetur -->
+<!-- 						adipisicing elit. Minima maxime quam architecto quo inventore -->
+<!-- 						harum ex magni, dicta impedit.</p> -->
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
+<!-- 	</section> -->
+	<aside id="loc">
+  <div class="container-fluid bg-light-gray">
+   
+   <div class="row">
+    <br />
+    <div class="col-xs-12 col-sm-12 text-center">
+     <h2>�ڭ̪����I</h2>
+     <h3
+       style="color: blue" class="section-subheading"><a href="<%=request.getContextPath()%>/frontend/location/location.jsp" id="general">
+       See More
+       </a></h3>
+    </div>
+   </div>
+      
+   <div class="row">
+    <c:forEach var="locVO" items="${list}" >
+     <c:if test="${listsize==2}">
+     <div class="col-xs-12 col-sm-6">
+      <div class="team-member">
+       <a href="<%=request.getContextPath()%>/backend/location/location.do?action=marker&locno=${locVO.locno}&lon=${locVO.lon}&lat=${locVO.lat}"> <img src='<%=request.getContextPath()%>/frontend/location/locReader.do?locno=${locVO.locno}'
+        class="img-responsive img-circle" alt="" /></a>
+       <h4>${locVO.locname}</h4>
+       <h5>address :${locVO.addr} phone :${locVO.tel}</h5>
+      </div>
+     </div>
+    </c:if>
+    
+    <c:if test="${listsize==3}">
+     <div class="col-xs-12 col-sm-4">
+      <div class="team-member">
+       <a href="<%=request.getContextPath()%>/backend/location/location.do?action=marker&locno=${locVO.locno}&lon=${locVO.lon}&lat=${locVO.lat}"> <img src='<%=request.getContextPath()%>/frontend/location/locReader.do?locno=${locVO.locno}'
+        class="img-responsive img-circle" alt="" /></a>
+       <h4>${locVO.locname}</h4>
+       <h5>address :${locVO.addr} phone :${locVO.tel}</h5>
+      </div>
+     </div>
+    </c:if>
+    
+    <c:if test="${listsize==4}">
+     <div class="col-xs-12 col-sm-3">
+      <div class="team-member">
+       <a href="<%=request.getContextPath()%>/backend/location/location.do?action=marker&locno=${locVO.locno}&lon=${locVO.lon}&lat=${locVO.lat}"> <img src='<%=request.getContextPath()%>/frontend/location/locReader.do?locno=${locVO.locno}'
+        class="img-responsive img-circle" alt="" /></a>
+       <h4>${locVO.locname}</h4>
+       <h5>address :${locVO.addr} phone :${locVO.tel}</h5>
+      </div>
+     </div>
+    </c:if>
+    
+    <c:if test="${listsize==5}">
+    <div class="col-xs-12 col-sm-2 col-sm-offset-1">
+     <div class="team-member">
+      <a href="<%=request.getContextPath()%>/backend/location/location.do?action=marker&locno=${locVO.locno}&lon=${locVO.lon}&lat=${locVO.lat}"> <img src='<%=request.getContextPath()%>/frontend/location/locReader.do?locno=${locVO.locno}'
+       class="img-responsive img-circle" alt="" /></a>
+      <h4>${locVO.locname}</h4>
+      <h5>address :${locVO.addr} phone :${locVO.tel}</h5>
+     </div>
+    </div>
+    </c:if>
+    
+    <c:if test="${listsize==6}">
+    <div class="col-xs-12 col-sm-2">
+     <div class="team-member">
+      <a href="<%=request.getContextPath()%>/backend/location/location.do?action=marker&locno=${locVO.locno}&lon=${locVO.lon}&lat=${locVO.lat}"> <img src='<%=request.getContextPath()%>/frontend/location/locReader.do?locno=${locVO.locno}'
+       class="img-responsive img-circle" alt="" /></a>
+      <h4>${locVO.locname}</h4>
+      <h5>address :${locVO.addr} phone :${locVO.tel}</h5>
+     </div>
+    </div>
+    </c:if>
+    <c:if test="${listsize>6}">
+    <div class="col-xs-12 col-sm-1">
+     <div class="team-member">
+      <a href="<%=request.getContextPath()%>/backend/location/location.do?action=marker&locno=${locVO.locno}&lon=${locVO.lon}&lat=${locVO.lat}"> <img src='<%=request.getContextPath()%>/frontend/location/locReader.do?locno=${locVO.locno}'
+       class="img-responsive img-circle" alt="" /></a>
+      <h4>${locVO.locname}</h4>
+      <h5>address :${locVO.addr} phone :${locVO.tel}</h5>
+     </div>
+    </div>
+    </c:if>
+    
+   </c:forEach>
+   </div>
+   
+  </div>
+  <!-- <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <p class="large text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
+                </div>-->
+  
+ </aside>
+	<footer>
+		<div class="col-xs-12 col-sm-12">
+			<span>�p����T</span>
+		</div>
+		<div class="container-fluid">
+			<div class="col-xs-12 col-sm-4">
+				<span>�a�}:��饫�����Ϥ�����115��</span>
+			</div>
+			<div class="col-xs-12 col-sm-4">
+				<span>EMAIL:taic@oregonstate.edu</span>
+			</div>
+			<div class="col-xs-12 col-sm-4">
+				<span>TEL:0900-000-000</span>
+			</div>
+		</div>
+	</footer>
+	<!-- jQuery -->
+	<script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/jquery_min_1_10_2.js"></script>
+	<!-- Bootstrap Core JavaScript -->
+	<script src="<%=request.getContextPath()%>/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<!-- Plugin JavaScript -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"
+		integrity="sha384-mE6eXfrb8jxl0rzJDBRanYqgBxtJ6Unn4/1F7q4xRRyIw7Vdg9jP4ycT7x1iVsgb"
+		crossorigin="anonymous"></script>
+	<!-- Owl carousel -->
+	<script src="<%=request.getContextPath()%>/js/owl.carousel.min.js"></script>
+	<!-- Waypoints -->
+	<!-- Magnific Popup -->
+	<!-- Main JS -->
+	<script src="<%=request.getContextPath()%>/js/main.js"></script>
+	
+	<!-- Contact Form JavaScript -->
+	<script src="<%=request.getContextPath()%>/js/jqBootstrapValidation.js"></script>
+	<script src="<%=request.getContextPath()%>/js/contact_me.js"></script>
+	
+	<!-- Theme JavaScript -->
+	<script src="<%=request.getContextPath()%>/js/jquery.magnific-popup.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/agency.min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/moment.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/daterangepicker.js"></script>
+    
+    
+   <script>
+$('#demo').daterangepicker({
+    "timePicker": true,
+    "timePicker24Hour": true,
+    "timePickerIncrement": 30,
+    "startDate": moment().add(3, 'days'),
+    "endDate": moment().add(6, 'days'),
+    "opens": "center",
+    "applyClass": "btn-success",
+    "cancelClass": "btn-primary",
+    "minDate": moment().add(2, 'days'),
+    "maxDate": moment().add(60, 'days'),
+    locale: {
+        format: 'MM/DD/YYYY H:mm'
+    }
+}, function(start, end, label) {
+  console.log("New date range selected: ' + start.format('MM/DD/YYYY H:mm') + ' to ' + end.format('MM/DD/YYYY H:mm') + ' (predefined range: ' + label + ')");
+});
+
+function doFirst()
+{
+	var error = "${error}";
+	var error2 = "${error2}";
+
+    console.log(error);
+	if(error)
+	{
+		alert(error);
+		$("#modal-id").modal();
+	}
+	
+	if(error2)
+	{
+		alert(error2);
+		$("#modal-id").modal();
+	}
+}
+window.addEventListener('load',doFirst,false);
+
+</script> 
+    
 </body>
+
+
 </html>
