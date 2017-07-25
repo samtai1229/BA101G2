@@ -1,35 +1,32 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="Big5"%>
-<table border="0">    
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>	
+     
  <tr>
   <%if (rowsPerPage<rowNumber) {%>
     <%if(pageIndex>=rowsPerPage){%>
-        <td><A href="<%=request.getRequestURI()%>?whichPage=1">¶‹≤ƒ§@≠∂</A>&nbsp;</td>
-        <td><A href="<%=request.getRequestURI()%>?whichPage=<%=whichPage-1%>">§W§@≠∂ </A>&nbsp;</td>
+        <td><A href="<%=request.getRequestURI()%>?whichPage=1">Ëá≥Á¨¨‰∏ÄÈ†Å</A>&nbsp;</td>
+        <td><A href="<%=request.getRequestURI()%>?whichPage=<%=whichPage-1%>">‰∏ä‰∏ÄÈ†Å </A>&nbsp;</td>
     <%}%>
   
     <%if(pageIndex<pageIndexArray[pageNumber-1]){%>
-        <td><A href="<%=request.getRequestURI()%>?whichPage=<%=whichPage+1%>">§U§@≠∂ </A>&nbsp;</td>
-        <td><A href="<%=request.getRequestURI()%>?whichPage=<%=pageNumber%>">¶‹≥Ã´·§@≠∂</A>&nbsp;</td>
+        <td><A href="<%=request.getRequestURI()%>?whichPage=<%=whichPage+1%>">‰∏ã‰∏ÄÈ†Å </A>&nbsp;</td>
+        <td><A href="<%=request.getRequestURI()%>?whichPage=<%=pageNumber%>">Ëá≥ÊúÄÂæå‰∏ÄÈ†Å</A>&nbsp;</td>
     <%}%>
   <%}%>  
- </tr>
-</table>    
+
+ 
 <%if ( pageNumber > 1) {%>
-<table border="0">   
- <tr> 
-        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        </td>
-   <FORM METHOD="post" ACTION="<%=request.getRequestURI()%>">   
+
+ 
+
+   <FORM METHOD="post" style="display:inline;" ACTION="<%=request.getRequestURI()%>">   
         <td>
            <select size="1" name="whichPage">
         <%for (int i=1; i<=pageNumber; i++){%>
-           <option value="<%=i%>">∏ı¶‹≤ƒ<%=i%>≠∂
+           <option value="<%=i%>">Ë∑≥Ëá≥Á¨¨<%=i%>È†Å
         <%}%> 
            </select>
-           <input type="submit" value="ΩT©w" >  
+           <input type="submit" value="Á¢∫ÂÆö" >  
         </td>
    </FORM>
  </tr>
-</table>
 <%}%>
