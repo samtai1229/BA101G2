@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%  int rowsPerPage = 3;  //每頁的筆數    
+<%  int rowsPerPage = 10;  //每頁的筆數    
     int rowNumber=0;      //總筆數
     int pageNumber=0;     //總頁數      
     int whichPage=1;      //第幾頁
