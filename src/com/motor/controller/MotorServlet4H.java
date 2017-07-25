@@ -36,7 +36,7 @@ public class MotorServlet4H extends HttpServlet {
 		System.out.println("MotorServlet in");
 		System.out.println("action: " + action);
 
-// insert
+		// insert
 		if ("insert".equals(action)) {
 			System.out.println("MotorServlet in insert-action");
 			List<String> errorMsgs = new LinkedList<String>();
@@ -93,10 +93,12 @@ public class MotorServlet4H extends HttpServlet {
 				/************ 2.開始新增資料 ****************/
 				MotorService motorSvc = new MotorService();
 				motorVO = motorSvc.addMotor(modtype, plateno, engno, manudate, mile, note);
-
+				List<MotorVO> insertedMesseg = motorSvc.fuzzyGetAll(modtype);
 				/************** 3.新增完成,準備轉交(Send the Success view) ***********/
 				String url = "/backend/motor/listAllMotor.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url); // 新增成功後轉交?.jsp
+				req.setAttribute("fuzzyGetAll", insertedMesseg); 
+				req.setAttribute("inserted", "inserted"); 
+				RequestDispatcher successView = req.getRequestDispatcher("/backend/motor/listMotorsByFuzzySearch.jsp"); // 新增成功後轉交?.jsp
 				successView.forward(req, res);
 				System.out.println("insert成功");
 				/*************************** 其他可能的錯誤處理 **********************************/
@@ -108,7 +110,7 @@ public class MotorServlet4H extends HttpServlet {
 			}
 		} // insert 'if' end
 
-// update
+		// update
 		if ("update".equals(action)) {
 			System.out.println("MotorServlet in update-action");
 			List<String> errorMsgs = new LinkedList<String>();
@@ -227,7 +229,7 @@ public class MotorServlet4H extends HttpServlet {
 			}
 		} // end of getOne_For_Update
 
-// delete
+		// delete
 		if ("delete".equals(action)) {
 			System.out.println("MotorServlet in delete-action");
 			List<String> errorMsgs = new LinkedList<String>();
@@ -283,7 +285,7 @@ public class MotorServlet4H extends HttpServlet {
 			}
 		} // delete 'if' end
 
-// query
+		// query
 		if ("query".equals(action)) {
 			System.out.println("MotorServlet_query in");
 			List<String> errorMsgs = new LinkedList<String>();
@@ -342,7 +344,7 @@ public class MotorServlet4H extends HttpServlet {
 			}
 		} // delete 'if' end
 
-// getOne_For_Display??
+		// getOne_For_Display??
 		if ("getOne_For_Display".equals(action)) {
 
 			List<String> errorMsgs = new LinkedList<String>();
@@ -402,7 +404,7 @@ public class MotorServlet4H extends HttpServlet {
 			}
 		} // getOne_For_Display 'if' end
 
-// get_motors_by_modtype
+		// get_motors_by_modtype
 		if ("get_motors_by_modtype".equals(action)) {
 
 			List<String> errorMsgs = new LinkedList<String>();
@@ -458,8 +460,7 @@ public class MotorServlet4H extends HttpServlet {
 			}
 		} // get_motors_by_modtype 'if' end
 
-
-// fuzzyGetAll
+		// fuzzyGetAll
 		if ("fuzzyGetAll".equals(action)) {
 
 			List<String> errorMsgs = new LinkedList<String>();
@@ -484,7 +485,7 @@ public class MotorServlet4H extends HttpServlet {
 				System.out.println("開始 fuzzyGetAll");
 				MotorService motorSvc = new MotorService();
 				List<MotorVO> list = motorSvc.fuzzyGetAll(fuzzyValue);
-						
+
 				if (list == null) {
 					errorMsgs.add("查無資料");
 				}
@@ -509,5 +510,102 @@ public class MotorServlet4H extends HttpServlet {
 				failureView.forward(req, res);
 			}
 		} // end of fuzzyGetAll
+
+// listMotorsByLoc
+		if ("listMotorsByLoc".equals(action)) {
+
+			List<String> errorMsgs = new LinkedList<String>();
+
+			req.setAttribute("errorMsgs", errorMsgs);
+			String url = "/backend/motor/locListMotors.jsp";
+
+			try {
+				/********* 1.接收請求參數 - 輸入格式的錯誤處理 ***********/
+				String locno = req.getParameter("locno");
+				System.out.println("locno: " + locno);
+
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher(url);
+					failureView.forward(req, res);
+					return;// 程式中斷
+				}
+
+				/************* 2.開始查詢資料 *******************/
+				System.out.println("開始 listMotorsByLoc");
+				MotorService motorSvc = new MotorService();
+				List<MotorVO> list = motorSvc.getMotorsByLocno(locno);
+
+				if (list == null) {
+					errorMsgs.add("查無資料");
+				}
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher(url);
+					failureView.forward(req, res);
+					return;// 程式中斷
+				}
+
+				/********* 3.查詢完成,準備轉交(Send the Success view) *******/
+
+				req.setAttribute("motorVOInList", list); // 資料庫取出的list物件,存入req
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+				System.out.println("listMotorsByLoc 成功");
+				/*************************** 其他可能的錯誤處理 *************************************/
+			} catch (Exception e) {
+				System.out.println("listMotorsByLoc 失敗");
+				errorMsgs.add("無法取得資料:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher(url);
+				failureView.forward(req, res);
+			}
+		} // end of listMotorsByLoc
+
+// setStatus
+		if ("setStatus".equals(action)) {
+			System.out.println("MotorServlet in setStatus");
+			List<String> errorMsgs = new LinkedList<String>();
+			
+			req.setAttribute("errorMsgs", errorMsgs);
+			String requestURL = req.getParameter("requestURL");
+			System.out.println("requestURL :  " + requestURL);
+			try {
+				/************* 1.接收請求參數 - 輸入格式的錯誤處理 **************/
+				String motno = req.getParameter("motno");
+				String locno = req.getParameter("locno");
+				String status = req.getParameter("status");
+
+				MotorVO motorVO = new MotorVO();
+				motorVO.setMotno(motno);
+				motorVO.setLocno(locno);
+				motorVO.setStatus(status);
+
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					req.setAttribute("motorVO", motorVO); // 含有輸入格式錯誤的VO物件,也存入req
+					RequestDispatcher failureView = req.getRequestDispatcher(requestURL);
+					failureView.forward(req, res);
+					return;
+				}
+				System.out.println("setStatus start");
+				/******************* 2.開始新增資料 ****************************/
+				MotorService motorSvc = new MotorService();
+				motorSvc.updateStatusByHib(motno, status);
+				/*************** 3.新增完成,準備轉交(Send the Success view) ***********/
+				List<MotorVO> list = motorSvc.getMotorsByLocno(locno);
+				req.setAttribute("motorVOInList", list);
+				RequestDispatcher successView = req.getRequestDispatcher("/backend/motor/motor4H.do?action=listMotorsByLoc&locno=" + locno);
+				successView.forward(req, res);
+				System.out.println("setStatus 成功");
+
+				/*************************** 其他可能的錯誤處理 **********************************/
+			} catch (Exception e) {
+				errorMsgs.add(e.getMessage());
+				System.out.println("setStatus 失敗");
+				System.out.println(e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher(requestURL);
+				failureView.forward(req, res);
+			}
+		} // end of setStatus
 	}
 }

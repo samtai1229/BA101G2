@@ -147,12 +147,43 @@ public class EmtDispatchServlet extends HttpServlet {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 			String requestURL = req.getParameter("requestURL");
+			String edno = req.getParameter("edno");
+			String locno = req.getParameter("locno");
+			String prog = req.getParameter("prog");
+			String emtnoArray[] = req.getParameterValues("emtno");// 因為有複數emtno
+			
 			try {
 				/************* 1.接收請求參數 - 輸入格式的錯誤處理 **************/
-				String edno = req.getParameter("edno");
-				String locno = req.getParameter("locno");
-				String prog = req.getParameter("prog");
-				String emtnoArray[] = req.getParameterValues("emtno");// 因為有複數emtno
+				EmtDispatchVO edVO = new EmtDispatchVO();
+				EmtDispListVO edListVO = new EmtDispListVO();
+				Set<EmtDispListVO> emtDispListVOset = new HashSet<EmtDispListVO>();
+				EquipmentVO emtVO = new EquipmentVO();
+				EmtDispatchService edSvc = new EmtDispatchService();
+				EquipmentService emtSvc = new EquipmentService();
+				EmtDispListService edListSvc = new EmtDispListService();
+
+				for (String emtno : emtnoArray) {
+
+					String statusThisSec = emtSvc.findByPkByHib(emtno).getStatus();
+					System.out.println("statusThisSec " + statusThisSec);
+					System.out.println("333333333333");
+
+					if (statusThisSec.equals("reserved") || statusThisSec.equals("occupied")
+							|| statusThisSec.equals("seconsale") || statusThisSec.equals("secpause")
+							|| statusThisSec.equals("secreserved") || statusThisSec.equals("secsaled")
+							|| statusThisSec.equals("other")) {
+						System.out.println("55555555555");
+						req.setAttribute("getAlert", "Yes"); // 含有輸入格式錯誤的empVO物件,也存入req
+						// req.setAttribute("action", "getOne_For_Update");
+						// req.setAttribute("mdno", mdno);
+						RequestDispatcher failureView = req.getRequestDispatcher(
+								"/backend/emt_dispatch/ed.do?action=getOne_For_Update&edno=" + edno);
+						failureView.forward(req, res);
+						return;
+					}
+				}
+				
+				
 				// 處理日期
 				Timestamp demanddate = null;
 				Timestamp closeddate = null;
@@ -177,14 +208,6 @@ public class EmtDispatchServlet extends HttpServlet {
 					errorMsgs.add("請輸入日期");
 				}
 
-				EmtDispatchVO edVO = new EmtDispatchVO();
-				EmtDispListVO edListVO = new EmtDispListVO();
-				EquipmentVO emtVO = new EquipmentVO();
-				
-				EmtDispatchService edSvc = new EmtDispatchService();
-				EmtDispListService edListSvc = new EmtDispListService();
-				EquipmentService emtSvc = new EquipmentService();
-				Set<EmtDispListVO> emtDispListVOset = new HashSet<EmtDispListVO>();
 				
 				// 先刪除調度單明細裡面全部的資料
 				edListSvc.deleteByHib(edno);

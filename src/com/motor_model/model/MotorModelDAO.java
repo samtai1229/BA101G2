@@ -49,7 +49,7 @@ public class MotorModelDAO implements MotorModelDAO_interface {
 			+ "  name, renprice, saleprice, motpic, intro FROM MOTOR_MODEL where modtype = ?";
 
 	private static final String GET_ALL = "SELECT modtype, brand, displacement,"
-			+ "  name, renprice, saleprice, motpic, intro FROM MOTOR_MODEL";
+			+ "  name, renprice, saleprice, motpic, intro FROM MOTOR_MODEL order by modtype";
 	
 	private static final String FUZZY_SEARCH = 
 			"SELECT * FROM MOTOR_MODEL where MODTYPE LIKE ? or BRAND LIKE ? or DISPLACEMENT LIKE ? or NAME LIKE ? or RENPRICE LIKE ? or SALEPRICE LIKE ? ORDER BY MODTYPE";

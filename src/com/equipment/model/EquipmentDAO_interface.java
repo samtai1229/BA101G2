@@ -31,4 +31,6 @@ public interface EquipmentDAO_interface {
 	public List<String> getEcnoByLocnoByHib(String locno);
 	
 	public List<EquipmentVO> getEmtsByEcnoAndLocnoByHib(String ecno, String locno);
+	
+	public List<EquipmentVO> getEmtsByLocnoByHib(String locno);
 }

@@ -91,4 +91,8 @@ public class EquipmentService {
 	public List<EquipmentVO> getEmtsByEcnoAndLocnoByHib(String ecno, String locno){
 		return dao.getEmtsByEcnoAndLocnoByHib(ecno, locno);
 	}
+
+	public List<EquipmentVO> getEmtsByLocnoByHib(String locno) {
+		return dao.getEmtsByLocnoByHib(locno);
+	}
 }

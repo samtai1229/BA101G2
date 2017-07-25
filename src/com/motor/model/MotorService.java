@@ -82,6 +82,10 @@ public class MotorService {
 	public HashSet<MotorVO> getModtypeByLocNo(String locno) {
 		return dao.getModtypeByLocNo(locno);
 	}
+	
+	public List<MotorVO> getMotorsByLocno(String locno){
+		return dao.getMotorsByLocno(locno);
+	}
 
 	// 以下為Hibernate用
 	public void insertByHib(MotorVO motorVO) {

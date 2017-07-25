@@ -94,6 +94,7 @@ public class MotorModelServlet4H extends HttpServlet {
 				MotorModelService mmSvc = new MotorModelService();
 				mmVO = mmSvc.addMotorModel(brand, displacement, name, renprice, saleprice, motpic, intro);
 				/********** 3.新增完成,準備轉交(Send the Success view) *******/
+				req.setAttribute("inserted", "inserted");
 				RequestDispatcher successView = req.getRequestDispatcher("/backend/motor_model/listAllMotorModel.jsp"); // 新增成功後轉交?.jsp
 				successView.forward(req, res);
 				System.out.println("insert成功");
@@ -212,7 +213,7 @@ public class MotorModelServlet4H extends HttpServlet {
 					mmVO = mmSvc.updateMotorModel(modtype, brand, displacement, name, renprice, saleprice, motpic, intro);
 				}else 
 				mmVO = mmSvc.updateMotorModel(modtype, brand, displacement, name, renprice, saleprice, defaultPic , intro);
-
+				
 				/********* 3.新增完成,準備轉交(Send the Success view) ***********/
 				RequestDispatcher successView = req.getRequestDispatcher("/backend/motor_model/listAllMotorModel.jsp"); // 新增成功後轉交?.jsp
 				successView.forward(req, res);

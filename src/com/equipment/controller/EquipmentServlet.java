@@ -9,6 +9,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 import com.equipment.model.*;
+import com.motor.model.MotorService;
 import com.motor.model.MotorVO;
 
 public class EquipmentServlet extends HttpServlet {
@@ -22,18 +23,21 @@ public class EquipmentServlet extends HttpServlet {
 		String action = req.getParameter("action");
 		System.out.println("action: " + action);
 
-// getOne_For_Display
+		// getOne_For_Display
 		if ("getOne_For_Display".equals(action)) { // 來自eqptMgmtSelectPage.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
-			// Store this set in the request scope, in case we need to send the ErrorPage view.
+			// Store this set in the request scope, in case we need to send the
+			// ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 
 			String requestURL = req.getParameter("requestURL");
 			String url = requestURL;
 
 			try {
-				/******************************* 1.接收請求參數 - 輸入格式的錯誤處理**********************/
+				/*******************************
+				 * 1.接收請求參數 - 輸入格式的錯誤處理
+				 **********************/
 				String str = req.getParameter("emtno");
 				if (str == null || (str.trim()).length() == 0) {
 					errorMsgs.add("請輸入裝備編號(EMTNO)");
@@ -71,7 +75,9 @@ public class EquipmentServlet extends HttpServlet {
 					return;// 程式中斷
 				}
 
-				/***************************** 3.查詢完成,準備轉交(Send the Success view)*************/
+				/*****************************
+				 * 3.查詢完成,準備轉交(Send the Success view)
+				 *************/
 				req.setAttribute("emtVO", emtVO); // 資料庫取出的emtVO物件,存入req
 				RequestDispatcher successView = req.getRequestDispatcher("/backend/equipment/listOneEqpt.jsp");
 				successView.forward(req, res);
@@ -84,7 +90,7 @@ public class EquipmentServlet extends HttpServlet {
 			}
 		}
 
-// getOne_For_Update
+		// getOne_For_Update
 		if ("getOne_For_Update".equals(action)) { // 來自listAllEqpt.jsp或listEqpts_ByEcno.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
@@ -102,7 +108,7 @@ public class EquipmentServlet extends HttpServlet {
 				EquipmentService emtSvc = new EquipmentService();
 				EquipmentVO emtVO = emtSvc.getOneEquipment(emtno);
 
-				/********** 3.查詢完成,準備轉交(Send the Success view)************/
+				/********** 3.查詢完成,準備轉交(Send the Success view) ************/
 				req.setAttribute("emtVO", emtVO); // 資料庫取出的emtVO物件,存入req
 				RequestDispatcher successView = req.getRequestDispatcher("/backend/equipment/updateEmtInput.jsp");
 				successView.forward(req, res);
@@ -114,10 +120,10 @@ public class EquipmentServlet extends HttpServlet {
 				RequestDispatcher failureView = req.getRequestDispatcher(requestURL);
 				failureView.forward(req, res);
 			}
-		}//end of getOne_For_Update
+		} // end of getOne_For_Update
 
-// update
-		if ("update".equals(action)) { 
+		// update
+		if ("update".equals(action)) {
 			System.out.println("開始 update");
 			List<String> errorMsgs = new LinkedList<String>();
 			// Store this set in the request scope, in case we need to send the
@@ -127,7 +133,7 @@ public class EquipmentServlet extends HttpServlet {
 			String requestURL = req.getParameter("requestURL");
 			String url = requestURL;
 			try {
-				/********** 1.接收請求參數 - 輸入格式的錯誤處理******/
+				/********** 1.接收請求參數 - 輸入格式的錯誤處理 ******/
 				String emtno = req.getParameter("emtno");
 				String ecno = req.getParameter("ecno");
 				String locno = req.getParameter("locno");
@@ -162,16 +168,16 @@ public class EquipmentServlet extends HttpServlet {
 					failureView.forward(req, res);
 					return; // 程式中斷
 				}
-				
+
 				/********* 2.開始修改資料 *************/
 				EquipmentService emtSvc = new EquipmentService();
 				emtVO = emtSvc.updateEquipment(emtno, ecno, locno, purchdate, status, note);
-				
-				/**** 3.修改完成,準備轉交(Send the Success view)******/
+
+				/**** 3.修改完成,準備轉交(Send the Success view) ******/
 				RequestDispatcher successView = req.getRequestDispatcher("/backend/equipment/listAllEmts.jsp"); // 修改成功後,轉交回送出修改的來源網頁
 				successView.forward(req, res);
 				System.out.println("update 成功");
-				
+
 				/********* 其他可能的錯誤處理 ************/
 			} catch (Exception e) {
 				System.out.println("update 失敗");
@@ -182,7 +188,7 @@ public class EquipmentServlet extends HttpServlet {
 			}
 		}
 
-// insert
+		// insert
 		if ("insert".equals(action)) { // 來自addEpuipment.jsp的請求
 			System.out.println("開始insert");
 			List<String> errorMsgs = new LinkedList<String>();
@@ -192,10 +198,13 @@ public class EquipmentServlet extends HttpServlet {
 			String url = requestURL;
 
 			try {
-				/************************* 1.接收請求參數 - 輸入格式的錯誤處理*************************/
+				/*************************
+				 * 1.接收請求參數 - 輸入格式的錯誤處理
+				 *************************/
 
 				String ecno = req.getParameter("ecno").trim();
 				String note = req.getParameter("note").trim();
+				Integer number = new Integer(req.getParameter("number"));
 
 				// 處理日期
 				Timestamp purchdate = null;
@@ -227,23 +236,27 @@ public class EquipmentServlet extends HttpServlet {
 
 				/*************************** 2.開始新增資料 ***************************************/
 				EquipmentService emtSvc = new EquipmentService();
-				emtVO = emtSvc.addEquipment(ecno, purchdate, note);
+				for(int i = 0; i < number; i++){
+					emtSvc.addEquipment(ecno, purchdate, note);
+				}
 
-				/***************************** 3.新增完成,準備轉交(Send the Success view)***********/
-
+				/*****************************
+				 * 3.新增完成,準備轉交(Send the Success view)
+				 ***********/
+				req.setAttribute("inserted", "inserted");
 				RequestDispatcher successView = req.getRequestDispatcher("/backend/equipment/listAllEmts.jsp"); // 新增成功後轉交listAllEqpt.jsp
 				successView.forward(req, res);
 				System.out.println("insert 成功");
 				/*************************** 其他可能的錯誤處理 **********************************/
 			} catch (Exception e) {
 				System.out.println("insert 失敗");
-				errorMsgs.add("靠，你媽知道你廢到連新增裝備(equipment)都會出錯嗎問號問號= = " + e.getMessage());
+				errorMsgs.add(e.getMessage());
 				RequestDispatcher failureView = req.getRequestDispatcher(url);
 				failureView.forward(req, res);
 			}
 		}
 
-// delete
+		// delete
 		if ("delete".equals(action)) { // 來自listAllEqpts.jsp的請求
 
 			List<String> errorMsgs = new LinkedList<String>();
@@ -260,7 +273,9 @@ public class EquipmentServlet extends HttpServlet {
 				EquipmentService edSvc = new EquipmentService();
 				edSvc.deleteEquipment(emtno);
 
-				/***************************** 3.刪除完成,準備轉交(Send the Success view)***********/
+				/*****************************
+				 * 3.刪除完成,準備轉交(Send the Success view)
+				 ***********/
 				// String url = "/dept/listAllDept.jsp";//我直接回傳呼叫他的網址了
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
@@ -271,6 +286,104 @@ public class EquipmentServlet extends HttpServlet {
 				RequestDispatcher failureView = req.getRequestDispatcher(url);
 				failureView.forward(req, res);
 			}
-		}
+		} // end of delete
+
+// listEmtsByLoc
+		if ("listEmtsByLoc".equals(action)) {
+
+			List<String> errorMsgs = new LinkedList<String>();
+
+			req.setAttribute("errorMsgs", errorMsgs);
+			String url = "/backend/equipment/listEmtsByLoc.jsp";
+
+			try {
+				/********* 1.接收請求參數 - 輸入格式的錯誤處理 ***********/
+				String locno = req.getParameter("locno");
+				System.out.println("locno: " + locno);
+
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher(url);
+					failureView.forward(req, res);
+					return;// 程式中斷
+				}
+
+				/************* 2.開始查詢資料 *******************/
+				System.out.println("開始 listEmtsByLoc");
+				EquipmentService emtSvc = new EquipmentService();
+				List<EquipmentVO> list = emtSvc.getEmtsByLocnoByHib(locno);
+
+				if (list == null) {
+					errorMsgs.add("查無資料");
+				}
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					RequestDispatcher failureView = req.getRequestDispatcher(url);
+					failureView.forward(req, res);
+					return;// 程式中斷
+				}
+
+				/********* 3.查詢完成,準備轉交(Send the Success view) *******/
+
+				req.setAttribute("emtVOInList", list); // 資料庫取出的list物件,存入req
+				RequestDispatcher successView = req.getRequestDispatcher(url);
+				successView.forward(req, res);
+				System.out.println("listEmtsByLoc 成功");
+				/*************************** 其他可能的錯誤處理 *************************************/
+			} catch (Exception e) {
+				System.out.println("listMotorsByLoc 失敗");
+				errorMsgs.add("無法取得資料:" + e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher(url);
+				failureView.forward(req, res);
+			}
+		} // end of listEmtsByLoc
+
+// setStatus
+		if ("setStatus".equals(action)) {
+			System.out.println("EquipmentServlet in setStatus");
+			List<String> errorMsgs = new LinkedList<String>();
+
+			req.setAttribute("errorMsgs", errorMsgs);
+			String requestURL = req.getParameter("requestURL");
+			System.out.println("requestURL :  " + requestURL);
+			try {
+				/************* 1.接收請求參數 - 輸入格式的錯誤處理 **************/
+				String emtno = req.getParameter("emtno");
+				String locno = req.getParameter("locno");
+				String status = req.getParameter("status");
+
+				EquipmentVO emtVO = new EquipmentVO();
+				emtVO.setEmtno(emtno);
+				emtVO.setLocno(locno);
+				emtVO.setStatus(status);
+
+				// Send the use back to the form, if there were errors
+				if (!errorMsgs.isEmpty()) {
+					req.setAttribute("motorVO", emtVO); // 含有輸入格式錯誤的VO物件,也存入req
+					RequestDispatcher failureView = req.getRequestDispatcher(requestURL);
+					failureView.forward(req, res);
+					return;
+				}
+				System.out.println("setStatus start");
+				/******************* 2.開始新增資料 ****************************/
+				EquipmentService emtSvc = new EquipmentService();
+				emtSvc.updateStatusByHib(emtno, status);
+				/*************** 3.新增完成,準備轉交(Send the Success view) ***********/
+				List<EquipmentVO> list = emtSvc.getEmtsByLocnoByHib(locno);
+				req.setAttribute("emtVOInList", list);
+				RequestDispatcher successView = req
+						.getRequestDispatcher("/backend/equipment/emt.do?action=listEmtsByLoc&locno=" + locno);
+				successView.forward(req, res);
+				System.out.println("setStatus 成功");
+
+				/*************************** 其他可能的錯誤處理 **********************************/
+			} catch (Exception e) {
+				errorMsgs.add(e.getMessage());
+				System.out.println("setStatus 失敗");
+				System.out.println(e.getMessage());
+				RequestDispatcher failureView = req.getRequestDispatcher(requestURL);
+				failureView.forward(req, res);
+			}
+		} // end of setStatus
 	}
 }
