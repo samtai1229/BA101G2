@@ -16,6 +16,7 @@
 	    session.setAttribute("admins", adminisVO.getName());     
 	    session.setAttribute("adminisVO", adminisVO);
 	}
+	
 %>
 <!-- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
 <%
@@ -51,6 +52,15 @@
 	
 }
 
+h3{
+font: bold 30px 思源黑體;
+ color:#edd14a;
+}
+
+table{
+	border:1px;
+}
+
 </style>
 <head>
 <title>二手車訂單 -backSecOrdList.jsp</title>
@@ -58,43 +68,40 @@
 <body>
 <div  class="col-xs-12 col-sm-12">
 <table  border='1' cellpadding='5' cellspacing='0' width='100%'>
-	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
+	<tr bgcolor='#719c92' align='center' valign='middle' height='20'>
 		<td>
-		<h3>二手車訂單aaa -backSecOrdList.jsp</h3>
+		<h3>二手車訂單</h3>
 	</td>
 	</tr>
 </table>
 </div>
 <div class="col-xs-12 col-sm-12">
-<table class="table table-striped"  id="mamberTable">
-	<tr>
-		<th style="text-align:center">二手車訂單編號</th>
-		<th style="text-align:center">會員名稱</th>
-		<th style="text-align:center">廠牌型號</th>
-		<th style="text-align:center">訂單成立時間</th>
-		<th style="text-align:center">訂單狀態</th>
-		<th colspan="2" style="text-align:center">操作</th>
-	</tr>
-	<c:forEach var="soVO" items="${list}" >
-		<tr align='center' valign='middle'>
-			<td>${soVO.sono}</td>
-			<td>${soVO.memno}</td>
-			<td>${soVO.motorno}</td>
-			<td><fmt:formatDate pattern = "yyyy-MM-dd hh:mm" value = "${soVO.buildtime}" /></td>
-			<td>${soVO.status}</td>		
-			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
-			     <input type="submit" value="修改"> 
-			     <input type="hidden" name="sono" value="${soVO.sono}">
-			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--><!-- 目前尚未用到  -->
-			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
-			</td>
+	<table class="table table-striped"  id="mamberTable">
+		<tr>
+			<th style="text-align:center">二手車訂單編號</th>
+			<th style="text-align:center">會員名稱</th>
+			<th style="text-align:center">廠牌型號</th>
+			<th style="text-align:center">訂單成立時間</th>
+			<th style="text-align:center">訂單狀態</th>
+			<th colspan="2" style="text-align:center">操作</th>
 		</tr>
-	</c:forEach>
-</table>
-<br>本網頁的路徑:baaaaaaack<br><b>
-   <font color=blue>request.getServletPath():</font> <%= request.getServletPath()%><br>
-   <font color=blue>request.getRequestURI(): </font> <%= request.getRequestURI()%> </b>
-   </div>
+		<c:forEach var="soVO" items="${list}" >
+			<tr align='center' valign='middle'>
+				<td>${soVO.sono}</td>
+				<td>${soVO.memno}</td>
+				<td>${soVO.motorno}</td>
+				<td><fmt:formatDate pattern = "yyyy-MM-dd hh:mm" value = "${soVO.buildtime}" /></td>
+				<td>${soVO.status}</td>		
+				<td>
+				  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
+				     <input type="submit" value="修改"> 
+				     <input type="hidden" name="sono" value="${soVO.sono}">
+				     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--><!-- 目前尚未用到  -->
+				     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
+				</td>
+			</tr>
+		</c:forEach>
+	</table>
+</div>
 </body>
 </html>
