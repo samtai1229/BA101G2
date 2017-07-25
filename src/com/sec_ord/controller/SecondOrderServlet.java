@@ -387,7 +387,7 @@ public class SecondOrderServlet extends HttpServlet {
 			// send the ErrorPage view.
 			req.setAttribute("errorMsgs", errorMsgs);
 
-//			try {
+			try {
 				/***************************
 				 * 1.接收請求參數 - 輸入格式的錯誤處理
 				 **********************/
@@ -404,7 +404,8 @@ public class SecondOrderServlet extends HttpServlet {
 				/*************************** 2.開始修改資料 *****************************************/
 				SecOrdService soSvc = new SecOrdService();
 				soVO = soSvc.updateSecOrd( memno, motno, sodate, status, sono );
-
+                MotorService motorSvc = new MotorService();
+                motorSvc.updateStatusByHib(motno, "secsaled");
 				/***************************
 				 * 3.修改完成,準備轉交(Send the Success view)
 				 *************/
@@ -414,12 +415,12 @@ public class SecondOrderServlet extends HttpServlet {
 				successView.forward(req, res);
 
 				/*************************** 其他可能的錯誤處理 *************************************/
-//			} catch (Exception e) {
-//				errorMsgs.add("修改資料失敗:" + e.getMessage());
-//				RequestDispatcher failureView = req
-//						.getRequestDispatcher("/backend/second_order/update_SecOrd_input.jsp");
-//				failureView.forward(req, res);
-//			}
+			} catch (Exception e) {
+				errorMsgs.add("修改資料失敗:" + e.getMessage());
+				RequestDispatcher failureView = req
+						.getRequestDispatcher("/backend/second_order/update_SecOrd_input.jsp");
+				failureView.forward(req, res);
+			}
 		}
 
 		
