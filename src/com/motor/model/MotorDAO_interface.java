@@ -30,6 +30,8 @@ public interface MotorDAO_interface {
 	public HashSet<MotorVO> getModtypeByLocNo(String locno);
 
 	public List<MotorVO> getMotorsByModtypeAndLocno(String modtype, String locno);
+	
+	public List<MotorVO> getMotorsByLocno(String locno);
 
 //以下為Hibernate用
 	public void insertByHib(MotorVO motorVO);
@@ -47,6 +49,4 @@ public interface MotorDAO_interface {
 	public List<MotorVO> getMotorsByModtypeByHib(String modtype);
 
 	public void updateStatusByHib(String motno, String status);
-	
-	
 }

@@ -38,14 +38,14 @@ public class EquipmentDAO implements EquipmentDAO_interface {
 	private static final String GET_ONE_STMT = "SELECT * FROM EQUIPMENT where EMTNO = ?";
 	private static final String DELETE = "DELETE FROM EQUIPMENT where EMTNO = ?";
 	private static final String UPDATE = "UPDATE EQUIPMENT set ECNO=?, LOCNO=?, PURCHDATE=?, STATUS=?, NOTE=? where EMTNO = ?";
-
+	
 	//以下為Hibernate用
 		private static final String GET_ALL_BY_HIBERNATE = "from EquipmentVO order by ecno";
 		private static final String GET_BY_ECNO_BY_HIBERNATE = "from EquipmentVO where ecno = ? order by emtno";
 		private static final String UPDATE_STATUS_BY_HIBERNATE = "update EquipmentVO set status = ? where emtno = ?";
 		private static final String GET_ECNO_BY_LOCNO = "SELECT distinct emtCateVO.ecno FROM EquipmentVO where locationVO.locno <> ? order by ecno";
 		private static final String GET_BY_ECNO_AND_LOCNO = "FROM EquipmentVO where emtCateVO.ecno = ? and locationVO.locno <> ? and status in ('leasable','unleasable')";
-		
+		private static final String GET_BY_LOCNO = "FROM EquipmentVO where locationVO.locno = ?";
 		
 	@Override
 	public void insert(EquipmentVO emtVO) {
@@ -437,6 +437,24 @@ public class EquipmentDAO implements EquipmentDAO_interface {
 				query.setParameter(0, ecno);
 				query.setParameter(1, locno);
 				list =  query.list();
+				session.getTransaction().commit();
+			} catch (RuntimeException ex) {
+				session.getTransaction().rollback();
+				throw ex;
+			}
+			return list;
+		}
+		
+		@Override
+		public List<EquipmentVO> getEmtsByLocnoByHib(String locno) {
+			List<EquipmentVO> list = null;
+			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+			try {
+				session.beginTransaction();
+				Query query = session.createQuery(GET_BY_LOCNO);
+				query.setParameter(0, locno);
+				list =  query.list();
+				
 				session.getTransaction().commit();
 			} catch (RuntimeException ex) {
 				session.getTransaction().rollback();

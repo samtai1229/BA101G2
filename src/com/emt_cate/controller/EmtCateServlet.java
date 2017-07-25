@@ -168,9 +168,10 @@ public class EmtCateServlet extends HttpServlet {
 			String url = requestURL;
 			try {
 				/**************************** 1.接收請求參數 - 輸入格式的錯誤處理**********************/
-				String ecno = req.getParameter("ecno").trim();
-				String type = req.getParameter("type").trim();
-				
+				String ecno = req.getParameter("ecno");
+				String type = req.getParameter("type");
+				System.out.println("ecno: " + ecno);
+				System.out.println("type: " + type);
 				Integer price = null;
 				try {
 					price = new Integer(req.getParameter("price").trim());
@@ -281,7 +282,7 @@ System.out.println("EmtCate insert start!");
 				ecVO = ecSvc.addEmtCate(type, pic, price);
 
 				/**************************** 3.新增完成,準備轉交(Send the Success view)***********/
-
+				req.setAttribute("inserted", "inserted");
 				RequestDispatcher successView = req.getRequestDispatcher("/backend/emt_cate/listAllEcs.jsp"); // 新增成功後轉交listAllEcs.jsp
 				successView.forward(req, res);
 				System.out.println("insert 成功");

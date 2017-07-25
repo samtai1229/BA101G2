@@ -86,6 +86,8 @@ public class MotorDAO implements MotorDAO_interface {
 	private static final String GET_BY_MODTYP_AND_LOCNO = "SELECT motno, modtype, plateno,"
 			+ " engno, to_char(manudate,'yyyy-mm-dd hh:mm:ss') manudate,"
 			+ " mile, locno, status, note FROM motor where modtype = ? and locno <> ? and status in ('leasable','unleasable')";
+	private static final String GET_BY_LOCNO = 
+		    "SELECT m.motno, m.modtype, d.name, d.displacement, d.renprice, d.brand, m.plateno, m.engno, m.manudate, m.mile, m.locno, d.saleprice,m.status, m.note FROM MOTOR m join motor_model d ON m.modtype = d.modtype where m.locno = ? ORDER BY m.MOTNO";
 	
 //以下為Hibernate用
 	private static final String GET_ALL_STMT = "from MotorVO order by MOTNO";
@@ -659,6 +661,69 @@ System.out.println("motorDAOlist: " + list);
 				motorVO = new MotorVO();
 				setAttirbute(motorVO, rs); // 拉出來寫成一個方法
 				list.add(motorVO); // Store the row in the vector
+			}
+
+		} catch (SQLException se) {
+			throw new RuntimeException("A database error occured. " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (Exception e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return list;
+	}
+	
+	@Override
+	public List<MotorVO> getMotorsByLocno(String locno) {
+		List<MotorVO> list = new ArrayList<MotorVO>();
+		MotorVO motorVO = null;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(GET_BY_LOCNO);
+			pstmt.setString(1, locno);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				motorVO = new MotorVO();
+				motorVO.setMotno(rs.getString("motno"));
+				motorVO.setModtype(rs.getString("modtype"));
+				motorVO.setPlateno(rs.getString("plateno"));
+				motorVO.setEngno(rs.getString("engno"));						
+				motorVO.setManudate(rs.getTimestamp("manudate"));			
+				motorVO.setMile(rs.getInt("mile"));
+				motorVO.setLocno(rs.getString("locno"));
+				motorVO.setStatus(rs.getString("status"));
+				motorVO.setNote(rs.getString("note"));
+				motorVO.setBrand(rs.getString("brand"));
+				motorVO.setDisplacement(rs.getInt("displacement"));
+				motorVO.setName(rs.getString("name"));
+				motorVO.setRenprice(rs.getInt("renprice"));
+				motorVO.setSaleprice(rs.getInt("saleprice"));
+				list.add(motorVO); 
 			}
 
 		} catch (SQLException se) {
