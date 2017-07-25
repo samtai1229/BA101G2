@@ -12,6 +12,19 @@
 	System.out.println("!!!!!!!!!!!"+adminisVO.getName());
      session.setAttribute("admins", adminisVO.getName());
      session.setAttribute("adminisVO", adminisVO);
+     
+ 	Map<String, String> roStatusMap = new HashMap<String, String>();
+ 	roStatusMap.put("unpaid", "待繳費");
+ 	roStatusMap.put("canceled", "取消");
+ 	roStatusMap.put("unoccupied", "準備交車");
+ 	roStatusMap.put("available", "今日取車");	
+ 	roStatusMap.put("noshow", "逾期未取");	
+ 	roStatusMap.put("noreturn", "待還車");	
+ 	roStatusMap.put("overtime", "逾期未還");	
+ 	roStatusMap.put("abnormalclosed", "異常結案");	
+ 	roStatusMap.put("closed", "正常結案");	
+ 	roStatusMap.put("other", "其他"); 
+     
 %>
 <!-- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
 <!DOCTYPE html>
@@ -41,6 +54,11 @@ th,td{
 }
 td{
 	vertical-align: middle!important;
+	
+}
+
+table{
+	border:1px;
 }
 
 /*自定*/
@@ -48,6 +66,7 @@ td{
 	/*不換行*/
 	white-space:nowrap;
 } 
+
 
 form, input{
 	padding:0px;
@@ -151,13 +170,14 @@ form, input{
     
     <div class="col-xs-12 col-sm-10 rightHTML">
 		<div class="topTitle">
-            <h1>會員資料管理系統</h1>
+            <h1>會員資料管理系統　－　租賃單查詢</h1>
         </div>
          		<div class="container-fluid"> 
        		
 <div  class="col-xs-12 col-sm-12">
 <jsp:useBean id="roSvc" scope="page" class="com.rent_ord.model.RentOrdService"/>
-<jsp:useBean id="memSvc" scope="page" class="com.member.model.MemberService"/>  
+<jsp:useBean id="memSvc" scope="page" class="com.member.model.MemberService"/>
+<jsp:useBean id="locSvc" scope="page" class="com.location.model.LocationService"/>  
 <h4><mark>查詢會員:${memno}&nbsp;${memSvc.getOneMember(memno).memname}</mark></h4>
 <table id="dataTable" class="table table-striped stripe hover">
 	<thead>
@@ -193,8 +213,8 @@ form, input{
 					</td>				
 					<td>${roVO.rentno}</td>
 					<td>${roVO.motorVO.motno}</td>
-					<td>${roVO.slocno}</td>
-					<td>${roVO.rlocno}</td>
+					<td>${locSvc.getOneLocation(roVO.slocno).locname}</td>
+					<td>${locSvc.getOneLocation(roVO.rlocno).locname}</td>
 					<td>${roVO.milstart}</td>	
 					<td>${roVO.milend}</td>	
 					<td><fmt:formatDate pattern = "yyyy/MM/dd" value = "${roVO.startdate}" /></td>
@@ -202,7 +222,11 @@ form, input{
 					<td>${roVO.fine}</td>
 					<td>${roVO.total}</td>
 					<td>${roVO.rank}</td>
-					<td>${roVO.status}</td>
+					
+					<%-- show readable-status with map --%>
+					<c:set scope="page" var="temp"><c:out value="${roVO.status}"/></c:set>
+					<% String key = String.valueOf(pageContext.getAttribute("temp")); %>
+					<td><%=roStatusMap.get(key)%></td>
 					<td>${roVO.note}</td>
 				</tr>
 			</c:if>
