@@ -210,7 +210,7 @@
        							</a>
        						</li>
        						<c:if test="${not empty memno}">	
-        						<li><a href="#">歡迎，${memname}</a></li>		
+        						<li><a href="#">歡迎，${(memname == null) ? '會員':memname}</a></li>		
         							<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">
         							<b>會員專區</b></a>
         						</li>
@@ -563,9 +563,9 @@
 	<script src="<%=request.getContextPath()%>/js/agency.min.js"></script>
 	<script src="<%=request.getContextPath()%>/js/moment.min.js"></script>
     <script src="<%=request.getContextPath()%>/js/daterangepicker.js"></script>
-</body>
-
-<script>
+    
+    
+   <script>
 $('#demo').daterangepicker({
     "timePicker": true,
     "timePicker24Hour": true,
@@ -587,6 +587,7 @@ $('#demo').daterangepicker({
 function doFirst()
 {
 	var error = "${error}";
+	var error2 = "${error2}";
 
     console.log(error);
 	if(error)
@@ -603,5 +604,9 @@ function doFirst()
 }
 window.addEventListener('load',doFirst,false);
 
-</script>
+</script> 
+    
+</body>
+
+
 </html>
