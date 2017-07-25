@@ -44,7 +44,7 @@ public class LoginHandler extends HttpServlet {
 		   HttpSession session = req.getSession();   
 		    System.out.println("11111");
 		    // 【檢查該帳號 , 密碼是否有效】
-		    if (allowUser(account, password).equals(null)) {          //【帳號 , 密碼無效時】
+		    if (allowUser(account, password)==null) {          //【帳號 , 密碼無效時】
 		    	System.out.println("11111");
 		    	session.setAttribute("getAlert", "Yes");//Just initialize a random variable.
 		    	res.sendRedirect(req.getContextPath()+"/backend/BackendLogin.jsp");
