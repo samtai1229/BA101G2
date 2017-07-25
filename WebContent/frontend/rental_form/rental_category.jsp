@@ -127,6 +127,16 @@ body {
     z-index: -1;
 }
 
+.collectTag{
+	color: #000;
+	border-color:#000;
+/* 	font-weight: bold; */
+}
+
+.clickMeTag{
+	color: #000;
+}
+
 </style>
 
 <body>
@@ -139,7 +149,7 @@ body {
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 					<span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
 				</button>
-				<a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/index.jsp">AutoBike</a>
+				<a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/index.jsp">AutoBike&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我要租車</a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -192,9 +202,9 @@ body {
 			</div> -->
 
 			<div align="center" class="topdiv">
-				<button class="btn btn-default filter-button" data-filter="all">全部車種</button>
-				<button class="btn btn-default filter-button" data-filter="light">輕旅租車</button>
-				<button class="btn btn-default filter-button" data-filter="heavy">重機專區</button>
+				<button class="btn btn-default filter-button collectTag" data-filter="all">全部車種</button>
+				<button class="btn btn-default filter-button collectTag" data-filter="light">輕旅租車</button>
+				<button class="btn btn-default filter-button collectTag" data-filter="heavy">重機專區</button>
 			</div>
 			<br />
 
@@ -213,7 +223,7 @@ body {
 	                      		<form method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do">
 	                      			<input type="hidden" name="modtype" value="${mmVO.modtype}">
 	                      			<input type="hidden" name="action" value="query_product_info">
-	                      			<button type="submit" class="btn btn-primary btn-block btn-lg">點我觀看</button>
+	                      			<button type="submit" class="btn btn-primary btn-block btn-lg clickMeTag">點我觀看</button>
 		                    	</form>
 	                        
 	                    </div>
@@ -231,7 +241,7 @@ body {
 	                      		<form method="post" action="<%=request.getContextPath()%>/backend/rent_ord/rentOrd.do">
 	                      			<input type="hidden" name="modtype" value="${mmVO.modtype}">
 	                      			<input type="hidden" name="action" value="query_product_info">
-	                      			<button type="submit" class="btn btn-primary btn-block btn-lg">點我觀看</button>
+	                      			<button type="submit" class="btn btn-primary btn-block btn-lg clickMeTag">點我觀看</button>
 		                    	</form>
 	                        
 	                    </div>
