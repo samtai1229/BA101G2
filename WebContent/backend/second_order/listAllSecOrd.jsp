@@ -31,18 +31,45 @@
 
 <html>
 <head>
-<title>所有二手車訂單資料 - listAllSecOrd.jsp</title>
+<title>所有二手車訂單資料</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body bgcolor='white'>
-<table border='1' cellpadding='5' cellspacing='0' width='100%'>
-	<tr bgcolor='#CCCCFF' align='center' valign='middle' height='20'>
-		<td>
-		<h3>所有二手車訂單資料 - ListAllSecOrds.jsp</h3>
-		<a href="<%=request.getContextPath()%>/frontend/second_order/select_page.jsp"><img src="images/back1.gif" width="100" height="32" border="0">回首頁</a>
-		</td>
-	</tr>
-</table>
-
+<nav class="navbar navbar-default" role="navigation">
+	 	<div class="container">
+	 		<div class="navbar-header">
+	 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+	 				<span class="sr-only">選單切換</span>
+	 				<span class="icon-bar"></span>
+	 				<span class="icon-bar"></span>
+	 				<span class="icon-bar"></span>
+	 			</button>
+	 			<a class="navbar-brand" href="#">二手車訂單資料</a>
+	 		</div>
+	 		
+	 		<!-- 手機隱藏選單區 -->
+	 		<div class="collapse navbar-collapse navbar-ex1-collapse">
+	 			<!-- 左選單 -->
+	 			<ul class="nav navbar-nav">
+	 				<li class="active"><a href="#">查詢特定訂單</a></li>
+	 				<li><a href="<%=request.getContextPath()%>/backend/index.jsp">回首頁</a></li>
+	 			</ul>
+	 		
+	 			
+	 		
+	 			<!-- 右選單 -->
+	 			<c:if test="${not empty adminisVO}">
+	 			<ul class="nav navbar-nav navbar-right">
+	 				<li><a href="#">${adminisVO.name} 您好</a></li>
+	 				<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout"
+              								data-toggle="modal">登出</a></li>
+	 			</ul>
+	 			</c:if>
+	 			
+	 		</div>
+	 		<!-- 手機隱藏選單區結束 -->
+	 	</div>
+	 </nav> 
 <%-- 錯誤表列 --%>
 <c:if test="${not empty errorMsgs}">
 	<font color='red'>請修正以下錯誤:
@@ -85,15 +112,15 @@
        <input type="submit" value="送出">
        <input type="hidden" name="action" value="getAll_For_Display_By_Sono">
      </FORM>
-<table  border="1" class="table table-striped table-inverse" bordercolor='#CCCCFF' width='100%'>
-	<tr>
-		<th>二手車訂單編號</th>
-		<th>會員編號</th>
-		<th>會員姓名</th>
-		<th>廠牌型號</th>
-		<th>訂單成立時間</th>
-		<th>訂單狀態</th>
-		<th colspan="2">操作</th>
+<table  border="1" class="table table-striped table-inverse table-hover" bordercolor='#CCCCFF' width='100%'>
+	<tr >
+		<th style="text-align:center">二手車訂單編號</th>
+		<th style="text-align:center">會員編號</th>
+		<th style="text-align:center">會員姓名</th>
+		<th style="text-align:center">廠牌型號</th>
+		<th style="text-align:center">訂單成立時間</th>
+		<th style="text-align:center">訂單狀態</th>
+		<th style="text-align:center" colspan="2">操作</th>
 	</tr>
 	<jsp:useBean id="memSvc" scope="page" class="com.member.model.MemberService"></jsp:useBean>
 <%-- 					begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" --%>
@@ -109,6 +136,7 @@
 			<td>${soVO.motorno}</td>
 			<td><fmt:formatDate pattern = "yyyy-MM-dd hh:mm" 
          value = "${soVO.buildtime}" /></td>
+          <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
 			<td><select  name="Order_Status">
 	       	   <option ${soVO.status == 'unpaid' ? 'selected="selected"' : ''} value="unpaid">未付款
 	       	   <option ${soVO.status == 'paid' ? 'selected="selected"' : ''} value="paid">已付款
@@ -116,12 +144,13 @@
 			    </select></td>		 
 			
 			<td>
-			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
+			 
 			     <input type="submit" value="修改"> 
 			     <input type="hidden" name="sono" value="${soVO.sono}">
 			     <input type="hidden" name="requestURL"	value="<%=request.getServletPath()%>"><!--送出本網頁的路徑給Controller--><!-- 目前尚未用到  -->
-			     <input type="hidden" name="action"	value="getOne_For_Update"></FORM>
+			     <input type="hidden" name="action"	value="getOne_For_Update">
 			</td>
+			</FORM>
 <!-- 			<td> -->
 <%-- 			  <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do"> --%>
 <!-- 			    <input type="submit" value="刪除"> -->
@@ -137,6 +166,8 @@
 <!-- <br>本網頁的路徑:<br><b> -->
 <%--    <font color=blue>request.getServletPath():</font> <%= request.getServletPath()%><br> --%>
 <%--    <font color=blue>request.getRequestURI(): </font> <%= request.getRequestURI()%> </b> --%>
+<script src="https://code.jquery.com/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 
 </html>
