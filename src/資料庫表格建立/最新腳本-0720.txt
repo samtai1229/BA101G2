@@ -220,7 +220,7 @@ commit;
 	"BIRTH" TIMESTAMP,
 	"MAIL" VARCHAR2(50 BYTE), 
 	"PHONE" VARCHAR2(20 BYTE), 
-	"ADDR" VARCHAR2(100 BYTE), 
+	"ADDR" VARCHAR2(200 BYTE), 
 	"ACC" VARCHAR2(30 BYTE), 
 	"PWD" VARCHAR2(30 BYTE), 
 	"IDCARD1" BLOB, 
@@ -229,7 +229,7 @@ commit;
   "CREDATE" TIMESTAMP default systimestamp, 
 	"STATUS" VARCHAR2(30 BYTE) default 'uncompleted', 
 	 CONSTRAINT "MEMBER_NO_PK" PRIMARY KEY ("MEMNO"),
-   constraint member_status_ck check(status in ( 'unconfirmed', 'uncompleted', 'confirmed')),
+   constraint member_status_ck check(status in ( 'unconfirmed', 'uncompleted', 'confirmed', 'verifing')),
    constraint member_acc_uk unique(acc)
    );
    
@@ -242,17 +242,17 @@ commit;
    
 Insert into MEMBER (MEMNO,MEMNAME,SEX,BIRTH,MAIL,PHONE,ADDR,ACC,PWD,CREDATE,STATUS) 
 values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
-        '王偉濃','Boy',SYSDATE - 1,'bheegrl1031@yahoo.com.tw','0921864653',
-        '桃園市中壢區中央路216巷9號',
-        'bheegrl1031',
-        'bheegrl1031',
+        '黃文清','Boy',SYSDATE - 1,'voka1031@gmail.com','0921234567',
+        '新北市蘆洲區長安街216巷9號',
+        'voka',
+        'voka',
 		SYSDATE - 1,
         'confirmed');
 		
 Insert into MEMBER (MEMNO,MEMNAME,SEX,BIRTH,MAIL,PHONE,ADDR,ACC,PWD,CREDATE,STATUS) 
 values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
-        '吳泓諭','Boy',SYSDATE - 2,'l1031@yahoo.com.tw','0921864653',
-        '桃園市中壢區中央路216巷9號',
+        '陳夏民','Boy',SYSDATE - 2,'l1031@yahoo.com.tw','0921864653',
+        '桃園市中壢區中央路216巷1號',
         'l1031',
         'l1031',
 		SYSDATE - 2,
@@ -260,26 +260,26 @@ values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
 
 Insert into MEMBER (MEMNO,MEMNAME,SEX,BIRTH,MAIL,PHONE,ADDR,ACC,PWD,CREDATE,STATUS) 
 values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
-        '林智皓','Boy',SYSDATE - 3,'stanly7768@gmail.com','0921864323',
-        '中央路232巷6號(3-8)',
-        'stanly7768',
-        'stanly7768',
+        '吳思鋒','Boy',SYSDATE - 3,'stanly7768@gmail.com','0921864323',
+        '台南市安平區中央路232巷6號2樓',
+        'stanly',
+        'stanly',
 		SYSDATE - 3,
         'confirmed');	
 
 Insert into MEMBER (MEMNO,MEMNAME,SEX,BIRTH,MAIL,PHONE,ADDR,ACC,PWD,CREDATE,STATUS) 
 values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
-        '吳永志','Boy',SYSDATE - 4,'wu@yahoo.com.tw','0921864788',
-        '桃園市中壢區中央路216巷9號',
-        'godwu',
-        'godwu',
+        '林雨蒼','Boy',SYSDATE - 4,'wu@yahoo.com.tw','0921864788',
+        '新竹市東區中正路116巷23號1樓',
+        'rain',
+        'rain',
 		SYSDATE - 4,
         'confirmed');	
 
 Insert into MEMBER (MEMNO,MEMNAME,SEX,BIRTH,MAIL,PHONE,ADDR,ACC,PWD,CREDATE,STATUS) 
 values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
-        '黃彬華','Boy',SYSDATE - 5,'banhua@yahoo.com.tw','0921632653',
-        '桃園市中壢區中央路216巷9號',
+        '董成康','Boy',SYSDATE - 5,'banhua@yahoo.com.tw','0921632653',
+        '南投縣草屯鎮中山街11巷92號',
         'banhua',
         'banhua',
 		SYSDATE - 5,
@@ -287,25 +287,25 @@ values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
 
 Insert into MEMBER (MEMNO,MEMNAME,SEX,BIRTH,MAIL,PHONE,ADDR,ACC,PWD,CREDATE,STATUS) 
 values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
-        '董董','Girl',SYSDATE - 6,'dudu@yahoo.com.tw','0922584653',
-        '桃園市中壢區中央路116巷9號',
-        'dudu',
-        'dudu',
+        '陳小春','Girl',SYSDATE - 6,'dudu@yahoo.com.tw','0926584765',
+        '嘉義市西區八德路21巷19號',
+        'saochung',
+        'saochung',
 		SYSDATE - 6,
         'unconfirmed');	
 
 Insert into MEMBER (MEMNO,MEMNAME,SEX,BIRTH,MAIL,PHONE,ADDR,ACC,PWD,CREDATE,STATUS) 
 values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
-        '嘟嘟','Girl',SYSDATE - 7,'Dudu@yahoo.com.tw','0921864653',
-        '中央路115號415',
-        'Dudu',
-        'Dudu',
+        '林子偉','Girl',SYSDATE - 7,'zuli@yahoo.com.tw','09318222643',
+        '高雄市前鎮區一心一路25號',
+        'zuli',
+        'zuli',
 		SYSDATE - 7,
         'unconfirmed');	
 
 Insert into MEMBER (MEMNO,MEMNAME,SEX,BIRTH,MAIL,PHONE,ADDR,ACC,PWD,CREDATE,STATUS) 
 values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
-        '鄭貿元','Boy',SYSDATE - 8,'ad000894@gmail.com','09218674153',
+        '邱秉瑜','Boy',SYSDATE - 8,'ad000894@gmail.com','09218224154',
         '中央路232巷36號',
         'ad000894',
         'ad000894',
@@ -314,8 +314,8 @@ values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
 
 Insert into MEMBER (MEMNO,MEMNAME,SEX,BIRTH,MAIL,PHONE,ADDR,ACC,PWD,CREDATE,STATUS) 
 values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
-        '戴家偉','Boy',SYSDATE - 9,'samtai1229@gmail.com','0911164653',
-        '中央路115號415',
+        '王俊評','Boy',SYSDATE - 9,'samtai1229@gmail.com','0912264653',
+        '屏東縣三地門鄉中正路一段1號',
         'samtai1229',
         'samtai1229',
 		SYSDATE - 9,
@@ -323,8 +323,8 @@ values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
 
 Insert into MEMBER (MEMNO,MEMNAME,SEX,BIRTH,MAIL,PHONE,ADDR,ACC,PWD,CREDATE,STATUS) 
 values ('MEM'||lpad(to_char(MEMNO_SEQ.NEXTVAL),6,'0'),
-        '六六六','Boy',SYSDATE - 10,'6666@yahoo.com.tw','0921666666',
-        '桃園市中壢區中央路666巷6號',
+        '劉國梁','Boy',SYSDATE - 10,'6666@yahoo.com.tw','0921666666',
+        '台北市大同區民權西路66巷6號',
         'lulu666',
         'lulu666',
 		SYSDATE - 10,
@@ -629,7 +629,7 @@ commit;
 	"MOTNO" VARCHAR2(10 BYTE) NOT NULL ENABLE, 
 	"SLOCNO" VARCHAR2(10 BYTE) NOT NULL ENABLE, 
 	"RLOCNO" VARCHAR2(10 BYTE) NOT NULL ENABLE, 
-	"MILSTART" NUMBER(10,0) NOT NULL ENABLE, 
+	"MILSTART" NUMBER(10,0), 
 	"MILEND" NUMBER(10,0), 
 	"FILLDATE" TIMESTAMP default systimestamp NOT NULL ENABLE, 
 	"STARTDATE" TIMESTAMP NOT NULL ENABLE, 
@@ -699,18 +699,18 @@ Insert into RENT_ORD (RENTNO,MEMNO,MOTNO,SLOCNO,RLOCNO,MILSTART,MILEND,FILLDATE,
    ;
    
 
-INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0'),'TPE00','AC01','智皓','stanly7768','a12345');
-INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0'),'TPE01','AC04','宇傑','blitz9211','b12345');
-INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0'),'TNN01','AC02','偉濃','bheegrl1031','c12345');
-INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0'),'NTC01','AC06','貿元','ad000894','d12345');
-INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0'),'TXG01','AC05','家偉','samtai1229','e12345');
-INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0'),'TPE00','AC02','泓諭','hongwu100','f12345');
-INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0'),'NTC01','AC06','王俊傑','wang','g12345');
-INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0'),'TPE01','AC03','邱治傑','jay','h12345');
-INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0'),'TPE01','AC04','笨笨笨','stupid','i12345');
-INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0'),'TPE00','AC01','林胖子','fat','j12345');
-INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0'),'TXG01','AC05','負面輝','blue','k12345');
-INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0'),'TXG01','AC07','大老闆','boss','b12345');
+INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0'),'TPE00','AC01','劉雨橙','stanly7768','a12345');
+INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0'),'TPE01','AC04','羅紹桀','blitz9211','b12345');
+INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0'),'TNN01','AC02','謝伯讓','bheegrl1031','c12345');
+INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0'),'NTC01','AC06','林澤民','ad000894','d12345');
+INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0'),'TXG01','AC05','李志昌','samtai1229','e12345');
+INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0'),'TPE00','AC02','林書帆','hongwu100','f12345');
+INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0'),'NTC01','AC06','蔡宇哲','wang','g12345');
+INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0'),'TPE01','AC03','黃俊儒','jay','h12345');
+INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0'),'TPE01','AC04','廖英凱','stupid','i12345');
+INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0'),'TPE00','AC01','鄭國威','fat','j12345');
+INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0'),'TXG01','AC05','邱文凱','blue','k12345');
+INSERT into "ADMINIS" values ('A'||lpad(to_char(admno_seq.NEXTVAL),3,'0'),'TXG01','AC07','假伯斯','boss','b12345');
 commit;
 
    
@@ -805,12 +805,12 @@ commit;
 
 
 INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),3,'0'),'A004','陽岱鋼效力於日本職棒東京讀賣巨人隊，今天在東京巨蛋主場將迎戰軟銀鷹隊，他在賽前練習後接受來自台灣的媒體聯訪時，作以上表示','','1','normal');
-INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),3,'0'),'A004','中華職棒／6月還沒贏過 富邦和神盾都需要止敗','','1','hid');
+INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),3,'0'),'A004','中華職棒∕6月還沒贏過 富邦和神盾都需要止敗','','1','hid');
 INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),3,'0'),'A004','中華電 力挺世大運','','1','hid');
 INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),3,'0'),'A004','游擊手Lewis成選秀狀元 多位二刀流受矚目','','1','normal');
-INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),3,'0'),'A004','MLB／太空人隊麥卡勒斯也進入傷兵名單','','1','normal');
+INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),3,'0'),'A004','MLB∕太空人隊麥卡勒斯也進入傷兵名單','','1','normal');
 INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),3,'0'),'A004','太空人隊先發投手Lance McCullers（麥卡勒斯）因背部不適進入了10天的傷兵名單','','1','normal');
-INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),3,'0'),'A004','MLB／叫勇士的沒有肉腳 斧頭幫轟垮國民','','1','normal');
+INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),3,'0'),'A004','MLB∕叫勇士的沒有肉腳 斧頭幫轟垮國民','','1','normal');
 INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),3,'0'),'A004','C羅被控 逃稅1650萬美元','','1','hid');
 INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),3,'0'),'A004','世足主辦國陷危機 FIFA主席仍表示信心','','1','normal');
 INSERT into "NEWS"(NEWSNO,ADMNO,CONT,PIC,TITLE,STATUS) VALUES('N'||lpad(to_char(newsno_seq.NEXTVAL),3,'0'),'A004','政治干預體育？ 世足資格賽卡達裁判遭撤換','','1','hid');
