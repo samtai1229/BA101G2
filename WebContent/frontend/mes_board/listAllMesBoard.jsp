@@ -6,7 +6,14 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<%@ page import="com.adminis.model.*"%>
+<%  AdminisService adms = new AdminisService();
+	AdminisVO adminisVO= (AdminisVO)session.getAttribute("adminisVO");
+     session.setAttribute("admins", adminisVO.getName());
+     session.setAttribute("adminisVO", adminisVO);
+     
+   
+%>
 
 <%
 	MesBoardVO mesboardVO = (MesBoardVO) request.getAttribute("mesboardVO");
@@ -73,6 +80,11 @@ body {
 </head>
 <body bgcolor='white'background="<%=request.getContextPath()%>/img/header1.jpg"style="margin: 0px; padding: 0px; background-size: cover;">
 
+
+
+<div class="col-xs-12 col-sm-12" align="right" style="background-color:	#000000;height:50px;" ><div><font style="color:#FFAA33" size="4">«¢Åo! <%= adminisVO.getName() %></font><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><input type="button"   style="width:100px;height:30px;font-size:20px;"  value="¦^­º­¶"  class="btn btn-primary"  onclick="location.href='<%=request.getContextPath()%>/index.jsp'"></div></div>
+
+	
 	<%@ include file="page1.file"%>
 	<c:forEach var="mesboardVO" items="${list}" begin="<%=pageIndex%>"
 		end="<%=pageIndex+rowsPerPage-1%>">
@@ -82,7 +94,7 @@ body {
 				<ul class="list-group">
 					<li class="list-group-item">
 						<div class="pull-left hidden-xs" style="margin-right: 600px;">
-							<img class="img-circle" title="User1" alt="User1" data-src="holder.js/40x40/lava"> 
+							<img class="img-circle" title="User1" alt="User1" src="<%=request.getContextPath()%>/img/smile.jpg" style="max-width:40px;max-height:40px;"> 
 							
 								<small class="list-group-item-heading text-muted text-primary"><font face="serif" size="3.5" color="green">${memSvc.getOneMember(mesboardVO.memno).memname}</font></small>
 						</div>
@@ -97,7 +109,7 @@ body {
 						<div>
 							<td><img
 								src="<%=request.getContextPath()%>/backend/mes_board/mesboardread.do?mesno=${mesboardVO.mesno}"
-								style="max-width: 150px; max-height: 150px;"></td>
+								style="max-width: 300px; max-height: 300px;"></td>
 							<p class="list-group-item-text">${mesboardVO.cont}</p>
 						</div>
 					</li>
