@@ -16,9 +16,9 @@
    String dayrange = (String)session.getAttribute("dayrange");
    String motno = (String)session.getAttribute("motno");
 %>
-dayrange: <c:out value="${dayrange}"></c:out>
-motno: <c:out value="${motno}"></c:out>
-action: <c:out value="${action}"></c:out>
+<%-- dayrange: <c:out value="${dayrange}"></c:out> --%>
+<%-- motno: <c:out value="${motno}"></c:out> --%>
+<%-- action: <c:out value="${action}"></c:out> --%>
 
 	<div class="login-wrap">
         <div class="login-html" style="width:100% height:1000px">
