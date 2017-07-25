@@ -131,7 +131,7 @@
 	<!-- 	右邊HTML區塊 -->
 	<div class="col-xs-12 col-sm-10 rightHTML">
 		<div class="topTitle">
-			<h1>據點裝備調度查詢</h1>
+			<h1>據點裝備調度單查詢</h1>
 		</div>
 		<div class="container">
 			<%-- 錯誤表列 --%>

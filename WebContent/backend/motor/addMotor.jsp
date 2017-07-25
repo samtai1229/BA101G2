@@ -136,7 +136,7 @@
 						<select name="modtype" class="form-control" id="modtype">
 							<c:forEach var="motorModelVO" items="${motorModelSvc.all}">
 								<option value="${motorModelVO.modtype}"
-									${(motorVO.modtype==motorModelVO.modtype)?'selected':'' }>${motorModelVO.brand}─
+									${(motorVO.modtype==motorModelVO.modtype)?'selected':'' }>${motorModelVO.modtype}：${motorModelVO.brand}─
 									${motorModelVO.name}
 							</c:forEach>
 						</select>
@@ -180,14 +180,14 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="note">備註：</label>
 					<div class="col-sm-10">
-					<textarea class="form-control" id="note" rows="5" cols="70" name="note"></textarea>
+					<textarea class="form-control" id="note" rows="5" cols="70" name="note" style="resize:none;"></textarea>
 					</div>
 				</div>
 
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
 						<input type="hidden" name="action" value="insert">
-						<input type="submit" value="確認新增">
+						<input type="submit" class="btn btn-default" value="確認新增">
 					</div>
 				</div>
 			</FORM>

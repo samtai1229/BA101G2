@@ -130,16 +130,16 @@
 						<td>
 							<FORM METHOD="post"
 								ACTION="<%=request.getContextPath()%>/backend/motor/motor4H.do" name="formSearch">
-								<input type="text" name="motno" id="searchText" value="">
-								<input type="hidden" name="action" value="fuzzyGetAll">
-								<input type="submit" id="searchBtn" class="btn btn-default" value="搜尋"> 
+								<input type="text" name="fuzzyValue" id="searchText" value="" placeholder="輸入關鍵字搜尋">
+								<input type="submit" id="searchBtn" class="btn btn-default" value="搜尋" >
+								<input type="hidden" name="action" value=fuzzyGetAll>
 							</Form>
 							
 						</td>
 
 						<td><FORM METHOD="post"
 								ACTION="<%=request.getContextPath()%>/backend/motor/listAllMotor.jsp">
-								<input type="submit" name="serchAllMotor" value="蒐尋全部車輛"
+								<input type="submit" name="serchAllMotor" value="搜尋全部車輛"
 									class="btn btn-default" role="button">
 							</FORM></td>
 
@@ -149,7 +149,7 @@
 							value="新增車輛"></td>
 						<td><FORM METHOD="post"
 								ACTION="<%=request.getContextPath()%>/backend/motor_model/listAllMotorModel.jsp">
-								<input type="submit" name="serchAllMotorModel" value="蒐尋全部車型"
+								<input type="submit" name="serchAllMotorModel" value="搜尋全部車型"
 									class="btn btn-default" role="button"> <input
 									type="hidden" name="action" value="listAllMotorModel">
 							</FORM></td>
@@ -159,8 +159,6 @@
 							value="新增車型"></td>
 					</tr>
 				</table>
-				<br>
-
 			</div>
 			<br>
 
@@ -202,7 +200,50 @@
 						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${motorVO.manudate}"/></td>
 						<td><c:forEach var="motorModelVO" items="${motorModelSvc.all}"><c:if test="${motorVO.modtype==motorModelVO.modtype}">${motorModelVO.saleprice}元</c:if></c:forEach></td>
 						
-						<td>${motorVO.status}</td>
+						<td>
+							<c:choose>
+  								<c:when test="${motorVO.status=='leasable'}">
+  									可租賃<br>
+  									leasable
+  								</c:when>
+  								<c:when test="${motorVO.status=='unleasable'}">
+  									暫停租賃<br>
+  									unleasable
+  								</c:when>
+  								<c:when test="${motorVO.status=='reserved'}">
+  									已預約<br>
+  									reserved
+  								</c:when>
+  								<c:when test="${motorVO.status=='occupied'}">
+  									出租中<br>
+  									occupied
+  								</c:when>
+  								<c:when test="${motorVO.status=='dispatching'}">
+  									調度中<br>
+  									dispatching
+  								</c:when>
+  								<c:when test="${motorVO.status=='seconsale'}">
+  									二手車-上架中<br>
+  									seconsale
+  								</c:when>
+  								<c:when test="${motorVO.status=='secpause'}">
+  									二手車-下架中<br>
+  									secpause
+  								</c:when>
+  								<c:when test="${motorVO.status=='secreserved'}">
+  									二手車-已預約<br>
+  									secreserved
+  								</c:when>
+  								<c:when test="${motorVO.status=='secsaled'}">
+  									二手車-已出售<br>
+  									secaled
+  								</c:when>
+  								<c:when test="${motorVO.status=='other'}">
+  									其他<br>
+  									other
+  								</c:when>
+  							</c:choose>
+						</td>
 
 						<td>
 							<FORM METHOD="post" style="display: inline;"

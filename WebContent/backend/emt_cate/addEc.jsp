@@ -149,7 +149,7 @@
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
 						<input type="hidden" name="action" value="insert"> 
-						<input type="submit" value="確認新增">
+						<input type="submit" class="btn btn-default" value="確認新增">
 					</div>
 				</div>
 			</FORM>

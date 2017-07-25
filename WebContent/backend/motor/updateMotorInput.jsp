@@ -21,13 +21,12 @@
 <link rel="stylesheet"
 	href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/backend/motor/js/updateMotorInput_css.css">
+	href="${pageContext.request.contextPath}/backend/motor/js/addMotor_css.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/backend/motor/js/bootstrap-datetimepicker.min.css">
+	href="https://tarruda.github.io/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
 
 
 <!-- Javascript -->
-<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="https://code.jquery.com/jquery.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -72,13 +71,14 @@
 		<div class="btn-group-vertical" style="display: block;">
 			<a class="btn btn-default"
 				href="${pageContext.request.contextPath}/backend/motor/motorMgmtHqSelectPage.jsp"
-				role="button"  style="background-color: #ddd;">車輛管理</a> <a class="btn btn-default" href="#"
-				role="button">車輛調度</a> <a class="btn btn-default" href="#"
-				role="button">租賃單管理</a> <a class="btn btn-default"
+				role="button" style="background-color: #ddd;">車輛管理</a> <a
+				class="btn btn-default" href="#" role="button">車輛調度</a> <a
+				class="btn btn-default" href="#" role="button">租賃單管理</a> <a
+				class="btn btn-default"
 				href="${pageContext.request.contextPath}/backend/equipment/emtMgmtSelectPage.jsp"
-				role="button">裝備管理</a> <a
-				class="btn btn-default" href="#" role="button">裝備調度</a> <a
-				class="btn btn-default" href="#" role="button">據點管理</a>
+				role="button">裝備管理</a> <a class="btn btn-default" href="#"
+				role="button">裝備調度</a> <a class="btn btn-default" href="#"
+				role="button">據點管理</a>
 		</div>
 		<button class="accordion accordionMenu">據點管理系統</button>
 		<div class="btn-group-vertical">
@@ -196,7 +196,7 @@
 						<select name="modtype" class="form-control" id="modtype">
 							<c:forEach var="motorModelVO" items="${motorModelSvc.all}">
 								<option value="${motorModelVO.modtype}"
-									${(motorVO.modtype==motorModelVO.modtype)?'selected':'' }>${motorModelVO.brand}─
+									${(motorVO.modtype==motorModelVO.modtype)?'selected':'' }>${motorModelVO.modtype}：${motorModelVO.brand}─
 									${motorModelVO.name}
 							</c:forEach>
 						</select>
@@ -207,12 +207,46 @@
 					<label class="control-label col-sm-2" for="status">狀態：</label>
 					<div class="col-sm-10">
 						<select name="status" class="form-control" id="status">
-							<option selected value="${motorVO.status}">${motorVO.status}
-								<c:forEach var="s" items="${statusArray}">
-									<c:if test="${motorVO.status!=s}">
-										<option value="${s}">${s}
-									</c:if>
-								</c:forEach>
+
+							<c:choose>
+								<c:when test="${motorVO.status=='leasable'}">
+									<option selected value="${motorVO.status}">可出租(${motorVO.status})
+								</c:when>
+								<c:when test="${motorVO.status=='unleasable'}">
+									<option selected value="${motorVO.status}">暫停租賃(${motorVO.status})
+								</c:when>
+								<c:when test="${motorVO.status=='reserved'}">
+									<option selected value="${motorVO.status}">已預約(${motorVO.status})
+								</c:when>
+								<c:when test="${motorVO.status=='occupied'}">
+									<option selected value="${motorVO.status}">出租中(${motorVO.status})
+								</c:when>
+								<c:when test="${motorVO.status=='other'}">
+									<option selected value="${motorVO.status}">其他(${motorVO.status})
+								</c:when>
+							</c:choose>
+
+							<c:forEach var="s" items="${statusArray}">
+								<c:if test="${motorVO.status!=s}">
+									<c:choose>
+										<c:when test="${s=='leasable'}">
+											<option value="${s}">可出租(${s})
+										</c:when>
+										<c:when test="${s=='unleasable'}">
+											<option value="${s}">暫停租賃(${s})
+										</c:when>
+										<c:when test="${s=='reserved'}">
+											<option value="${s}">已預約(${s})
+										</c:when>
+										<c:when test="${s=='occupied'}">
+											<option value="${s}">出租中(${s})
+										</c:when>
+										<c:when test="${s=='other'}">
+											<option value="${s}">其他(${s})
+										</c:when>
+									</c:choose>
+								</c:if>
+							</c:forEach>
 						</select>
 					</div>
 				</div>
@@ -220,7 +254,7 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="note">備註：</label>
 					<div class="col-sm-10">
-						<textarea class="form-control" id="note" rows="5" cols="70"
+						<textarea class="form-control" id="note" rows="5" cols="70" style="resize:none;"
 							name="note">${(motorVO.note == null) ? '' : motorVO.getNote()}</textarea>
 					</div>
 				</div>
@@ -228,24 +262,28 @@
 				<div class="form-group">
 					<div class="col-sm-2"></div>
 					<div class="col-sm-10">
-					<table><tr><td>
-						<input type="submit" class="btn btn-default" value="送出修改">
-						<input type="hidden" name="action" value="update"> 
-						<input type="hidden" name="motno" value="<%=motorVO.getMotno()%>">
-						<input type="hidden" name="requestURL" value="<%=request.getParameter("requestURL")%>">
-						<!--接收原送出修改的來源網頁路徑後,再送給Controller準備轉交之用-->
-						<input type="hidden" name="whichPage" value="<%=request.getParameter("whichPage")%>">
-						<!--只用於:listAllMotor.jsp-->
-			</FORM>
-					<FORM METHOD="post" style="display: inline;" ACTION="<%=request.getContextPath()%>/backend/motor/motor4H.do" >
-						<input type="submit" name="reset" value="重置" class="btn btn-default" role="button">
-						<input type="hidden" name="motno" value="${motorVO.motno}">
-						<input type="hidden" name="action" value="getOne_For_Update">
-					</FORM>
-					</td></tr></table>
+						<table>
+							<tr>
+								<td><input type="submit" class="btn btn-default"
+									value="送出修改"> <input type="hidden" name="action"
+									value="update"> <input type="hidden" name="motno"
+									value="<%=motorVO.getMotno()%>"> <input type="hidden"
+									name="requestURL"
+									value="<%=request.getParameter("requestURL")%>"> <!--接收原送出修改的來源網頁路徑後,再送給Controller準備轉交之用-->
+									<input type="hidden" name="whichPage"
+									value="<%=request.getParameter("whichPage")%>"> <!--只用於:listAllMotor.jsp-->
+									</FORM>
+									<FORM METHOD="post" style="display: inline;"
+										ACTION="<%=request.getContextPath()%>/backend/motor/motor4H.do">
+										<input type="submit" name="reset" value="重置"
+											class="btn btn-default" role="button"> <input
+											type="hidden" name="motno" value="${motorVO.motno}">
+										<input type="hidden" name="action" value="getOne_For_Update">
+									</FORM></td>
+							</tr>
+						</table>
 					</div>
 				</div>
-
 		</div>
 	</div>
 </body>

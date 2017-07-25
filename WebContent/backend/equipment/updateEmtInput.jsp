@@ -23,7 +23,7 @@
 <link rel="stylesheet"
 	href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/backend/motor/js/updateMotorInput_css.css">
+	href="${pageContext.request.contextPath}/backend/equipment/js/addEmt_css.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/backend/motor/js/bootstrap-datetimepicker.min.css">
 
@@ -34,7 +34,7 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script
-	src="${pageContext.request.contextPath}/backend/motor/js/updateMotorInput_js.js"></script>
+	src="${pageContext.request.contextPath}/backend/emt_cate/js/addEc_js.js"></script>
 <script
 	src="${pageContext.request.contextPath}/backend/motor/js/bootstrap-datetimepicker.js"></script>
 
@@ -143,7 +143,7 @@
 						<select name="ecno" class="form-control">
 							<c:forEach var="ecVO" items="${ecSvc.all}">
 								<option value="${ecVO.ecno}"
-									${(emtVO.ecno==ecVO.ecno)?'selected':'' }>${ecVO.type}
+									${(emtVO.ecno==ecVO.ecno)?'selected':'' }>${ecVO.type}─${ecVO.ecno}
 							</c:forEach>
 						</select>
 					</div>
@@ -177,12 +177,46 @@
 					<label class="control-label col-sm-2" for="status">狀態：</label>
 					<div class="col-sm-10">
 						<select name="status" class="form-control" id="status">
-							<option selected value="${emtVO.status}">${emtVO.status}
-								<c:forEach var="s" items="${statusArray}">
-									<c:if test="${emtVO.status!=s}">
-										<option value="${s}">${s}
-									</c:if>
-								</c:forEach>
+
+							<c:choose>
+								<c:when test="${emtVO.status=='leasable'}">
+									<option selected value="${emtVO.status}">可出租(${emtVO.status})
+								</c:when>
+								<c:when test="${emtVO.status=='unleasable'}">
+									<option selected value="${emtVO.status}">暫停租賃(${emtVO.status})
+								</c:when>
+								<c:when test="${emtVO.status=='reserved'}">
+									<option selected value="${emtVO.status}">已預約(${emtVO.status})
+								</c:when>
+								<c:when test="${emtVO.status=='occupied'}">
+									<option selected value="${emtVO.status}">出租中(${emtVO.status})
+								</c:when>
+								<c:when test="${emtVO.status=='other'}">
+									<option selected value="${emtVO.status}">其他(${emtVO.status})
+								</c:when>
+							</c:choose>
+
+							<c:forEach var="s" items="${statusArray}">
+								<c:if test="${emtVO.status!=s}">
+									<c:choose>
+										<c:when test="${s=='leasable'}">
+											<option value="${s}">可出租(${s})
+										</c:when>
+										<c:when test="${s=='unleasable'}">
+											<option value="${s}">暫停租賃(${s})
+										</c:when>
+										<c:when test="${s=='reserved'}">
+											<option value="${s}">已預約(${s})
+										</c:when>
+										<c:when test="${s=='occupied'}">
+											<option value="${s}">出租中(${s})
+										</c:when>
+										<c:when test="${s=='other'}">
+											<option value="${s}">其他(${s})
+										</c:when>
+									</c:choose>
+								</c:if>
+							</c:forEach>
 						</select>
 					</div>
 				</div>
@@ -190,7 +224,7 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="note">備註：</label>
 					<div class="col-sm-10">
-						<textarea class="form-control" id="note" rows="5" cols="70"
+						<textarea class="form-control" id="note" rows="5" cols="70" style="resize:none;"
 							name="note">${(emtVO.note == null) ? '' : emtVO.getNote()}</textarea>
 					</div>
 				</div>

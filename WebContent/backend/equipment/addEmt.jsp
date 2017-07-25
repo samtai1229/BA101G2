@@ -142,27 +142,39 @@
 
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="purchdate">購入日期：</label>
-						<div id="datetimepicker1" class="col-sm-10 input-append">
-							<input readonly data-format="yyyy-MM-dd HH:mm:ss" type="text" class="form-control" name="purchdate" value="" />
-							<span class="add-on"> <i data-time-icon="icon-time"
-								data-date-icon="icon-calendar"> </i>
-							</span>
-						</div>
+					<div id="datetimepicker1" class="col-sm-10 input-append">
+						<input readonly data-format="yyyy-MM-dd HH:mm:ss" type="text"
+							class="form-control" name="purchdate" value="" /> <span
+							class="add-on"> <i data-time-icon="icon-time"
+							data-date-icon="icon-calendar"> </i>
+						</span>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="number">新增數量：</label>
+					<div class="col-sm-10">
+						<input class="form-control" type="number" value="1" min="1"
+							max="20" name="number" id="example-number-input"
+							style="height: 40px">
+					</div>
 				</div>
 
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="note">備註：</label>
 					<div class="col-sm-10">
-					<textarea class="form-control" id="note" rows="5" cols="70" name="note"></textarea>
+						<textarea class="form-control" id="note" rows="5" cols="70" style="resize:none;"
+							name="note"></textarea>
 					</div>
 				</div>
 
 				<div class="form-group">
 					<div class="col-sm-offset-2 col-sm-10">
-						<input type="hidden" name="action" value="insert">
-						<input type="submit" value="確認新增">
-						<input type="hidden" name="requestURL" value="<%=request.getServletPath()%>"> 
-						
+						<input type="hidden" name="action" value="insert"> <input
+							type="submit" class="btn btn-default" value="確認新增"> <input
+							type="hidden" name="requestURL"
+							value="<%=request.getServletPath()%>">
+
 					</div>
 				</div>
 			</FORM>

@@ -1,22 +1,27 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
-<%@ page import="com.equipment.model.*"%>
-<%@ page import="com.emt_cate.model.*"%>
+<%@ page import="com.motor.model.*"%>
+<%@ page import="com.motor_model.model.*"%>
 
 <!DOCTYPE html>
 <%-- 此頁練習採用 EL 的寫法取值 --%>
-
-<jsp:useBean id="emtSvc" scope="page"
-	class="com.equipment.model.EquipmentService" />
-<jsp:useBean id="ecSvc" scope="page"
-	class="com.emt_cate.model.EmtCateService" />
+<%
+	String[] statusArray = {"unleasable", "leasable", "reserved", "occupied", "other"};
+	request.setAttribute("statusArray", statusArray);
+%>
+<jsp:useBean id="motorSvc" scope="page"
+	class="com.motor.model.MotorService" />
+<jsp:useBean id="locSvc" scope="page"
+	class="com.location.model.LocationService" />
+<jsp:useBean id="motorModelSvc" scope="page"
+	class="com.motor_model.model.MotorModelService" />
 <html>
 
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>所有裝備查詢 - emtMgmtSelectPage.jsp</title>
+<title>據點機車查詢 - MotorMgmtLocSelectPage.jsp</title>
 <meta name="description" content="">
 <meta name="keywords" content="">
 
@@ -24,15 +29,25 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/backend/equipment/js/emtMgmtSelectPage_css.css">
+	href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/backend/equipment/js/listEmtsByLoc_css.css">
+
 
 <!-- JS -->
-<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/backend/motor/js/motorMgmtHqSelectPage_js.js"></script>
 <script src="https://code.jquery.com/jquery.js"></script>
 <script
-	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 <script
-	src="${pageContext.request.contextPath}/backend/equipment/js/emtMgmtSelectPage_js.js"></script>
+	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#locMotorTable').DataTable();
+	});
+</script>
 
 </head>
 
@@ -62,28 +77,33 @@
 	<div class="col-xs-12 col-sm-2 leftBar">
 		<img id="logo"
 			src="${pageContext.request.contextPath}/backend/images/logo.jpg">
-		<button class="accordion accordionMenu"
-			style="background-color: #ddd;">總部管理系統</button>
-		<div class="btn-group-vertical" style="display: block;">
+		<button class="accordion accordionMenu">總部管理系統</button>
+		<div class="btn-group-vertical" >
 			<a class="btn btn-default"
 				href="${pageContext.request.contextPath}/backend/motor/motorMgmtHqSelectPage.jsp"
-				role="button">車輛管理</a> <a class="btn btn-default" href="#"
+				role="button">車輛管理</a> <a class="btn btn-default"
+				href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/motorDispatchMgmtHq.jsp"
 				role="button">車輛調度</a> <a class="btn btn-default" href="#"
 				role="button">租賃單管理</a> <a class="btn btn-default"
 				href="${pageContext.request.contextPath}/backend/equipment/emtMgmtSelectPage.jsp"
-				role="button" style="background-color: #ddd;">裝備管理</a> <a
-				class="btn btn-default" href="#" role="button">裝備調度</a> <a
-				class="btn btn-default" href="#" role="button">據點管理</a>
+				role="button">裝備管理</a> <a class="btn btn-default" href="#"
+				role="button">裝備調度</a> <a class="btn btn-default" href="#"
+				role="button">據點管理</a>
 		</div>
 		<button class="accordion accordionMenu">據點管理系統</button>
-		<div class="btn-group-vertical">
-			<a class="btn btn-default" href="#" role="button">據點車輛管理</a> <a
+		<div class="btn-group-vertical" style="display: block;">
+			<a class="btn btn-default"
+				href="${pageContext.request.contextPath}/backend/motor/motorMgmtLocSelectPage.jsp"
+				role="button" style="background-color: #ddd;">據點車輛管理</a> <a
 				class="btn btn-default" href="#" role="button">交車管理</a> <a
 				class="btn btn-default" href="#" role="button">還車管理</a> <a
-				class="btn btn-default" href="#" role="button">車輛調度申請</a> <a
-				class="btn btn-default" href="#" role="button">車輛保養/維修管理</a> <a
-				class="btn btn-default" href="#" role="button">據點裝備管理</a> <a
-				class="btn btn-default" href="#" role="button">裝備申請</a>
+				class="btn btn-default"
+				href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/locMotorDispatchApply.jsp"
+				role="button">車輛調度申請</a> <a class="btn btn-default" href="#"
+				role="button">車輛保養/維修管理</a> <a class="btn btn-default" href="#"
+				role="button">據點裝備管理</a> <a class="btn btn-default"
+				href="${pageContext.request.contextPath}/backend/emt_dispatch/locEmtDispatchApply.jsp"
+				role="button">裝備申請</a>
 		</div>
 		<button class="accordion accordionMenu">二手車管理系統</button>
 		<div class="btn-group-vertical">
@@ -109,7 +129,7 @@
 
 	<div class="col-xs-12 col-sm-10 rightHTML">
 		<div class="topTitle">
-			<h1>裝備資料管理</h1>
+			<h1>據點車輛管理</h1>
 		</div>
 		<div class="container">
 			<%-- 錯誤表列 --%>
@@ -122,32 +142,31 @@
 					</ul>
 				</font>
 			</c:if>
+			<!--搜尋列 -->
 			<div class="searchBar">
-				<table>
-					<tr>
-						<td><FORM METHOD="post"
-								ACTION="<%=request.getContextPath()%>/backend/equipment/listAllEmts.jsp">
-								<input type="submit" name="serchAllEmts" value="蒐尋全部裝備"
-									class="btn btn-default" role="button">
-							</FORM></td>
-
-						<td><input type="button" name="insert" id="addEmt"
-							class="btn btn-default" role="button"
-							onclick="location.href='${pageContext.request.contextPath}/backend/equipment/addEmt.jsp';"
-							value="新增裝備"></td>
-						<td><FORM METHOD="post"
-								ACTION="<%=request.getContextPath()%>/backend/emt_cate/listAllEcs.jsp">
-								<input type="submit" name="serchAllEcs" value="蒐尋全部裝備類別"
-									class="btn btn-default" role="button"> <input
-									type="hidden" name="action" value="listAllEcs">
-							</FORM></td>
-						<td><input type="button" name="insert" id="addEc"
-							class="btn btn-default" role="button"
-							onclick="location.href='${pageContext.request.contextPath}/backend/emt_cate/addEc.jsp';"
-							value="新增裝備類別"></td>
-					</tr>
-				</table>
+				<FORM METHOD="post" style="display: inline;"
+					ACTION="${pageContext.request.contextPath}/backend/motor/motor4H.do">
+					<div class="form-group" style="display: inline;">
+						<div class="col-sm-3">
+							<label class="control-label" for="locno">查詢所在據點車輛：</label>
+						</div>
+						<div class="col-sm-7">
+							<select class="form-control" name="locno"
+								style="display: inline;">
+								<c:forEach var="locVO" items="${locSvc.getAll()}">
+									<option value="${locVO.locno}"
+										${(locVO.locno==param.locno)?'selected':'' }>${locVO.locname}</option>
+								</c:forEach>
+							</select>
+						</div>
+						<div class="col-sm-2">
+							<input type="submit" class="btn btn-default" value="查詢">
+							<input type="hidden" name="action" value="listMotorsByLoc">
+						</div>
+					</div>
+				</form>
 			</div>
+			<!--搜尋列結束 -->
 		</div>
 	</div>
 </body>

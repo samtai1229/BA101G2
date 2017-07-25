@@ -42,9 +42,17 @@
 	href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/js/locMotorDispatchForm_css.css">
 <link rel="stylesheet"
 	href="http://www.jacklmoore.com/colorbox/example1/colorbox.css">
+<style>
+.table{
+	margin:0px;
+	table-layout:fixed;
+    word-break:break-all;
+    word-wrap:break-word;
+   	border-style:hidden;
+}
+</style>
 
 <!-- JS -->
-<!-- <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script> -->
 <script src="https://code.jquery.com/jquery.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -161,7 +169,7 @@
 											style="display: inline;">
 											<c:forEach var="locVO" items="${locSvc.getAll()}">
 												<option value="${locVO.locno}"
-													${(locVO.locno==param.locno)?'selected':'' }>${locVO.locno}</option>
+													${(locVO.locno==param.locno)?'selected':'' }>${locVO.locname}</option>
 											</c:forEach>
 										</select>
 									</div>
@@ -186,7 +194,7 @@
 											id="locMotorDispListSelect" style="display: inline;">
 											<c:forEach var="locVO" items="${locSvc.getAll()}">
 												<option value="${locVO.locno}"
-													${(locVO.locno==param.locno)?'selected':'' }>${locVO.locno}</option>
+													${(locVO.locno==param.locno)?'selected':'' }>${locVO.locname}</option>
 											</c:forEach>
 										</select>
 									</div>
@@ -205,7 +213,7 @@
 			</div>
 			<!--搜尋列結束 -->
 			<div class="accordion ">
-					<table>
+					<table class="table">
 						<tr>
 							<td>調度單號</td>
 							<td>填單日期</td>
@@ -217,8 +225,8 @@
 					</table>
 				</div>
 			<c:forEach var="mdVO" items="${getByLocnoByHib}">
-				<div class="accordion accordionDispTable">
-					<table>
+				<div class="accordion accordionDispTable" >
+					<table class="table">
 						<tr>
 							<td>${mdVO.mdno}</td>
 							<td><fmt:formatDate pattern="yyyy-MM-dd" value="${mdVO.filldate}"/></td>
@@ -240,7 +248,38 @@
 								<%= count %>輛
 							</td>
 								<%  count=0;%>
-							<td>${mdVO.prog}</td>
+							<td>
+							<c:choose>
+  								<c:when test="${mdVO.prog=='request'}">
+  									待審核<br>
+  									request
+  								</c:when>
+  								<c:when test="${mdVO.prog=='rejected'}">
+  									否決<br>
+  									rejected
+  								</c:when>
+  								<c:when test="${mdVO.prog=='canceled'}">
+  									已取消<br>
+  									canceled
+  								</c:when>
+  								<c:when test="${mdVO.prog=='dispatching'}">
+  									調度中<br>
+  									dispatching
+  								</c:when>
+  								<c:when test="${mdVO.prog=='dispatched'}">
+  									調度完成<br>
+  									dispatched
+  								</c:when>
+  								<c:when test="${mdVO.prog=='closed'}">
+  									已結案<br>
+  									closed
+  								</c:when>
+  								<c:when test="${mdVO.prog=='other'}">
+  									其他<br>
+  									other
+  								</c:when>
+  							</c:choose>
+							</td>
 							<td>
 								<c:choose>
   								<c:when test="${mdVO.prog == 'request'}">
@@ -267,7 +306,7 @@
 				<div class="btn-group-vertical">
 					<c:forEach var="mdListVO" items="${mdVO.motorDispLists}">
 					<div class="btn btn-default" role="button">
-						${mdListVO.motorVO.motorModelVO.modtype}：${mdListVO.motorVO.motno}
+						${mdListVO.motorVO.motorModelVO.modtype}(${mdListVO.motorVO.motorModelVO.brand}-${mdListVO.motorVO.motorModelVO.name})：${mdListVO.motorVO.motno}
 					</div>
 					</c:forEach>
 				</div>
