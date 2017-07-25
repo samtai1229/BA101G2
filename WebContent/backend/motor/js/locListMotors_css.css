@@ -44,9 +44,9 @@ div.panel {
     background-color: white;
 }
 
-/* .btn-group-vertical { */
-/*     display: none; */
-/* } */
+.btn-group-vertical {
+    display: none;
+}
 
 .btn-default {
     font-size: 16px;
@@ -67,6 +67,18 @@ h1 {
     color: #edd14a;
 }
 
+tr {
+    text-align: center;
+    vertical-align:middle;
+}
+
+td {
+	padding: 5px;
+    white-space: nowrap;
+    font: normal 16px 微軟正黑體;
+    text-align: center;
+    margin-bottom: -30px;
+}
 
 .searchBar {
     text-align: center;
@@ -75,15 +87,34 @@ h1 {
 .table {
     border-width: 3px;
     border-color: black;
-    margin-left: -70px;
+    margin-left: -200px;
 }
 
-.table-striped tbody tr:nth-of-type(even) {
+#locMotorTable tr:nth-of-type(even) {
     background-color: #ccc;
 }
 
-.table-hover tbody tr:hover {
+#locMotorTable tr:hover {
     background-color: #84d8d1;
+}
+
+thead {
+    background-color: #719c92;
+    color: #edd14a;
+}
+
+th{
+    padding: 5px;
+    white-space: nowrap;
+    font: normal 20px 微軟正黑體;
+    text-align: center;
+}
+
+
+.pagination li a {
+    margin: 6px;
+    color: black;
+    font-size: 18px;
 }
 
 .navbar {
@@ -99,4 +130,7 @@ input[type="text"]{
    height:35px;
 }
 
-
+#motpic{
+	max-width: 150px;
+	max-height: 150px;
+}

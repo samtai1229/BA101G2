@@ -30,6 +30,9 @@
 #pageDiv {
 	margin-left: 300px;
 }
+.table{
+	margin:0px;
+}
 </style>
 
 <!-- JS -->
@@ -135,12 +138,6 @@
 								<input type="submit" name="serchAllEmtDispatch" value="調閱所有裝備調度單"
 									class="btn btn-default" role="button">
 							</FORM></td>
-
-						<td><input type="button" name="insert" id="addEmtDispatch"
-							class="btn btn-default" role="button"
-							onClick="location.href='${pageContext.request.contextPath}/backend/emt_dispatch/addEdjsp';"
-							value="新增裝備調度單"></td>
-						
 					</tr>
 				</table>
 				<br>
@@ -178,7 +175,38 @@
 							<%= count %>件
 						</td>
 							<%  count=0;%>
-						<td>${edVO.prog}</td>
+						<td>
+							<c:choose>
+							<c:when test="${edVO.prog=='request'}">
+  								待審核<br>
+  								request
+  							</c:when>
+  							<c:when test="${edVO.prog=='rejected'}">
+  								否決<br>
+  								rejected
+  							</c:when>
+  							<c:when test="${edVO.prog=='canceled'}">
+  								已取消<br>
+  								canceled
+  							</c:when>
+  							<c:when test="${edVO.prog=='dispatching'}">
+  								調度中<br>
+  								dispatching
+  							</c:when>
+  							<c:when test="${edVO.prog=='dispatched'}">
+  								調度完成<br>
+  								dispatched
+  							</c:when>
+  							<c:when test="${edVO.prog=='closed'}">
+  								已結案<br>
+  								closed
+  							</c:when>
+  							<c:when test="${edVO.prog=='other'}">
+  								其他<br>
+  								other
+  							</c:when>
+  							</c:choose>
+						</td>
 
 						<td>
 							<FORM METHOD="post" style="display: inline;"

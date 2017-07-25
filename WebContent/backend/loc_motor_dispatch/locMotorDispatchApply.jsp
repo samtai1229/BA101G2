@@ -34,7 +34,7 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/js/style.css">
+	href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/js/locMotorDispatchApply_css.css">
 <link rel="stylesheet"
 	href="http://www.jacklmoore.com/colorbox/example1/colorbox.css">
 
@@ -151,7 +151,7 @@
 											style="display: inline;">
 											<c:forEach var="locVO" items="${locSvc.getAll()}">
 												<option value="${locVO.locno}"
-													${(locVO.locno==param.locno)?'selected':'' }>${locVO.locno}</option>
+													${(locVO.locno==param.locno)?'selected':'' }>${locVO.locname}</option>
 											</c:forEach>
 										</select>
 									</div>
@@ -176,7 +176,7 @@
 											id="locMotorDispListSelect" style="display: inline;">
 											<c:forEach var="locVO" items="${locSvc.getAll()}">
 												<option value="${locVO.locno}"
-													${(locVO.locno==param.locno)?'selected':'' }>${locVO.locno}</option>
+													${(locVO.locno==param.locno)?'selected':'' }>${locVO.locname}</option>
 											</c:forEach>
 										</select>
 									</div>
@@ -301,9 +301,10 @@
 <!--  			<span>5000</span>	 -->
     </div>
     <span class="checkout">check out</span>
+    <div style="margin-bottom:300px;"></div><!-- 把下面的div壓下去好看不到用的 -->
    	<div id="dispatchListContent">
    	<FORM METHOD="post" ACTION="${pageContext.request.contextPath}/backend/motor_dispatch/md.do" name="formDispatch" id="formDispatch" class="form-horizontal">
-    	<table id="dispatchListTable">
+    	<table id="dispatchListTable" class="table">
 <!--     		<tr class="contentTr"> -->
 <!--     			<td class = "contentTd"> -->
 <!--     				<div class="form-group"> -->
@@ -330,41 +331,6 @@
     <div style="clear:both;"></div>
     </div>
 </footer>
-
-<script type="text/javascript">
-(function(){
-	$('.checkout').on('click', function(){
-		$.colorbox({
-			html : $("#dispatchListContent").html(),	//在燈箱中要顯示的html字段
-			width : 700,	//燈箱中間區塊的寬度
-			height : 600,	//燈箱中間區塊的高度
-			onClosed : function(){	//當燈箱關閉時的callback funtion
-			}
-		});
-	});
-})();
-</script>
-
-<style type="text/css">
-.checkout{
-	background-color:#4e4e4f;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-    border-radius: 12px;
-}
-
-</style>
-
-
-
 </body>
 
 </html>

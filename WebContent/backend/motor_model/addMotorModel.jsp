@@ -171,7 +171,7 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="intro">說明文檔：</label>
 					<div class="col-sm-10">
-					<textarea class="form-control" id="intro" rows="5" cols="70" name="intro"></textarea>
+					<textarea class="form-control" id="intro" rows="5" cols="70" name="intro" style="resize:none;"></textarea>
 					</div>
 				</div>
 

@@ -1,16 +1,20 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
-<%@ page import="com.emt_cate.model.*"%>
-
+<%@ page import="com.equipment.model.*"%>
+<%-- 此頁練習採用 EL 的寫法取值 --%>
 
 <%
-	EmtCateService ecSvc = new EmtCateService();
-	List<EmtCateVO> list = ecSvc.getAll();
-	pageContext.setAttribute("list", list);
+	String[] statusArray = {"unleasable", "leasable", "reserved", "occupied", "other"};
+	request.setAttribute("statusArray", statusArray);
 %>
 
-
+<jsp:useBean id="now" scope="page" class="java.util.Date" />
+<jsp:useBean id="locSvc" scope="page"
+	class="com.location.model.LocationService" />
+<jsp:useBean id="ecSvc" scope="page"
+	class="com.emt_cate.model.EmtCateService" />
 <!DOCTYPE html>
 <html lang="">
 <head>
@@ -18,36 +22,30 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-<title>所有裝備類別資料- listAllEc.jsp</title>
+<title>據點裝備管理- listEmtsByLoc.jsp</title>
 
 <!-- CSS -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/backend/emt_cate/js/listAllEcs_css.css">
-<style type="text/css">
-#pageDiv {
-	margin-left: 300px;
-}
-</style>
+	href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/backend/equipment/js/listEmtsByLoc_css.css">
+
 
 <!-- JS -->
 <script
-	src="${pageContext.request.contextPath}/backend/equipment/js/emtMgmtSelectPage_js.js"></script>
+	src="${pageContext.request.contextPath}/backend/motor/js/motorMgmtHqSelectPage_js.js"></script>
 <script src="https://code.jquery.com/jquery.js"></script>
 <script
+	src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script
 	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <script type="text/javascript">
-var Msg ='<%=request.getAttribute("inserted")%>
-	';
-	if (Msg == "inserted") {
-		function insertedAlert() {
-			alert("新增裝備成功！");
-		}
-	}
-</script>
-<script type="text/javascript">
-	window.onload = insertedAlert;
+	$(document).ready(function() {
+		$('#locEmtTable').DataTable();
+	});
 </script>
 </head>
 <body>
@@ -76,9 +74,8 @@ var Msg ='<%=request.getAttribute("inserted")%>
 	<div class="col-xs-12 col-sm-2 leftBar">
 		<img id="logo"
 			src="${pageContext.request.contextPath}/backend/images/logo.jpg">
-		<button class="accordion accordionMenu"
-			style="background-color: #ddd;">總部管理系統</button>
-		<div class="btn-group-vertical" style="display: block;">
+		<button class="accordion accordionMenu">總部管理系統</button>
+		<div class="btn-group-vertical">
 			<a class="btn btn-default"
 				href="${pageContext.request.contextPath}/backend/motor/motorMgmtHqSelectPage.jsp"
 				role="button">車輛管理</a> <a class="btn btn-default" href="#"
@@ -90,13 +87,15 @@ var Msg ='<%=request.getAttribute("inserted")%>
 				class="btn btn-default" href="#" role="button">據點管理</a>
 		</div>
 		<button class="accordion accordionMenu">據點管理系統</button>
-		<div class="btn-group-vertical">
+		<div class="btn-group-vertical" style="display: block;">
 			<a class="btn btn-default" href="#" role="button">據點車輛管理</a> <a
 				class="btn btn-default" href="#" role="button">交車管理</a> <a
 				class="btn btn-default" href="#" role="button">還車管理</a> <a
 				class="btn btn-default" href="#" role="button">車輛調度申請</a> <a
 				class="btn btn-default" href="#" role="button">車輛保養/維修管理</a> <a
-				class="btn btn-default" href="#" role="button">據點裝備管理</a> <a
+				class="btn btn-default"
+				href="${pageContext.request.contextPath}/backend/equipment/locEmtMgmtSelectPage.jsp"
+				role="button" style="background-color: #ddd;">據點裝備管理</a> <a
 				class="btn btn-default" href="#" role="button">裝備申請</a>
 		</div>
 		<button class="accordion accordionMenu">二手車管理系統</button>
@@ -120,9 +119,10 @@ var Msg ='<%=request.getAttribute("inserted")%>
 				class="btn btn-default" href="#" role="button">後端登入管理</a>
 		</div>
 	</div>
+
 	<div class="col-xs-12 col-sm-10 rightHTML">
 		<div class="topTitle">
-			<h1>裝備資料管理</h1>
+			<h1>據點裝備管理</h1>
 		</div>
 		<div class="container">
 			<%-- 錯誤表列 --%>
@@ -135,79 +135,89 @@ var Msg ='<%=request.getAttribute("inserted")%>
 					</ul>
 				</font>
 			</c:if>
-			<div class="searchBar">
-				<table>
-					<tr>
-						<td><FORM METHOD="post"
-								ACTION="<%=request.getContextPath()%>/backend/equipment/listAllEmts.jsp">
-								<input type="submit" name="serchAllEmts" value="蒐尋全部裝備"
-									class="btn btn-default" role="button">
-							</FORM></td>
-
-						<td><input type="button" name="insert" id="addEmt"
-							class="btn btn-default" role="button"
-							onclick="location.href='${pageContext.request.contextPath}/backend/equipment/addEmt.jsp';"
-							value="新增裝備"></td>
-						<td><FORM METHOD="post"
-								ACTION="<%=request.getContextPath()%>/backend/emt_cate/listAllEcs.jsp">
-								<input type="submit" name="serchAllEcs" value="蒐尋全部裝備類別"
-									class="btn btn-default" role="button"> <input
-									type="hidden" name="action" value="listAllEcs">
-							</FORM></td>
-						<td><input type="button" name="insert" id="addEc"
-							class="btn btn-default" role="button"
-							onclick="location.href='${pageContext.request.contextPath}/backend/emt_cate/addEc.jsp';"
-							value="新增裝備類別"></td>
-					</tr>
-				</table>
+			<!--搜尋列 -->
+			<div class="searchBar" style="margin-bottom:50px;">
+				<FORM METHOD="post" style="display: inline;"
+					ACTION="${pageContext.request.contextPath}/backend/equipment/emt.do">
+					<div class="form-group" style="display: inline;">
+						<div class="col-sm-3">
+							<label class="control-label" for="locno">查詢所在據點車輛：</label>
+						</div>
+						<div class="col-sm-7">
+							<select class="form-control" name="locno"
+								style="display: inline;">
+								<c:forEach var="locVO" items="${locSvc.getAll()}">
+									<option value="${locVO.locno}"
+										${(locVO.locno==param.locno)?'selected':'' }>${locVO.locno}</option>
+								</c:forEach>
+							</select>
+						</div>
+						<div class="col-sm-2">
+							<input type="submit" class="btn btn-default" value="查詢">
+							<input type="hidden" name="action" value="listEmtsByLoc">
+						</div>
+					</div>
+				</form>
 			</div>
+			<!--搜尋列結束 -->
+			<br>
 
-			<table
-				class="table table-hover table-condensed table-striped table-bordered">
+			<table id="locEmtTable"
+				class="table table-hover table-condensed table-striped table-bordered display"
+				cellspacing="0" width="100%">
 				<thead>
-					<td>裝備類別編號</td>
-					<td>類型</td>
-					<td>租賃價格</td>
-					<td>圖示</td>
-					<td>修改/刪除</td>
-				</thead>
-
-				<%@ include file="pages/page1.file"%>
-				<c:forEach var="ecVO" items="${list}" begin="<%=pageIndex%>"
-					end="<%=pageIndex+rowsPerPage-1%>">
-
-					<tr
-						${(ecVO.ecno==param.ecno) ? 'style="background-color:#84d8d1;"':''}>
-						<td>${ecVO.ecno}</td>
-						<td>${ecVO.type}</td>
-						<td>${ecVO.price}</td>
-						<td><img id="motpic"
-							src="<%=request.getContextPath()%>/backend/emt_cate/ecReader.do?ecno=${ecVO.ecno}"></td>
-						<td>
-							<FORM METHOD="post" style="display: inline;" ACTION="ec.do">
-								<input type="submit" name="fix" value="修改"
-									class="btn btn-default" role="button"> <input
-									type="hidden" name="ecno" value="${ecVO.ecno}"> <input
-									type="hidden" name="requestURL"
-									value="<%=request.getServletPath()%>"> <input
-									type="hidden" name="action" value="getOne_For_Update">
-							</FORM>
-
-							<FORM METHOD="post" style="display: inline;" ACTION="ec.do">
-								<input type="submit" name="del" value="刪除"
-									class="btn btn-default" role="button"> <input
-									type="hidden" name="ecno" value="${ecVO.ecno}"> <input
-									type="hidden" name="requestURL"
-									value="<%=request.getServletPath()%>"> <input
-									type="hidden" name="action" value="delete">
-							</FORM>
-						</td>
+					<tr>
+						<th>裝備編號</th>
+						<th>裝備類別編號</th>
+						<th>購入日期</th>
+						<th>備註</th>
+						<th>狀態</th>
+						<th>修改狀態</th>
 					</tr>
-				</c:forEach>
+				</thead>
+				<tfoot>
+					<tr>
+						<th>裝備編號</th>
+						<th>裝備類別編號</th>
+						<th>購入日期</th>
+						<th>備註</th>
+						<th>狀態</th>
+						<th>修改狀態</th>
+					</tr>
+				</tfoot>
+				<tbody>
+					<c:forEach var="emtVO" items="${emtVOInList}">
+						<tr
+							${(emtVO.emtno == param.emtno) ? 'style="background-color:#84d8d1;"':''}>
+
+							<td>${emtVO.emtno}</td>
+							<td><c:forEach var="ecVO" items="<%=ecSvc.getAll()%>">
+									<c:if test="${emtVO.emtCateVO.ecno==ecVO.ecno}">${ecVO.ecno}─${ecVO.type}</c:if>
+								</c:forEach></td>
+							<td><fmt:formatDate pattern="yyyy-MM-dd"
+									value="${emtVO.purchdate}" /></td>
+							<td>${emtVO.note}</td>
+							<FORM METHOD="post" style="display: inline;" ACTION="emt.do">
+							<td><select name="status" class="form-control"
+								id="${emtVO.status}">
+									<option selected value="${emtVO.status}">${emtVO.status}
+										<c:forEach var="s" items="${statusArray}">
+											<c:if test="${emtVO.status!=s}">
+												<option value="${s}">${s}
+											</c:if>
+										</c:forEach>
+							</select></td>
+							<td><input type="submit" name="del" value="修改狀態"
+								class="btn btn-default" role="button"> <input
+								type="hidden" name="emtno" value="${emtVO.emtno}"> <input
+								type="hidden" name="locno" value="${emtVO.locationVO.locno}">
+								<input type="hidden" name="action" value="setStatus"></td>
+							</FORM>
+						</tr>
+					</c:forEach>
+				</tbody>
 			</table>
-			<%@ include file="pages/page2.file"%>
 		</div>
 	</div>
 </body>
-
 </html>

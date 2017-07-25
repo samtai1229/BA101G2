@@ -27,6 +27,17 @@ function doFirst() {
         var motno = mmList.find(".motno");
         addMotor(amount, modtype, motno);
     });
+    
+    (function(){
+    	$('.checkout').on('click', function(){
+    		$.colorbox({
+    			html : "<h3 style='margin-left:60px;'>車輛調度申請最後確認</h3>"+ $("#dispatchListContent").html(),	//在燈箱中要顯示的html字段
+    			width : 400,	//燈箱中間區塊的寬度
+    			height : 600,	//燈箱中間區塊的高度
+    		});
+    	});
+    })();
+
 }
 
 function addMotor(amount, modtype, motno) {
@@ -101,3 +112,4 @@ $(function() {
     });
 
 });
+

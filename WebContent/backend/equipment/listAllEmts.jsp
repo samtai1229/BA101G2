@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.equipment.model.*"%>
 <%-- 此頁練習採用 EL 的寫法取值 --%>
@@ -11,8 +11,11 @@
 	pageContext.setAttribute("list", list);
 %>
 
-<jsp:useBean id="now" scope="page" class="java.util.Date" />  
-
+<jsp:useBean id="now" scope="page" class="java.util.Date" />
+<jsp:useBean id="ecSvc" scope="page"
+	class="com.emt_cate.model.EmtCateService" />
+<jsp:useBean id="locSvc" scope="page"
+	class="com.location.model.LocationService" />
 <!DOCTYPE html>
 <html lang="">
 <head>
@@ -23,20 +26,30 @@
 <title>所有裝備資料- listAllEmts.jsp</title>
 
 <!-- CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/backend/motor_model/js/listAllMotorModel_css.css">
-<style type="text/css">
-#pageDiv {
-	margin-left: 300px;
-}
-</style>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/backend/equipment/js/listAllEmts_css.css">
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
 
 <!-- JS -->
-<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="https://code.jquery.com/jquery.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="${pageContext.request.contextPath}/backend/motor/js/motorMgmtHqSelectPage_js.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script
+	src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/backend/motor/js/motorMgmtHqSelectPage_js.js"></script>
 
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#listAllEmtsTable').DataTable({
+			"ordering": true
+		});
+		 
+	});
+</script>
 </head>
 <body>
 	<nav class="navbar navbar-default" role="navigation">
@@ -127,18 +140,6 @@
 			<div class="searchBar">
 				<table>
 					<tr>
-						<td>
-							<FORM METHOD="post"
-								ACTION="<%=request.getContextPath()%>/backend/equipment/emt.do"
-								name="formSearch">
-								<input type="text" name="fuzzyValue" id="searchText" value="" placeholder="輸入關鍵字搜尋">
-								<input type="submit" id="searchBtn" class="btn btn-default"
-									value="搜尋"> <input type="hidden" name="action"
-									value=fuzzyGetAll>
-							</Form>
-
-						</td>
-
 						<td><FORM METHOD="post"
 								ACTION="<%=request.getContextPath()%>/backend/equipment/listAllEmts.jsp">
 								<input type="submit" name="serchAllEmts" value="蒐尋全部裝備"
@@ -166,64 +167,110 @@
 			</div>
 			<br>
 
-			<table
-				class="table table-hover table-condensed table-striped table-bordered">
+			<table id="listAllEmtsTable"
+				class="table table-hover table-condensed table-striped table-bordered display"
+				cellspacing="0" width="100%">
 				<thead>
-					<th>裝備編號</th>
-					<th>裝備類別編號</th>
-					<th>所在地</th>
-					<th>購入日期</th>
-					<th>狀態</th>
-					<th>備註</th>
-					<th>修改/刪除</th>
-				</thead>
-				<%@ include file="pages/page1.file"%>
-				<c:forEach var="emtVO" items="${list}" begin="<%=pageIndex%>"
-					end="<%=pageIndex+rowsPerPage-1%>">
-
-					<tr ${(emtVO.emtno == param.emtno) ? 'style="background-color:#84d8d1;"':''}>
-						<jsp:useBean id="ecSvc" scope="page" class="com.emt_cate.model.EmtCateService" />
-						<td>${emtVO.emtno}</td>
-						<td>
-							<c:forEach var="ecVO" items="${ecSvc.all}">
-									<c:if test="${emtVO.ecno==ecVO.ecno}">${ecVO.ecno}─${ecVO.type}</c:if>
-							</c:forEach>
-						</td>
-						<td>${emtVO.locno}</td>
-						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${emtVO.purchdate}"/></td>
-						<td>${emtVO.status}</td>
-						<td>${emtVO.note}</td>
-						<td>
-							<FORM METHOD="post" style="display: inline;"
-								ACTION="emt.do">
-								<input type="submit" name="fix" value="修改"
-									class="btn btn-default" role="button"> <input
-									type="hidden" name="emtno" value="${emtVO.emtno}"> <input
-									type="hidden" name="requestURL"
-									value="<%=request.getServletPath()%>"> <input
-									type="hidden" name="whichPage" value="<%=whichPage%>">
-								<input type="hidden" name="action" value="getOne_For_Update">
-							</FORM>
-
-							<FORM METHOD="post" style="display: inline;"
-								ACTION="emt.do">
-								<input type="submit" name="del" value="刪除"
-									class="btn btn-default" role="button"> <input
-									type="hidden" name="emtno" value="${emtVO.emtno}"> <input
-									type="hidden" name="requestURL"
-									value="<%=request.getServletPath()%>">
-								<input type="hidden" name="whichPage" value="<%=whichPage%>">
-								<input type="hidden" name="action" value="delete">
-							</FORM>
-						</td>
+					<tr>
+						<th>裝備編號</th>
+						<th>裝備類別編號</th>
+						<th>所在地</th>
+						<th>購入日期</th>
+						<th>狀態</th>
+						<th>備註</th>
+						<th>修改/刪除</th>
 					</tr>
-				</c:forEach>
+				</thead>
+				<tfoot>
+					<tr>
+						<th>裝備編號</th>
+						<th>裝備類別編號</th>
+						<th>所在地</th>
+						<th>購入日期</th>
+						<th>狀態</th>
+						<th>備註</th>
+						<th>修改/刪除</th>
+					</tr>
+				</tfoot>
+				<tbody>
+					<c:forEach var="emtVO" items="${list}">
 
+						<tr
+							${(emtVO.emtno == param.emtno) ? 'style="background-color:#84d8d1;"':''}>
+
+							<td>${emtVO.emtno}</td>
+							<td><c:forEach var="ecVO" items="${ecSvc.all}">
+									<c:if test="${emtVO.ecno==ecVO.ecno}">${ecVO.ecno}─${ecVO.type}</c:if>
+								</c:forEach></td>
+							<td><c:forEach var="locVO" items="${locSvc.all}">
+									<c:if test="${emtVO.locno==locVO.locno}">${locVO.locname}<br>${locVO.locno}</c:if>
+								</c:forEach></td>
+							<td><fmt:formatDate pattern="yyyy-MM-dd"
+									value="${emtVO.purchdate}" /></td>
+							<td>
+							<c:choose>
+  								<c:when test="${emtVO.status=='leasable'}">
+  									可租賃<br>
+  									leasable
+  								</c:when>
+  								<c:when test="${emtVO.status=='unleasable'}">
+  									暫停租賃<br>
+  									unleasable
+  								</c:when>
+  								<c:when test="${emtVO.status=='reserved'}">
+  									已預約<br>
+  									reserved
+  								</c:when>
+  								<c:when test="${emtVO.status=='occupied'}">
+  									出租中<br>
+  									occupied
+  								</c:when>
+  								<c:when test="${emtVO.status=='dispatching'}">
+  									調度中<br>
+  									dispatching
+  								</c:when>
+  								<c:when test="${emtVO.status=='other'}">
+  									其他<br>
+  									other
+  								</c:when>
+  							</c:choose>
+						</td>
+							<td>${emtVO.note}</td>
+							<td>
+								<FORM METHOD="post" style="display: inline;" ACTION="emt.do">
+									<input type="submit" name="fix" value="修改"
+										class="btn btn-default" role="button"> <input
+										type="hidden" name="emtno" value="${emtVO.emtno}"> <input
+										type="hidden" name="requestURL"
+										value="<%=request.getServletPath()%>"> <input
+										type="hidden" name="action" value="getOne_For_Update">
+								</FORM>
+
+								<FORM METHOD="post" style="display: inline;" ACTION="emt.do">
+									<input type="submit" name="del" value="刪除"
+										class="btn btn-default" role="button"> <input
+										type="hidden" name="emtno" value="${emtVO.emtno}"> <input
+										type="hidden" name="requestURL"
+										value="<%=request.getServletPath()%>"> <input
+										type="hidden" name="action" value="delete">
+								</FORM>
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
 			</table>
 
-			<%@ include file="pages/page2.file"%>
 
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+var Msg ='<%=request.getAttribute("inserted")%>';
+    if (Msg == "inserted") {
+ 		function insertedAlert(){
+ 			alert("新增裝備成功！");
+ 		} 
+ 	}
+</script> 
+<script type="text/javascript">window.onload = insertedAlert;</script> 
 </html>

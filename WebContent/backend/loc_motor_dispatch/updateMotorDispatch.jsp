@@ -55,19 +55,7 @@
 	src="${pageContext.request.contextPath}/backend/motor/js/updateMotorInput_js.js"></script>
 <script
 	src="${pageContext.request.contextPath}/backend/motor/js/bootstrap-datetimepicker.js"></script>
-
-
- 
-
-
-
-
-
-
 </head>
-
-
-
 
 <body>
 	<nav class="navbar navbar-default" role="navigation">
@@ -168,8 +156,32 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="locno">申請據點：</label>
 					<div class="col-sm-10">
-						<input type="text" readonly class="form-control" id="locno"
-							name="locno" value="<%=mdVO.getLocno()%>" />
+					<c:choose>
+  						<c:when test="${mdVO.locno=='TPE00'}">
+						<input type="text" readonly class="form-control" value="總部" />
+						<input type="hidden" readonly class="form-control" id="locno" name="locno" value="<%=mdVO.getLocno()%>" />
+						</c:when>
+						<c:when test="${mdVO.locno=='TPE01'}">
+						<input type="text" readonly class="form-control" value="台北車站" />
+						<input type="hidden" readonly id="locno" name="locno" value="<%=mdVO.getLocno()%>" />
+						</c:when>
+						<c:when test="${mdVO.locno=='NTC01'}">
+						<input type="text" readonly class="form-control" value="板橋車站" />
+						<input type="hidden" readonly id="locno" name="locno" value="<%=mdVO.getLocno()%>" />
+						</c:when>
+						<c:when test="${mdVO.locno=='TXG01'}">
+						<input type="text" readonly class="form-control" value="台中車站" />
+						<input type="hidden" readonly id="locno" name="locno" value="<%=mdVO.getLocno()%>" />
+						</c:when>
+						<c:when test="${mdVO.locno=='TNN01'}">
+						<input type="text" readonly class="form-control" value="台南車站" />
+						<input type="hidden" readonly id="locno" name="locno" value="<%=mdVO.getLocno()%>" />
+						</c:when>
+						<c:when test="${mdVO.locno=='KHH01'}">
+						<input type="text" readonly class="form-control" value="高雄車站" />
+						<input type="hidden" readonly id="locno" name="locno" value="<%=mdVO.getLocno()%>" />
+						</c:when>
+  					</c:choose>
 					</div>
 				</div>
 
@@ -208,7 +220,6 @@
 									++count;
 								%>
 
-
 								<div class="form-group">
 									<label class="control-label col-sm-2" for="modtype"
 										name="modtype">${allMMs.modtype}：</label>
@@ -225,7 +236,27 @@
 											class="form-check-input" type="checkbox" name="motno"
 											id="${motorVO.motno}" value="${motorVO.motno}"
 											<%= motnoInList.contains(motorVO.getMotno())?"checked":"" %>>
-											${motorVO.motno} - ${ motorVO.locno }
+											${motorVO.motno} - 
+											<c:choose>
+												<c:when test="${motorVO.locno=='TPE00'}">
+													總部
+												</c:when>
+												<c:when test="${motorVO.locno=='TPE01'}">
+													台北車站
+												</c:when>
+												<c:when test="${motorVO.locno=='NTC01'}">
+													板橋車站
+												</c:when>
+												<c:when test="${motorVO.locno=='TXG01'}">
+													臺中車站
+												</c:when>
+												<c:when test="${motorVO.locno=='TNN01'}">
+													台南車站
+												</c:when>
+												<c:when test="${motorVO.locno=='KHH01'}">
+													高雄車站
+												</c:when>
+											</c:choose>
 										</label>
 									</c:forEach>
 								</div>
@@ -238,12 +269,57 @@
 					<label class="control-label col-sm-2" for="prog">處理進度：</label>
 					<div class="col-sm-10">
 						<select name="prog" class="form-control" id="prog">
-							<option selected value="${mdVO.prog}">${mdVO.prog}
+							<c:choose>
+								<c:when test="${mdVO.prog=='request'}">
+									<option selected value="${mdVO.prog}">審核中
+								</c:when>
+									<c:when test="${mdVO.prog=='rejected'}">
+									<option selected value="${mdVO.prog}">否決
+									</c:when>
+									<c:when test="${mdVO.prog=='canceled'}">
+									<option selected value="${mdVO.prog}">已取消
+									</c:when>
+									<c:when test="${mdVO.prog=='dispatched'}">
+									<option selected value="${mdVO.prog}">調度完成
+									</c:when>
+									<c:when test="${mdVO.prog=='dispatching'}">
+									<option selected value="${mdVO.prog}">調度中
+									</c:when>
+									<c:when test="${mdVO.prog=='closed'}">
+									<option selected value="${mdVO.prog}">結案
+									</c:when>
+									<c:when test="${mdVO.prog=='other'}">
+									<option selected value="${mdVO.prog}">其他
+									</c:when>
+							</c:choose>
+							
 								<c:forEach var="progs" items="${progsArray}">
-									<c:if test="${mdVO.prog != progs}">
-										<option value="${progs}">${progs}
-									</c:if>
-								</c:forEach>
+										<c:if test="${mdVO.prog!=progs}">
+											<c:choose>
+												<c:when test="${progs=='request'}">
+													<option value="${progs}">審核中
+												</c:when>
+												<c:when test="${progs=='rejected'}">
+													<option value="${progs}">否決
+												</c:when>
+												<c:when test="${progs=='canceled'}">
+													<option value="${progs}">已取消
+												</c:when>
+												<c:when test="${progs=='dispatched'}">
+													<option value="${progs}">調度完成
+												</c:when>
+												<c:when test="${progs=='dispatching'}">
+													<option value="${progs}">調度中
+												</c:when>
+												<c:when test="${progs=='closed'}">
+													<option value="${progs}">結案
+												</c:when>
+												<c:when test="${progs=='other'}">
+													<option value="${progs}">其他
+												</c:when>
+											</c:choose>
+										</c:if>
+									</c:forEach>
 						</select>
 					</div>
 				</div>
@@ -262,7 +338,7 @@
 									name="requestURL"
 									value="<%=request.getContextPath()%>">
 									<input type="hidden" name="whichPage"
-									value="<%=request.getParameter("whichPage")%>"> <!--只用於:listAllMotor.jsp-->
+									value="<%=request.getParameter("whichPage")%>"> 
 									</FORM>
 									<FORM METHOD="post" style="display: inline;"
 										ACTION="<%=request.getContextPath()%>/backend/motor_dispatch/md.do">

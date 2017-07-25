@@ -119,7 +119,7 @@
 <!-- 	右邊HTML區塊 -->
 	<div class="col-xs-12 col-sm-10 rightHTML" >
 		<div class="topTitle">
-			<h1>據點車輛調度申請</h1>
+			<h1>據點裝備申請</h1>
 		</div>
 		<div class="container">
 			<%-- 錯誤表列 --%>

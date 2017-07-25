@@ -58,9 +58,6 @@
 
 </head>
 
-
-
-
 <body>
 	<nav class="navbar navbar-default" role="navigation">
 		<!-- navlogo區 -->
@@ -162,8 +159,32 @@
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="locno">申請據點：</label>
 					<div class="col-sm-10">
-						<input type="text" readonly class="form-control" id="locno"
-							name="locno" value="${edVO.locno}" />
+						<c:choose>
+  						<c:when test="${edVO.locno=='TPE00'}">
+						<input type="text" readonly class="form-control" value="總部" />
+						<input type="hidden" readonly class="form-control" id="locno" name="locno" value="<%=edVO.getLocno()%>" />
+						</c:when>
+						<c:when test="${edVO.locno=='TPE01'}">
+						<input type="text" readonly class="form-control" value="台北車站" />
+						<input type="hidden" readonly id="locno" name="locno" value="<%=edVO.getLocno()%>" />
+						</c:when>
+						<c:when test="${edVO.locno=='NTC01'}">
+						<input type="text" readonly class="form-control" value="板橋車站" />
+						<input type="hidden" readonly id="locno" name="locno" value="<%=edVO.getLocno()%>" />
+						</c:when>
+						<c:when test="${edVO.locno=='TXG01'}">
+						<input type="text" readonly class="form-control" value="台中車站" />
+						<input type="hidden" readonly id="locno" name="locno" value="<%=edVO.getLocno()%>" />
+						</c:when>
+						<c:when test="${edVO.locno=='TNN01'}">
+						<input type="text" readonly class="form-control" value="台南車站" />
+						<input type="hidden" readonly id="locno" name="locno" value="<%=edVO.getLocno()%>" />
+						</c:when>
+						<c:when test="${edVO.locno=='KHH01'}">
+						<input type="text" readonly class="form-control" value="高雄車站" />
+						<input type="hidden" readonly id="locno" name="locno" value="<%=edVO.getLocno()%>" />
+						</c:when>
+  					</c:choose>
 					</div>
 				</div>
 
@@ -187,8 +208,8 @@
 						</span>
 					</div>
 				</div>
-
-				<h3>申請車輛</h3>
+				<table>
+				<h3 style="margin-left:500px;">申請裝備</h3>
 				<c:forEach var="allECs" items="${allEmtCates}">
 					<%
 						int count = 0;
@@ -201,7 +222,6 @@
 								<%
 									++count;
 								%>
-
 
 								<div class="form-group">
 									<label class="control-label col-sm-2" for="ecno"
@@ -219,7 +239,27 @@
 											class="form-check-input" type="checkbox" name="emtno"
 											id="${emtVO.emtno}" value="${emtVO.emtno}"
 											<%= emtnoInList.contains(emtVO.getEmtno())?"checked":"" %>>
-											${emtVO.emtno}
+											${emtVO.emtno}-
+											<c:choose>
+												<c:when test="${emtVO.locationVO.locno=='TPE00'}">
+													總部
+												</c:when>
+												<c:when test="${emtVO.locationVO.locno=='TPE01'}">
+													台北車站
+												</c:when>
+												<c:when test="${emtVO.locationVO.locno=='NTC01'}">
+													板橋車站
+												</c:when>
+												<c:when test="${emtVO.locationVO.locno=='TXG01'}">
+													臺中車站
+												</c:when>
+												<c:when test="${emtVO.locationVO.locno=='TNN01'}">
+													台南車站
+												</c:when>
+												<c:when test="${emtVO.locationVO.locno=='KHH01'}">
+													高雄車站
+												</c:when>
+											</c:choose>
 										</label>
 									</c:forEach>
 								</div>
@@ -227,17 +267,62 @@
 						</c:if>
 					</c:forEach>
 				</c:forEach>
-
+				</table>
 				<div class="form-group">
 					<label class="control-label col-sm-2" for="prog">處理進度：</label>
 					<div class="col-sm-10">
 						<select name="prog" class="form-control" id="prog">
-							<option selected value="${edVO.prog}">${edVO.prog}
+							<c:choose>
+								<c:when test="${edVO.prog=='request'}">
+									<option selected value="${edVO.prog}">審核中
+								</c:when>
+									<c:when test="${edVO.prog=='rejected'}">
+									<option selected value="${edVO.prog}">否決
+									</c:when>
+									<c:when test="${edVO.prog=='canceled'}">
+									<option selected value="${edVO.prog}">已取消
+									</c:when>
+									<c:when test="${edVO.prog=='dispatched'}">
+									<option selected value="${edVO.prog}">調度完成
+									</c:when>
+									<c:when test="${edVO.prog=='dispatching'}">
+									<option selected value="${edVO.prog}">調度中
+									</c:when>
+									<c:when test="${edVO.prog=='closed'}">
+									<option selected value="${edVO.prog}">結案
+									</c:when>
+									<c:when test="${edVO.prog=='other'}">
+									<option selected value="${edVO.prog}">其他
+									</c:when>
+							</c:choose>
+							
 								<c:forEach var="progs" items="${progsArray}">
-									<c:if test="${edVO.prog != progs}">
-										<option value="${progs}">${progs}
-									</c:if>
-								</c:forEach>
+										<c:if test="${edVO.prog!=progs}">
+											<c:choose>
+												<c:when test="${progs=='request'}">
+													<option value="${progs}">審核中
+												</c:when>
+												<c:when test="${progs=='rejected'}">
+													<option value="${progs}">否決
+												</c:when>
+												<c:when test="${progs=='canceled'}">
+													<option value="${progs}">已取消
+												</c:when>
+												<c:when test="${progs=='dispatched'}">
+													<option value="${progs}">調度完成
+												</c:when>
+												<c:when test="${progs=='dispatching'}">
+													<option value="${progs}">調度中
+												</c:when>
+												<c:when test="${progs=='closed'}">
+													<option value="${progs}">結案
+												</c:when>
+												<c:when test="${progs=='other'}">
+													<option value="${progs}">其他
+												</c:when>
+											</c:choose>
+										</c:if>
+									</c:forEach>
 						</select>
 					</div>
 				</div>
@@ -274,6 +359,32 @@
 		</div>
 	</div>
 </body>
-</html>
-</body>
+<script type="text/javascript">
+
+var Msg ='<%=request.getAttribute("getAlert")%>';
+    if (Msg != "null") {
+ 		function undispatchAlert(){
+ 			alert("某申請裝備已無法調度，請重新選擇！");
+ 		} 
+ 	}
+
+<c:forEach var="edListVO" items="${edVO.emtDispLists}">
+	<c:forEach var="emtVO" items="${emtSvc.getEmtsByEcnoByHib(edListVO.equipmentVO.emtCateVO.ecno)}">
+
+	var status = "${emtVO.status}"
+	if(status == 'dispatching' || status == 'reserved' ||
+		status == 'occupied' || status == 'seconsale' ||
+		status == 'secpause' || status == 'secreserved' ||
+		status == 'secsaled' || status == 'other'){
+		
+// 		$("#${emtVO.emtno}").removeAttr("checked");
+// 		$("#${emtVO.emtno}").attr("disabled",true);
+		$("#${emtVO.emtno}").parent().css("text-decoration", "line-through");
+
+	}
+	</c:forEach>
+</c:forEach>
+
+</script> 
+<script type="text/javascript">window.onload = undispatchAlert;</script> 
 </html>

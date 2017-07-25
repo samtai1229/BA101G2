@@ -30,6 +30,9 @@
 #pageDiv {
 	margin-left: 300px;
 }
+.table {
+	margin-left: 1px;
+}
 </style>
 
 <!-- JS -->
@@ -178,7 +181,38 @@
 							<%= count %>輛
 						</td>
 							<%  count=0;%>
-						<td>${mdVO.prog}</td>
+						<td>
+							<c:choose>
+							<c:when test="${mdVO.prog=='request'}">
+  								待審核<br>
+  								request
+  							</c:when>
+  							<c:when test="${mdVO.prog=='rejected'}">
+  								否決<br>
+  								rejected
+  							</c:when>
+  							<c:when test="${mdVO.prog=='canceled'}">
+  								已取消<br>
+  								canceled
+  							</c:when>
+  							<c:when test="${mdVO.prog=='dispatching'}">
+  								調度中<br>
+  								dispatching
+  							</c:when>
+  							<c:when test="${mdVO.prog=='dispatched'}">
+  								調度完成<br>
+  								dispatched
+  							</c:when>
+  							<c:when test="${mdVO.prog=='closed'}">
+  								已結案<br>
+  								closed
+  							</c:when>
+  							<c:when test="${mdVO.prog=='other'}">
+  								其他<br>
+  								other
+  							</c:when>
+  							</c:choose>
+						</td>
 
 						<td>
 							<FORM METHOD="post" style="display: inline;"

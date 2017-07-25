@@ -76,7 +76,7 @@
 				role="button">租賃單管理</a> <a class="btn btn-default"
 				href="${pageContext.request.contextPath}/backend/equipment/emtMgmtSelectPage.jsp"
 				role="button">裝備管理</a> <a
-				class="btn btn-default" href="#" role="button">裝備調度</a> <a
+				class="btn btn-default" href="${pageContext.request.contextPath}/backend/emt_dispatch/emtDispatchMgmtHq.jsp" role="button">裝備調度</a> <a
 				class="btn btn-default" href="#" role="button">據點管理</a>
 		</div>
 		<button class="accordion accordionMenu">據點管理系統</button>
@@ -141,7 +141,7 @@
 
 						<td><FORM METHOD="post"
 								ACTION="<%=request.getContextPath()%>/backend/motor/listAllMotor.jsp">
-								<input type="submit" name="serchAllMotor" value="蒐尋全部車輛"
+								<input type="submit" name="serchAllMotor" value="搜尋全部車輛"
 									class="btn btn-default" role="button">
 							</FORM></td>
 
@@ -151,7 +151,7 @@
 							value="新增車輛"></td>
 						<td><FORM METHOD="post"
 								ACTION="<%=request.getContextPath()%>/backend/motor_model/listAllMotorModel.jsp">
-								<input type="submit" name="serchAllMotorModel" value="蒐尋全部車型"
+								<input type="submit" name="serchAllMotorModel" value="搜尋全部車型"
 									class="btn btn-default" role="button"> <input
 									type="hidden" name="action" value="listAllMotorModel">
 							</FORM></td>
