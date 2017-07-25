@@ -282,8 +282,8 @@ $(document).ready(function() {
 		"timePicker24Hour": true,
 		"timePickerIncrement": 30,
 		"alwaysShowCalendars": true,
-		"minDate": moment().fromNow(),
-		"maxDate": moment().add(60, 'days'),
+	    "minDate": moment().add(2, 'days'),
+	    "maxDate": moment().add(60, 'days'),
 	    "startDate": startday,
 	    "endDate": endday,
 		locale: {

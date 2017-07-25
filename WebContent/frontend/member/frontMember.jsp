@@ -179,6 +179,10 @@ vertical-align: middle!important;
   background-color: #555;
 }
 
+.strongTag{
+font: bold 20px 思源黑體;
+}
+
 /****end 自已加的 ****/
 </style>
 <head>
@@ -197,7 +201,7 @@ vertical-align: middle!important;
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" />
 
 </head>
-<title>會員資料 - listOneMember.jsp</title>
+<title>會員專區</title>
 
 <body>
 
@@ -209,7 +213,7 @@ vertical-align: middle!important;
 				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 					<span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
 				</button>
-				<a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/index.jsp">AutoBike</a>
+				<a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/index.jsp">AutoBike&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;會員專區</a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -261,12 +265,12 @@ vertical-align: middle!important;
 <div class="col-xs-12 col-sm-12" id="mamberDiv">
 		<c:if test="${memVO.status=='unconfirmed'||memVO.status=='uncompleted'}">
 			<div class="alert alert-warning">
-			  <strong>為了維護您的權益，請盡速填寫完整的會員資料並進行認證</strong>
+			  <strong class="strongTag">為了維護您的權益，請盡速填寫完整的會員資料並進行認證</strong>
 			</div>
 		</c:if>
 		<c:if test="${memVO.status=='verifing'}">
 			<div class="alert alert-warning">
-			  <strong>目前正在認證中，請稍後</strong>
+			  <strong class="strongTag">目前正在認證中，請稍後</strong>
 			</div>
 		</c:if>		
 		
