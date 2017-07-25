@@ -80,9 +80,9 @@ public class PictureInsert {
 			byte[] pic1 ,pic2,pic3;
 
 			try {
-				pic1 = getPictureByteArray("DB_Image//idcard//F1.jpg"); //正面圖	
-				pic2 = getPictureByteArray("DB_Image//idcard//B1.jpg"); //背面圖
-				pic3 = getPictureByteArray("DB_Image//idcard//L1.jpg");
+				pic1 = getPictureByteArray("WebContent//DB_Image//idcard//F1.jpg"); //正面圖	
+				pic2 = getPictureByteArray("WebContent//DB_Image//idcard//B1.jpg"); //背面圖
+				pic3 = getPictureByteArray("WebContent//DB_Image//idcard//L1.jpg");
 				mmVO1.setIdcard1(pic1);  //正面
 	           mmVO1.setIdcard2(pic2);  //背面			
 	         mmVO1.setLicense(pic3); //駕照
