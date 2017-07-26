@@ -1,10 +1,8 @@
 package com.motor_dispatch.model;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 
-import com.motor.model.MotorVO;
 import com.motor_disp_list.model.MotorDispListVO;
 import com.rent_ord.model.RentOrdVO;
 
@@ -41,4 +39,6 @@ public interface MotorDispatchDAO_interface {
 	public List<MotorDispatchVO> getByLocnoByHib(String locno);
 
 	public void cancelByHib(String mdno);
+
+	public List<RentOrdVO> checkUndispatchableMotors();
 }

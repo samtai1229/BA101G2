@@ -95,4 +95,8 @@ public class EquipmentService {
 	public List<EquipmentVO> getEmtsByLocnoByHib(String locno) {
 		return dao.getEmtsByLocnoByHib(locno);
 	}
+	
+	public void updateLocnoByHib(String emtno, String locno) {
+		dao.updateLocnoByHib(emtno, locno);
+	}
 }

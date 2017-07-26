@@ -49,4 +49,6 @@ public interface MotorDAO_interface {
 	public List<MotorVO> getMotorsByModtypeByHib(String modtype);
 
 	public void updateStatusByHib(String motno, String status);
+
+	public void updateLocnoByHib(String motno, String locno);
 }
