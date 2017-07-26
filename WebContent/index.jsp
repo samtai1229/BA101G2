@@ -199,7 +199,7 @@
        						</li>
        						<li>
        							<a class="page-scroll" href="#loc">
-       								<i class="fa fa-search"></i>
+       								<i class="glyphicon glyphicon-map-marker"></i>
        								服務據點
        							</a>
        						</li>
