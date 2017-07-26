@@ -39,7 +39,7 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>AutoBike Homepage</title>
-
+<link rel="Short Icon" href="<%=request.getContextPath()%>/img/smallIcon.ico">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/news.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/twitter_bootstrap_3_3_7_min.css">
 <!-- Custom Fonts -->
