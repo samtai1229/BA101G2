@@ -369,7 +369,7 @@ public class MemberServlet extends HttpServlet {
 			//	"INSERT INTO MEMBER (memno,memname,sex,birth,mail,phone,addr,acc,pwd,idcard1,idcard2,license,status) "
 				//+ "VALUES ('MEM'||LPAD(TO_CHAR(memno_seq.NEXTVAL), 6,'0'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,'uncompleted')";
 				
-				memSvc.insert("", "", new Timestamp(System.currentTimeMillis()), mail, "", "", acc, pwd_1, null, null, null);
+				memSvc.insert("", "", null, mail, "", "", acc, pwd_1, null, null, null);
 				System.out.println("==============3-2");
 				
 				memVO = memSvc.getOneMemberByAccAndPwd(acc, pwd_1);
