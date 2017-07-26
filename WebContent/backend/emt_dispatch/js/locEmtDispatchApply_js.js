@@ -27,6 +27,16 @@ function doFirst() {
         var emtno = ecList.find(".emtno");
         addEmt(amount, ecno, emtno);
     });
+    
+    (function(){
+    	$('.checkout').on('click', function(){
+    		$.colorbox({
+    			html : "<h3 style='margin-left:60px;'>裝備調度申請最後確認</h3>"+ $("#dispatchListContent").html(),	//在燈箱中要顯示的html字段
+    			width : 400,	//燈箱中間區塊的寬度
+    			height : 600,	//燈箱中間區塊的高度
+    		});
+    	});
+    })();
 }
 
 function addEmt(amount, ecno, emtno) {

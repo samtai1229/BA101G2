@@ -88,9 +88,10 @@
 	<!------------------------------- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
 		<img id="logo" src="${pageContext.request.contextPath}/backend/images/android_logo2.jpg">
        		<%if(adminisVO.getAuthno().equals("AC01") || adminisVO.getAuthno().equals("AC07")){%>     
-        <button class="accordion accordionMenu accordion accordionMenuMenu">總部管理系統</button> 
-        <div class="btn-group-vertical">
+         <button class="accordion accordionMenu accordion accordionMenuMenu" >總部管理系統</button> 
+        <div class="btn-group-vertical" >
             <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/motor/motorMgmtHqSelectPage.jsp"  role="button">車輛管理</a>
+            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/equipment/emtMgmtSelectPage.jsp"  role="button" >裝備管理</a>
             <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/motorDispatchMgmtHq.jsp"  role="button">車輛調度管理</a>           
 			<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/backendRentOrd.jsp" role="button">租賃單管理</a>
             <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/equipment/emtMgmtSelectPage.jsp" role="button">裝備管理</a>
@@ -103,9 +104,10 @@
        		<%} %>
        		
      	<%if(adminisVO.getAuthno().equals("AC02") || adminisVO.getAuthno().equals("AC07")){%> 
-        <button class="accordion accordionMenu">據點管理系統</button>
-        <div class="btn-group-vertical">
-        	<a class="btn btn-default" href="#" role="button">據點車輛管理</a>
+        <button class="accordion accordionMenu"  style="background-color: #ddd;">據點管理系統</button>
+        <div class="btn-group-vertical" style="display: block;">
+        	<a class="btn btn-default" href="${pageContext.request.contextPath}/backend/motor/motorMgmtLocSelectPage.jsp" role="button">據點車輛管理</a>
+        	<a class="btn btn-default" href="${pageContext.request.contextPath}/backend/equipment/locEmtMgmtSelectPage.jsp" role="button" style="background-color: #ddd;">據點裝備管理</a>
             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/lease.jsp"  role="button">交車管理</a>
           	<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/return.jsp"  role="button">還車管理</a>
             <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/locMotorDispatchApply.jsp" role="button">車輛調度申請</a>
@@ -213,7 +215,7 @@
 			<br>
 
 			<table id="locEmtTable"
-				class="table table-hover table-condensed table-striped table-bordered display"
+				class="table table-hover table-condensed table-striped table-bordered"
 				cellspacing="0" width="100%">
 				<thead>
 					<tr>
@@ -250,12 +252,45 @@
 							<FORM METHOD="post" style="display: inline;" ACTION="emt.do">
 							<td><select name="status" class="form-control"
 								id="${emtVO.status}">
-									<option selected value="${emtVO.status}">${emtVO.status}
-										<c:forEach var="s" items="${statusArray}">
-											<c:if test="${emtVO.status!=s}">
-												<option value="${s}">${s}
-											</c:if>
-										</c:forEach>
+									<c:choose>
+								<c:when test="${emtVO.status=='leasable'}">
+									<option selected value="${emtVO.status}">可出租(${emtVO.status})
+								</c:when>
+								<c:when test="${emtVO.status=='unleasable'}">
+									<option selected value="${emtVO.status}">暫停租賃(${emtVO.status})
+								</c:when>
+								<c:when test="${emtVO.status=='reserved'}">
+									<option selected value="${emtVO.status}">已預約(${emtVO.status})
+								</c:when>
+								<c:when test="${emtVO.status=='occupied'}">
+									<option selected value="${emtVO.status}">出租中(${emtVO.status})
+								</c:when>
+								<c:when test="${emtVO.status=='other'}">
+									<option selected value="${emtVO.status}">其他(${emtVO.status})
+								</c:when>
+							</c:choose>
+
+							<c:forEach var="s" items="${statusArray}">
+								<c:if test="${emtVO.status!=s}">
+									<c:choose>
+										<c:when test="${s=='leasable'}">
+											<option value="${s}">可出租(${s})
+										</c:when>
+										<c:when test="${s=='unleasable'}">
+											<option value="${s}">暫停租賃(${s})
+										</c:when>
+										<c:when test="${s=='reserved'}">
+											<option value="${s}">已預約(${s})
+										</c:when>
+										<c:when test="${s=='occupied'}">
+											<option value="${s}">出租中(${s})
+										</c:when>
+										<c:when test="${s=='other'}">
+											<option value="${s}">其他(${s})
+										</c:when>
+									</c:choose>
+								</c:if>
+							</c:forEach>
 							</select></td>
 							<td><input type="submit" name="del" value="修改狀態"
 								class="btn btn-default" role="button"> <input

@@ -56,15 +56,6 @@
 	href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/js/locMotorDispatchForm_css.css">
 <link rel="stylesheet"
 	href="http://www.jacklmoore.com/colorbox/example1/colorbox.css">
-<style>
-.table{
-	margin:0px;
-	table-layout:fixed;
-    word-break:break-all;
-    word-wrap:break-word;
-   	border-style:hidden;
-}
-</style>
 
 <!-- JS -->
 <script src="https://code.jquery.com/jquery.js"></script>
@@ -118,13 +109,13 @@
        		<%} %>
        		
      	<%if(adminisVO.getAuthno().equals("AC02") || adminisVO.getAuthno().equals("AC07")){%> 
-        <button class="accordion accordionMenu">據點管理系統</button>
-        <div class="btn-group-vertical">
-        	<a class="btn btn-default" href="#" role="button">據點車輛管理</a>
+        <button class="accordion accordionMenu"  style="background-color: #ddd;">據點管理系統</button>
+        <div class="btn-group-vertical" style="display: block;">
+        	<a class="btn btn-default" href="${pageContext.request.contextPath}/backend/motor/motorMgmtLocSelectPage.jsp" role="button">據點車輛管理</a>
             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/lease.jsp"  role="button">交車管理</a>
           	<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/return.jsp"  role="button">還車管理</a>
-            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/locMotorDispatchApply.jsp" role="button">車輛調度申請</a>
-            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/emt_dispatch/locEmtDispatchApply.jsp" role="button">裝備申請</a>
+            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/locMotorDispatchApply.jsp" role="button" style="background-color: #ddd;">車輛調度申請</a>
+            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/emt_dispatch/locEmtDispatchApply.jsp" role="button" >裝備申請</a>
          </div>
          <%} %><%else {%>
         <div>
@@ -276,16 +267,7 @@
 						<tr>
 							<td>${mdVO.mdno}</td>
 							<td><fmt:formatDate pattern="yyyy-MM-dd" value="${mdVO.filldate}"/></td>
-							<td>
-								<c:choose>
-  								<c:when test="${mdVO.closeddate == null}">
-   									審查中...
-  								</c:when>
-  							    <c:otherwise>
-    								<fmt:formatDate pattern="yyyy-MM-dd" value="${mdVO.closeddate}"/>
- 								</c:otherwise>
-								</c:choose>
-							</td>
+							<td><fmt:formatDate pattern="yyyy-MM-dd" value="${mdVO.closeddate}"/></td>
 							<td>
 								<%! int count=0;%>
 								<c:forEach var="mdListVO" items="${mdVO.motorDispLists}">
@@ -328,7 +310,7 @@
 							</td>
 							<td>
 								<c:choose>
-  								<c:when test="${mdVO.prog == 'request'}">
+  								<c:when test="${mdVO.prog eq 'request'}">
   									<FORM METHOD="post" style="display: inline;"
 										ACTION="${pageContext.request.contextPath}/backend/motor_dispatch/md.do">
    									<input type="submit" class="btn btn-default" value="取消">
@@ -337,6 +319,23 @@
 									<input type="hidden" name="locno" value="${mdVO.locno}">
 									<input type="hidden" name="requestURL"
 											value="<%=request.getParameter("requestURL")%>">
+									</FORM>
+  								</c:when>
+  								<c:when test="${mdVO.prog eq 'dispatching'}">
+  									<FORM METHOD="post" style="display: inline;"
+										ACTION="${pageContext.request.contextPath}/backend/motor_dispatch/md.do">
+   									<input type="submit" class="btn btn-default" value="確認領收">
+									<input type="hidden" name="action" value="update">
+									<input type="hidden" name="mdno" value="${mdVO.mdno}">
+									<input type="hidden" name="locno" value="${mdVO.locno}">
+									<input type="hidden" name="filldate" value="${mdVO.filldate}">
+									<input type="hidden" name="closeddate" value="null">
+									<input type="hidden" name="prog" value="dispatched">
+									<c:forEach var="mdListVO" items="${mdVO.motorDispLists}">
+										<input type="hidden" name="motno" value="${mdListVO.motorVO.motno}">
+									</c:forEach>
+									<input type="hidden" name="requestURL"
+											value="<%=request.getRequestURI()%>">
 									</FORM>
   								</c:when>
   							    <c:otherwise>

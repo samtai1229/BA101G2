@@ -56,7 +56,7 @@
 <link rel="stylesheet"
 	href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/js/updateMotorDispatchInput_css.css">
+	href="${pageContext.request.contextPath}/backend/motor/js/addMotor_css.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/backend/motor/js/bootstrap-datetimepicker.min.css">
 
@@ -117,7 +117,7 @@
      	<%if(adminisVO.getAuthno().equals("AC02") || adminisVO.getAuthno().equals("AC07")){%> 
         <button class="accordion accordionMenu">據點管理系統</button>
         <div class="btn-group-vertical">
-        	<a class="btn btn-default" href="#" role="button">據點車輛管理</a>
+        	<a class="btn btn-default" href="${pageContext.request.contextPath}/backend/motor/motorMgmtLocSelectPage.jsp" role="button">據點車輛管理</a>
             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/lease.jsp"  role="button">交車管理</a>
           	<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/return.jsp"  role="button">還車管理</a>
             <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/locMotorDispatchApply.jsp" role="button">車輛調度申請</a>
@@ -402,7 +402,8 @@
 											class="btn btn-default" role="button"> <input
 											type="hidden" name="edno" value="${edVO.edno}"> <input
 											type="hidden" name="action" value="getOne_For_Update">
-									</FORM></td>
+									</FORM>
+								</td>
 							</tr>
 						</table>
 					</div>
@@ -423,7 +424,7 @@ var Msg ='<%=request.getAttribute("getAlert")%>';
 	<c:forEach var="emtVO" items="${emtSvc.getEmtsByEcnoByHib(edListVO.equipmentVO.emtCateVO.ecno)}">
 
 	var status = "${emtVO.status}"
-	if(status == 'dispatching' || status == 'reserved' ||
+	if(	status == 'reserved' ||
 		status == 'occupied' || status == 'seconsale' ||
 		status == 'secpause' || status == 'secreserved' ||
 		status == 'secsaled' || status == 'other'){
@@ -431,7 +432,8 @@ var Msg ='<%=request.getAttribute("getAlert")%>';
 // 		$("#${emtVO.emtno}").removeAttr("checked");
 // 		$("#${emtVO.emtno}").attr("disabled",true);
 		$("#${emtVO.emtno}").parent().css("text-decoration", "line-through");
-
+	}else if(status == 'dispatching'){
+		$("#${emtVO.emtno}").parent().css("color", "red");
 	}
 	</c:forEach>
 </c:forEach>

@@ -82,10 +82,10 @@
 		<img id="logo"
 			src="${pageContext.request.contextPath}/backend/images/android_logo2.jpg">
        		<%if(adminisVO.getAuthno().equals("AC01") || adminisVO.getAuthno().equals("AC07")){%>     
-        <button class="accordion accordionMenu accordion accordionMenuMenu">總部管理系統</button> 
-        <div class="btn-group-vertical">
+        <button class="accordion accordionMenu accordion accordionMenuMenu"  style="background-color: #ddd;">總部管理系統</button> 
+        <div class="btn-group-vertical" style="display: block;">
             <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/motor/motorMgmtHqSelectPage.jsp"  role="button">車輛管理</a>
-            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/motorDispatchMgmtHq.jsp"  role="button">車輛調度管理</a>           
+            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/motorDispatchMgmtHq.jsp" role="button" style="background-color: #ddd;">車輛調度管理</a>           
 			<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/backendRentOrd.jsp" role="button">租賃單管理</a>
             <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/equipment/emtMgmtSelectPage.jsp" role="button">裝備管理</a>
             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/location/listAllLocation.jsp" role="button">據點管理</a>
@@ -99,7 +99,7 @@
      	<%if(adminisVO.getAuthno().equals("AC02") || adminisVO.getAuthno().equals("AC07")){%> 
         <button class="accordion accordionMenu">據點管理系統</button>
         <div class="btn-group-vertical">
-        	<a class="btn btn-default" href="#" role="button">據點車輛管理</a>
+        	<a class="btn btn-default" href="${pageContext.request.contextPath}/backend/motor/motorMgmtLocSelectPage.jsp" role="button">據點車輛管理</a>
             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/lease.jsp"  role="button">交車管理</a>
           	<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/return.jsp"  role="button">還車管理</a>
             <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/locMotorDispatchApply.jsp" role="button">車輛調度申請</a>
@@ -179,27 +179,6 @@
 					</ul>
 				</font>
 			</c:if>
-			<div class="searchBar">
-				<table>
-					<tr>
-						
-						<td><FORM METHOD="post"
-								ACTION="${pageContext.request.contextPath}/backend/loc_motor_dispatch/motorDispatchMgmtHq.jsp">
-								<input type="submit" name="serchAllMotorDispatchs" value="調閱所有調度單"
-									class="btn btn-default" role="button">
-							</FORM></td>
-
-						<td><input type="button" name="insert" id="addMotor"
-							class="btn btn-default" role="button"
-							onclick="location.href='${pageContext.request.contextPath}/backend/loc_motor_dispatch/addMdjsp';"
-							value="新增調度單"></td>
-						
-					</tr>
-				</table>
-				<br>
-
-			</div>
-			<br>
 
 			<table
 				class="table table-hover table-condensed table-striped table-bordered">
