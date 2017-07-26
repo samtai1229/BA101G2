@@ -234,6 +234,13 @@
   </servlet-mapping>
   
   
- 
+ <servlet>
+    <servlet-name>MesBoardServlet1</servlet-name>
+    <servlet-class>com.mes_board.controller.MesBoardServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MesBoardServlet1</servlet-name>
+    <url-pattern>/forntend/mes_board/mesboard.do</url-pattern>
+  </servlet-mapping>
   
 </web-app>

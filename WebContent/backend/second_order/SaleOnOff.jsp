@@ -37,7 +37,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>Insert title here</title>
+<title>二手車上下架管理系統</title>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/google_family_kaushan_script.css" />
  	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/jquery_ui_1_10_3_theme.css"/>	
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.css">    
@@ -229,6 +229,9 @@
     </div>
 </c:if> 
    <div class="col-xs-12 col-sm-10 rightHTML" id="demo">
+	<div class="topTitle">
+			<h1>二手車上下架管理</h1>
+		</div>
 	<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/backend/SaleOnOff.do" >
        <b><font color=orange>車輛狀態:</font></b>
        <span><select size="1" name="status">

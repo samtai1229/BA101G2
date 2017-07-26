@@ -44,7 +44,7 @@
 
 <html>
 <head>
-<title>所有二手車訂單資料</title>
+<title>二手車訂單管理系統</title>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/google_family_kaushan_script.css" />
  	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/jquery_ui_1_10_3_theme.css"/>	
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.css">    
@@ -159,6 +159,9 @@
     </div>
 </c:if> 
     <div class="col-xs-12 col-sm-10 rightHTML" id="demo">
+    <div class="topTitle">
+			<h1>二手車訂單管理</h1>
+		</div>
 <%@ include file="pages/page1.file" %> 
     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do" >
        <b><font color=orange>訂單狀態:</font></b>
@@ -173,24 +176,24 @@
        <input type="submit" value="送出">
        <input type="hidden" name="action" value="listSecOrd_ByStatus">
      </FORM>
-      <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do" >
-       <b><font color=orange>會員編號:</font></b>
-       <input type="text" name="memno" placeholder="會員編號">
-       <input type="submit" value="送出">
-       <input type="hidden" name="action" value="getAll_For_Display_By_Memno">
-     </FORM>
-      <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do" >
-       <b><font color=orange>會員姓名:</font></b>
-       <input type="text" name="memname" placeholder="會員姓名">
-       <input type="submit" value="送出">
-       <input type="hidden" name="action" value="getAll_For_Display_By_Memname">
-     </FORM>
-     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do" >
-       <b><font color=orange>訂單編號:</font></b>
-       <input type="text" name="memname" placeholder="訂單編號">
-       <input type="submit" value="送出">
-       <input type="hidden" name="action" value="getAll_For_Display_By_Sono">
-     </FORM>
+<%--       <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do" > --%>
+<!--        <b><font color=orange>會員編號:</font></b> -->
+<!--        <input type="text" name="memno" placeholder="會員編號"> -->
+<!--        <input type="submit" value="送出"> -->
+<!--        <input type="hidden" name="action" value="getAll_For_Display_By_Memno"> -->
+<!--      </FORM> -->
+<%--       <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do" > --%>
+<!--        <b><font color=orange>會員姓名:</font></b> -->
+<!--        <input type="text" name="memname" placeholder="會員姓名"> -->
+<!--        <input type="submit" value="送出"> -->
+<!--        <input type="hidden" name="action" value="getAll_For_Display_By_Memname"> -->
+<!--      </FORM> -->
+<%--      <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do" > --%>
+<!--        <b><font color=orange>訂單編號:</font></b> -->
+<!--        <input type="text" name="memname" placeholder="訂單編號"> -->
+<!--        <input type="submit" value="送出"> -->
+<!--        <input type="hidden" name="action" value="getAll_For_Display_By_Sono"> -->
+<!--      </FORM> -->
 <table  border="1" class="table table-striped table-inverse table-hover" bordercolor='#CCCCFF' width='100%'>
 	<tr >
 		<th style="text-align:center">二手車訂單編號</th>
