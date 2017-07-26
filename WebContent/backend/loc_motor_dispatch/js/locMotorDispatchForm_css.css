@@ -105,7 +105,11 @@ td {
 .table {
     border-width: 3px;
     border-color: black;
-    margin-left: -200px;
+	margin:0px;
+	table-layout:fixed;
+    word-break:break-all;
+    word-wrap:break-word;
+   	border-style:hidden;
 }
 
 .table-striped tbody tr:nth-of-type(even) {

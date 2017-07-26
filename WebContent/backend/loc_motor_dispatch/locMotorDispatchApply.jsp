@@ -1,3 +1,4 @@
+<%@page import="oracle.jdbc.driver.DMSFactory"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.*"%>
@@ -33,7 +34,7 @@
 <!-- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
 
 <%
-    List<MotorModelVO> list = mmSvc.getAll();
+    List<MotorModelVO> list = mmSvc.getAllByHib();
     pageContext.setAttribute("list",list);
 %>
 
@@ -108,13 +109,13 @@
        		<%} %>
        		
      	<%if(adminisVO.getAuthno().equals("AC02") || adminisVO.getAuthno().equals("AC07")){%> 
-        <button class="accordion accordionMenu">據點管理系統</button>
-        <div class="btn-group-vertical">
-        	<a class="btn btn-default" href="#" role="button">據點車輛管理</a>
+        <button class="accordion accordionMenu"  style="background-color: #ddd;">據點管理系統</button>
+        <div class="btn-group-vertical" style="display: block;">
+        	<a class="btn btn-default" href="${pageContext.request.contextPath}/backend/motor/motorMgmtLocSelectPage.jsp" role="button">據點車輛管理</a>
             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/lease.jsp"  role="button">交車管理</a>
           	<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/return.jsp"  role="button">還車管理</a>
-            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/locMotorDispatchApply.jsp" role="button">車輛調度申請</a>
-            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/emt_dispatch/locEmtDispatchApply.jsp" role="button">裝備申請</a>
+            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/locMotorDispatchApply.jsp" role="button" style="background-color: #ddd;">車輛調度申請</a>
+            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/emt_dispatch/locEmtDispatchApply.jsp" role="button" >裝備申請</a>
          </div>
          <%} %><%else {%>
         <div>
@@ -307,9 +308,10 @@
                					</tr>
 								<tr class="motorAmount">
 								<td>
-									<c:forEach var="dM" items="${dispatchableMotors}">
+									<c:forEach var="dM" items="${dispatchableMotorsInList}">
+									
 	                    				<%! int count=0;%>
-	                   					<c:if test="${dM.modtype == mS.modtype}">
+	                   					<c:if test="${dM.motorModelVO.modtype == mS.modtype}">
 		                    				<% count++;%>
 	                   					</c:if>
 	                				</c:forEach>
@@ -319,8 +321,8 @@
                 				</td>
                 				<td>
                 					<input type="number" class="count form-control" name="" min="0" max="<%= count %>" style="display: inline;">
-                					<c:forEach var="dM" items="${dispatchableMotors}">
-                					<c:if test="${dM.modtype == mS.modtype}">
+                					<c:forEach var="dM" items="${dispatchableMotorsInList}">
+                					<c:if test="${dM.motorModelVO.modtype == mS.modtype}">
 		                    				<input type="hidden" class="motno" value="${dM.motno}">
 	                   				</c:if>
 	                   				</c:forEach>

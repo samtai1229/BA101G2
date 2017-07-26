@@ -33,6 +33,7 @@
 <!-- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
 <%
 	MotorDispatchVO mdVO = (MotorDispatchVO) request.getAttribute("mdVO");
+
 	List<MotorModelVO> allMotorModels = mmSvc.getAll();
 	pageContext.setAttribute("allMotorModels", allMotorModels);
 
@@ -56,7 +57,7 @@
 <link rel="stylesheet"
 	href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/js/updateMotorDispatchInput_css.css">
+	href="${pageContext.request.contextPath}/backend/motor/js/addMotor_css.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/backend/motor/js/bootstrap-datetimepicker.min.css">
 
@@ -116,7 +117,7 @@
      	<%if(adminisVO.getAuthno().equals("AC02") || adminisVO.getAuthno().equals("AC07")){%> 
         <button class="accordion accordionMenu">據點管理系統</button>
         <div class="btn-group-vertical">
-        	<a class="btn btn-default" href="#" role="button">據點車輛管理</a>
+        	<a class="btn btn-default" href="${pageContext.request.contextPath}/backend/motor/motorMgmtLocSelectPage.jsp" role="button">據點車輛管理</a>
             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/lease.jsp"  role="button">交車管理</a>
           	<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/return.jsp"  role="button">還車管理</a>
             <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/locMotorDispatchApply.jsp" role="button">車輛調度申請</a>
@@ -259,34 +260,28 @@
 					</div>
 				</div>
 
-				<h3>申請車輛</h3>
+				<h3 style="margin-left:500px;">申請車輛</h3>
 				<c:forEach var="allMMs" items="${allMotorModels}">
-					<%
-						int count = 0;
-					%>
+					<% int count = 0; %>
 					<c:forEach var="mdListVO" items="${mdVO.motorDispLists}">
 
 						<c:if test="<%=count < 1%>">
 							<c:if
 								test="${allMMs.modtype == mdListVO.motorVO.motorModelVO.modtype}">
-								<%
-									++count;
-								%>
+								<% ++count; %>
 
 								<div class="form-group">
-									<label class="control-label col-sm-2" for="modtype"
-										name="modtype">${allMMs.modtype}：</label>
+									<label class="control-label col-sm-2" for="modtype" name="modtype">
+										${allMMs.modtype}：
+									</label>
 
-									<c:forEach var="motorVO"
-										items="${motorSvc.getMotorsByModtypeByHib(mdListVO.motorVO.motorModelVO.modtype)}">
+									<c:forEach var="motorVO" items="${motorSvc.getMotorsByModtypeByHib(mdListVO.motorVO.motorModelVO.modtype)}">
 
-										<c:set var="motorVO" value="${motorVO }" />
-										<%
-											MotorVO motorVO = (MotorVO) pageContext.getAttribute("motorVO");
-										%>
+										<c:set var="motorVO" value="${motorVO}" />
+										<% MotorVO motorVO = (MotorVO) pageContext.getAttribute("motorVO"); %>
 
-										<label class="checkbox-inline"> <input
-											class="form-check-input" type="checkbox" name="motno"
+										<label class="checkbox-inline"> 
+											<input class="form-check-input" type="checkbox" name="motno"
 											id="${motorVO.motno}" value="${motorVO.motno}"
 											<%= motnoInList.contains(motorVO.getMotno())?"checked":"" %>>
 											${motorVO.motno} - 
@@ -422,7 +417,7 @@ var Msg ='<%=request.getAttribute("getAlert")%>';
 	<c:forEach var="motorVO" items="${motorSvc.getMotorsByModtypeByHib(mdListVO.motorVO.motorModelVO.modtype)}">
 
 	var status = "${motorVO.status}"
-	if(status == 'dispatching' || status == 'reserved' ||
+	if( status == 'reserved' ||
 		status == 'occupied' || status == 'seconsale' ||
 		status == 'secpause' || status == 'secreserved' ||
 		status == 'secsaled' || status == 'other'){
@@ -431,10 +426,15 @@ var Msg ='<%=request.getAttribute("getAlert")%>';
 // 		$("#${motorVO.motno}").attr("disabled",true);
 		$("#${motorVO.motno}").parent().css("text-decoration", "line-through");
 
+	}else if(status == 'dispatching'){
+		$("#${motorVO.motno}").parent().css("color", "red");
 	}
 	</c:forEach>
 </c:forEach>
 
+<c:forEach var="unDispatchableRoVO" items="${unDispatchableMotorsInList}">
+	$("#${unDispatchableRoVO.motorVO.motno}").parent().css("text-decoration", "line-through");
+</c:forEach>
 </script> 
 <script type="text/javascript">window.onload = undispatchAlert;</script> 
 </html>

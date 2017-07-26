@@ -12,6 +12,10 @@ body {
     height: 300px;
 }
 
+.accordion {
+    margin-bottom: 0px;
+}
+
 button.accordion {
     background-color: #eee;
     color: #444;
@@ -55,7 +59,7 @@ div.panel {
 
 h1 {
     text-align: center;
-    font: bold 72px 思源黑體;
+    font: bold 36px 思源黑體;
     color: #edd14a;
 }
 

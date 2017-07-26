@@ -109,13 +109,13 @@
        		<%} %>
        		
      	<%if(adminisVO.getAuthno().equals("AC02") || adminisVO.getAuthno().equals("AC07")){%> 
-        <button class="accordion accordionMenu">據點管理系統</button>
-        <div class="btn-group-vertical">
-        	<a class="btn btn-default" href="#" role="button">據點車輛管理</a>
+        <button class="accordion accordionMenu"  style="background-color: #ddd;">據點管理系統</button>
+        <div class="btn-group-vertical" style="display: block;">
+        	<a class="btn btn-default" href="${pageContext.request.contextPath}/backend/motor/motorMgmtLocSelectPage.jsp" role="button">據點車輛管理</a>
             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/lease.jsp"  role="button">交車管理</a>
           	<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/return.jsp"  role="button">還車管理</a>
             <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/locMotorDispatchApply.jsp" role="button">車輛調度申請</a>
-            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/emt_dispatch/locEmtDispatchApply.jsp" role="button">裝備申請</a>
+            <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/emt_dispatch/locEmtDispatchApply.jsp" role="button" style="background-color: #ddd;">裝備申請</a>
          </div>
          <%} %><%else {%>
         <div>
@@ -250,7 +250,7 @@
 			</div>
 			<!--搜尋列結束 -->
 			<div class="accordion ">
-					<table>
+					<table class="table">
 						<tr>
 							<td>調度單號</td>
 							<td>請求日期</td>
@@ -263,20 +263,11 @@
 				</div>
 			<c:forEach var="edVO" items="${getByLocnoByHib}">
 				<div class="accordion accordionDispTable">
-					<table>
+					<table class="table">
 						<tr>
 							<td>${edVO.edno}</td>
 							<td><fmt:formatDate pattern="yyyy-MM-dd" value="${edVO.demanddate}"/></td>
-							<td>
-								<c:choose>
-  								<c:when test="${edVO.closeddate == null}">
-   									審查中...
-  								</c:when>
-  							    <c:otherwise>
-    								<fmt:formatDate pattern="yyyy-MM-dd" value="${edVO.closeddate}"/>
- 								</c:otherwise>
-								</c:choose>
-							</td>
+							<td><fmt:formatDate pattern="yyyy-MM-dd" value="${edVO.closeddate}"/></td>
 							<td>
 								<%! int count=0;%>
 								<c:forEach var="edListVO" items="${edVO.emtDispLists}">
@@ -285,7 +276,38 @@
 								<%= count %>件
 							</td>
 								<%  count=0;%>
-							<td>${edVO.prog}</td>
+							<td>
+								<c:choose>
+  								<c:when test="${edVO.prog=='request'}">
+  									待審核<br>
+  									request
+  								</c:when>
+  								<c:when test="${edVO.prog=='rejected'}">
+  									否決<br>
+  									rejected
+  								</c:when>
+  								<c:when test="${edVO.prog=='canceled'}">
+  									已取消<br>
+  									canceled
+  								</c:when>
+  								<c:when test="${edVO.prog=='dispatching'}">
+  									調度中<br>
+  									dispatching
+  								</c:when>
+  								<c:when test="${edVO.prog=='dispatched'}">
+  									調度完成<br>
+  									dispatched
+  								</c:when>
+  								<c:when test="${edVO.prog=='closed'}">
+  									已結案<br>
+  									closed
+  								</c:when>
+  								<c:when test="${edVO.prog=='other'}">
+  									其他<br>
+  									other
+  								</c:when>
+  							</c:choose>
+							</td>
 							<td>
 								<c:choose>
   								<c:when test="${edVO.prog == 'request'}">
@@ -297,6 +319,23 @@
 									<input type="hidden" name="locno" value="${edVO.locno}">
 									<input type="hidden" name="requestURL"
 											value="<%=request.getParameter("requestURL")%>">
+									</FORM>
+  								</c:when>
+  								<c:when test="${edVO.prog eq 'dispatching'}">
+  									<FORM METHOD="post" style="display: inline;"
+										ACTION="${pageContext.request.contextPath}/backend/emt_dispatch/ed.do">
+   									<input type="submit" class="btn btn-default" value="確認領收">
+									<input type="hidden" name="action" value="update">
+									<input type="hidden" name="edno" value="${edVO.edno}">
+									<input type="hidden" name="locno" value="${edVO.locno}">
+									<input type="hidden" name="demanddate" value="${edVO.demanddate}">
+									<input type="hidden" name="closeddate" value="null">
+									<input type="hidden" name="prog" value="dispatched">
+									<c:forEach var="edListVO" items="${edVO.emtDispLists}">
+										<input type="hidden" name="emtno" value="${edListVO.equipmentVO.emtno}">
+									</c:forEach>
+									<input type="hidden" name="requestURL"
+											value="<%=request.getRequestURL()%>">
 									</FORM>
   								</c:when>
   							    <c:otherwise>
