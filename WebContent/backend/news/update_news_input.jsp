@@ -1,7 +1,4 @@
-<%
-	NewsVO newsVO = (NewsVO) request.getAttribute("newsVO"); //NewsServlet.java (Concroller), 存入req的newsVO物件 (包括幫忙取出的newsVO, 也包括輸入資料錯誤時的newsVO物件)
-%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="java.sql.Timestamp"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
@@ -9,38 +6,31 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.*"%>
 <%@ page import="com.news.model.*"%>
+<%
+	NewsVO newsVO = (NewsVO) request.getAttribute("newsVO");
+%>
 <!-- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
 <%@ page import="com.adminis.model.*"%>
 <%  AdminisService as = new AdminisService();
 	AdminisVO adminisVO= (AdminisVO)session.getAttribute("adminisVO");
      session.setAttribute("admins", adminisVO.getName());
      session.setAttribute("adminisVO", adminisVO);
-     
-     if(adminisVO==null){
-   	  request.getRequestDispatcher("/backend/index.jsp").forward(request, response);
-   	 }else{
-   	  System.out.println("!!!!!!!!!!!"+adminisVO.getName());
-   	     session.setAttribute("admins", adminisVO.getName());     
-   	     session.setAttribute("adminisVO", adminisVO);
-   	 } 
-     
+ 	session.setAttribute("admno", adminisVO.getAdmno());
+ 	
+ 	if(adminisVO==null){
+  	  request.getRequestDispatcher("/backend/index.jsp").forward(request, response);
+  	 }else{
+  	  System.out.println("!!!!!!!!!!!"+adminisVO.getName());
+  	     session.setAttribute("admins", adminisVO.getName());     
+  	     session.setAttribute("adminisVO", adminisVO);
+  	 } 
+ 	
 %>
 <!-- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
-<head>
-	<title>最新資料修改</title>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-    <link rel="stylesheet" href="Modified/backendHP_css.css">
-    <link href="Modified/main.css" rel="stylesheet">
-    <script src="Modified/motorKanli_js.js"></script>
-    <script src="Modified/datepicker.js"></script>
-   	<link rel="stylesheet" type="text/css" href="js/calendar.css">
-	<script language="JavaScript" src="js/calendarcode.js"></script>
-	<meta charset="utf-8">
+<title>最新消息新增</title>
+<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">	
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>  	
@@ -51,11 +41,8 @@
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css" >	
 </head>
 
-
-
 <body bgcolor='white'>
-
-  <%--nav start --%>
+<%--nav start --%>
     <nav class="navbar navbar-default" role="navigation">
         <!-- logo區 -->
         <a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/backend/index.jsp" id="navA">AUTOBIKE</a>
@@ -177,48 +164,50 @@
 			</ul>
 		</font>
 	</c:if>
-
-	<FORM METHOD="post" ACTION="news.do" name="form1"
-		enctype="multipart/form-data">
-		<table class="table table-hover table-condensed table-striped table-bordered" style="margin-left:1px;">
-		<tr><th colspan="2"><h3>最新消息資料修改</h3></tr>
-		
-		
-		
-			<tr>
-				<td>最新消息編號:<font color=red><b>*</b></font></td>
-				<td><%=newsVO.getNewsno()%></td>
-			</tr>
+	<div class="container">
+	<FORM METHOD="post" ACTION="news.do" name="form1" enctype="multipart/form-data"    class="form-horizontal">
+			<div class="form-group">
+						<label class="control-label col-sm-2" for="brand">最新消息編號:</label>
+						<div class="col-sm-10">
+				<a class="form-control"><%=newsVO.getNewsno()%></a>
+			</div>
+			</div>
 			<jsp:useBean id="adminisSvc" scope="page"
 				class="com.adminis.model.AdminisService" />
 
-			<tr>
-				<td>消息內容:</td>
-				<td><input type="TEXT" name="cont" size="100"
-					value="<%=(newsVO == null) ? "CONT" : newsVO.getCont()%>" /></td>
-			</tr>
-			<tr>
-				<td>消息圖片修改:</td>
-				<td><input type="file" name="pic">
+			<div class="form-group">
+						<label class="control-label col-sm-2" for="intro">消息內容:</label>
+						<div class="col-sm-10">
+				<textarea class="form-control" name="cont" id="intro" rows="5" cols="70"  style="resize:none;"><%=(newsVO == null) ? "CONT" : newsVO.getCont()%></textarea>
+			</div>
+			</div>
+			<div class="form-group">
+					<label class="control-label col-sm-2" for="motpic">消息圖片修改:</label>
+					<div class="col-sm-10">
+					<input type="file" name="pic"  class="btn btn-default" >
 				<p><img src="<%=request.getContextPath()%>/backend/news/newsread.do?newsno=${newsVO.newsno}" style= max-width:150px;max-height:150px;></img></p>
-				</td>
-			</tr>
-			<tr>
-				<td>消息標題:</td>
-				<td><input type="TEXT" name="title" size="100"
-					value="<%=(newsVO == null) ? "TITLE" : newsVO.getTitle()%>" /></td>
-			</tr>
+				</div>
+				</div>
+			<div class="form-group">
+						<label class="control-label col-sm-2" for="brand">消息標題:</label>
+					<div class="col-sm-10">
+				<input type="TEXT" name="title" size="100" class="form-control" value="<%=(newsVO == null) ? "TITLE" : newsVO.getTitle()%>" />
+			</div>
+			</div>
 			<jsp:useBean id="newsSvc" scope="page"
 				class="com.news.model.NewsService" />
-			<tr>
-				<td>最新消息狀態:<font color=red><b>*</b></font></td>
-				<td><select size="1" name="status">
+			<div class="form-group">
+					<label class="control-label col-sm-2" for="name">最新消息狀態:</label>
+					<div class="col-sm-10">
+				<select size="1" name="status">
 							<option value="normal">正常顯示</option>
 							<option value="hid">隱藏</option>
-				</select></td>
-			</tr>
-		</table>
-		<br> <input type="hidden" name="action" value="update"> <input
+				</select>
+			</div>
+			</div>
+		<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+		 <input type="hidden" name="action" value="update"> <input
 			type="hidden" name="newsno" value="<%=newsVO.getNewsno()%>">
 		<input type="hidden" name="requestURL"
 			value="<%=request.getParameter("requestURL")%>">
@@ -228,7 +217,10 @@
 		<!--只用於:istAllEmp.jsp-->
 		<input type="submit" value="送出修改">
 		<input type="hidden" name="admno" value="<%=adminisVO.getAdmno()%>">
+		</div>
+		</div>
 	</FORM>
+	</div>
 	</div>
 <!----------------------------------------------- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
 	<!--RWD部分:下面兩行我拿掉一行和JQuery有關的script, 不然datepicker會衝到  -->

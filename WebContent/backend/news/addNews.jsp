@@ -164,49 +164,56 @@
 			</ul>
 		</font>
 	</c:if>
-
-	<FORM METHOD="post" ACTION="news.do" name="form1"
-		enctype="multipart/form-data">
-		<table class="table table-hover table-condensed table-striped table-bordered" style="margin-left:1px;">
-			<tr><th colspan="2"><h3>最新消息新增</h3></tr>
+	<div class="container">
+	<FORM METHOD="post" ACTION="news.do" name="form1" enctype="multipart/form-data"  class="form-horizontal">
 			<jsp:useBean id="adminisSvc" scope="page"
 				class="com.adminis.model.AdminisService" />
 				
-				<tr>
-				<td>消息標題:</td>
-				<td><input type="TEXT" name="title" size="100"
-					value="<%=(newsVO == null) ? "" : newsVO.getTitle()%>" /></td>
-			</tr>
+				<div class="form-group">
+						<label class="control-label col-sm-2" for="brand">消息標題:</label>
+						<div class="col-sm-10">
+				<input type="TEXT" name="title" size="100" class="form-control"
+					value="<%=(newsVO == null) ? "" : newsVO.getTitle()%>" />
+			</div>
+			</div>
 				
 				
 			
-			<tr>
-				<td>消息內容:</td>
-				<td><input type="TEXT" name="cont" size="100"
-					value="<%=(newsVO == null) ? "" : newsVO.getCont()%>" /></td>
-			</tr>
+			<div class="form-group">
+					<label class="control-label col-sm-2" for="intro">消息內容:</label>
+					<div class="col-sm-10">
+					<textarea class="form-control" name="cont" id="intro" rows="5" cols="70"  style="resize:none;"><%=(newsVO == null) ? "" : newsVO.getCont()%></textarea>
+			</div>
+			</div>
 			
 			
 			<jsp:useBean id="newsSvc" scope="page"
 				class="com.news.model.NewsService" />
-			<tr>
-				<td>最新消息狀態:<font color=red><b>*</b></font></td>
-				<td><select size="1" name="status">
+			<div class="form-group">
+					<label class="control-label col-sm-2" for="name">最新消息狀態:</label>
+					<div class="col-sm-10">
+				<select size="1" name="status">
 						<option value="normal">正常顯示</option>
 						<option value="hid">隱藏</option>
-				</select></td>
-			</tr>
-			<tr>
-				<td>圖片新增:</td>
-				<td ><div align="center"><input type="file" name="pic"></div></td>
-				<br>
+				</select>
+			</div>
+			</div>
+			<div class="form-group">
+					<label class="control-label col-sm-2" for="motpic">圖片新增:</label>
+					<div class="col-sm-10">
+					<input type="file" name="pic" class="btn btn-default" >
+				</div>
 				<!--         <input type="file" name="upfile2"> -->
-			</tr>
-		</table>
-		<br> <input type="hidden" name="action" value="insert"> 
+		</div>
+		<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+			 <input type="hidden" name="action" value="insert"> 
 			<input type="hidden" name="admno" value="<%=adminisVO.getAdmno()%>">
-			<input type="submit" value="送出新增">
+			<input type="submit"  class="btn btn-default"  value="送出新增">
+			</div>
+			</div>
 	</FORM>
+	</div>
 	</div>
 <!----------------------------------------------- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
 	<!--RWD部分:下面兩行我拿掉一行和JQuery有關的script, 不然datepicker會衝到  -->
