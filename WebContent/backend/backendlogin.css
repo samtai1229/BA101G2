@@ -1,3 +1,11 @@
+body
+{	background-image: linear-gradient( rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2) ),url('../img/header.jpg');
+    background-size: cover;
+    padding: 0;
+    margin: 0;
+}
+
+
 
 .wrap
 {
@@ -13,7 +21,7 @@
 p.form-title
 {
     font-family: 'Open Sans' , sans-serif;
-    font-size: 20px;
+    font-size: 40px;
     font-weight: 600;
     text-align: center;
     color: #FFFFFF;
@@ -24,7 +32,7 @@ p.form-title
 
 form
 {
-    width: 250px;
+    width: 400px;
     margin: 0 auto;
 }
 
@@ -38,7 +46,7 @@ form.login input[type="text"], form.login input[type="password"]
     border-bottom: 1px solid #FFFFFF;
     outline: 0;
     font-style: italic;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 400;
     letter-spacing: 1px;
     margin-bottom: 5px;
@@ -49,7 +57,7 @@ form.login input[type="text"], form.login input[type="password"]
 form.login input[type="submit"]
 {
     width: 100%;
-    font-size: 14px;
+    font-size: 16px;
     text-transform: uppercase;
     font-weight: 500;
     margin-top: 16px;
@@ -77,7 +85,7 @@ form.login .forgot-pass-content
 }
 form.login label, form.login a
 {
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 400;
     color: #FFFFFF;
 }
@@ -137,7 +145,7 @@ form.login a:hover
     border-bottom: 1px solid #000000;
     outline: 0;
     font-style: italic;
-    font-size: 12px;
+    font-size: 20px;
     font-weight: 400;
     letter-spacing: 1px;
     margin-bottom: 5px;
