@@ -160,9 +160,9 @@
 </c:if> 
     <div class="col-xs-12 col-sm-10 rightHTML" id="demo">
     <div class="topTitle">
-			<h1>二手車訂單管理</h1>
+			<h1>二手車交易管理</h1>
 		</div>
-<%@ include file="pages/page1.file" %> 
+<%-- <%@ include file="pages/page1.file" %>  --%>
     <FORM METHOD="post" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do" >
        <b><font color=orange>訂單狀態:</font></b>
        <span><select size="1" name="status">
@@ -170,7 +170,7 @@
        	   <option  ${status == 'all' ? 'selected="selected"' : ''}  value="all">全部
        	   <option ${status == 'unpaid' ? 'selected="selected"' : ''} value="unpaid">未付款
        	   <option ${status == 'paid' ? 'selected="selected"' : ''} value="paid">已付款
-       	   <option ${status == 'closed' ? 'selected="selected"' : ''} value="closed">已結單
+       	   <option ${status == 'closed' ? 'selected="selected"' : ''} value="closed">已交車
       
        	</select></span>
        <input type="submit" value="送出">
@@ -206,7 +206,7 @@
 	</tr>
 	<jsp:useBean id="memSvc" scope="page" class="com.member.model.MemberService"></jsp:useBean>
 <%-- 					begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" --%>
-	<c:forEach var="soVO" items="${list}" begin="<%=pageIndex%>" end="<%=pageIndex+rowsPerPage-1%>" >
+	<c:forEach var="soVO" items="${list}"  >
 		<tr align='center' valign='middle'>
 			<td>${soVO.sono}</td>
 			<td>${soVO.memno}</td>
@@ -243,7 +243,7 @@
 		</tr>
 	</c:forEach>
 </table>
-<%@ include file="pages/page2.file" %>
+<%-- <%@ include file="pages/page2.file" %> --%>
 </div>
 
 
