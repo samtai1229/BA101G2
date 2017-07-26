@@ -120,4 +120,8 @@ public class MotorService {
 		dao.updateStatusByHib(motno, status);
 	}
 
+	public void updateLocnoByHib(String motno, String locno) {
+		dao.updateLocnoByHib(motno, locno);
+	}
+
 }

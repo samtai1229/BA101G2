@@ -95,4 +95,8 @@ public class MotorDispatchService {
 	public void cancelByHib(String mdno){
 		dao.cancelByHib(mdno);
 	}
+	
+	public List<RentOrdVO> checkUndispatchableMotors(){
+		return dao.checkUndispatchableMotors();
+	}
 }

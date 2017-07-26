@@ -55,7 +55,7 @@ public class MotorModelDAO implements MotorModelDAO_interface {
 			"SELECT * FROM MOTOR_MODEL where MODTYPE LIKE ? or BRAND LIKE ? or DISPLACEMENT LIKE ? or NAME LIKE ? or RENPRICE LIKE ? or SALEPRICE LIKE ? ORDER BY MODTYPE";
 
 	//以下為Hibernate用
-		private static final String GET_ALL_STMT = "from MotorModelVO order by MODTYPE";
+		private static final String GET_ALL_STMT = "from MotorModelVO order by modtype";
 		private static final String FUZZY_SEARCH_BY_HIBERNATE ="FROM MotorModelVO where MOTNO LIKE ? or MODTYPE LIKE ? or PLATENO LIKE ? or ENGNO LIKE ? or MANUDATE LIKE ? or MILE LIKE ? or LOCNO LIKE ? or STATUS LIKE ? or NOTE LIKE ? or NAME LIKE ? or DISPLACEMENT LIKE ? or RENPRICE LIKE ? or SALEPRICE LIKE ? or BRAND LIKE ? ORDER BY MOTNO"; 
 //				"SELECT m.motno, m.modtype, d.name, d.displacement, d.renprice, d.brand m.plateno, m.engno, m.manudate, m.mile, m.locno, d.saleprice,m.status, m.note FROM MOTOR as m join motor_model as d ON m.modtype = d.modtype where m.MOTNO LIKE ? or m.MODTYPE LIKE ? or m.PLATENO LIKE ? or m.ENGNO LIKE ? or m.MANUDATE LIKE ? or m.MILE LIKE ? or m.LOCNO LIKE ? or m.STATUS LIKE ? or m.NOTE LIKE ? or d.NAME LIKE ? or d.DISPLACEMENT LIKE ? or d.RENPRICE LIKE ? or d.SALEPRICE LIKE ? or d.BRAND LIKE ? ORDER BY m.MOTNO";
 		

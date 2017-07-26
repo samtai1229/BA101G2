@@ -46,6 +46,7 @@ public class EquipmentDAO implements EquipmentDAO_interface {
 		private static final String GET_ECNO_BY_LOCNO = "SELECT distinct emtCateVO.ecno FROM EquipmentVO where locationVO.locno <> ? order by ecno";
 		private static final String GET_BY_ECNO_AND_LOCNO = "FROM EquipmentVO where emtCateVO.ecno = ? and locationVO.locno <> ? and status in ('leasable','unleasable')";
 		private static final String GET_BY_LOCNO = "FROM EquipmentVO where locationVO.locno = ?";
+		private static final String UPDATE_LOCNO_BY_HIBERNATE = "update EquipmentVO set locno = ? where emtno = ?";
 		
 	@Override
 	public void insert(EquipmentVO emtVO) {
@@ -463,6 +464,23 @@ public class EquipmentDAO implements EquipmentDAO_interface {
 			return list;
 		}
 		
+		@Override
+		public void updateLocnoByHib(String emtno, String locno){
+			Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+			try {
+				session.beginTransaction();
+				Query query = session.createQuery(UPDATE_LOCNO_BY_HIBERNATE);
+				query.setParameter(0, locno);
+				query.setParameter(1, emtno);
+				int updateCount = query.executeUpdate();
+				System.out.println("updateLocnoByHib: " + updateCount);
+				
+				session.getTransaction().commit();
+			} catch (RuntimeException ex) {
+				session.getTransaction().rollback();
+				throw ex;
+			}
+		}
 		
 		public static void main(String[] args) {
 

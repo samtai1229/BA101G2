@@ -81,7 +81,7 @@ public class MotorDAO implements MotorDAO_interface {
 
 //	private static final String GET_ALL_STATUS="slelect distinct status from motor";
 	
-	private static final String GET_MODTYPE_BY_LOCNO = "SELECT distinct modtype FROM MOTOR where locno <> ?";
+	private static final String GET_MODTYPE_BY_LOCNO = "SELECT distinct modtype FROM MOTOR where locno <> ? order by modtype";
 	
 	private static final String GET_BY_MODTYP_AND_LOCNO = "SELECT motno, modtype, plateno,"
 			+ " engno, to_char(manudate,'yyyy-mm-dd hh:mm:ss') manudate,"
@@ -95,6 +95,7 @@ public class MotorDAO implements MotorDAO_interface {
 //			
 	private static final String GET_BY_MODTYPE_BY_HIBERNATE = "from MotorVO where modtype = ? order by MOTNO";
 	private static final String UPDATE_STATUS_BY_HIBERNATE = "update MotorVO set status = ? where motno = ?";
+	private static final String UPDATE_LOCNO_BY_HIBERNATE = "update MotorVO set locno = ? where motno = ?";
 	
 	@Override
 	public void insert(MotorVO motorVO) {
@@ -924,6 +925,24 @@ System.out.println("motorDAOlist: " + list);
 			query.setParameter(1, motno);
 			int updateCount = query.executeUpdate();
 			System.out.println("updateStatusByHib: " + updateCount);
+			
+			session.getTransaction().commit();
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
+		}
+	}
+	
+	@Override
+	public void updateLocnoByHib(String motno, String locno){
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		try {
+			session.beginTransaction();
+			Query query = session.createQuery(UPDATE_LOCNO_BY_HIBERNATE);
+			query.setParameter(0, locno);
+			query.setParameter(1, motno);
+			int updateCount = query.executeUpdate();
+			System.out.println("updateLocnoByHib: " + updateCount);
 			
 			session.getTransaction().commit();
 		} catch (RuntimeException ex) {

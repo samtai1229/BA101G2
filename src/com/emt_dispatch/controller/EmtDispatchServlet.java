@@ -13,11 +13,6 @@ import com.emt_disp_list.model.EmtDispListVO;
 import com.emt_dispatch.model.*;
 import com.equipment.model.EquipmentService;
 import com.equipment.model.EquipmentVO;
-import com.motor.model.MotorService;
-import com.motor.model.MotorVO;
-import com.motor_disp_list.model.MotorDispListService;
-import com.motor_disp_list.model.MotorDispListVO;
-import com.motor_dispatch.model.MotorDispatchService;
 import com.motor_dispatch.model.MotorDispatchVO;
 
 public class EmtDispatchServlet extends HttpServlet {
@@ -147,6 +142,7 @@ public class EmtDispatchServlet extends HttpServlet {
 			List<String> errorMsgs = new LinkedList<String>();
 			req.setAttribute("errorMsgs", errorMsgs);
 			String requestURL = req.getParameter("requestURL");
+			System.out.println(requestURL);
 			String edno = req.getParameter("edno");
 			String locno = req.getParameter("locno");
 			String prog = req.getParameter("prog");
@@ -247,6 +243,10 @@ System.out.println("prog: "  + prog);
 						String status = "unleasable";
 						System.out.println("prog is 'dispatched'");
 						emtSvc.updateStatusByHib(emtno, status);
+						emtSvc.updateLocnoByHib(emtno, locno);
+						closeddate = new Timestamp(System.currentTimeMillis());
+						edVO.setCloseddate(closeddate);
+						edVO.setProg("closed");
 						// 若調度單設為結案，且結案日期內容為空值則結案日期colseddate設現在時間systime
 					} else if (prog.equals("closed") || prog.equals("canceled") && (req.getParameter("closeddate").trim().equals(null)
 							|| req.getParameter("closeddate").trim().equals("null"))) {
@@ -262,6 +262,14 @@ System.out.println("prog: "  + prog);
 				}
 
 				/*************** 3.新增完成,準備轉交(Send the Success view) ***********/
+				if(requestURL.equals("http://localhost:8081/BA101G2/backend/emt_dispatch/locEmtDispatchForm.jsp")){
+					List<EmtDispatchVO> list2 = edSvc.getByLocnoByHib(locno);
+					req.setAttribute("getByLocnoByHib", list2);
+					RequestDispatcher successView = req.getRequestDispatcher("/backend/emt_dispatch/locEmtDispatchForm.jsp");
+					successView.forward(req, res);
+					System.out.println("update 成功");
+					return;
+				}
 				List<EmtDispatchVO> list = edSvc.getAllByHib();
 				req.setAttribute("list", list);
 				RequestDispatcher successView = req

@@ -22,6 +22,7 @@ import org.hibernate.Session;
 import com.motor.model.MotorVO;
 import com.motor_disp_list.model.MotorDispListVO;
 import com.motor_model.model.MotorModelVO;
+import com.rent_ord.model.MotorForRentOrdVO;
 import com.rent_ord.model.RentOrdVO;
 
 import hibernate.util.HibernateUtil;
@@ -58,13 +59,15 @@ public class MotorDispatchDAO implements MotorDispatchDAO_interface {
 	private static final String GET_BY_PROG = "SELECT mdno, locno, filldate,"
 			+ "  closeddate, prog FROM MOTOR_DISPATCH where prog = ?";
 	
-	private static final String GET_DISPATCHABLE_DATE = 
-	"select motno from rent_ord where motno = ? and (sysdate not between STARTDATE and ENDDATE) and (sysdate+1 not between STARTDATE and ENDDATE)and (sysdate+2 not between STARTDATE and ENDDATE)";
+	private static final String GET_DISPATCHABLE_MOTORS = 
+	"select * from rent_ord where motno = ? and ((sysdate not between STARTDATE and ENDDATE) and (sysdate+1 not between STARTDATE and ENDDATE) and (sysdate+2 not between STARTDATE and ENDDATE) and (sysdate+3 not between STARTDATE and ENDDATE) or status in ('noshow','abnormalclosed','closed','canceled'))";
+	
 	//以下為hibernate用
 	private static final String GET_ALL_STMT = "from MotorDispatchVO order by mdno desc";
 	private static final String GET_BY_LOCNO = "from MotorDispatchVO where locno = ? order by mdno desc";
 	private static final String CANCEL = "update MotorDispatchVO set prog = 'canceled', closeddate = systimestamp where mdno = ?";
-	
+	private static final String GET_UNDISPATCHABLE_MOTORS = 
+			"from RentOrdVO where ((sysdate  between STARTDATE and ENDDATE) or (sysdate+1  between STARTDATE and ENDDATE) or (sysdate+2  between STARTDATE and ENDDATE) or (sysdate+3  between STARTDATE and ENDDATE)) and status in ('unpaid','noreturn','overtime','available','other','unoccupied') order by motno";
 	
 	@Override
 	public void insert(MotorDispatchVO mdVO) {
@@ -420,7 +423,7 @@ public class MotorDispatchDAO implements MotorDispatchDAO_interface {
 		try {
 
 			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_DISPATCHABLE_DATE);
+			pstmt = con.prepareStatement(GET_DISPATCHABLE_MOTORS);
 
 			pstmt.setString(1, motno);
 
@@ -430,6 +433,8 @@ public class MotorDispatchDAO implements MotorDispatchDAO_interface {
 				// 也稱為 Domain objects
 				rentOrdVO = new RentOrdVO();
 //				rentOrdVO.setMotno(rs.getString("motno"));
+				MotorForRentOrdVO motorVO = new MotorForRentOrdVO();//因為不是用hibernate所以要先new出motorVO才能用
+				rentOrdVO.setMotorVO(motorVO);
 				rentOrdVO.getMotorVO().setMotno(rs.getString("motno"));//上線版本!
 				
 			}
@@ -462,6 +467,8 @@ public class MotorDispatchDAO implements MotorDispatchDAO_interface {
 		}
 		return rentOrdVO;
 	}
+	
+	
 
 	//以下為hibernate用
 	@Override
@@ -574,6 +581,26 @@ public class MotorDispatchDAO implements MotorDispatchDAO_interface {
 			session.getTransaction().rollback();
 			throw ex;
 		}
+	}
+	
+	//注意：List<RentOrdVO>
+	@Override
+	public List<RentOrdVO> checkUndispatchableMotors() {
+		List<RentOrdVO> list = null;
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+
+		try {
+			session.beginTransaction();
+			
+			Query query = session.createQuery(GET_UNDISPATCHABLE_MOTORS);
+			list = query.list();
+			session.getTransaction().commit();
+
+		} catch (RuntimeException ex) {
+			session.getTransaction().rollback();
+			throw ex;
+		}
+		return list;
 	}
 	
 	public static void main(String[] args) {
