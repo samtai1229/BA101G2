@@ -36,7 +36,7 @@
 
 <!-- CSS -->
 <link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	href="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/backend/emt_cate/js/listAllEcs_css.css">
 <style type="text/css">
@@ -54,9 +54,9 @@
 <!-- JS -->
 <script
 	src="${pageContext.request.contextPath}/backend/equipment/js/emtMgmtSelectPage_js.js"></script>
-<script src="https://code.jquery.com/jquery.js"></script>
+<script src="${pageContext.request.contextPath}/backend/Modified/jquery.js"></script>
 <script
-	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	src="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.js"></script>
 <script type="text/javascript">
 var Msg ='<%=request.getAttribute("inserted")%>';
 	if (Msg == "inserted") {
