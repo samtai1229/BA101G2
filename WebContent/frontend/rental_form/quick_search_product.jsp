@@ -218,7 +218,6 @@ pageContext.setAttribute("memno",memno);
 									</a>					   					
 							    </c:if>								    
 						    </c:if>	
-
 						</p>
 					</form>
 				</div>
