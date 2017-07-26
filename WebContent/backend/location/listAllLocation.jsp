@@ -42,7 +42,7 @@
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/main.css" >
 	
 	
-	<title>所有員工資料 - listAllMember.jsp</title>
+	<title>據點管理</title>
 </head>
 <body>
 <%--nav start --%>
