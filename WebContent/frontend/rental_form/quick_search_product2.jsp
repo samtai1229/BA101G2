@@ -401,7 +401,7 @@ p{ height:20px; }
 						<input type="hidden" name="motno" value="${motorQueryVO.motno}">
 					</c:if>
 					<button type="submit" class="btn btn-success btn-lg" id="submitButton">
-						<i class="glyphicon glyphicon-ok"></i>確認定單
+						<i class="glyphicon glyphicon-ok"></i>確認訂單
 					</button>
 					<a onclick="history.back()" class="btn btn-danger btn-lg">
 						<i class="glyphicon glyphicon-remove"></i>返回前頁
