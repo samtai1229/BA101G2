@@ -96,7 +96,7 @@
      	<%if(adminisVO.getAuthno().equals("AC02") || adminisVO.getAuthno().equals("AC07")){%> 
         <button class="accordion accordionMenu">據點管理系統</button>
         <div class="btn-group-vertical">
-        	<a class="btn btn-default" href="#" role="button">據點車輛管理</a>
+        	<a class="btn btn-default" href="${pageContext.request.contextPath}/backend/motor/locListMotors.jsp" role="button">據點車輛管理</a>
             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/lease.jsp"  role="button">交車管理</a>
           	<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/return.jsp"  role="button">還車管理</a>
             <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/locMotorDispatchApply.jsp" role="button">車輛調度申請</a>
@@ -145,10 +145,10 @@
         </div>
        		<%} %>
        		
-         <%if(adminisVO.getAuthno().equals("AC04") || adminisVO.getAuthno().equals("AC07")){%>
-        <button class="accordion accordionMenu">後端管理系統</button>
-        <div class="btn-group-vertical">
-       		<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/adminis/listAllAdminis.jsp" role="button">後端權限管理</a>
+        <%if(adminisVO.getAuthno().equals("AC04") || adminisVO.getAuthno().equals("AC07")){%>
+        <button class="accordion accordionMenu"  style="background-color: #ddd;">後端管理系統</button>
+         <div class="btn-group-vertical" style="display: block;">
+       		<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/adminis/listAllAdminis.jsp" role="button" style="background-color: #ddd;">後端權限管理</a>
 <!--             <a class="btn btn-default" href="#" role="button">推薦景點管理</a> -->
         </div>
          <%} %><%else {%>
