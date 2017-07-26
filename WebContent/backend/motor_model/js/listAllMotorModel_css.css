@@ -75,9 +75,10 @@ tr {
 td {
 	padding: 5px;
     white-space: nowrap;
-    font: normal 18px 微軟正黑體;
+    font: normal 16px 微軟正黑體;
     text-align: center;
     margin-bottom: -30px;
+    vertical-align: middle!important;
 }
 
 .searchBar {
@@ -106,7 +107,7 @@ thead {
 th{
     padding: 5px;
     white-space: nowrap;
-    font: normal 24px 微軟正黑體;
+    font: normal 20px 微軟正黑體;
     text-align: center;
 }
 

@@ -43,7 +43,12 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/backend/motor/js/motorMgmtHqSelectPage_css.css">
-	
+<style type="text/css">
+
+.searchBar{
+	margin-left:200px;
+}
+</style>
 <!-- JS -->
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="https://code.jquery.com/jquery.js"></script>

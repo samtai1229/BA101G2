@@ -31,7 +31,7 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/backend/motor/js/updateMotorInput_css.css">
+	href="${pageContext.request.contextPath}/backend/motor/js/addMotor_css.css">
 
 <!-- Javascript -->
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
@@ -69,7 +69,7 @@
     
 <!------------------------------- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
     <div class="col-xs-12 col-sm-2 leftBar">
-     	<img id="menuLogo" src="<%=request.getContextPath()%>/backend/images/android_logo2.jpg">
+     	<img id="logo" src="<%=request.getContextPath()%>/backend/images/android_logo2.jpg">
        		<%if(adminisVO.getAuthno().equals("AC01") || adminisVO.getAuthno().equals("AC07")){%>     
         <button class="accordion accordionMenu accordion accordionMenuMenu">總部管理系統</button> 
         <div class="btn-group-vertical">
@@ -88,8 +88,8 @@
      	<%if(adminisVO.getAuthno().equals("AC02") || adminisVO.getAuthno().equals("AC07")){%> 
         <button class="accordion accordionMenu">據點管理系統</button>
         <div class="btn-group-vertical">
-        	<a class="btn btn-default" href="#" role="button">據點車輛管理</a>
-            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/lease.jsp"  role="button">交車管理</a>
+        	<a class="btn btn-default" href="${pageContext.request.contextPath}/backend/motor/motorMgmtLocSelectPage.jsp" role="button">據點車輛管理</a>
+        	<a class="btn btn-default" href="${pageContext.request.contextPath}/backend/equipment/locEmtMgmtSelectPage.jsp" role="button">據點裝備管理</a>
           	<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/return.jsp"  role="button">還車管理</a>
             <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/locMotorDispatchApply.jsp" role="button">車輛調度申請</a>
             <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/emt_dispatch/locEmtDispatchApply.jsp" role="button">裝備申請</a>
