@@ -135,10 +135,10 @@ h1 {
        		<%} %>
        		
        		 <%if(adminisVO.getAuthno().equals("AC03") || adminisVO.getAuthno().equals("AC07")){%>
-       <button class="accordion accordionMenu">會員管理系統</button>
-        <div class="btn-group-vertical">
+       <button class="accordion accordionMenu" style="background-color: #ddd;">會員管理系統</button>
+        <div class="btn-group-vertical" style="display: block;">
        		<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/member/backendMember.jsp" role="button">會員管理</a>
-            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/member/addMember.jsp" role="button">新增會員</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/member/addMember.jsp" role="button" style="background-color: #ddd;">新增會員</a>
          </div>
         <%} %><%else {%>
         <div>
