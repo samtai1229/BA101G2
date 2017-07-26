@@ -97,7 +97,7 @@
 					<jsp:useBean id="locSvc" scope="page" class="com.location.model.LocationService"/>
 					<td><c:out value="${roVO.rentno}" default="無資料" /></td>
 					<td><c:out value="${locSvc.getOneLocation(roVO.slocno).locname}" default="無資料" /></td>
-					<td><fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="${roVO.startdate}" /></td>
+					<td><fmt:formatDate pattern="yyyy-MM-dd hh:mm a" value="${roVO.startdate}" /></td>
 					<td><c:out value="${roVO.memno}" default="無資料" /></td>
 					<td><c:out value="${roVO.motorVO.motno}" default="無資料" /></td>
 					<td><c:out value="${locSvc.getOneLocation(roVO.rlocno).locname}" default="無資料" /></td>

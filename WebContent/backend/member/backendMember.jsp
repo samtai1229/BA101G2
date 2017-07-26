@@ -61,6 +61,12 @@ vertical-align: middle!important;
 		margin-top:7px;
 		margin-right:20px;
 	}
+	h1 {
+	    text-align: center;
+	    font: bold 36px 思源黑體!important;
+	    color: #edd14a;
+	}
+
 </style>
 
 <head>
@@ -122,7 +128,8 @@ vertical-align: middle!important;
      	<%if(adminisVO.getAuthno().equals("AC02") || adminisVO.getAuthno().equals("AC07")){%> 
         <button class="accordion accordionMenu">據點管理系統</button>
         <div class="btn-group-vertical">
-        	<a class="btn btn-default" href="#" role="button">據點車輛管理</a>
+        	<a class="btn btn-default" href="${pageContext.request.contextPath}/backend/motor/locListMotors.jsp" role="button">據點車輛管理</a>
+        	<a class="btn btn-default" href="${pageContext.request.contextPath}/backend/equipment/locEmtMgmtSelectPage.jsp" role="button">據點裝備管理</a>
             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/lease.jsp"  role="button">交車管理</a>
           	<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/rent_ord/return.jsp"  role="button">還車管理</a>
             <a class="btn btn-default" href="${pageContext.request.contextPath}/backend/loc_motor_dispatch/locMotorDispatchApply.jsp" role="button">車輛調度申請</a>
@@ -138,7 +145,7 @@ vertical-align: middle!important;
         <button class="accordion accordionMenu">二手車管理系統</button>
         <div class="btn-group-vertical">
        		<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/second_order/SaleOnOff.jsp?who=${admins}" role="button">二手車輛管理</a>
-            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/second_order/listAllSecOrd.jsp" role="button">二手車訂單管理</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/second_order/listAllSecOrd.jsp" role="button">二手交易管理</a>
 <%--             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/second_order/SaleOnOff.jsp" role="button">二手車交易管理</a> --%>
         </div>
          <%} %><%else {%>
@@ -163,7 +170,7 @@ vertical-align: middle!important;
         <button class="accordion accordionMenu">活動企劃管理系統</button>
         <div class="btn-group-vertical">
             <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/mes_board/listAllMesBoard.jsp" role="button">留言版管理</a>
-            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/news/news_select_page.jsp" role="button">最新消息管理</a>
+            <a class="btn btn-default" href="<%=request.getContextPath()%>/backend/news/listAllNews.jsp" role="button">最新消息管理</a>
         </div>
         <%} %><%else {%>
         <div>
@@ -174,7 +181,7 @@ vertical-align: middle!important;
          <%if(adminisVO.getAuthno().equals("AC04") || adminisVO.getAuthno().equals("AC07")){%>
         <button class="accordion accordionMenu">後端管理系統</button>
         <div class="btn-group-vertical">
-       		<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/adminis/adm_select_page.jsp" role="button">後端權限管理</a>
+       		<a class="btn btn-default" href="<%=request.getContextPath()%>/backend/adminis/listAllAdminis.jsp" role="button">後端權限管理</a>
 <!--             <a class="btn btn-default" href="#" role="button">推薦景點管理</a> -->
         </div>
          <%} %><%else {%>
