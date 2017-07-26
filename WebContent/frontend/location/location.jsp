@@ -160,7 +160,7 @@ body {
 						<td> 
 						<img id="address" name="address" class="img-responsive img-circle"
 						src="<%=request.getContextPath()%>/frontend/location/locReader.do?locno=${locationVO.locno}"
-						width="100" height="100" onclick="changeLatLng('${locationVO.lon}','${locationVO.lat}')" />
+						width="100" height="100" onclick=changeLatLng('${locationVO.locname}','${locationVO.addr}','${locationVO.lon}','${locationVO.lat}','${locationVO.tel}','${locationVO.locno}') />
 						</td>
 					</tr>
 				</c:forEach>
@@ -361,27 +361,41 @@ console.log("myPosition["+count+"]= "+myPosition[count]);
 	      }
 	 	
 	 	
-	 	function changeLatLng(lon,lat){
-	 		count =1;
+	 	function changeLatLng(name,addr,lon,lat,tel,no){
+	 		infowindowopen = false;
+	 		 count =1;
+	 		 Name = name;
+	 		 Addr = addr;
 	 		 Lon = lon;
 	 		 Lat = lat;
-	console.log("lon= "+Lon); 			
-	console.log("lat= "+Lat); 	
-			myPosition[count] = new Array();
+	 		 Tel = tel;
+	 		 No = no;
+	 	console.log("Name= "+name); 			
+	 	console.log("Addr= "+addr); 			
+	 	console.log("lon= "+Lon); 			
+	 	console.log("lat= "+Lat); 	
+	 	console.log("No= "+No);
 	 			myPosition[count] = new google.maps.LatLng(Lon,Lat);
-	console.log("myPosition["+count+"]= "+myPosition[count]);
+	 	console.log("myPosition["+count+"]= "+myPosition[count]);
 	 			 map = new google.maps.Map(myMap,{
-	 	            zoom: 14,
+	 	            zoom: 10,
 	 	            center: myPosition[count],
-	 	            mapTypeId: google.maps.MapTypeId.ROADMAP //地圖種類
+	 	            mapTypeId: google.maps.MapTypeId.ROADMAP
 	 	    });
 	 			 
-	 		var markers = 'marker'+count;	 
-	 		 markers = new google.maps.Marker({
+	 		 marker = 'marker'+count;	 
+	 		 marker = new google.maps.Marker({
 	 				position: myPosition[count],
 	 				map: map,
 	 				animation: google.maps.Animation.DROP
 	 			});
+	 		 secretMessage = '<h2>'+Name+'</h2><br>'+
+	 		 						Addr+'<br>'+
+	 		 						Lon+'<br>'+
+	 		 						Lat+'<br>'+
+	 		 						Tel+'<br>'+
+	 		 						'<img class="infoImg" src="<%=request.getContextPath()%>/frontend/location/locReader.do?locno='+No+'"> ';
+	 		 attachSecretMessage(marker, secretMessage);
 	 		 count++;
 	 		}
 
