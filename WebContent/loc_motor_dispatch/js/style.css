@@ -1,0 +1,297 @@
+body {
+    font: normal 18px 微軟正黑體;
+}
+
+html, body {
+    /* 設定body高度為100% 拉到視窗可視的大小 */
+    height: 100%;
+}
+
+.leftBar {
+    background-size: cover;
+    height: 300px;
+}
+
+.rightHTML {
+    height: 300px;
+}
+
+button.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: center;
+    outline: none;
+    font-size: 20px;
+    transition: 0.4s;
+}
+
+button.accordion.active,
+button.accordion:hover {
+    background-color: #ddd;
+}
+
+div.panel {
+    padding: 18px;
+    display: none;
+    background-color: white;
+}
+
+.btn-group-vertical {
+    display: none;
+}
+
+.btn-default {
+    font-size: 16px;
+}
+
+#logo {
+    width: 100%;
+}
+
+.topTitle {
+    /*background-color: hsl(120, 50%, 90%);*/
+    background-color: #719c92;
+}
+
+h1 {
+    text-align: center;
+    font: bold 72px 思源黑體;
+    color: #edd14a;
+}
+
+tr {
+    text-align: center;
+}
+
+td {
+    padding: 5px;
+    white-space: nowrap;
+}
+
+.searchBar {
+    text-align: center;
+}
+
+.pagination li a {
+    margin: 6px;
+    color: black;
+    font-size: 18px;
+}
+
+.navbar {
+    background-color: #719c92;
+}
+
+#navA {
+    color: #edd14a;
+    font-size: 20px;
+}
+
+input[type="number"]{
+   height:35px;
+   width:100px;
+}
+
+.motorImg{
+	max-width: 100px;
+}
+
+#footer {
+	position: fixed;
+	bottom: 0%;
+	left: 0;
+	padding: 15px;
+	width: 100%;
+	height: 100px;
+	background: #719c92;
+	text-align: center;
+}
+
+#cartDiv{
+	width: 1200px;
+	margin:0 auto;
+}
+
+#newMotor{
+	border-right:1px solid #aaa;
+	width:400px;
+	height:100px;
+	float:left;
+	padding:10px;
+}
+
+#dispatchListContent{
+	border-right:1px solid #aaa;
+	width:300px;
+	height:100px;
+	float:left;
+	text-align: left;
+	font-size: 10px;
+}
+
+#dispatchListButton{
+	width:300px;
+	height:100px;
+	float:left;
+	margin:15px;
+	padding:10px;
+}
+
+.cartProcess{
+	border:1px solid maroon;
+	border-radius:5px;
+	padding:5px;
+	cursor:pointer;
+	color:maroon;
+}
+
+#cartImage{
+	width:80px;
+	float: left;
+}
+
+#newMotor span{
+	display: block;
+	margin: 8px;
+}
+
+
+
+
+
+
+
+/* -------------------------------- */
+* {
+	padding:0px;
+	margin:0px;
+	border: none;
+}
+
+#outer-wrapper{
+	width:728px;
+	margin-left:auto;
+	margin-right:auto;
+	padding: 20px;
+	margin-top: 30px;
+	border: 1px solid #CCC;
+	background-color: #FFF;
+	padding-bottom: 100px;
+}#outer-wrapper h1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 28px;
+	margin-bottom: 10px;
+}
+#header-wrapper {
+	margin-bottom: 5px;
+	height: 75px;
+}
+
+.content-wrapper dl h2 {
+	font-size: 15px;
+}
+.content-wrapper dl dd img {
+	padding: 5px;
+	border: 1px solid #CCC;
+}
+
+.content-wrapper dl dd p {
+	font-size: 12px;
+	color: #666;
+}
+.download {
+	margin-left: 20px;
+	font-size: 11px;
+	color: #333;
+	text-decoration: none;
+}
+.download:hover {
+	color: #03F;
+}
+.google-ad {
+	margin-bottom: 10px;
+
+}
+
+/*----------------------------switch-button-------------------------*/
+.switch-button {
+	list-style-type: none;
+	height:25px;
+	float: left;
+	display: block;
+}
+.switch-button li {
+	background-image: url(../images/style-button.gif);
+	width:25px;
+	height:24px;
+	float:left;
+	display: block;
+	margin-right: 3px;
+	cursor:pointer;
+}
+#outer-wrapper .clear {
+	clear: both;
+}
+
+#sw_01{
+	
+}
+#sw_02{
+	background-position-x: -30px;
+}
+#sw_03{
+	background-position-x: -60px;
+}
+.switch-button .turnon{
+	background-position-y: -25px;
+}
+.switch-button li span {
+	display: none;
+}
+/*----------------------------vw_01-------------------------------*/
+.vw_01 dd .main {
+	float: right;
+}
+
+.vw_01 dd img {
+	float: left;
+}
+
+.vw_01 dd {
+	clear: both;
+	display: block;
+	margin-bottom: 10px;
+	height: 120px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #CCC;
+}
+/*-------------------------------vw_02----------------------------*/
+
+.vw_02 dd {
+	display: block;
+	margin-bottom: 20px;
+	float: left;
+	margin-right: 21px;
+}
+
+.vw_02 dd p {
+	display: none;
+}
+.vw_02 dd h2 {
+	display: none;
+}
+/*-------------------------------vw_03----------------------------*/
+.vw_03 dd img {
+	display: none;
+}
+.vw_03 dd {
+	margin-bottom: 10px;
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: #CCC;
+}

@@ -1,0 +1,41 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<div id="pageDiv" class="text-center">
+<table><tr><td>
+	<ul class="pagination pagination-sm">
+		<%if (rowsPerPage<rowNumber) {%>
+    		
+    			<li><A href="<%=request.getRequestURI()%>?whichPage=1">至第一頁</A></li>
+				<li><a href="<%=request.getRequestURI()%>?whichPage=<%if(whichPage != 1){%>
+					<%=whichPage-1%>
+					<%}else{%>
+					<%=1%><%}%>"> <i class="glyphicon glyphicon-circle-arrow-left"></i></a></li>
+				
+	</ul>
+</td>
+<td>		
+		<%if ( pageNumber > 1) {%>
+			<FORM METHOD="post" ACTION="<%=request.getRequestURI()%>">
+				<ul class="pagination pagination-sm">
+					<%for (int i=1; i<=pageNumber; i++){%>
+						<li><a href="<%=request.getRequestURI()%>?whichPage=<%=i%>"><%=i%></a></li>
+        			<%}%>
+        		</ul>
+			</FORM>
+		<%}%> 
+</td>		
+<td>	
+		<ul class="pagination pagination-sm">
+			
+				<li><a href="<%=request.getRequestURI()%>?whichPage=<%if(whichPage != pageNumber){%>
+					<%=whichPage+1%>
+					<%}else{%>
+					<%=pageNumber%><%}%>"><i class="glyphicon glyphicon-circle-arrow-right"></i></a></li>
+				<li><A href="<%=request.getRequestURI()%>?whichPage=<%=pageNumber%>">至最後一頁</A>&nbsp;</li>
+			
+  		
+  	</ul>
+</td>  	
+<%}%>  		
+	</tr></table>
+</div>
