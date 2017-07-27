@@ -9,6 +9,7 @@
 
 <!DOCTYPE html>
 <html>
+    <link rel="Short Icon" href="<%=request.getContextPath()%>/img/smallIcon.ico">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/twitter_bootstrap_3_3_7_min.css">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/daterangepicker.css" />
 <head>
