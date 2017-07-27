@@ -16,8 +16,20 @@
  pageContext.setAttribute("motorVO", motorVO);
  pageContext.setAttribute("mm", mmVO);
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/jquery_ui_1_10_3_theme.css"/>
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/twitter_bootstrap_3_3_7_min.css">   
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/vendor/font-awesome/css/font-awesome.min.css" />
+    
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/magnific-popup.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.min.css" />
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.css" />
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/gallery.css"/>
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.carousel.min.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.theme.default.min.css">
 
 <style>
 .motoimg {
@@ -36,58 +48,85 @@
 img{
     margin-left: 40px;
 }
+body {
+       background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ),url(/BA101G2/img/header1.jpg) no-repeat center center fixed; 
+	    -webkit-background-size: cover;
+	    -moz-background-size: cover;
+	    -o-background-size: cover;
+	    background-size: cover;
+}
+
+.divTag{
+	margin-top:200px;
+}
+
+th, td{
+	color:#fff;
+	font-size:20px;
+}
+
+.navTextTag{ font-size:16px!important; }
+#introTag{color:#fff;font-size:16px;}
+
 </style>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport"
  content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-<title>Title Page</title>
-
-<!--[if lt IE 9]>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
-  <![endif]-->
-<link rel="stylesheet"
- href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<title>二手車交易</title>
 </head>
 <body>
- <nav class="navbar navbar-default" role="navigation">
- <div class="container">
-  <div class="navbar-header">
-   <button type="button" class="navbar-toggle" data-toggle="collapse"
-    data-target=".navbar-ex1-collapse">
-    <span class="sr-only">選單切換</span> <span class="icon-bar"></span> <span
-     class="icon-bar"></span> <span class="icon-bar"></span>
-   </button>
-   <a class="navbar-brand" href="#">二手車交易區</a>
-  </div>
+ <%-- Navigation --%>
+	<nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header page-scroll">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+				</button>
+				<a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/index.jsp">AutoBike&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;二手車交易</a>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				 <ul class="nav navbar-nav navbar-right">
+					<li class="hidden"><a href="#page-top"></a></li>
+					<li><a class="page-scroll navTextTag" href="<%=request.getContextPath()%>/index.jsp">
+						<i class="glyphicon glyphicon-home"></i>
+						回首頁</a>
+					</li>
+					<li>
+						<a class="page-scroll navTextTag" href="<%=request.getContextPath()%>/frontend/location/location.jsp">
+						<i class="glyphicon glyphicon-map-marker"></i>
+						服務據點</a>
+					</li>					
+					<li>
+						<a class="page-scroll navTextTag" href="<%=request.getContextPath()%>/frontend/rental_form/rental_category.jsp">
+						<i class="glyphicon glyphicon-heart"></i>
+						我要租車</a>
+					</li>
+					<li>
+						<a class="navTextTag" href="<%=request.getContextPath()%>/frontend/second_order/listAllSecond.jsp">
+						<i class="fa fa-shopping-cart"></i>
+						二手車購買</a>
+					</li>
+					<c:if test="${not empty memno}">	
+						<li>
+							<a class="navTextTag" href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">
+							會員專區</a>
+						</li>
+						<li><a class="navTextTag" href="#" class="disabled">歡迎，${(memname == null) ? '會員':memname}</a></li>
+						<li>
+							<a class="navTextTag" href="<%=request.getContextPath()%>/backend/member/member.do?action=logout" data-toggle="modal"><i class="glyphicon glyphicon-user"></i>
+							登出</a>
+						</li>
+					</c:if>
+				</ul>
+			</div>
+		</div>
+	</nav>
+<%--end Navigation --%>
 
-  <!-- 手機隱藏選單區 -->
-  <div class="collapse navbar-collapse navbar-ex1-collapse">
-   <!-- 左選單 -->
-   <ul class="nav navbar-nav">
-    <li class="active"><a href="#">選擇你喜歡的車</a></li>
-    <li><a href="<%=request.getContextPath()%>/index.jsp">回首頁</a></li>
-   </ul>
 
-
-
-   <!-- 右選單 -->
-   <c:if test="${not empty memVO}">
-    <ul class="nav navbar-nav navbar-right">
-     <li><a href="#">${memVO.memname} 您好</a></li>
-     <li><a
-      href="<%=request.getContextPath()%>/backend/member/member.do?action=logout"
-      data-toggle="modal">登出</a></li>
-    </ul>
-   </c:if>
-
-  </div>
-  <!-- 手機隱藏選單區結束 -->
- </div>
- </nav>
- <div class="container">
+ <div class="container divTag">
   <div class="row">
    <div class="col-xs-12 col-sm-6">
     <div class="motoimg"></div>
@@ -102,7 +141,7 @@ img{
 
    <div class="col-xs-12 col-sm-6">
 
-    <div class="intro">${mm.intro}</div>
+    <div class="intro" id="introTag">${mm.intro}</div>
     <div style="text-align: center;margin-bottom"><h3>售價：${mm.saleprice}</h3></div> 
     <div class="buycar">
      <FORM METHOD="post"
@@ -124,11 +163,10 @@ img{
    </div>
   </div>
  </div>
- </div>
 
-
- <script src="https://code.jquery.com/jquery.js"></script>
- <script
-  src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_1_10_1_min.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_ui_1_10_3.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/agency.min.js"></script>
 </body>
 </html>

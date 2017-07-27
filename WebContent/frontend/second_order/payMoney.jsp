@@ -21,21 +21,24 @@
 	pageContext.setAttribute("mm", mmVO);
 %>
 <!DOCTYPE html>
-<html lang="en">
+<html>
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/jquery_ui_1_10_3_theme.css"/>
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/twitter_bootstrap_3_3_7_min.css">   
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/vendor/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/vendor/font-awesome/css/font-awesome.min.css" />
+    
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/magnific-popup.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.min.css" />
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.css" />
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/gallery.css"/>
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.carousel.min.css">
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.theme.default.min.css">
+	
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport"
-	content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-<title>Title Page</title>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-<!--[if lt IE 9]>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
-		<![endif]-->
-<link rel="stylesheet"
-	href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<title>二手車交易</title>
+
+
 <style type="text/css">
 
 /* Padding - just for asthetics on Bootsnipp.com */
@@ -99,44 +102,80 @@
 .panel {
     margin-top: -200px;
 }
+body {
+       background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ),url(/BA101G2/img/header1.jpg) no-repeat center center fixed; 
+	    -webkit-background-size: cover;
+	    -moz-background-size: cover;
+	    -o-background-size: cover;
+	    background-size: cover;
+}
+
+.divTag{
+	margin-top:150px;
+}
+
+#carBoxTag{margin-top:0px;}
+
+#introTag,td,th{color:#fff;font-size:20px;}
 </style>
 </head>
 <body>
 
-	<nav class="navbar navbar-default" role="navigation">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target=".navbar-ex1-collapse">
-					<span class="sr-only">選單切換</span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span>
+<%-- Navigation --%>
+	<nav id="mainNav" class="navbar navbar-default navbar-custom navbar-fixed-top">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header page-scroll">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
 				</button>
-				<a class="navbar-brand" href="#">付款區</a>
+				<a class="navbar-brand page-scroll" href="<%=request.getContextPath()%>/index.jsp">AutoBike&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;二手車交易</a>
 			</div>
-
-			<!-- 手機隱藏選單區 -->
-			<div class="collapse navbar-collapse navbar-ex1-collapse">
-				<!-- 左選單 -->
-				<ul class="nav navbar-nav">
-					<li class="active"><a href="#">信用卡付款</a></li>
-					<li><a href="<%=request.getContextPath()%>/index.jsp">回首頁</a></li>
-				</ul>
-
-
-
-				<!-- 右選單 -->
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">${memVO.memname} 您好</a></li>
-					<li><a
-						href="<%=request.getContextPath()%>/backend/member/member.do?action=logout"
-						data-toggle="modal">登出</a></li>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				 <ul class="nav navbar-nav navbar-right">
+					<li class="hidden"><a href="#page-top"></a></li>
+					<li><a class="page-scroll navTextTag" href="<%=request.getContextPath()%>/index.jsp">
+						<i class="glyphicon glyphicon-home"></i>
+						回首頁</a>
+					</li>
+					<li>
+						<a class="page-scroll navTextTag" href="<%=request.getContextPath()%>/frontend/location/location.jsp">
+						<i class="glyphicon glyphicon-map-marker"></i>
+						服務據點</a>
+					</li>					
+					<li>
+						<a class="page-scroll navTextTag" href="<%=request.getContextPath()%>/frontend/rental_form/rental_category.jsp">
+						<i class="glyphicon glyphicon-heart"></i>
+						我要租車</a>
+					</li>
+					<li>
+						<a class="navTextTag" href="<%=request.getContextPath()%>/frontend/second_order/listAllSecond.jsp">
+						<i class="fa fa-shopping-cart"></i>
+						二手車購買</a>
+					</li>
+					<c:if test="${not empty memno}">	
+						<li>
+							<a class="navTextTag" href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">
+							會員專區</a>
+						</li>
+						<li><a class="navTextTag" href="#" class="disabled">歡迎，${(memname == null) ? '會員':memname}</a></li>
+						<li>
+							<a class="navTextTag" href="<%=request.getContextPath()%>/backend/member/member.do?action=logout" data-toggle="modal"><i class="glyphicon glyphicon-user"></i>
+							登出</a>
+						</li>
+					</c:if>
 				</ul>
 			</div>
-			<!-- 手機隱藏選單區結束 -->
 		</div>
 	</nav>
-	<div class="container">
+<%--end Navigation --%>
+
+
+ <div class="container divTag">
 		<div class="row">
+		
+		
 			<div class="col-xs-12 col-sm-4">
 				<div class="motoimg">
 					<img
@@ -146,7 +185,7 @@
 			</div>
 			<div class="col-xs-12 col-sm-8">
 
-				<table class="table table-hover" width='100%' height="100px">
+				<table class="table" width='100%' height="100px">
 					<tr>
 						<h2>
 						<th style="text-align: center; width: 100px;">廠牌</th>
@@ -163,96 +202,88 @@
 					</tr>
 				</table>
 			</div>
+			
+			
 			<div class="col-xs-12 col-sm-12">
-				<div class="col-xs-12 col-sm-5" style="margin-top: 50px">${mm.intro}</div>
-				<form
-					action="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
-					<div class="col-xs-12 col-sm-10 col-sm-offset-5">
-						<!-- 					You can make it whatever width you want. I'm making it full width  on <= small devices and 4/12 page width on >= medium devices  -->
-						<div class="col-xs-12 col-md-8" >
-							<!-- 						CREDIT CARD FORM STARTS HERE -->
-							<div class="panel panel-default credit-card-box">
-								<div class="panel-heading display-table">
-									<div class="row display-tr">
-										<h3 class="panel-title display-td">Payment Details</h3>
-										<div class="display-td">
-											<img class="img-responsive pull-right"
-												src="http://i76.imgup.net/accepted_c22e0.png">
+				<div class="col-xs-12 col-sm-5" style="margin-top: 50px" id="introTag">${mm.intro}</div>
+				<div class="col-xs-12 col-sm-7">
+					<form action="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
+								<div class="panel panel-default credit-card-box" id="carBoxTag">
+									<div class="panel-heading display-table">
+										<div class="row display-tr">
+											<h3 class="panel-title display-td">Payment Details</h3>
+											<div class="display-td">
+												<img class="img-responsive pull-right"
+													src="http://i76.imgup.net/accepted_c22e0.png">
+											</div>
 										</div>
 									</div>
-								</div>
-								<div class="panel-body">
-									<form role="form" id="payment-form" method="POST"
-										ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
-										<div class="row">
-											<div class="col-xs-12">
-												<div class="form-group">
-													<label for="cardNumber">卡號</label>
-													<div class="input-group">
-														<input type="tel" class="form-control" name="cardNumber"
-															placeholder="Valid Card Number" autocomplete="cc-number"
-															required autofocus /> <span class="input-group-addon"><i
-															class="fa fa-credit-card"></i></span>
+									<div class="panel-body">
+										<form role="form" id="payment-form" method="POST" ACTION="<%=request.getContextPath()%>/frontend/second_order/SecOrd.do">
+											<div class="row">
+												<div class="col-xs-12">
+													<div class="form-group">
+														<label for="cardNumber">卡號</label>
+														<div class="input-group">
+															<input type="tel" class="form-control" name="cardNumber"
+																placeholder="Valid Card Number" autocomplete="cc-number"
+																required autofocus /> <span class="input-group-addon"><i
+																class="fa fa-credit-card"></i></span>
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-										<div class="row">
-											<div class="col-xs-7 col-md-7">
-												<div class="form-group">
-													<label for="cardExpiry"><span class="hidden-xs">卡片到期日</span><span
-														class="visible-xs-inline">EXP</span> DATE</label> <input
-														type="tel" class="form-control" name="cardExpiry"
-														placeholder="MM / YY" autocomplete="cc-exp" required />
+											<div class="row">
+												<div class="col-xs-7 col-md-7">
+													<div class="form-group">
+														<label for="cardExpiry"><span class="hidden-xs">卡片到期日</span><span
+															class="visible-xs-inline">EXP</span> DATE</label> <input
+															type="tel" class="form-control" name="cardExpiry"
+															placeholder="MM / YY" autocomplete="cc-exp" required />
+													</div>
+												</div>
+												<div class="col-xs-5 col-md-5 pull-right">
+													<div class="form-group">
+														<label for="cardCVC">CV CODE</label> <input type="tel"
+															class="form-control" name="cardCVC" placeholder="CVC"
+															autocomplete="cc-csc" required />
+													</div>
 												</div>
 											</div>
-											<div class="col-xs-5 col-md-5 pull-right">
-												<div class="form-group">
-													<label for="cardCVC">CV CODE</label> <input type="tel"
-														class="form-control" name="cardCVC" placeholder="CVC"
-														autocomplete="cc-csc" required />
+											<div class="row">
+												<div class="col-xs-12">
+	
+													<input class="subscribe btn btn-success btn-lg btn-block"
+														type="submit" onclick="ShowSuccess();" value="送出">
+	
 												</div>
 											</div>
-										</div>
-										<div class="row">
-											<div class="col-xs-12">
-
-												<input class="subscribe btn btn-success btn-lg btn-block"
-													type="submit" onclick="ShowSuccess();" value="送出">
-
+											<div class="row" style="display: none;">
+												<div class="col-xs-12">
+													<p class="payment-errors"></p>
+												</div>
 											</div>
-										</div>
-										<div class="row" style="display: none;">
-											<div class="col-xs-12">
-												<p class="payment-errors"></p>
-											</div>
-										</div>
-										<input type="hidden" name="memno" value="${memVO.memno}">
-										<input type="hidden" name="motno" value="${motorVO.motno}">
-										<input type="hidden" name="modtype" value="${mm.modtype}">
-										<input type="hidden" name="location"
-											value="<%=request.getServletPath()%>"> <input
-											type="hidden" name="action" value="buildOrder">
-									</form>
+											<input type="hidden" name="memno" value="${memVO.memno}">
+											<input type="hidden" name="motno" value="${motorVO.motno}">
+											<input type="hidden" name="modtype" value="${mm.modtype}">
+											<input type="hidden" name="location" value="<%=request.getServletPath()%>"> <input
+												type="hidden" name="action" value="buildOrder">
+										</form>
+									</div>
 								</div>
-							</div>
-							<!-- 						CREDIT CARD FORM ENDS HERE -->
-				</form>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>
 
 
 
-	<script src="https://code.jquery.com/jquery.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script type="text/javascript"
-		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
-	<script type="text/javascript"
-		src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/1.2.3/jquery.payment.min.js"></script>
-
-	<!-- If you're using Stripe for payments -->
+	<script src="<%=request.getContextPath()%>/backend/Modified/jquery_1_10_1_min.js"></script>
+	<script src="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.js"></script>
+	<script src="<%=request.getContextPath()%>/js/agency.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.payment/1.2.3/jquery.payment.min.js"></script>
 	<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 
 	<script type="text/javascript">
