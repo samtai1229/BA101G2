@@ -33,7 +33,7 @@
 <meta name="keywords" content="">
 <!-- CSS -->
 <link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	href="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.css">
 <link rel="stylesheet"
 	href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css">
 <link rel="stylesheet"
@@ -43,9 +43,9 @@
 
 
 <!-- Javascript -->
-<script src="https://code.jquery.com/jquery.js"></script>
+<script src="<%=request.getContextPath()%>/backend/Modified/jquery.js"></script>
 <script
-	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	src="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.js"></script>
 <script
 	src="${pageContext.request.contextPath}/backend/motor/js/motorMgmtHqSelectPage_js.js"></script>
 <script

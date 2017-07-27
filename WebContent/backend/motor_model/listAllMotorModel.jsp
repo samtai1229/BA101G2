@@ -36,7 +36,7 @@
 
 <!-- CSS -->
 <link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	href="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/backend/motor_model/js/listAllMotorModel_css.css">
 <style type="text/css">
@@ -54,9 +54,9 @@
 <!-- JS -->
 <script
 	src="${pageContext.request.contextPath}/backend/motor/js/motorMgmtHqSelectPage_js.js"></script>
-<script src="https://code.jquery.com/jquery.js"></script>
+<script src="<%=request.getContextPath()%>/backend/Modified/jquery.js"></script>
 <script
-	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	src="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.js"></script>
 
 </head>
 <body>
