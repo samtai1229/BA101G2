@@ -11,7 +11,8 @@
 <%@ page import="com.news.model.*"%>
 <!-- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
 <%@ page import="com.adminis.model.*"%>
-<%  AdminisService as = new AdminisService();
+<%  
+	AdminisService as = new AdminisService();
 	AdminisVO adminisVO= (AdminisVO)session.getAttribute("adminisVO");
      session.setAttribute("admins", adminisVO.getName());
      session.setAttribute("adminisVO", adminisVO);
@@ -23,6 +24,9 @@
    	     session.setAttribute("admins", adminisVO.getName());     
    	     session.setAttribute("adminisVO", adminisVO);
    	 } 
+     
+     String[] progsArray = { "AC01","AC02","AC03","AC04","AC05","AC06","AC07"};
+  	request.setAttribute("progsArray", progsArray);
     
      
 %>
@@ -175,77 +179,125 @@
 			</ul>
 		</font>
 	</c:if>
-
-	<FORM METHOD="post" ACTION="adminis.do" name="form1">
-		<table class="table table-hover table-condensed table-striped table-bordered" style="margin-left:1px;">
-		<tr><th colspan="2"><h3>資料修改</h3></tr>
+	<div class="container">
+	
+	<FORM METHOD="post" ACTION="adminis.do" name="form1" class="form-horizontal">
 		
-			<tr>
-				<td>管理員編號:<font color=red><b>*<b></font></td>
-				<td><font size="5"><%=adminisvo.getAdmno()%></font></td>
-			</tr>
-			<tr >
-				<td>管理員姓名:</td>
-				<td><input type="TEXT" name="name" size="100"   
-					value="<%=adminisvo.getName()%>" /></td>
-			</tr>
-			<tr>
-				<td>管理員帳號:</td>
-				<td><input type="text" name="acc" size="100"
-					value="<%=(adminisvo == null) ? " " : adminisvo.getAcc()%>"></td>
-			</tr>
-			<tr>
-				<td>管理員密碼:</td>
-				<td><input type="text" name="pw" size="100"
-					value="<%=(adminisvo == null) ? " " : adminisvo.getPw()%>"></td>
-			</tr>
+			<div class="form-group">
+						<label class="control-label col-sm-2" for="brand">管理員編號:</label>
+				<div class="col-sm-10">
+				<a class="form-control"><%=adminisvo.getAdmno()%></a>
+			</div>
+			</div>
+		<div class="form-group">
+						<label class="control-label col-sm-2" for="brand">管理員姓名:</label>
+						<div class="col-sm-10">
+						<input   type="text" class="form-control" name="name" >
+					</div>
+					</div>
+					
+						<div class="form-group">
+					<label class="control-label col-sm-2" for="displacement">管理員帳號:</label>
+					<div class="col-sm-10">
+						<input  class="form-control"  type="text" name="acc" size="45"
+							>
+							</div>
+					</div>
+					<div class="form-group">
+					<label class="control-label col-sm-2" for="name">管理員密碼:</label>
+					<div class="col-sm-10">
+						<input  class="form-control"   type="password" name="pw" size="45"
+							>
+					</div>
+					</div>
 			
 			<jsp:useBean id="locationSvc" scope="page" class="com.location.model.LocationService" />
-					<tr>
-						<td>據點:<font color=red><b>*</b></font></td>
-						<td><select size="1" name="locno">
+					<div class="form-group">
+					<label class="control-label col-sm-2" for="name">據點:</label>
+					<div class="col-sm-10">
+						<select class="form-control" name="locno">
 								<c:forEach var="locationVO" items="${locationSvc.all}">
 									<option value="${locationVO.locno}"
 										${(adminisVO.locno==locationVO.locno)? 'selected':'' }>${locationVO.locname}
 								</c:forEach>
-						</select></td>
-					</tr>
+						</select>
+					</div>
+					</div>
+					<br>
+<%-- 					<jsp:useBean id="authcateSvc" scope="page" class="com.auth_cate.model.AuthCateService" /> --%>
+					<div class="form-group">
+					<label class="control-label col-sm-2" for="name">權限類別:</label>
+						<div class="col-sm-10">
+							<select name="authno" class="form-control" id="authno">
+							<c:choose>
+								<c:when test="${admVO.authno=='AC01'}">
+									<option selected value="${admVO.authno}">總部管理員
+								</c:when>
+									<c:when test="${admVO.authno=='AC02'}">
+									<option selected value="${admVO.authno}">據點管理員
+									</c:when>
+									<c:when test="${admVO.authno=='AC03'}">
+									<option selected value="${admVO.authno}">會員管理員
+									</c:when>
+									<c:when test="${admVO.authno=='AC04'}">
+									<option selected value="${admVO.authno}">後端系統管理員
+									</c:when>
+									<c:when test="${admVO.authno=='AC05'}">
+									<option selected value="${admVO.authno}">二手車交易管理員
+									</c:when>
+									<c:when test="${admVO.authno=='AC06'}">
+									<option selected value="${admVO.authno}">品牌活動企劃管理員
+									</c:when>
+									<c:when test="${admVO.authno=='AC07'}">
+									<option selected value="${admVO.authno}">大老闆
+									</c:when>
+							</c:choose>
+							
+								<c:forEach var="progs" items="${progsArray}">
+										<c:if test="${admVO.authno!=progs}">
+											<c:choose>
+												<c:when test="${progs=='AC01'}">
+													<option value="${progs}">總部管理員
+												</c:when>
+												<c:when test="${progs=='AC02'}">
+													<option value="${progs}">據點管理員
+												</c:when>
+												<c:when test="${progs=='AC03'}">
+													<option value="${progs}">會員管理員
+												</c:when>
+												<c:when test="${progs=='AC04'}">
+													<option value="${progs}">後端系統管理員
+												</c:when>
+												<c:when test="${progs=='AC05'}">
+													<option value="${progs}">二手車交易管理員
+												</c:when>
+												<c:when test="${progs=='AC06'}">
+													<option value="${progs}">品牌活動企劃管理員
+												</c:when>
+												<c:when test="${progs=='AC07'}">
+													<option value="${progs}">大老闆
+												</c:when>
+											</c:choose>
+										</c:if>
+									</c:forEach>
+						</select>
+						
+						</div>
+						</div>
+						
+	
+		<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+				<input type="hidden" name="action" value="update">
+				<input type="hidden" name="admno" value="<%=adminisvo.getAdmno()%>">
+				<input type="submit"    class="btn btn-default"   value="送出新增" >
+				</div>
+				</div>		
 			
 			
-<!-- 			<tr> -->
-<!-- 				<td>據點:</td> -->
-<!-- 				<td><input type="text" name="locno" size="45" -->
-<%-- 					value="<%=(adminisvo == null) ? " " : adminisvo.getLocno()%>"></td> --%>
-<!-- 			</tr> -->
-<%-- 			<jsp:useBean id="locationSvc" scope="page" class="com.location.model.LocationService" /> --%>
-<!-- 			<tr> -->
-<!-- 				<td>據點:<font color=red><b>*</b></font></td> -->
-<!-- 				<td><select size="1" name="locno"> -->
-<%-- 						<c:forEach var="locationVO" items="${locationSvc.all}"> --%>
-<%-- 							<option value="${locationVO.locno}" --%>
-<%-- 								${(adminisVO.locno==locationVO.locno)? 'selected':'' }>${locationVO.locname} --%>
-<%-- 						</c:forEach> --%>
-<!-- 				</select></td> -->
-<!-- 			</tr> -->
-
-			<jsp:useBean id="authcateSvc" scope="page"
-				class="com.auth_cate.model.AuthCateService" />
-			<tr>
-				<td>權限類別編號:<font color=red><b>*</b></font></td>
-				<td><select size="1" name="authno">
-						<c:forEach var="authcateVO" items="${authcateSvc.all}">
-							<option value="${authcateVO.authno}"
-								${(adminisvo.authno==authcateVO.authno)? 'selected':'' }>${authcateVO.descr}
-						</c:forEach>
-				</select></td>
-			</tr>
-		</table>
-		<br> <input type="hidden" name="action" value="update"> <input
-			type="hidden" name="admno" value="<%=adminisvo.getAdmno()%>">
-		<input type="submit" value="送出修改">
-	</FORM>
-
-</div>
+			</FORM>
+			</div>
+			</div>
 <!----------------------------------------------- 後端網頁的側邊欄  和權限控管的必要片段程式碼 -->
 	<!--RWD部分:下面兩行我拿掉一行和JQuery有關的script, 不然datepicker會衝到  -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
