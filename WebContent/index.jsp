@@ -67,6 +67,9 @@
  #demo{
  width:277px;
  }
+ .navTag{
+ 	font-size:20px;
+ }
  </style>
 </head>
 
@@ -180,48 +183,48 @@
        	                    	<a href="#page-top"></a>
        	                    </li>
            					<li>
-           						<a class="page-scroll" href="<%=request.getContextPath()%>/frontend/rental_form/rental_category.jsp">
+           						<a class="page-scroll navTag" href="<%=request.getContextPath()%>/frontend/rental_form/rental_category.jsp">
             						<i class="glyphicon glyphicon-heart"></i>
             						我要租車
            						</a>
            					</li>
        						<li>
-        						<a class="page-scroll" href="#news">
+        						<a class="page-scroll navTag" href="#news">
          						<i class="glyphicon glyphicon-alert"></i>
          						最新消息
         						</a>
        						</li>
        						<li>
-       							<a class="page-scroll" href="<%=request.getContextPath()%>/frontend/mes_board/listAllMesBoard.jsp">
+       							<a class="page-scroll navTag" href="<%=request.getContextPath()%>/frontend/mes_board/listAllMesBoard.jsp">
        								<i class="fa fa-comments-o"></i>
        								留言板
        							</a>
        						</li>
        						<li>
-       							<a class="page-scroll" href="#loc">
+       							<a class="page-scroll navTag" href="#loc">
        								<i class="glyphicon glyphicon-map-marker"></i>
        								服務據點
        							</a>
        						</li>
        						<li>
-       							<a href="<%=request.getContextPath()%>/frontend/second_order/listAllSecond.jsp">
+       							<a href="<%=request.getContextPath()%>/frontend/second_order/listAllSecond.jsp" class="navTag">
        								<i class="fa fa-shopping-cart"></i>
        								二手車購買
        							</a>
        						</li>
        						<c:if test="${not empty memno}">	
-        						<li><a href="#">歡迎，${(memname == null) ? '會員':memname}</a></li>		
-        							<li><a href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">
+        						<li><a href="#" class="navTag">歡迎，${(memname == null) ? '會員':memname}</a></li>		
+        							<li><a class="navTag" href="<%=request.getContextPath()%>/backend/member/member.do?action=getOne_For_Enter&memid=${memno}">
         							<b>會員專區</b></a>
         						</li>
 									<li>
-										<a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout" data-toggle="modal"><i class="glyphicon glyphicon-user">
+										<a href="<%=request.getContextPath()%>/backend/member/member.do?action=logout" data-toggle="modal" class="navTag"><i class="glyphicon glyphicon-user">
 										</i>登出</a>
 									</li>
        						</c:if>
        						<c:if test="${ empty memno}">
        							<li>
-       								<a href="#modal-id"
+       								<a href="#modal-id" class="navTag"
        								data-toggle="modal"><i class="glyphicon glyphicon-user"></i>會員登入</a>
        							</li>
        						</c:if>
