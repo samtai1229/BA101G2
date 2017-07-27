@@ -36,7 +36,7 @@
 <title>所有車輛資料- listAllMotor.jsp</title>
 
 <!-- CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/backend/motor_model/js/listAllMotorModel_css.css">
 <style type="text/css">
 #pageDiv {
@@ -48,9 +48,9 @@
 </style>
 
 <!-- JS -->
-<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-<script src="https://code.jquery.com/jquery.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="<%=request.getContextPath()%>/backend/Modified/jquery_1_10_1_min.js"></script>
+<script src="<%=request.getContextPath()%>/backend/Modified/jquery.js"></script>
+<script src="<%=request.getContextPath()%>/backend/Modified/twitter_bootstrap_3_3_7_min.js"></script>
 <script src="${pageContext.request.contextPath}/backend/motor/js/motorMgmtHqSelectPage_js.js"></script>
 
 </head>
