@@ -9,6 +9,7 @@
 		<title>Title Page</title>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
 		<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style_login2.css">
+       <link rel="Short Icon" href="<%=request.getContextPath()%>/img/smallIcon.ico">
 </head>
 <body>
 <% 

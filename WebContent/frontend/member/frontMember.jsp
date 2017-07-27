@@ -199,7 +199,7 @@ font: bold 20px 思源黑體;
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.min.css"  />
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/agency.css" />
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/frontend/rental_form/Modified/other.css" />
-
+    <link rel="Short Icon" href="<%=request.getContextPath()%>/img/smallIcon.ico">
 </head>
 <title>會員專區</title>
 

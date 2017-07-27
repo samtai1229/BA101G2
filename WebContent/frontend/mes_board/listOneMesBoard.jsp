@@ -5,6 +5,7 @@
 <html>
 <head>
 <title>¯d¨¥ªO</title>
+<link rel="Short Icon" href="<%=request.getContextPath()%>/img/smallIcon.ico">
 </head>
 <body bgcolor='white'>
 <table border='1' cellpadding='5' cellspacing='0' width='800'>

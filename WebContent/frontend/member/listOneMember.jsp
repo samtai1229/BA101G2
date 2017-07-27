@@ -18,7 +18,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>會員資料 - listOneMember.jsp</title>
+<title>會員專區</title>
 
 <style type="text/css">
 

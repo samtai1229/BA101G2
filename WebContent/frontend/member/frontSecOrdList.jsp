@@ -48,7 +48,8 @@ td{
 
 </style>
 <head>
-<title>我的二手車訂單-frontSecOrdList.jsp</title>
+<title>我的二手車訂單</title>
+<link rel="Short Icon" href="<%=request.getContextPath()%>/img/smallIcon.ico">
 </head>
 <body bgcolor='white'>
 <div  class="col-xs-12 col-sm-12">

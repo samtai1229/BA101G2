@@ -29,7 +29,8 @@
 <head>
 <script type="text/javascript"
 	src="<%=request.getContextPath()%>/ckeditor/ckeditor.js"></script>
-<title>所有留言板資料</title>
+<title>留言板</title>
+<link rel="Short Icon" href="<%=request.getContextPath()%>/img/smallIcon.ico">
 <style type="text/css">
 body {
 	font-size: 13px;
